@@ -58,11 +58,11 @@
 			children = (
 				184F4196268793DC00832965 /* ApolloApp.swift */,
 				184F4198268793DC00832965 /* ContentView.swift */,
+				1864E2EF2687CF4F00DDADE8 /* PageView.swift */,
+				183047D226892D9200533BCE /* HomePageView.swift */,
 				184F419A268793DD00832965 /* Assets.xcassets */,
 				184F419F268793DD00832965 /* Info.plist */,
 				184F419C268793DD00832965 /* Preview Content */,
-				1864E2EF2687CF4F00DDADE8 /* PageView.swift */,
-				183047D226892D9200533BCE /* HomePageView.swift */,
 			);
 			path = Apollo;
 			sourceTree = "<group>";

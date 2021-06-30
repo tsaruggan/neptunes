@@ -14,24 +14,15 @@ struct HomePageView: View {
         Item(name: "Albums", icon: "square.stack"),
         Item(name: "Playlists", icon: "music.note.list")
     ]
-    let images: [String] = [
-        "drake_album_art_1",
-        "frank_ocean_album_art_1",
-        "drake_artist_art",
-        "travis_scott_album_art_1",
-        "frank_ocean_artist_art",
-        "travis_scott_album_art_2",
-        "travis_scott_artist_art"
-    ]
     
     let albums: [Album] = [
         Album(album: "Not Around", artist: "Drake", image: "drake_album_art_1"),
         Album(album: "Endless", artist: "Frank Ocean", image: "frank_ocean_album_art_1"),
-        Album(album: "Toosie Slide", artist: "Drake", image: "drake_artist_art"),
+        Album(album: "SUMMER 2021", artist: "Playlist", image: "drake_artist_art"),
         Album(album: "Owl Pharaoh", artist: "Travis Scott", image: "travis_scott_album_art_1"),
-        Album(album: "Boys Don't Cry", artist: "Frank Ocean", image: "frank_ocean_artist_art"),
+        Album(album: "Boys Don't Cry", artist: "Playlist", image: "frank_ocean_artist_art"),
         Album(album: "Days Before Rodeo", artist: "Travis Scott", image: "travis_scott_album_art_2"),
-        Album(album: "Unreleased", artist: "Travis Scott", image: "travis_scott_artist_art"),
+        Album(album: "Travis Scott Unreleased", artist: "Playlist", image: "travis_scott_artist_art"),
         Album(album: "Not Around", artist: "Drake", image: "drake_album_art_1"),
         Album(album: "Endless", artist: "Frank Ocean", image: "frank_ocean_album_art_1"),
         Album(album: "Toosie Slide", artist: "Drake", image: "drake_artist_art")
@@ -54,9 +45,11 @@ struct HomePageView: View {
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                         Spacer()
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.green)
+                        if #available(iOS 15.0, *) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.title)
+                                .foregroundColor(.teal)
+                        }
                     }
                     
                     ForEach(items) { item in
@@ -86,7 +79,9 @@ struct HomePageView: View {
                                     .cornerRadius(5)
                                 Text(album.album)
                                     .fontWeight(.bold)
+                                    .lineLimit(1)
                                 Text(album.artist)
+                                    .lineLimit(1)
                             }
                             .foregroundColor(.white)
                             .padding(5)

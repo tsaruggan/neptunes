@@ -15,19 +15,21 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView {
-            HomePageView()
-                .tabItem {
-                    Image(systemName: "music.note.house")
-                    Text("Home")
-                }
-            PageView(text: "Search page")
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Search")
-                }
+        if #available(iOS 15.0, *) {
+            TabView {
+                HomePageView()
+                    .tabItem {
+                        Image(systemName: "music.note.house")
+                        Text("Home")
+                    }
+                PageView(text: "Search page")
+                    .tabItem {
+                        Image(systemName: "magnifyingglass")
+                        Text("Search")
+                    }
+            }
+            .accentColor(.teal)
         }
-        .accentColor(.blue)
     }
 }
 
