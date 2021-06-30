@@ -16,7 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            PageView(text: "Home page")
+            HomePageView()
                 .tabItem {
                     Image(systemName: "music.note.house")
                     Text("Home")
