@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     init() {
+//        UINavigationBar.appearance().barTintColor = UIColor(white: 50, alpha: 50)
+        UINavigationBar.appearance().isTranslucent = true
         UITabBar.appearance().backgroundColor = .clear
-        UITabBar.appearance().barTintColor = .black
         UITabBar.appearance().isTranslucent = true
+        UITabBar.appearance().barTintColor = .white
     }
     
     var body: some View {

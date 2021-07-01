@@ -12,6 +12,7 @@
 		184F4199268793DC00832965 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184F4198268793DC00832965 /* ContentView.swift */; };
 		184F419B268793DD00832965 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184F419A268793DD00832965 /* Assets.xcassets */; };
 		184F419E268793DD00832965 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184F419D268793DD00832965 /* Preview Assets.xcassets */; };
+		18507F87268E113600B7D10F /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18507F86268E113600B7D10F /* AlbumView.swift */; };
 		1864E2F02687CF4F00DDADE8 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864E2EF2687CF4F00DDADE8 /* PageView.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,7 @@
 		184F419A268793DD00832965 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		184F419D268793DD00832965 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		184F419F268793DD00832965 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18507F86268E113600B7D10F /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		1864E2EF2687CF4F00DDADE8 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +65,7 @@
 				184F419A268793DD00832965 /* Assets.xcassets */,
 				184F419F268793DD00832965 /* Info.plist */,
 				184F419C268793DD00832965 /* Preview Content */,
+				18507F86268E113600B7D10F /* AlbumView.swift */,
 			);
 			path = Apollo;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				184F4199268793DC00832965 /* ContentView.swift in Sources */,
 				1864E2F02687CF4F00DDADE8 /* PageView.swift in Sources */,
 				183047D326892D9200533BCE /* HomePageView.swift in Sources */,
+				18507F87268E113600B7D10F /* AlbumView.swift in Sources */,
 				184F4197268793DC00832965 /* ApolloApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

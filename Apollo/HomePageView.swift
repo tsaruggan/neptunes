@@ -38,7 +38,7 @@ struct HomePageView: View {
         NavigationView {
             ZStack {
                 bg.edgesIgnoringSafeArea(.all)
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     VStack {
                         HStack {
                             Text(Date(), style: .time)
@@ -73,7 +73,7 @@ struct HomePageView: View {
                         
                         LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
                             ForEach(albums) { album in
-                                AlbumView(album: album)
+                                AlbumItemView(album: album)
                             }
                         }
                     }
@@ -105,13 +105,13 @@ struct Album: Identifiable {
     var image: String
 }
 
-struct AlbumView: View {
+struct AlbumItemView: View {
     var album: Album
     var body: some View {
         
         if #available(iOS 15.0, *) {
             NavigationLink {
-                PageView(text: album.album)
+                AlbumView(album: album)
             } label: {
                 VStack(alignment: .leading) {
                     Image(album.image)
