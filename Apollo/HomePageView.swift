@@ -35,60 +35,52 @@ struct HomePageView: View {
     }
     
     var body: some View {
-        ZStack {
-            bg.ignoresSafeArea()
-            ScrollView {
-                VStack {
-                    HStack {
-                        Text(Date(), style: .time)
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                        Spacer()
-                        if #available(iOS 15.0, *) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.title)
-                                .foregroundColor(.teal)
+        NavigationView {
+            ZStack {
+                bg.edgesIgnoringSafeArea(.all)
+                ScrollView {
+                    VStack {
+                        HStack {
+                            Text(Date(), style: .time)
+                                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                .foregroundColor(.white)
+                                .fontWeight(.bold)
+                            Spacer()
+                            if #available(iOS 15.0, *) {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.teal)
+                            }
                         }
-                    }
-                    
-                    ForEach(items) { item in
+                        
+                        ForEach(items) { item in
+                            Divider()
+                                .background(Color.white)
+                            HStack {
+                                Label {
+                                    Text(item.name)
+                                } icon: {
+                                    Image(systemName: item.icon)
+                                }
+                                Spacer()
+                            }
+                            .foregroundColor(.white)
+                            .listRowInsets(EdgeInsets())
+                        }
                         Divider()
                             .background(Color.white)
-                        HStack {
-                            Label {
-                                Text(item.name)
-                            } icon: {
-                                Image(systemName: item.icon)
+                        
+                        
+                        LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
+                            ForEach(albums) { album in
+                                AlbumView(album: album)
                             }
-                            Spacer()
-                        }
-                        .foregroundColor(.white)
-                        .listRowInsets(EdgeInsets())
-                    }
-                    Divider()
-                        .background(Color.white)
-                    
-                    
-                    LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-                        ForEach(albums) { album in
-                            VStack(alignment: .leading) {
-                                Image(album.image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .cornerRadius(5)
-                                Text(album.album)
-                                    .fontWeight(.bold)
-                                    .lineLimit(1)
-                                Text(album.artist)
-                                    .lineLimit(1)
-                            }
-                            .foregroundColor(.white)
-                            .padding(5)
                         }
                     }
                 }
                 .padding()
+                .navigationBarHidden(true)
+                .navigationBarTitle("")
             }
         }
     }
@@ -111,4 +103,30 @@ struct Album: Identifiable {
     var album: String
     var artist: String
     var image: String
+}
+
+struct AlbumView: View {
+    var album: Album
+    var body: some View {
+        
+        if #available(iOS 15.0, *) {
+            NavigationLink {
+                PageView(text: album.album)
+            } label: {
+                VStack(alignment: .leading) {
+                    Image(album.image)
+                        .resizable()
+                        .scaledToFill()
+                        .cornerRadius(5)
+                    Text(album.album)
+                        .fontWeight(.bold)
+                        .lineLimit(1)
+                    Text(album.artist)
+                        .lineLimit(1)
+                }
+                .foregroundColor(.white)
+                .padding(5)
+            }
+        }
+    }
 }

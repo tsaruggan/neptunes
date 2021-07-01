@@ -10,14 +10,12 @@ import SwiftUI
 struct PageView: View {
     var text: String
     var body: some View {
-        ZStack {
-            Color.blue.ignoresSafeArea()
-            VStack {
-                Spacer()
-                Text(text)
-                Spacer()
-            }
+        VStack {
+            Spacer()
+            Text(text)
+            Spacer()
         }
+        
     }
 }
 
