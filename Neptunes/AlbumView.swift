@@ -14,25 +14,23 @@ struct AlbumView: View {
     init(album: Album) {
         self.album = album
         
-        //        UINavigationBar.appearance().barTintColor = .clear
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "drake_album_art_1"), for: .default)
+        UINavigationBar.appearance().barTintColor = .clear
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
         
     }
     
     var body: some View {
-        ZStack {
-            Color.red.edgesIgnoringSafeArea(.all)
-            ScrollView{
-                Group {
-                    Image(album.image)
-                        .resizable()
-                        .scaledToFit()
-                    Text(album.album)
-                        .font(.title)
-                        .fontWeight(.bold)
-                }
-                .padding(50)
+        ScrollView{
+            Group {
+                Image(album.image)
+                    .resizable()
+                    .scaledToFit()
+                Text(album.album)
+                    .font(.title)
+                    .fontWeight(.bold)
             }
+            .padding(50)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -43,8 +41,10 @@ struct AlbumView: View {
                     } label: {
                         Label("Back", systemImage: "chevron.backward")
                     }
-                    .accentColor(.white)
+                    .accentColor(.teal)
                     .buttonStyle(.bordered)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(100)
                 }
             }
             
@@ -53,15 +53,19 @@ struct AlbumView: View {
                     Button(action: {}) {
                         Image(systemName: "square.and.arrow.up")
                     }
-                    .accentColor(.white)
+                    .accentColor(.teal)
                     .buttonStyle(.bordered)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(100)
                     
                     
                     Button(action: {}) {
                         Image(systemName: "wand.and.stars")
                     }
-                    .accentColor(.white)
+                    .accentColor(.teal)
                     .buttonStyle(.bordered)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(100)
                 }
             }
         }
