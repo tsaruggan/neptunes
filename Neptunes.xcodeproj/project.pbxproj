@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		183047D326892D9200533BCE /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183047D226892D9200533BCE /* HomePageView.swift */; };
-		184F4197268793DC00832965 /* ApolloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184F4196268793DC00832965 /* ApolloApp.swift */; };
+		184F4197268793DC00832965 /* NeptunesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184F4196268793DC00832965 /* NeptunesApp.swift */; };
 		184F4199268793DC00832965 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184F4198268793DC00832965 /* ContentView.swift */; };
 		184F419B268793DD00832965 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184F419A268793DD00832965 /* Assets.xcassets */; };
 		184F419E268793DD00832965 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184F419D268793DD00832965 /* Preview Assets.xcassets */; };
@@ -18,8 +18,8 @@
 
 /* Begin PBXFileReference section */
 		183047D226892D9200533BCE /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
-		184F4193268793DC00832965 /* Apollo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apollo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		184F4196268793DC00832965 /* ApolloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloApp.swift; sourceTree = "<group>"; };
+		184F4193268793DC00832965 /* Neptunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neptunes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		184F4196268793DC00832965 /* NeptunesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeptunesApp.swift; sourceTree = "<group>"; };
 		184F4198268793DC00832965 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		184F419A268793DD00832965 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		184F419D268793DD00832965 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 		184F418A268793DC00832965 = {
 			isa = PBXGroup;
 			children = (
-				184F4195268793DC00832965 /* Apollo */,
+				184F4195268793DC00832965 /* Neptunes */,
 				184F4194268793DC00832965 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,15 +50,15 @@
 		184F4194268793DC00832965 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				184F4193268793DC00832965 /* Apollo.app */,
+				184F4193268793DC00832965 /* Neptunes.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		184F4195268793DC00832965 /* Apollo */ = {
+		184F4195268793DC00832965 /* Neptunes */ = {
 			isa = PBXGroup;
 			children = (
-				184F4196268793DC00832965 /* ApolloApp.swift */,
+				184F4196268793DC00832965 /* NeptunesApp.swift */,
 				184F4198268793DC00832965 /* ContentView.swift */,
 				1864E2EF2687CF4F00DDADE8 /* PageView.swift */,
 				183047D226892D9200533BCE /* HomePageView.swift */,
@@ -67,7 +67,7 @@
 				184F419C268793DD00832965 /* Preview Content */,
 				18507F86268E113600B7D10F /* AlbumView.swift */,
 			);
-			path = Apollo;
+			path = Neptunes;
 			sourceTree = "<group>";
 		};
 		184F419C268793DD00832965 /* Preview Content */ = {
@@ -81,9 +81,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		184F4192268793DC00832965 /* Apollo */ = {
+		184F4192268793DC00832965 /* Neptunes */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 184F41A2268793DD00832965 /* Build configuration list for PBXNativeTarget "Apollo" */;
+			buildConfigurationList = 184F41A2268793DD00832965 /* Build configuration list for PBXNativeTarget "Neptunes" */;
 			buildPhases = (
 				184F418F268793DC00832965 /* Sources */,
 				184F4190268793DC00832965 /* Frameworks */,
@@ -93,9 +93,9 @@
 			);
 			dependencies = (
 			);
-			name = Apollo;
+			name = Neptunes;
 			productName = Apollo;
-			productReference = 184F4193268793DC00832965 /* Apollo.app */;
+			productReference = 184F4193268793DC00832965 /* Neptunes.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -112,7 +112,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 184F418E268793DC00832965 /* Build configuration list for PBXProject "Apollo" */;
+			buildConfigurationList = 184F418E268793DC00832965 /* Build configuration list for PBXProject "Neptunes" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -125,7 +125,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				184F4192268793DC00832965 /* Apollo */,
+				184F4192268793DC00832965 /* Neptunes */,
 			);
 		};
 /* End PBXProject section */
@@ -151,7 +151,7 @@
 				1864E2F02687CF4F00DDADE8 /* PageView.swift in Sources */,
 				183047D326892D9200533BCE /* HomePageView.swift in Sources */,
 				18507F87268E113600B7D10F /* AlbumView.swift in Sources */,
-				184F4197268793DC00832965 /* ApolloApp.swift in Sources */,
+				184F4197268793DC00832965 /* NeptunesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,19 +280,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Apollo/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Neptunes/Preview Content\"";
 				DEVELOPMENT_TEAM = 75AGNXCF5M;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Apollo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = Neptunes/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tsaruggan.Apollo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsaruggan.Neptunes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -302,26 +302,26 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Apollo/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Neptunes/Preview Content\"";
 				DEVELOPMENT_TEAM = 75AGNXCF5M;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Apollo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = Neptunes/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tsaruggan.Apollo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsaruggan.Neptunes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		184F418E268793DC00832965 /* Build configuration list for PBXProject "Apollo" */ = {
+		184F418E268793DC00832965 /* Build configuration list for PBXProject "Neptunes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				184F41A0268793DD00832965 /* Debug */,
@@ -330,7 +330,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		184F41A2268793DD00832965 /* Build configuration list for PBXNativeTarget "Apollo" */ = {
+		184F41A2268793DD00832965 /* Build configuration list for PBXNativeTarget "Neptunes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				184F41A3268793DD00832965 /* Debug */,

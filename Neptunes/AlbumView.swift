@@ -1,6 +1,6 @@
 //
 //  AlbumView.swift
-//  Apollo
+//  Neptunes
 //
 //  Created by Saruggan Thiruchelvan on 2021-07-01.
 //
