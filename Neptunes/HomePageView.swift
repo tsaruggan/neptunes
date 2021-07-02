@@ -32,49 +32,47 @@ struct HomePageView: View {
     
     init() {
         UITableView.appearance().backgroundColor = .clear
+        UINavigationBar.appearance().isTranslucent = true
     }
     
     var body: some View {
+        
         NavigationView {
-            ZStack {
-                bg.edgesIgnoringSafeArea(.all)
-                ScrollView(showsIndicators: false) {
-                    VStack {
-                        HStack {
-                            Text(Date(), style: .time)
-                                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                                .foregroundColor(.white)
-                                .fontWeight(.bold)
-                            Spacer()
-                            if #available(iOS 15.0, *) {
-                                Image(systemName: "plus.circle.fill")
-                                    .font(.title)
-                                    .foregroundColor(.teal)
-                            }
-                        }
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    HStack {
+                        Text(Date(), style: .time)
+                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                            .foregroundColor(.primary)
+                            .fontWeight(.bold)
+                        Spacer()
                         
-                        ForEach(items) { item in
-                            Divider()
-                                .background(Color.white)
-                            HStack {
-                                Label {
-                                    Text(item.name)
-                                } icon: {
-                                    Image(systemName: item.icon)
-                                }
-                                Spacer()
-                            }
-                            .foregroundColor(.white)
-                            .listRowInsets(EdgeInsets())
-                        }
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.teal)
+                        
+                    }
+                    
+                    ForEach(items) { item in
                         Divider()
-                            .background(Color.white)
+                            .background(Color.secondary)
+                        HStack {
+                            Image(systemName: item.icon)
+                                .foregroundColor(.teal)
+                            Text(item.name)
+                                .foregroundColor(.primary)
+                            Spacer()
+                        }
                         
-                        
-                        LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-                            ForEach(albums) { album in
-                                AlbumItemView(album: album)
-                            }
+                        .listRowInsets(EdgeInsets())
+                    }
+                    Divider()
+                        .background(Color.secondary)
+                    
+                    
+                    LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
+                        ForEach(albums) { album in
+                            AlbumItemView(album: album)
                         }
                     }
                 }
@@ -82,6 +80,7 @@ struct HomePageView: View {
                 .navigationBarHidden(true)
                 .navigationBarTitle("")
             }
+            .padding(.top)
         }
     }
 }
@@ -108,25 +107,25 @@ struct Album: Identifiable {
 struct AlbumItemView: View {
     var album: Album
     var body: some View {
-        
-        if #available(iOS 15.0, *) {
-            NavigationLink {
-                AlbumView(album: album)
-            } label: {
-                VStack(alignment: .leading) {
-                    Image(album.image)
-                        .resizable()
-                        .scaledToFill()
-                        .cornerRadius(5)
-                    Text(album.album)
-                        .fontWeight(.bold)
-                        .lineLimit(1)
-                    Text(album.artist)
-                        .lineLimit(1)
-                }
-                .foregroundColor(.white)
-                .padding(5)
+        NavigationLink {
+            AlbumView(album: album)
+        } label: {
+            VStack(alignment: .leading) {
+                Image(album.image)
+                    .resizable()
+                    .scaledToFill()
+                    .cornerRadius(5)
+                Text(album.album)
+                    .foregroundColor(.primary)
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+                Text(album.artist)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
             }
+            
+            .padding(5)
         }
+        
     }
 }

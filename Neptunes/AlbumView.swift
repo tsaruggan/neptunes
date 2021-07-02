@@ -13,12 +13,10 @@ struct AlbumView: View {
     
     init(album: Album) {
         self.album = album
-        UINavigationBar.appearance().isTranslucent = true
-        UINavigationBar.appearance().barTintColor = .yellow
-        UINavigationBar.appearance().tintColor = .white
-        UITabBar.appearance().backgroundColor = .black
-        UITabBar.appearance().isTranslucent = true
-        UITabBar.appearance().barTintColor = .white
+        
+        //        UINavigationBar.appearance().barTintColor = .clear
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "drake_album_art_1"), for: .default)
+        
     }
     
     var body: some View {
@@ -43,8 +41,9 @@ struct AlbumView: View {
                     Button {
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Image(systemName: "chevron.backward")
+                        Label("Back", systemImage: "chevron.backward")
                     }
+                    .accentColor(.white)
                     .buttonStyle(.bordered)
                 }
             }
@@ -54,19 +53,19 @@ struct AlbumView: View {
                     Button(action: {}) {
                         Image(systemName: "square.and.arrow.up")
                     }
+                    .accentColor(.white)
                     .buttonStyle(.bordered)
                     
                     
                     Button(action: {}) {
                         Image(systemName: "wand.and.stars")
                     }
+                    .accentColor(.white)
                     .buttonStyle(.bordered)
                 }
             }
         }
     }
-    
-    
 }
 
 struct AlbumView_Previews: PreviewProvider {
