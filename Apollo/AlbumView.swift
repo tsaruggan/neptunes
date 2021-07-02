@@ -8,10 +8,22 @@
 import SwiftUI
 
 struct AlbumView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var album: Album
+    
+    init(album: Album) {
+        self.album = album
+        UINavigationBar.appearance().isTranslucent = true
+        UINavigationBar.appearance().barTintColor = .yellow
+        UINavigationBar.appearance().tintColor = .white
+        UITabBar.appearance().backgroundColor = .black
+        UITabBar.appearance().isTranslucent = true
+        UITabBar.appearance().barTintColor = .white
+    }
+    
     var body: some View {
-        
         ZStack {
+            Color.red.edgesIgnoringSafeArea(.all)
             ScrollView{
                 Group {
                     Image(album.image)
@@ -24,11 +36,32 @@ struct AlbumView: View {
                 .padding(50)
             }
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
-            Button {
-                print("Edit mode activated!")
-            } label: {
-                Image(systemName: "wand.and.rays")
+            ToolbarItemGroup(placement: .navigationBarLeading){
+                if #available(iOS 15.0, *) {
+                    Button {
+                        self.presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                    }
+                    .buttonStyle(.bordered)
+                }
+            }
+            
+            ToolbarItemGroup(placement: .navigationBarTrailing){
+                if #available(iOS 15.0, *) {
+                    Button(action: {}) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .buttonStyle(.bordered)
+                    
+                    
+                    Button(action: {}) {
+                        Image(systemName: "wand.and.stars")
+                    }
+                    .buttonStyle(.bordered)
+                }
             }
         }
     }
@@ -43,3 +76,4 @@ struct AlbumView_Previews: PreviewProvider {
         }
     }
 }
+
