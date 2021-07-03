@@ -35,40 +35,43 @@ struct AlbumView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading){
-                if #available(iOS 15.0, *) {
-                    Button {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Label("Back", systemImage: "chevron.backward")
-                    }
-                    .accentColor(.teal)
-                    .buttonStyle(.bordered)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(100)
+                Button {
+                    self.presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Label("Back", systemImage: "chevron.backward")
                 }
+                .buttonStyle(ToolbarButtonStyle())
             }
             
             ToolbarItemGroup(placement: .navigationBarTrailing){
-                if #available(iOS 15.0, *) {
-                    Button(action: {}) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .accentColor(.teal)
-                    .buttonStyle(.bordered)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(100)
-                    
-                    
-                    Button(action: {}) {
-                        Image(systemName: "wand.and.stars")
-                    }
-                    .accentColor(.teal)
-                    .buttonStyle(.bordered)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(100)
+                Button(action: {}) {
+                    Image(systemName: "plus")
                 }
+                .buttonStyle(ToolbarButtonStyle())
+                
+                Button(action: {}) {
+                    Image(systemName: "wand.and.stars")
+                }
+                .buttonStyle(ToolbarButtonStyle())
+                
+                Button(action: {}) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .buttonStyle(ToolbarButtonStyle())
             }
         }
+    }
+}
+
+struct ToolbarButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        let width: CGFloat = 40
+        configuration.label
+            .frame(width: width, height: width)
+            .buttonStyle(.bordered)
+            .foregroundColor(.teal)
+            .background(.regularMaterial)
+            .clipShape(Circle())
     }
 }
 
