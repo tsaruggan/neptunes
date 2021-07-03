@@ -13,25 +13,38 @@ struct AlbumView: View {
     
     init(album: Album) {
         self.album = album
-        
         UINavigationBar.appearance().barTintColor = .clear
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
-        
     }
     
     var body: some View {
-        ScrollView{
-            Group {
-                Image(album.image)
-                    .resizable()
-                    .scaledToFit()
-                Text(album.album)
-                    .font(.title)
-                    .fontWeight(.bold)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack {
+                
+                GeometryReader { g in
+                    Image(album.header)
+                        .resizable()
+                        .scaledToFill()
+                        .offset(y: g.frame(in: .global).minY > 0 ? -g.frame(in: .global).minY : 0)
+                        .frame(width: UIScreen.main.bounds.width,
+                               height: g.frame(in: .global).minY > 0 ?
+                               UIScreen.main.bounds.width / 3 + g.frame(in: .global).minY
+                               : UIScreen.main.bounds.width / 3)
+                }
+                .frame(height: UIScreen.main.bounds.width / 3, alignment: .center)
+                
+                Group {
+                    Image(album.image)
+                        .resizable()
+                        .scaledToFit()
+                    Text(album.album)
+                }
+                .padding(50)
+                
             }
-            .padding(50)
         }
+        .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading){
@@ -70,7 +83,7 @@ struct ToolbarButtonStyle: ButtonStyle {
             .frame(width: width, height: width)
             .buttonStyle(.bordered)
             .foregroundColor(.teal)
-            .background(.regularMaterial)
+            .background(.thinMaterial)
             .clipShape(Circle())
     }
 }
@@ -78,8 +91,10 @@ struct ToolbarButtonStyle: ButtonStyle {
 struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            AlbumView(album: Album(album: "Days Before Rodeo", artist: "Travis Scott", image: "travis_scott_album_art_2"))
+            AlbumView(album: Album(album: "Days Before Rodeo", artist: "Travis Scott", image: "travis_scott_album_art_2", header: "travis_scott_header_art"))
         }
     }
 }
+
+
 
