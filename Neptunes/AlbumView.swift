@@ -57,20 +57,23 @@ struct AlbumView: View {
             }
             
             ToolbarItemGroup(placement: .navigationBarTrailing){
-                Button(action: {}) {
-                    Image(systemName: "plus")
+                Menu {
+                    Button(action: {}) {
+                        Label("Import Music...", systemImage: "plus")
+                    }
+                    Button(action: {}) {
+                        Label("Edit Album...", systemImage: "wand.and.stars")
+                    }
+                    Button(action: {}) {
+                        Label("Share Album...", systemImage: "square.and.arrow.up")
+                    }
+                } label: {
+                    Button(action: {}) {
+                        Image(systemName: "ellipsis")
+                    }
+                    .buttonStyle(ToolbarButtonStyle())
                 }
-                .buttonStyle(ToolbarButtonStyle())
                 
-                Button(action: {}) {
-                    Image(systemName: "wand.and.stars")
-                }
-                .buttonStyle(ToolbarButtonStyle())
-                
-                Button(action: {}) {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                .buttonStyle(ToolbarButtonStyle())
             }
         }
     }
@@ -82,8 +85,8 @@ struct ToolbarButtonStyle: ButtonStyle {
         configuration.label
             .frame(width: width, height: width)
             .buttonStyle(.bordered)
-            .foregroundColor(.teal)
-            .background(.thinMaterial)
+            .foregroundColor(.primary)
+            .background(.ultraThinMaterial)
             .clipShape(Circle())
     }
 }
