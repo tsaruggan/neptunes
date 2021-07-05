@@ -14,29 +14,15 @@ struct HomePageView: View {
         Item(name: "Albums", icon: "square.stack"),
         Item(name: "Playlists", icon: "music.note.list")
     ]
-    
-    let albums: [Album] = [
-        Album(album: "Not Around", artist: "Drake", image: "drake_album_art_1", header: "drake_header_art"),
-        Album(album: "Endless", artist: "Frank Ocean", image: "frank_ocean_album_art_1", header: "frank_ocean_header_art"),
-        Album(album: "SUMMER 2021", artist: "Playlist", image: "drake_artist_art", header: "drake_header_art"),
-        Album(album: "Owl Pharaoh", artist: "Travis Scott", image: "travis_scott_album_art_1", header: "travis_scott_header_art"),
-        Album(album: "Boys Don't Cry", artist: "Playlist", image: "frank_ocean_artist_art", header: "frank_ocean_header_art"),
-        Album(album: "Days Before Rodeo", artist: "Travis Scott", image: "travis_scott_album_art_2", header: "travis_scott_header_art"),
-        Album(album: "Travis Scott Unreleased", artist: "Playlist", image: "travis_scott_artist_art", header: "travis_scott_header_art"),
-        Album(album: "Not Around", artist: "Drake", image: "drake_album_art_1", header: "drake_header_art"),
-        Album(album: "Endless", artist: "Frank Ocean", image: "frank_ocean_album_art_1", header: "frank_ocean_header_art"),
-        Album(album: "Toosie Slide", artist: "Drake", image: "drake_artist_art", header: "drake_header_art")
-    ]
-    
     let bg: Color = Color(red: 24/255, green: 24/255, blue: 24/255)
-    
+    let model = MusicModel()
+
     init() {
         UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
     }
     
     var body: some View {
-        
         NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack {
@@ -71,7 +57,7 @@ struct HomePageView: View {
                     
                     
                     LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-                        ForEach(albums) { album in
+                        ForEach(model.albums) { album in
                             AlbumItemView(album: album)
                         }
                     }
@@ -97,14 +83,6 @@ struct Item: Identifiable {
     var icon: String
 }
 
-struct Album: Identifiable {
-    var id = UUID()
-    var album: String
-    var artist: String
-    var image: String
-    var header: String
-}
-
 struct AlbumItemView: View {
     var album: Album
     var body: some View {
@@ -116,11 +94,11 @@ struct AlbumItemView: View {
                     .resizable()
                     .scaledToFill()
                     .cornerRadius(5)
-                Text(album.album)
+                Text(album.title)
                     .foregroundColor(.primary)
                     .fontWeight(.bold)
                     .lineLimit(1)
-                Text(album.artist)
+                Text(album.artist.title)
                     .foregroundColor(.secondary)
                     .lineLimit(1)
             }

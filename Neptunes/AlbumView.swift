@@ -22,23 +22,25 @@ struct AlbumView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
                 
-                GeometryReader { g in
-                    Image(album.header)
-                        .resizable()
-                        .scaledToFill()
-                        .offset(y: g.frame(in: .global).minY > 0 ? -g.frame(in: .global).minY : 0)
-                        .frame(width: UIScreen.main.bounds.width,
-                               height: g.frame(in: .global).minY > 0 ?
-                               UIScreen.main.bounds.width / 3 + g.frame(in: .global).minY
-                               : UIScreen.main.bounds.width / 3)
+                if let header = album.header {
+                    GeometryReader { g in
+                        Image(header)
+                            .resizable()
+                            .scaledToFill()
+                            .offset(y: g.frame(in: .global).minY > 0 ? -g.frame(in: .global).minY : 0)
+                            .frame(width: UIScreen.main.bounds.width,
+                                   height: g.frame(in: .global).minY > 0 ?
+                                   UIScreen.main.bounds.width / 3 + g.frame(in: .global).minY
+                                   : UIScreen.main.bounds.width / 3)
+                    }
+                    .frame(height: UIScreen.main.bounds.width / 3, alignment: .center)
                 }
-                .frame(height: UIScreen.main.bounds.width / 3, alignment: .center)
-                
+    
                 Group {
                     Image(album.image)
                         .resizable()
                         .scaledToFit()
-                    Text(album.album)
+                    Text(album.title)
                 }
                 .padding(50)
                 
@@ -86,15 +88,15 @@ struct ToolbarButtonStyle: ButtonStyle {
             .frame(width: width, height: width)
             .buttonStyle(.bordered)
             .foregroundColor(.primary)
-            .background(.ultraThinMaterial)
-            .clipShape(Circle())
+            .background(Color.red.opacity(0.2), in: Circle())
+            .background(.ultraThinMaterial, in: Circle())
     }
 }
 
 struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            AlbumView(album: Album(album: "Days Before Rodeo", artist: "Travis Scott", image: "travis_scott_album_art_2", header: "travis_scott_header_art"))
+            AlbumView(album: MusicModel().albums[2])
         }
     }
 }
