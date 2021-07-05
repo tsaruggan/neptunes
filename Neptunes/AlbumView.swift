@@ -20,30 +20,45 @@ struct AlbumView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack {
+            ZStack {
                 
-                if let header = album.header {
-                    GeometryReader { g in
-                        Image(header)
-                            .resizable()
-                            .scaledToFill()
-                            .offset(y: g.frame(in: .global).minY > 0 ? -g.frame(in: .global).minY : 0)
-                            .frame(width: UIScreen.main.bounds.width,
-                                   height: g.frame(in: .global).minY > 0 ?
-                                   UIScreen.main.bounds.width / 3 + g.frame(in: .global).minY
-                                   : UIScreen.main.bounds.width / 3)
-                    }
-                    .frame(height: UIScreen.main.bounds.width / 3, alignment: .center)
+                
+                
+                VStack {
+                    StickyHeaderView(header: album.header)
+                    Spacer()
                 }
+                
+                
     
-                Group {
+                VStack {
                     Image(album.image)
                         .resizable()
                         .scaledToFit()
-                    Text(album.title)
+                        .cornerRadius(8)
+                        .padding(.horizontal, 88)
+                        .padding(.top, 100)
+                    Spacer(minLength: 20)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(album.isSingle ? "Single" : "Album")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        Text(album.title)
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding(.bottom, 10)
+                        HStack {
+                            Image(album.artist.image)
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .frame(height: 28)
+                            Text(album.artist.title)
+                        }
+                    }
+                    .frame(width: 320, alignment: .leading)
                 }
-                .padding(50)
-                
+                                
             }
         }
         .edgesIgnoringSafeArea(.top)
@@ -55,11 +70,9 @@ struct AlbumView: View {
                 } label: {
                     Label("Back", systemImage: "chevron.backward")
                 }
-                .buttonStyle(ToolbarButtonStyle())
             }
-            
             ToolbarItemGroup(placement: .navigationBarTrailing){
-                Menu {
+                Menu() {
                     Button(action: {}) {
                         Label("Import Music...", systemImage: "plus")
                     }
@@ -70,14 +83,11 @@ struct AlbumView: View {
                         Label("Share Album...", systemImage: "square.and.arrow.up")
                     }
                 } label: {
-                    Button(action: {}) {
-                        Image(systemName: "ellipsis")
-                    }
-                    .buttonStyle(ToolbarButtonStyle())
+                    Button(action: {}) { Image(systemName: "ellipsis") }
                 }
-                
             }
         }
+        .buttonStyle(ToolbarButtonStyle())
     }
 }
 
@@ -101,5 +111,21 @@ struct AlbumView_Previews: PreviewProvider {
     }
 }
 
-
-
+struct StickyHeaderView: View {
+    var header: String?
+    var body: some View {
+        if let header = header {
+            GeometryReader { g in
+                Image(header)
+                    .resizable()
+                    .scaledToFill()
+                    .offset(y: g.frame(in: .global).minY > 0 ? -g.frame(in: .global).minY : 0)
+                    .frame(width: UIScreen.main.bounds.width,
+                           height: g.frame(in: .global).minY > 0 ?
+                           UIScreen.main.bounds.width / 3 + g.frame(in: .global).minY
+                           : UIScreen.main.bounds.width / 3)
+            }
+            .frame(height: UIScreen.main.bounds.width / 3, alignment: .center)
+        }
+    }
+}
