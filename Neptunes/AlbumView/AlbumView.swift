@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AlbumView: View {
+    @ObservedObject private var viewModel: AlbumViewModel = AlbumViewModel()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    var album: Album
     
     init(album: Album) {
-        self.album = album
+        self.viewModel.album = album
         UINavigationBar.appearance().barTintColor = .clear
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -22,56 +22,40 @@ struct AlbumView: View {
         ScrollView(.vertical, showsIndicators: false) {
             ZStack {
                 VStack {
-                    StickyHeaderView(header: album.header)
+                    StickyHeaderView(header: viewModel.album!.header)
                     Spacer()
                 }
                 
                 VStack {
-                    Image(album.image)
+                    Image(viewModel.album!.image)
                         .resizable()
                         .scaledToFit()
                         .cornerRadius(8)
                         .padding(.horizontal, 88)
                         .padding(.top, 100)
-                    Spacer()
+                        .padding(.bottom, 20)
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(album.isSingle ? "Single" : "Album")
+                        Text(viewModel.album!.isSingle ? "Single" : "Album")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
-                        Text(album.title)
+                        Text(viewModel.album!.title)
                             .fontWeight(.bold)
                             .font(.title)
                             .padding(.bottom, 4)
                         HStack {
-                            Image(album.artist.image)
+                            Image(viewModel.album!.artist.image)
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(Circle())
                                 .frame(height: 28)
-                            Text(album.artist.title)
+                            Text(viewModel.album!.artist.title)
                         }
                     }
                     .frame(width: 320, alignment: .leading)
                     
                     VStack {
-                        ForEach(album.songs.indices) { i in
-                            HStack(spacing: 14) {
-                                Text(i+1 < 10 ? String(format: "%2d ", i+1) : String(i+1))
-                                    .monospacedDigit()
-                                    .foregroundColor(.secondary)
-                                Text(album.songs[i].title)
-                                    .fontWeight(.medium)
-                                if album.songs[i].isExplicit {
-                                    Image(systemName: "e.square.fill")
-                                        .foregroundColor(.red)
-                                }
-                                Spacer(minLength: 0)
-                                Image(systemName: "ellipsis")
-                            }
-                            .padding(12)
-                            .background(.ultraThinMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius:8))
-
+                        ForEach(viewModel.album!.songs.indices) { i in
+                            SongView(song: viewModel.album!.songs[i], index: i+1)
                         }
                     }
                     .padding(20)
@@ -118,25 +102,6 @@ struct ToolbarButtonStyle: ButtonStyle {
             .foregroundColor(.primary)
         //            .background(Color.red.opacity(0.2), in: Circle())
             .background(.ultraThinMaterial, in: Circle())
-    }
-}
-
-struct StickyHeaderView: View {
-    var header: String?
-    var body: some View {
-        if let header = header {
-            GeometryReader { g in
-                Image(header)
-                    .resizable()
-                    .scaledToFill()
-                    .offset(y: g.frame(in: .global).minY > 0 ? -g.frame(in: .global).minY : 0)
-                    .frame(width: UIScreen.main.bounds.width,
-                           height: g.frame(in: .global).minY > 0 ?
-                           UIScreen.main.bounds.width / 3 + g.frame(in: .global).minY
-                           : UIScreen.main.bounds.width / 3)
-            }
-            .frame(height: UIScreen.main.bounds.width / 3, alignment: .center)
-        }
     }
 }
 

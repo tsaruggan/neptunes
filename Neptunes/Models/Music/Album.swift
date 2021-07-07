@@ -28,3 +28,4 @@ struct Album: Collectable, Identifiable {
         }
     }
 }
+
