@@ -20,10 +20,18 @@ struct AlbumView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
+            
             ZStack {
-                VStack {
+                VStack(spacing: 0) {
                     StickyHeaderView(header: viewModel.album!.header)
-                    Spacer()
+                    
+                    Rectangle()
+                        .ignoresSafeArea(.all)
+                        .frame(minHeight: UIScreen.main.bounds.height - UIScreen.main.bounds.width / 3)
+                        .foregroundColor(.clear)
+                        .background(LinearGradient(gradient: Gradient(colors: [.purple, .brown, .clear]),
+                                                                       startPoint: .top,
+                                                                       endPoint: .bottom))
                 }
                 
                 VStack {
@@ -90,6 +98,7 @@ struct AlbumView: View {
             }
         }
         .buttonStyle(ToolbarButtonStyle())
+        
     }
 }
 
@@ -107,8 +116,12 @@ struct ToolbarButtonStyle: ButtonStyle {
 
 struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView{
-            AlbumView(album: MusicModel().albums[1])
+        ForEach(ColorScheme.allCases, id: \.self) {
+            NavigationView{
+                AlbumView(album: MusicModel().albums[0])
+            }
+            .preferredColorScheme($0)
         }
+        
     }
 }
