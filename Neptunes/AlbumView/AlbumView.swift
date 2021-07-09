@@ -29,9 +29,9 @@ struct AlbumView: View {
                         .ignoresSafeArea(.all)
                         .frame(minHeight: UIScreen.main.bounds.height - UIScreen.main.bounds.width / 3)
                         .foregroundColor(.clear)
-                        .background(LinearGradient(gradient: Gradient(colors: [.purple, .brown, .clear]),
-                                                                       startPoint: .top,
-                                                                       endPoint: .bottom))
+                        .background(LinearGradient(gradient: Gradient(colors: [.brown.opacity(0.8), .clear]),
+                                                   startPoint: .top,
+                                                   endPoint: .bottom))
                 }
                 
                 VStack {
@@ -61,12 +61,13 @@ struct AlbumView: View {
                     }
                     .frame(width: 320, alignment: .leading)
                     
-                    VStack {
+                    VStack(spacing: 0) {
                         ForEach(viewModel.album!.songs.indices) { i in
                             SongView(song: viewModel.album!.songs[i], index: i+1)
                         }
                     }
-                    .padding(20)
+                    .padding(.vertical, 20)
+                    .padding(.horizontal, 8)
                     Spacer()
                 }
             }

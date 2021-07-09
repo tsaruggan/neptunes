@@ -25,8 +25,6 @@ struct SongView: View {
             Image(systemName: "ellipsis")
         }
         .padding(12)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius:8))
     }
 }
 
