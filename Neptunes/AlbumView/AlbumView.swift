@@ -16,20 +16,19 @@ struct AlbumView: View {
         UINavigationBar.appearance().barTintColor = .clear
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
+        self.viewModel.setBackgroundColor()
     }
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            
             ZStack {
                 VStack(spacing: 0) {
                     StickyHeaderView(header: viewModel.album!.header)
-                    
                     Rectangle()
                         .ignoresSafeArea(.all)
                         .frame(minHeight: UIScreen.main.bounds.height - UIScreen.main.bounds.width / 3)
                         .foregroundColor(.clear)
-                        .background(LinearGradient(gradient: Gradient(colors: [.brown.opacity(0.8), .clear]),
+                        .background(LinearGradient(gradient: Gradient(colors: [Color(viewModel.backgroundColor ?? UIColor.red), .clear]),
                                                    startPoint: .top,
                                                    endPoint: .bottom))
                 }
@@ -99,7 +98,6 @@ struct AlbumView: View {
             }
         }
         .buttonStyle(ToolbarButtonStyle())
-        
     }
 }
 

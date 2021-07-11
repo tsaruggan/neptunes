@@ -16,6 +16,7 @@
 		18507F87268E113600B7D10F /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18507F86268E113600B7D10F /* AlbumView.swift */; };
 		1864E2F02687CF4F00DDADE8 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864E2EF2687CF4F00DDADE8 /* PageView.swift */; };
 		18666653269A90400016CF68 /* SwiftImage in Frameworks */ = {isa = PBXBuildFile; productRef = 18666652269A90400016CF68 /* SwiftImage */; };
+		18666656269A94A50016CF68 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18666655269A94A50016CF68 /* KMeans.swift */; };
 		188390D72695F0120026B04D /* Viewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390D62695F0120026B04D /* Viewable.swift */; };
 		188390D92695F0250026B04D /* Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390D82695F0250026B04D /* Sortable.swift */; };
 		188390DE2695F1030026B04D /* Collectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390DD2695F1030026B04D /* Collectable.swift */; };
@@ -39,6 +40,7 @@
 		184F419F268793DD00832965 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18507F86268E113600B7D10F /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		1864E2EF2687CF4F00DDADE8 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		18666655269A94A50016CF68 /* KMeans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
 		188390D62695F0120026B04D /* Viewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viewable.swift; sourceTree = "<group>"; };
 		188390D82695F0250026B04D /* Sortable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sortable.swift; sourceTree = "<group>"; };
 		188390DD2695F1030026B04D /* Collectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectable.swift; sourceTree = "<group>"; };
@@ -103,9 +105,18 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		18666654269A94860016CF68 /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				18666655269A94A50016CF68 /* KMeans.swift */,
+			);
+			path = Color;
+			sourceTree = "<group>";
+		};
 		188390D52695EE140026B04D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				18666654269A94860016CF68 /* Color */,
 				188390DC2695F0700026B04D /* Music */,
 			);
 			path = Models;
@@ -227,6 +238,7 @@
 				188390ED2695F9560026B04D /* AlbumViewModel.swift in Sources */,
 				188390EB2695F6CF0026B04D /* SongView.swift in Sources */,
 				182EF8AB2692AC130018765E /* MusicModel.swift in Sources */,
+				18666656269A94A50016CF68 /* KMeans.swift in Sources */,
 				188390E42695F14E0026B04D /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
