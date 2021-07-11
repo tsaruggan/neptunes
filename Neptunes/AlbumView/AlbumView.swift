@@ -8,33 +8,32 @@
 import SwiftUI
 
 struct AlbumView: View {
-    @ObservedObject private var viewModel: AlbumViewModel = AlbumViewModel()
+    @ObservedObject private var viewModel: AlbumViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    init(album: Album) {
-        self.viewModel.album = album
+    init(viewModel: AlbumViewModel) {
+        self.viewModel = viewModel
         UINavigationBar.appearance().barTintColor = .clear
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
-        self.viewModel.setBackgroundColor()
     }
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             ZStack {
                 VStack(spacing: 0) {
-                    StickyHeaderView(header: viewModel.album!.header)
+                    StickyHeaderView(header: viewModel.album.header)
                     Rectangle()
                         .ignoresSafeArea(.all)
                         .frame(minHeight: UIScreen.main.bounds.height - UIScreen.main.bounds.width / 3)
                         .foregroundColor(.clear)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color(viewModel.backgroundColor ?? UIColor.red), .clear]),
+                        .background(LinearGradient(gradient: Gradient(colors: [Color(viewModel.backgroundColor), .clear]),
                                                    startPoint: .top,
                                                    endPoint: .bottom))
                 }
                 
                 VStack {
-                    Image(viewModel.album!.image)
+                    Image(viewModel.album.image)
                         .resizable()
                         .scaledToFit()
                         .cornerRadius(8)
@@ -42,27 +41,27 @@ struct AlbumView: View {
                         .padding(.top, 100)
                         .padding(.bottom, 20)
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(viewModel.album!.isSingle ? "Single" : "Album")
+                        Text(viewModel.album.isSingle ? "Single" : "Album")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
-                        Text(viewModel.album!.title)
+                        Text(viewModel.album.title)
                             .fontWeight(.bold)
                             .font(.title)
                             .padding(.bottom, 4)
                         HStack {
-                            Image(viewModel.album!.artist.image)
+                            Image(viewModel.album.artist.image)
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(Circle())
                                 .frame(height: 28)
-                            Text(viewModel.album!.artist.title)
+                            Text(viewModel.album.artist.title)
                         }
                     }
                     .frame(width: 320, alignment: .leading)
                     
                     VStack(spacing: 0) {
-                        ForEach(viewModel.album!.songs.indices) { i in
-                            SongView(song: viewModel.album!.songs[i], index: i+1)
+                        ForEach(viewModel.album.songs.indices) { i in
+                            SongView(song: viewModel.album.songs[i], index: i+1)
                         }
                     }
                     .padding(.vertical, 20)
@@ -117,7 +116,7 @@ struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) {
             NavigationView{
-                AlbumView(album: MusicModel().albums[0])
+                AlbumView(viewModel: .init(album: MusicModel().albums[0]))
             }
             .preferredColorScheme($0)
         }

@@ -87,7 +87,7 @@ struct AlbumItemView: View {
     var album: Album
     var body: some View {
         NavigationLink {
-            AlbumView(album: album)
+            AlbumView(viewModel: .init(album: album))
         } label: {
             VStack(alignment: .leading) {
                 Image(album.image)

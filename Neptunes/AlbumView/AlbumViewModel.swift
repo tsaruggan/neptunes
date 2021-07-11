@@ -9,8 +9,13 @@ import Foundation
 import UIKit
 
 final class AlbumViewModel: ObservableObject {
-    @Published var album: Album?
-    @Published var backgroundColor: UIColor?
+    @Published var album: Album
+    @Published var backgroundColor: UIColor
+    
+    init(album: Album) {
+        self.album = album
+        self.backgroundColor = .green
+    }
     
     func setBackgroundColor() {
 //        let image = UIImage(named: album!.image)
