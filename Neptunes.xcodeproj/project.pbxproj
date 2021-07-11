@@ -27,6 +27,7 @@
 		188390E92695F5900026B04D /* StickyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390E82695F5900026B04D /* StickyHeaderView.swift */; };
 		188390EB2695F6CF0026B04D /* SongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390EA2695F6CF0026B04D /* SongView.swift */; };
 		188390ED2695F9560026B04D /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390EC2695F9560026B04D /* AlbumViewModel.swift */; };
+		18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E09A5C269B657000FE2AB3 /* SongListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		188390E82695F5900026B04D /* StickyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderView.swift; sourceTree = "<group>"; };
 		188390EA2695F6CF0026B04D /* SongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongView.swift; sourceTree = "<group>"; };
 		188390EC2695F9560026B04D /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
+		18E09A5C269B657000FE2AB3 /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				188390EC2695F9560026B04D /* AlbumViewModel.swift */,
 				188390E82695F5900026B04D /* StickyHeaderView.swift */,
 				188390EA2695F6CF0026B04D /* SongView.swift */,
+				18E09A5C269B657000FE2AB3 /* SongListView.swift */,
 			);
 			path = AlbumView;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 				188390DE2695F1030026B04D /* Collectable.swift in Sources */,
 				183047D326892D9200533BCE /* HomePageView.swift in Sources */,
 				188390E22695F13A0026B04D /* Song.swift in Sources */,
+				18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */,
 				18507F87268E113600B7D10F /* AlbumView.swift in Sources */,
 				188390E92695F5900026B04D /* StickyHeaderView.swift in Sources */,
 				188390D92695F0250026B04D /* Sortable.swift in Sources */,

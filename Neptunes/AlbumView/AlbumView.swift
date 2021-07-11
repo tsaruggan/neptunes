@@ -27,76 +27,77 @@ struct AlbumView: View {
                 }
                 
                 VStack {
-                    Image(viewModel.album.image)
-                        .resizable()
-                        .scaledToFit()
-                        .cornerRadius(8)
-                        .padding(.horizontal, 88)
-                        .padding(.top, 100)
-                        .padding(.bottom, 20)
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(viewModel.album.isSingle ? "Single" : "Album")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Text(viewModel.album.title)
-                            .fontWeight(.bold)
-                            .font(.title)
-                            .padding(.bottom, 4)
-                        HStack {
-                            Image(viewModel.album.artist.image)
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle())
-                                .frame(height: 28)
-                            Text(viewModel.album.artist.title)
-                        }
-                    }
-                    .frame(width: 320, alignment: .leading)
-                    
-                    VStack(spacing: 0) {
-                        ForEach(viewModel.album.songs.indices) { i in
-                            SongView(song: viewModel.album.songs[i], index: i+1)
-                        }
-                    }
-                    .padding(.vertical, 20)
-                    .padding(.horizontal, 8)
+                    albumArt
+                    albumInformation
+                    SongListView(songs: viewModel.album.songs)
                     Spacer()
                 }
                 .frame(minHeight: UIScreen.main.bounds.height)
             }
         }
-        .background(LinearGradient(gradient: Gradient(colors: [Color(viewModel.colors[0]),
-                                                               Color(viewModel.colors[1]),
-                                                               .clear]),
-                                   startPoint: .topLeading,
-                                   endPoint: .bottomTrailing))
+        .background(Color.blue)
         .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarLeading){
-                Button {
-                    self.presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Label("Back", systemImage: "chevron.backward")
-                }
-            }
-            ToolbarItemGroup(placement: .navigationBarTrailing){
-                Menu() {
-                    Button(action: {}) {
-                        Label("Import Music...", systemImage: "plus")
-                    }
-                    Button(action: {}) {
-                        Label("Edit Album...", systemImage: "wand.and.stars")
-                    }
-                    Button(action: {}) {
-                        Label("Share Album...", systemImage: "square.and.arrow.up")
-                    }
-                } label: {
-                    Button(action: {}) { Image(systemName: "ellipsis") }
-                }
-            }
+            ToolbarItemGroup(placement: .navigationBarLeading){ backButton }
+            ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }
         }
         .buttonStyle(ToolbarButtonStyle())
+    }
+    
+    var albumArt: some View {
+        Image(viewModel.album.image)
+            .resizable()
+            .scaledToFit()
+            .cornerRadius(8)
+            .padding(.horizontal, 88)
+            .padding(.top, 100)
+            .padding(.bottom, 20)
+    }
+    
+    var albumInformation: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(viewModel.album.isSingle ? "Single" : "Album")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Text(viewModel.album.title)
+                .fontWeight(.bold)
+                .font(.title)
+                .padding(.bottom, 4)
+            HStack {
+                Image(viewModel.album.artist.image)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .frame(height: 28)
+                Text(viewModel.album.artist.title)
+            }
+        }
+        .frame(width: 320, alignment: .leading)
+    }
+    
+    var backButton: some View {
+        Button {
+            self.presentationMode.wrappedValue.dismiss()
+        } label: {
+            Label("Back", systemImage: "chevron.backward")
+        }
+    }
+    
+    var menuButton: some View {
+        Menu() {
+            Button(action: {}) {
+                Label("Import Music...", systemImage: "plus")
+            }
+            Button(action: {}) {
+                Label("Edit Album...", systemImage: "wand.and.stars")
+            }
+            Button(action: {}) {
+                Label("Share Album...", systemImage: "square.and.arrow.up")
+            }
+        } label: {
+            Button(action: {}) { Image(systemName: "ellipsis") }
+        }
     }
 }
 
