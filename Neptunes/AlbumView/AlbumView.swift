@@ -35,7 +35,7 @@ struct AlbumView: View {
                 .frame(minHeight: UIScreen.main.bounds.height)
             }
         }
-        .background(Color.blue)
+        .background(background)
         .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -43,6 +43,10 @@ struct AlbumView: View {
             ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }
         }
         .buttonStyle(ToolbarButtonStyle())
+    }
+        
+    var background: some View {
+        LinearGradient(colors: viewModel.colors, startPoint: .topLeading, endPoint: .bottomTrailing)
     }
     
     var albumArt: some View {
