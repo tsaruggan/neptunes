@@ -23,13 +23,7 @@ struct AlbumView: View {
             ZStack {
                 VStack(spacing: 0) {
                     StickyHeaderView(header: viewModel.album.header)
-                    Rectangle()
-                        .ignoresSafeArea(.all)
-                        .frame(minHeight: UIScreen.main.bounds.height - UIScreen.main.bounds.width / 3)
-                        .foregroundColor(.clear)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color(viewModel.backgroundColor), .clear]),
-                                                   startPoint: .top,
-                                                   endPoint: .bottom))
+                    Spacer()
                 }
                 
                 VStack {
@@ -68,8 +62,14 @@ struct AlbumView: View {
                     .padding(.horizontal, 8)
                     Spacer()
                 }
+                .frame(minHeight: UIScreen.main.bounds.height)
             }
         }
+        .background(LinearGradient(gradient: Gradient(colors: [Color(viewModel.colors[0]),
+                                                               Color(viewModel.colors[1]),
+                                                               .clear]),
+                                   startPoint: .topLeading,
+                                   endPoint: .bottomTrailing))
         .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden(true)
         .toolbar {

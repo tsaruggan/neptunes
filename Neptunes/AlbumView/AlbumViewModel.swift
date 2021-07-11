@@ -11,10 +11,15 @@ import UIKit
 final class AlbumViewModel: ObservableObject {
     @Published var album: Album
     @Published var backgroundColor: UIColor
+    @Published var colors: [UIColor]
     
     init(album: Album) {
         self.album = album
-        self.backgroundColor = .green
+//        self.backgroundColor = .green
+        let image = UIImage(named: album.image)
+        let colors = getColorsFromAlbumArt(uiImage: image!)
+        self.backgroundColor = colors[1]
+        self.colors = colors
     }
     
     func setBackgroundColor() {
