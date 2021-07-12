@@ -18,16 +18,11 @@ final class AlbumViewModel: ObservableObject {
         self.album = album
         self.colors = ColorAnalyzer.getColors(albumArt: album.image, headerArt: album.header!, 3)
         self.palette = Palette(
-            primaryLight: .black,
-            primaryDark: .white,
-            secondaryLight: .purple,
-            secondaryDark: .indigo,
-            tertiaryLight: .teal,
-            tertiaryDark: .blue,
-            accentLight: .red,
-            accentDark: .red,
-            backgroundLight: .mint,
-            backgroundDark: .green
+            primary: ColorTheme(light: .black, dark: .white),
+            secondary: ColorTheme(light: .blue, dark: .teal),
+            tertiary: ColorTheme(light: .green, dark: .mint),
+            accent: ColorTheme(light: .indigo, dark: .purple),
+            background: ColorTheme(light: .white, dark: .black)
         )
     }
 }

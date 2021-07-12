@@ -15,8 +15,9 @@ struct SongView: View {
     var explicitSignColor: Color
     var menuColor: Color
     var body: some View {
-        HStack(spacing: 14) {
-            Text(index < 10 ? String(format: "%2d ", index) : String(index))
+        HStack(alignment: .center, spacing: 14) {
+            Text(index < 10 ? String(format: "%2d", index) : String(index))
+                .font(.system(.callout, design: .monospaced))
                 .monospacedDigit()
                 .foregroundColor(indexLabelColor)
             Text(song.title)

@@ -54,7 +54,7 @@ struct MusicModel {
             Song(title: "Drugs You Should Try It"),
             Song(title: "Don't Play (feat. The 1975 & Big Sean)"),
             Song(title: "Skyfall (feat. Young Thug)"),
-            Song(title: "Zonbies", isExplicit: true),
+            Song(title: "Zombies", isExplicit: true),
             Song(title: "Sloppy Toppy (feat. Migos & Peewee Longway)"),
             Song(title: "Basement Freestyle", isExplicit: true),
             Song(title: "Backyard", isExplicit: true),

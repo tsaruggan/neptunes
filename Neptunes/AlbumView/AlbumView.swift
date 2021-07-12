@@ -32,10 +32,10 @@ struct AlbumView: View {
                     albumInformation
                     SongListView(
                         songs: viewModel.album.songs,
-                        indexLabelColor: colorScheme == .dark ? viewModel.palette.secondaryDark : viewModel.palette.secondaryLight,
-                        foregroundColor: colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight,
-                        explicitSignColor: colorScheme == .dark ? viewModel.palette.accentDark : viewModel.palette.accentLight,
-                        menuColor: colorScheme == .dark ? viewModel.palette.tertiaryDark : viewModel.palette.tertiaryLight
+                        indexLabelColor: viewModel.palette.secondary(colorScheme),
+                        foregroundColor: viewModel.palette.primary(colorScheme),
+                        explicitSignColor: viewModel.palette.accent(colorScheme),
+                        menuColor: viewModel.palette.tertiary(colorScheme)
                     )
                     Spacer()
                 }
@@ -49,12 +49,12 @@ struct AlbumView: View {
             ToolbarItemGroup(placement: .navigationBarLeading){ backButton }
             ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }
         }
-        .buttonStyle(ToolbarButtonStyle(backgroundColor: colorScheme == .dark ? viewModel.palette.tertiaryDark : viewModel.palette.tertiaryLight,
-                                        foregroundColor: colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight))
+        .buttonStyle(ToolbarButtonStyle(backgroundColor: viewModel.palette.tertiary(colorScheme),
+                                        foregroundColor: viewModel.palette.primary(colorScheme)))
     }
         
     var background: some View {
-        LinearGradient(colors: [colorScheme == .dark ? viewModel.palette.backgroundDark : viewModel.palette.backgroundLight, .clear],
+        LinearGradient(colors: [viewModel.palette.background(colorScheme), .clear],
                        startPoint: .top,
                        endPoint: .bottom)
     }
@@ -73,9 +73,9 @@ struct AlbumView: View {
         VStack(alignment: .leading, spacing: 0) {
             Text(viewModel.album.isSingle ? "Single" : "Album")
                 .font(.subheadline)
-                .foregroundColor(colorScheme == .dark ? viewModel.palette.secondaryDark : viewModel.palette.secondaryLight)
+                .foregroundColor(viewModel.palette.secondary(colorScheme))
             Text(viewModel.album.title)
-                .foregroundColor(colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight)
+                .foregroundColor(viewModel.palette.primary(colorScheme))
                 .fontWeight(.bold)
                 .font(.title)
                 .padding(.bottom, 4)
@@ -86,7 +86,7 @@ struct AlbumView: View {
                     .clipShape(Circle())
                     .frame(height: 28)
                 Text(viewModel.album.artist.title)
-                    .foregroundColor(colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight)
+                    .foregroundColor(viewModel.palette.primary(colorScheme))
             }
         }
         .frame(width: 320, alignment: .leading)
@@ -126,7 +126,7 @@ struct ToolbarButtonStyle: ButtonStyle {
             .frame(width: width, height: width)
             .buttonStyle(.bordered)
             .foregroundColor(foregroundColor)
-            .background(backgroundColor.opacity(0.1), in: Circle())
+            .background(backgroundColor.opacity(0.3), in: Circle())
             .background(.ultraThinMaterial, in: Circle())
     }
 }
