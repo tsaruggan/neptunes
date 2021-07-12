@@ -9,19 +9,24 @@ import SwiftUI
 
 struct SongListView: View {
     var songs: [Song]
+    var indexLabelColor: Color
+    var foregroundColor: Color
+    var explicitSignColor: Color
+    var menuColor: Color
     var body: some View {
         VStack(spacing: 0) {
             ForEach(songs.indices) { i in
-                SongView(song: songs[i], index: i+1)
+                SongView(
+                    song: songs[i],
+                    index: i+1,
+                    indexLabelColor: indexLabelColor,
+                    foregroundColor: foregroundColor,
+                    explicitSignColor: explicitSignColor,
+                    menuColor: menuColor
+                )
             }
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 8)
-    }
-}
-
-struct SongListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SongListView(songs: MusicModel().albums[1].songs)
     }
 }

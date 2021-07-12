@@ -10,6 +10,7 @@ import SwiftUI
 struct AlbumView: View {
     @ObservedObject private var viewModel: AlbumViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.colorScheme) var colorScheme
     
     init(viewModel: AlbumViewModel) {
         self.viewModel = viewModel
@@ -29,7 +30,13 @@ struct AlbumView: View {
                 VStack {
                     albumArt
                     albumInformation
-                    SongListView(songs: viewModel.album.songs)
+                    SongListView(
+                        songs: viewModel.album.songs,
+                        indexLabelColor: colorScheme == .dark ? viewModel.palette.secondaryDark : viewModel.palette.secondaryLight,
+                        foregroundColor: colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight,
+                        explicitSignColor: colorScheme == .dark ? viewModel.palette.accentDark : viewModel.palette.accentLight,
+                        menuColor: colorScheme == .dark ? viewModel.palette.tertiaryDark : viewModel.palette.tertiaryLight
+                    )
                     Spacer()
                 }
                 .frame(minHeight: UIScreen.main.bounds.height)
@@ -42,11 +49,14 @@ struct AlbumView: View {
             ToolbarItemGroup(placement: .navigationBarLeading){ backButton }
             ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }
         }
-        .buttonStyle(ToolbarButtonStyle())
+        .buttonStyle(ToolbarButtonStyle(backgroundColor: colorScheme == .dark ? viewModel.palette.tertiaryDark : viewModel.palette.tertiaryLight,
+                                        foregroundColor: colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight))
     }
         
     var background: some View {
-        LinearGradient(colors: viewModel.colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+        LinearGradient(colors: [colorScheme == .dark ? viewModel.palette.backgroundDark : viewModel.palette.backgroundLight, .clear],
+                       startPoint: .top,
+                       endPoint: .bottom)
     }
     
     var albumArt: some View {
@@ -63,8 +73,9 @@ struct AlbumView: View {
         VStack(alignment: .leading, spacing: 0) {
             Text(viewModel.album.isSingle ? "Single" : "Album")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(colorScheme == .dark ? viewModel.palette.secondaryDark : viewModel.palette.secondaryLight)
             Text(viewModel.album.title)
+                .foregroundColor(colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight)
                 .fontWeight(.bold)
                 .font(.title)
                 .padding(.bottom, 4)
@@ -75,6 +86,7 @@ struct AlbumView: View {
                     .clipShape(Circle())
                     .frame(height: 28)
                 Text(viewModel.album.artist.title)
+                    .foregroundColor(colorScheme == .dark ? viewModel.palette.primaryDark : viewModel.palette.primaryLight)
             }
         }
         .frame(width: 320, alignment: .leading)
@@ -106,13 +118,15 @@ struct AlbumView: View {
 }
 
 struct ToolbarButtonStyle: ButtonStyle {
+    var backgroundColor: Color
+    var foregroundColor: Color
     func makeBody(configuration: Self.Configuration) -> some View {
         let width: CGFloat = 40
         configuration.label
             .frame(width: width, height: width)
             .buttonStyle(.bordered)
-            .foregroundColor(.primary)
-        //            .background(Color.red.opacity(0.2), in: Circle())
+            .foregroundColor(foregroundColor)
+            .background(backgroundColor.opacity(0.1), in: Circle())
             .background(.ultraThinMaterial, in: Circle())
     }
 }
