@@ -21,18 +21,6 @@ class ColorAnalyzer {
         return pixels
     }
     
-    static func colorfulness(_ color: UIColor) -> Double {
-        var red: CGFloat        = 0.0
-        var green: CGFloat      = 0.0
-        var blue: CGFloat       = 0.0
-        var alpha: CGFloat      = 0.0
-        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        let rg = abs(red - green)
-        let yb = abs(0.5 * (red + green) - blue)
-        let root = (pow(rg, 2) + pow(yb, 2)).squareRoot()
-        return root * 0.3
-    }
-    
     static func getColors(albumArt: String, headerArt: String, _ numColors: Int) -> [UIColor] {
         let albumImage: CGImage = UIImage(named: albumArt)!.cgImage!
         let headerImage: CGImage = UIImage(named: headerArt)!.cgImage!
@@ -48,7 +36,7 @@ class ColorAnalyzer {
                            alpha: 1.0
             )
         }
-        let sortedColors = colors.sorted { colorfulness($0) > colorfulness($1) }
+        let sortedColors = colors.sorted { $0.colorfulness > $1.colorfulness }
         return sortedColors
     }
     
@@ -64,12 +52,22 @@ extension RGBA where Channel == UInt8 {
 extension UIColor {
     var luminance: CGFloat {
         let ciColor = CIColor(color: self)
-
         func adjust(colorComponent: CGFloat) -> CGFloat {
             return (colorComponent < 0.04045) ? (colorComponent / 12.92) : pow((colorComponent + 0.055) / 1.055, 2.4)
         }
-
         return 0.2126 * adjust(colorComponent: ciColor.red) + 0.7152 * adjust(colorComponent: ciColor.green) + 0.0722 * adjust(colorComponent: ciColor.blue)
+    }
+    
+    var colorfulness: CGFloat {
+        var red: CGFloat        = 0.0
+        var green: CGFloat      = 0.0
+        var blue: CGFloat       = 0.0
+        var alpha: CGFloat      = 0.0
+        self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        let rg = abs(red - green)
+        let yb = abs(0.5 * (red + green) - blue)
+        let root = (pow(rg, 2) + pow(yb, 2)).squareRoot()
+        return root * 0.3
     }
     
     func contrastRatio(with color: UIColor) -> CGFloat {
