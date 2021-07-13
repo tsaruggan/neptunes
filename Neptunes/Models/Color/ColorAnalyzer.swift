@@ -62,6 +62,24 @@ extension RGBA where Channel == UInt8 {
 }
 
 extension UIColor {
+    var luminance: CGFloat {
+        let ciColor = CIColor(color: self)
+
+        func adjust(colorComponent: CGFloat) -> CGFloat {
+            return (colorComponent < 0.04045) ? (colorComponent / 12.92) : pow((colorComponent + 0.055) / 1.055, 2.4)
+        }
+
+        return 0.2126 * adjust(colorComponent: ciColor.red) + 0.7152 * adjust(colorComponent: ciColor.green) + 0.0722 * adjust(colorComponent: ciColor.blue)
+    }
+    
+    func contrastRatio(with color: UIColor) -> CGFloat {
+        let luminance1 = self.luminance
+        let luminance2 = color.luminance
+        let luminanceDarker = min(luminance1, luminance2)
+        let luminanceLighter = max(luminance1, luminance2)
+        return (luminanceLighter + 0.05) / (luminanceDarker + 0.05)
+    }
+    
     func adjustBrightness(_ newBrightness: CGFloat) -> UIColor {
         var hue: CGFloat        = 0.0
         var saturation: CGFloat = 0.0
