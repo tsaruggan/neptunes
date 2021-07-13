@@ -8,15 +8,15 @@
 import Foundation
 
 
-class KMeans<Label: Hashable> {
+class KMeans {
     let numCenters: Int
-    let labels: [Label]
+    let labels: [Int]
     private(set) var centroids = [Vector]()
     
-    init(labels: [Label]) {
-        assert(labels.count > 1, "Exception: KMeans with less than 2 centers.")
-        self.labels = labels
-        self.numCenters = labels.count
+    init(_ numCenters: Int) {
+        assert(numCenters > 1, "Exception: KMeans with less than 2 centers.")
+        self.labels = Array(1...numCenters)
+        self.numCenters = numCenters
     }
     
     private func indexOfNearestCenter(_ x: Vector, centers: [Vector]) -> Int {
@@ -69,14 +69,14 @@ class KMeans<Label: Hashable> {
         centroids = centers
     }
     
-    func fit(_ point: Vector) -> Label {
+    func fit(_ point: Vector) -> Int {
         assert(!centroids.isEmpty, "Exception: KMeans tried to fit on a non trained model.")
         
         let centroidIndex = indexOfNearestCenter(point, centers: centroids)
         return labels[centroidIndex]
     }
     
-    func fit(_ points: [Vector]) -> [Label] {
+    func fit(_ points: [Vector]) -> [Int] {
         assert(!centroids.isEmpty, "Exception: KMeans tried to fit on a non trained model.")
         
         return points.map(fit)

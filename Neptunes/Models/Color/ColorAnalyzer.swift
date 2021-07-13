@@ -26,7 +26,7 @@ class ColorAnalyzer {
         let headerImage: CGImage = UIImage(named: headerArt)!.cgImage!
         
         let pixels = getPixelsFromImage(cgImage: albumImage, 16, 16) + getPixelsFromImage(cgImage: headerImage, 48, 16)
-        let kmm = KMeans<Int>(labels: Array(1...numColors))
+        let kmm = KMeans(numColors)
         kmm.trainCenters(pixels, convergeDistance: 0.01)
 
         let colors = kmm.centroids.map { centroid in
