@@ -43,44 +43,60 @@ class ColorAnalyzer {
     
     static func generatePalette(album: String, header: String) -> Palette {
         let colors: [UIColor] = getColors(albumArt: album, headerArt: header, 5)
-        let backgroundColorLight = colors[0].lightenColor(.black)
-        let backgroundColorDark = colors[0].darkenColor(.white)
-        let primaryColorLight = colors[1].darkenColor(.white, backgroundColorLight)
-        let primaryColorDark = colors[1].lightenColor(.black, backgroundColorDark)
-        let secondaryColorLight = colors[2].darkenColor(.white, backgroundColorLight)
-        let secondaryColorDark = colors[2].lightenColor(.black, backgroundColorDark)
-        let tertiaryColorLight = colors[3].darkenColor(.white, backgroundColorLight)
-        let tertiaryColorDark = colors[3].lightenColor(.black, backgroundColorDark)
-        let accentColorLight = colors[4].darkenColor(.white, backgroundColorLight)
-        let accentColorDark = colors[4].lightenColor(.black, backgroundColorDark)
+        //        let backgroundColorLight = colors[0].lightenColor(.black)
+        //        let backgroundColorDark = colors[0].darkenColor(.white)
+        //        let primaryColorLight = colors[1].darkenColor(.white, backgroundColorLight)
+        //        let primaryColorDark = colors[1].lightenColor(.black, backgroundColorDark)
+        let (primary, background) = generatePrimaryAndBackground(color1: colors[0], color2: colors[1])
+        let secondaryColorLight = colors[2].darkenColor()
+        let secondaryColorDark = colors[2].lightenColor()
+        let tertiaryColorLight = colors[3].darkenColor()
+        let tertiaryColorDark = colors[3].lightenColor()
+        let accentColorLight = colors[4].darkenColor()
+        let accentColorDark = colors[4].lightenColor()
         let palette = Palette(
-            primary: (light: Color(primaryColorLight), dark: Color(primaryColorDark)),
+            primary: primary,
             secondary: (light: Color(secondaryColorLight), dark: Color(secondaryColorDark)),
             tertiary: (light: Color(tertiaryColorLight), dark: Color(tertiaryColorDark)),
             accent: (light: Color(accentColorLight), dark: Color(accentColorDark)),
-            background: (light: Color(backgroundColorLight), dark: Color(backgroundColorDark))
+            background: background
         )
         return palette
     }
     
-    static func lightenColor(_ color: UIColor) -> UIColor {
-        var contrast = color.contrastRatio(with: .black)
-        var lightenedColor = color
-        while (contrast < 3.00) {
-            lightenedColor = lightenedColor.adjustBrightness(incrementBy: 0.05)
-            contrast = lightenedColor.contrastRatio(with: .black)
+    static func generatePrimaryAndBackground(color1: UIColor, color2: UIColor) -> (primary: ColorTheme, background: ColorTheme) {
+        var primary: UIColor
+        var background: UIColor
+        if color1.luminance > color2.luminance {
+            primary = color2
+            background = color1
+        } else {
+            primary = color1
+            background = color2
         }
-        return lightenedColor
-    }
-    
-    static func darkenColor(_ color: UIColor) -> UIColor {
-        var contrast = color.contrastRatio(with: .white)
-        var darkenedColor = color
-        while (contrast < 3.00) {
-            darkenedColor = darkenedColor.adjustBrightness(incrementBy: -0.05)
-            contrast = darkenedColor.contrastRatio(with: .white)
+        
+        var primaryLight = primary.darkenColor()
+        var backgroundLight = background.lightenColor()
+        var lightContrast = primaryLight.contrastRatio(with: backgroundLight)
+        while (lightContrast < 3.00) {
+            primaryLight = primaryLight.adjustBrightness(incrementBy: -0.05)
+            backgroundLight = backgroundLight.adjustBrightness(incrementBy: 0.05)
+            lightContrast = primaryLight.contrastRatio(with: backgroundLight)
         }
-        return darkenedColor
+        
+        var primaryDark = primary.lightenColor()
+        var backgroundDark = background.darkenColor()
+        var darkContrast = primaryDark.contrastRatio(with: backgroundDark)
+        while (darkContrast < 3.00) {
+            primaryDark = primaryDark.adjustBrightness(incrementBy: 0.05)
+            backgroundDark = backgroundDark.adjustBrightness(incrementBy: -0.05)
+            darkContrast = primaryDark.contrastRatio(with: backgroundDark)
+        }
+        
+        return (
+            primary: ColorTheme(light: Color(primaryLight), dark: Color(primaryDark)),
+            background: ColorTheme(light: Color(backgroundLight), dark: Color(backgroundDark))
+        )
     }
 }
 
@@ -127,29 +143,25 @@ extension UIColor {
         var alpha: CGFloat      = 0.0
         
         self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-        let newColor = UIColor( hue: hue, saturation: saturation, brightness: brightness + increment, alpha: alpha)
+        let newColor = UIColor( hue: hue, saturation: saturation, brightness: max(min(brightness + increment, 1), 0), alpha: alpha)
         return newColor
     }
     
-    func lightenColor(_ contrastWith: UIColor...) -> UIColor {
-//        var contrast: CGFloat = contrastWith.reduce(3.00, { min($0, self.contrastRatio(with: $1)) })
+    func lightenColor() -> UIColor {
         var contrast = self.contrastRatio(with: .black)
         var lightenedColor = self
         while (contrast < 3.00) {
             lightenedColor = lightenedColor.adjustBrightness(incrementBy: 0.05)
-//            contrast = contrastWith.reduce(contrast, { min($0, lightenedColor.contrastRatio(with: $1)) })
             contrast = lightenedColor.contrastRatio(with: .black)
         }
         return lightenedColor
     }
     
-    func darkenColor(_ contrastWith: UIColor...) -> UIColor {
-//        var contrast: CGFloat = contrastWith.reduce(3.00, { min($0, self.contrastRatio(with: $1)) })
+    func darkenColor() -> UIColor {
         var contrast = self.contrastRatio(with: .white)
         var darkenedColor = self
         while (contrast < 3.00) {
             darkenedColor = darkenedColor.adjustBrightness(incrementBy: -0.05)
-//            contrast = contrastWith.reduce(contrast, { min($0, darkenedColor.contrastRatio(with: $1)) })
             contrast = darkenedColor.contrastRatio(with: .white)
         }
         return darkenedColor
