@@ -17,58 +17,24 @@ struct Palette {
     var accent: ColorTheme
     var background: ColorTheme
     
-    func primary(_ scheme: ColorScheme) -> Color {
-        switch scheme {
-        case .light:
-            return primary.light
-        case .dark:
-            return primary.dark
-        @unknown default:
-            return primary.light
-        }
-    }
+    func primary(_ scheme: ColorScheme) -> Color { getColor(from: primary, for: scheme) }
     
-    func secondary(_ scheme: ColorScheme) -> Color {
-        switch scheme {
-        case .light:
-            return secondary.light
-        case .dark:
-            return secondary.dark
-        @unknown default:
-            return secondary.light
-        }
-    }
+    func secondary(_ scheme: ColorScheme) -> Color { getColor(from: secondary, for: scheme) }
     
-    func tertiary(_ scheme: ColorScheme) -> Color {
-        switch scheme {
-        case .light:
-            return tertiary.light
-        case .dark:
-            return tertiary.dark
-        @unknown default:
-            return tertiary.light
-        }
-    }
+    func tertiary(_ scheme: ColorScheme) -> Color { getColor(from: tertiary, for: scheme) }
     
-    func accent(_ scheme: ColorScheme) -> Color {
-        switch scheme {
-        case .light:
-            return accent.light
-        case .dark:
-            return accent.dark
-        @unknown default:
-            return accent.light
-        }
-    }
+    func accent(_ scheme: ColorScheme) -> Color { getColor(from: accent, for: scheme) }
     
-    func background(_ scheme: ColorScheme) -> Color {
+    func background(_ scheme: ColorScheme) -> Color { getColor(from: background, for: scheme) }
+    
+    private func getColor(from theme: ColorTheme, for scheme: ColorScheme) -> Color {
         switch scheme {
         case .light:
-            return background.light
+            return theme.light
         case .dark:
-            return background.dark
+            return theme.dark
         @unknown default:
-            return background.light
+            return theme.light
         }
     }
 }
