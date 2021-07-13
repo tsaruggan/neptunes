@@ -11,7 +11,6 @@ import SwiftUI
 
 final class AlbumViewModel: ObservableObject {
     @Published var album: Album
-    @Published var colors: [Color]
     @Published var palette: Palette
     
     init(album: Album) {
