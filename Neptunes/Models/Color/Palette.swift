@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+typealias ColorTheme = (light: Color, dark: Color)
+
 struct Palette {
     var primary: ColorTheme
     var secondary: ColorTheme
