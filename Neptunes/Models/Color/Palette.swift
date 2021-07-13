@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-typealias ColorTheme = (light: Color, dark: Color)
+typealias ColorTheme = (light: Color, dark: Color?)
 
 struct Palette {
     var primary: ColorTheme
@@ -32,7 +32,7 @@ struct Palette {
         case .light:
             return theme.light
         case .dark:
-            return theme.dark
+            if let dark = theme.dark { return dark } else { fallthrough }
         @unknown default:
             return theme.light
         }

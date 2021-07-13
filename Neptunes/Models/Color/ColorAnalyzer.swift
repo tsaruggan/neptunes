@@ -25,21 +25,63 @@ class ColorAnalyzer {
         let albumImage: CGImage = UIImage(named: albumArt)!.cgImage!
         let headerImage: CGImage = UIImage(named: headerArt)!.cgImage!
         
-        let pixels = getPixelsFromImage(cgImage: albumImage, 16, 16) + getPixelsFromImage(cgImage: headerImage, 48, 16)
+        let pixels = getPixelsFromImage(cgImage: albumImage, 16, 16) + getPixelsFromImage(cgImage: headerImage, 24, 8)
         let kmm = KMeans(numColors)
         kmm.trainCenters(pixels, convergeDistance: 0.01)
-
+        
         let colors = kmm.centroids.map { centroid in
-            return UIColor(red: centroid.data[0] / 255.0,
-                           green: centroid.data[1] / 255.0,
-                           blue: centroid.data[2] / 255.0,
-                           alpha: 1.0
+            return UIColor(
+                red: centroid.data[0] / 255.0,
+                green: centroid.data[1] / 255.0,
+                blue: centroid.data[2] / 255.0,
+                alpha: 1.0
             )
         }
         let sortedColors = colors.sorted { $0.colorfulness > $1.colorfulness }
         return sortedColors
     }
     
+    static func generatePalette(album: String, header: String) -> Palette {
+        let colors: [UIColor] = getColors(albumArt: album, headerArt: header, 5)
+        let backgroundColorLight = colors[0].lightenColor(.black)
+        let backgroundColorDark = colors[0].darkenColor(.white)
+        let primaryColorLight = colors[1].darkenColor(.white, backgroundColorLight)
+        let primaryColorDark = colors[1].lightenColor(.black, backgroundColorDark)
+        let secondaryColorLight = colors[2].darkenColor(.white, backgroundColorLight)
+        let secondaryColorDark = colors[2].lightenColor(.black, backgroundColorDark)
+        let tertiaryColorLight = colors[3].darkenColor(.white, backgroundColorLight)
+        let tertiaryColorDark = colors[3].lightenColor(.black, backgroundColorDark)
+        let accentColorLight = colors[4].darkenColor(.white, backgroundColorLight)
+        let accentColorDark = colors[4].lightenColor(.black, backgroundColorDark)
+        let palette = Palette(
+            primary: (light: Color(primaryColorLight), dark: Color(primaryColorDark)),
+            secondary: (light: Color(secondaryColorLight), dark: Color(secondaryColorDark)),
+            tertiary: (light: Color(tertiaryColorLight), dark: Color(tertiaryColorDark)),
+            accent: (light: Color(accentColorLight), dark: Color(accentColorDark)),
+            background: (light: Color(backgroundColorLight), dark: Color(backgroundColorDark))
+        )
+        return palette
+    }
+    
+    static func lightenColor(_ color: UIColor) -> UIColor {
+        var contrast = color.contrastRatio(with: .black)
+        var lightenedColor = color
+        while (contrast < 3.00) {
+            lightenedColor = lightenedColor.adjustBrightness(incrementBy: 0.05)
+            contrast = lightenedColor.contrastRatio(with: .black)
+        }
+        return lightenedColor
+    }
+    
+    static func darkenColor(_ color: UIColor) -> UIColor {
+        var contrast = color.contrastRatio(with: .white)
+        var darkenedColor = color
+        while (contrast < 3.00) {
+            darkenedColor = darkenedColor.adjustBrightness(incrementBy: -0.05)
+            contrast = darkenedColor.contrastRatio(with: .white)
+        }
+        return darkenedColor
+    }
 }
 
 extension RGBA where Channel == UInt8 {
@@ -78,14 +120,38 @@ extension UIColor {
         return (luminanceLighter + 0.05) / (luminanceDarker + 0.05)
     }
     
-    func adjustBrightness(_ newBrightness: CGFloat) -> UIColor {
+    func adjustBrightness(incrementBy increment: CGFloat) -> UIColor {
         var hue: CGFloat        = 0.0
         var saturation: CGFloat = 0.0
         var brightness: CGFloat = 0.0
         var alpha: CGFloat      = 0.0
         
         self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-        let newColor = UIColor( hue: hue, saturation: saturation, brightness: newBrightness, alpha: alpha)
+        let newColor = UIColor( hue: hue, saturation: saturation, brightness: brightness + increment, alpha: alpha)
         return newColor
+    }
+    
+    func lightenColor(_ contrastWith: UIColor...) -> UIColor {
+//        var contrast: CGFloat = contrastWith.reduce(3.00, { min($0, self.contrastRatio(with: $1)) })
+        var contrast = self.contrastRatio(with: .black)
+        var lightenedColor = self
+        while (contrast < 3.00) {
+            lightenedColor = lightenedColor.adjustBrightness(incrementBy: 0.05)
+//            contrast = contrastWith.reduce(contrast, { min($0, lightenedColor.contrastRatio(with: $1)) })
+            contrast = lightenedColor.contrastRatio(with: .black)
+        }
+        return lightenedColor
+    }
+    
+    func darkenColor(_ contrastWith: UIColor...) -> UIColor {
+//        var contrast: CGFloat = contrastWith.reduce(3.00, { min($0, self.contrastRatio(with: $1)) })
+        var contrast = self.contrastRatio(with: .white)
+        var darkenedColor = self
+        while (contrast < 3.00) {
+            darkenedColor = darkenedColor.adjustBrightness(incrementBy: -0.05)
+//            contrast = contrastWith.reduce(contrast, { min($0, darkenedColor.contrastRatio(with: $1)) })
+            contrast = darkenedColor.contrastRatio(with: .white)
+        }
+        return darkenedColor
     }
 }

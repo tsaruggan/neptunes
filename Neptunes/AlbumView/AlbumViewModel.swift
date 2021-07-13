@@ -15,12 +15,6 @@ final class AlbumViewModel: ObservableObject {
     
     init(album: Album) {
         self.album = album
-        self.palette = Palette(
-            primary: (light: .black, dark: .white),
-            secondary: (light: .blue, dark: .teal),
-            tertiary: (light: .green, dark: .mint),
-            accent: (light: .indigo, dark: .purple),
-            background: (light: .blue, dark: .blue)
-        )
+        self.palette = ColorAnalyzer.generatePalette(album: album.image, header: album.header!)
     }
 }
