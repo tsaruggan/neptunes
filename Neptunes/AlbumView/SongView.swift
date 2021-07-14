@@ -26,7 +26,6 @@ struct SongView: View {
             if song.isExplicit {
                 Image(systemName: "e.square.fill")
                     .foregroundColor(explicitSignColor)
-                    .saturation(1)
             }
             Spacer(minLength: 0)
             Image(systemName: "ellipsis")

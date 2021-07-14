@@ -42,29 +42,20 @@ class ColorAnalyzer {
     }
     
     static func generatePalette(album: String, header: String) -> Palette {
-        let colors: [UIColor] = getColors(albumArt: album, headerArt: header, 5)
-        //        let backgroundColorLight = colors[0].lightenColor(.black)
-        //        let backgroundColorDark = colors[0].darkenColor(.white)
-        //        let primaryColorLight = colors[1].darkenColor(.white, backgroundColorLight)
-        //        let primaryColorDark = colors[1].lightenColor(.black, backgroundColorDark)
+        let colors: [UIColor] = getColors(albumArt: album, headerArt: header, 4)
         let (primary, background) = generatePrimaryAndBackground(color1: colors[0], color2: colors[1])
-        let secondaryColorLight = colors[2].darkenColor()
-        let secondaryColorDark = colors[2].lightenColor()
-        let tertiaryColorLight = colors[3].darkenColor()
-        let tertiaryColorDark = colors[3].lightenColor()
-        let accentColorLight = colors[4].darkenColor()
-        let accentColorDark = colors[4].lightenColor()
+        let secondary = generateTheme(color: colors[2], background: background)
+        let accent = generateTheme(color: colors[3], background: background)
         let palette = Palette(
             primary: primary,
-            secondary: (light: Color(secondaryColorLight), dark: Color(secondaryColorDark)),
-            tertiary: (light: Color(tertiaryColorLight), dark: Color(tertiaryColorDark)),
-            accent: (light: Color(accentColorLight), dark: Color(accentColorDark)),
+            secondary: secondary,
+            accent: accent,
             background: background
         )
         return palette
     }
     
-    static func generatePrimaryAndBackground(color1: UIColor, color2: UIColor) -> (primary: ColorTheme, background: ColorTheme) {
+    private static func generatePrimaryAndBackground(color1: UIColor, color2: UIColor) -> (primary: ColorTheme, background: ColorTheme) {
         var primary: UIColor
         var background: UIColor
         if color1.luminance > color2.luminance {
@@ -98,6 +89,28 @@ class ColorAnalyzer {
             background: ColorTheme(light: Color(backgroundLight), dark: Color(backgroundDark))
         )
     }
+    
+    private static func generateTheme(color: UIColor, background: ColorTheme) -> ColorTheme {
+        var lightColor = color.darkenColor()
+        let backgroundLight = UIColor(background.light)
+        var lightContrast = lightColor.contrastRatio(with: backgroundLight)
+        while (lightContrast < 3.00) {
+            lightColor = lightColor.adjustBrightness(incrementBy: -0.05)
+            lightContrast = lightColor.contrastRatio(with: backgroundLight)
+            if (lightColor.brightness == 0) { break }
+        }
+        
+        var darkColor = color.lightenColor()
+        let backgroundDark = UIColor(background.dark!)
+        var darkContrast = darkColor.contrastRatio(with: backgroundDark)
+        while (darkContrast < 3.00) {
+            darkColor = darkColor.adjustBrightness(incrementBy: 0.05)
+            if (darkColor.brightness == 1) { break }
+            darkContrast = darkColor.contrastRatio(with: backgroundDark)
+        }
+        return ColorTheme(light: Color(lightColor), dark: Color(darkColor))
+    }
+    
 }
 
 extension RGBA where Channel == UInt8 {
@@ -108,6 +121,15 @@ extension RGBA where Channel == UInt8 {
 }
 
 extension UIColor {
+    var brightness: CGFloat {
+        var hue: CGFloat        = 0.0
+        var saturation: CGFloat = 0.0
+        var brightness: CGFloat = 0.0
+        var alpha: CGFloat      = 0.0
+        self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        return brightness
+    }
+    
     var luminance: CGFloat {
         let ciColor = CIColor(color: self)
         func adjust(colorComponent: CGFloat) -> CGFloat {

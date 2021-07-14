@@ -35,7 +35,7 @@ struct AlbumView: View {
                         indexLabelColor: viewModel.palette.secondary(colorScheme),
                         foregroundColor: viewModel.palette.primary(colorScheme),
                         explicitSignColor: viewModel.palette.accent(colorScheme),
-                        menuColor: viewModel.palette.tertiary(colorScheme)
+                        menuColor: viewModel.palette.secondary(colorScheme)
                     )
                     Spacer()
                 }
@@ -49,8 +49,7 @@ struct AlbumView: View {
             ToolbarItemGroup(placement: .navigationBarLeading){ backButton }
             ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }
         }
-        .buttonStyle(ToolbarButtonStyle(backgroundColor: viewModel.palette.tertiary(colorScheme),
-                                        foregroundColor: viewModel.palette.primary(colorScheme)))
+        .buttonStyle(ToolbarButtonStyle(backgroundColor: viewModel.palette.background(colorScheme)))
     }
         
     var background: some View {
@@ -119,13 +118,12 @@ struct AlbumView: View {
 
 struct ToolbarButtonStyle: ButtonStyle {
     var backgroundColor: Color
-    var foregroundColor: Color
     func makeBody(configuration: Self.Configuration) -> some View {
         let width: CGFloat = 40
         configuration.label
             .frame(width: width, height: width)
             .buttonStyle(.bordered)
-            .foregroundColor(foregroundColor)
+            .foregroundColor(.primary)
             .background(backgroundColor.opacity(0.3), in: Circle())
             .background(.ultraThinMaterial, in: Circle())
     }

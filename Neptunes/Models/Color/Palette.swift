@@ -13,15 +13,12 @@ typealias ColorTheme = (light: Color, dark: Color?)
 struct Palette {
     var primary: ColorTheme
     var secondary: ColorTheme
-    var tertiary: ColorTheme
     var accent: ColorTheme
     var background: ColorTheme
     
     func primary(_ scheme: ColorScheme) -> Color { getColor(from: primary, for: scheme) }
     
     func secondary(_ scheme: ColorScheme) -> Color { getColor(from: secondary, for: scheme) }
-    
-    func tertiary(_ scheme: ColorScheme) -> Color { getColor(from: tertiary, for: scheme) }
     
     func accent(_ scheme: ColorScheme) -> Color { getColor(from: accent, for: scheme) }
     
