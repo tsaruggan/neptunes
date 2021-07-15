@@ -11,8 +11,8 @@ struct Song: Sortable, Identifiable {
     var title: String
     var date: Date = Date()
     var album: Album?
-    var image: String? {
-        if let image = album?.image { return image }
+    var artwork: String? {
+        if let image = album?.artwork { return image }
         return nil
     }
     var artist: Artist? {

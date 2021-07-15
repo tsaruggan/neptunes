@@ -90,7 +90,7 @@ struct AlbumItemView: View {
             AlbumView(viewModel: .init(album: album))
         } label: {
             VStack(alignment: .leading) {
-                Image(album.image)
+                Image(album.artwork!)
                     .resizable()
                     .scaledToFill()
                     .cornerRadius(5)

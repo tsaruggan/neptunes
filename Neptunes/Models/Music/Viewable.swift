@@ -8,6 +8,6 @@
 import Foundation
 
 protocol Viewable {
-    var image: String { get set }
+    var artwork: String? { get set }
     var header: String? { get set }
 }

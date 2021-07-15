@@ -10,7 +10,7 @@ import Foundation
 struct Artist: Sortable, Viewable, Identifiable {
     var title: String
     var date: Date = Date()
-    var image: String = "default_artist_image"
+    var artwork: String?
     var header: String?
     var id: String { return title }
 }

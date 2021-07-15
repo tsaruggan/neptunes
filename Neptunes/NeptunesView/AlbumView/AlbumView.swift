@@ -15,21 +15,18 @@ struct AlbumView: View {
         self.viewModel = viewModel
     }
     
-    
     var body: some View {
-        NeptunesView(header: viewModel.album.header!, backgroundColor: viewModel.palette.background(colorScheme)) {
-            VStack {
-                albumArt
-                albumInformation
-                SongListView(
-                    songs: viewModel.album.songs,
-                    indexLabelColor: viewModel.palette.secondary(colorScheme),
-                    foregroundColor: viewModel.palette.primary(colorScheme),
-                    explicitSignColor: viewModel.palette.accent(colorScheme),
-                    menuColor: viewModel.palette.secondary(colorScheme)
-                )
-                Spacer()
-            }
+        NeptunesView(header: viewModel.album.header, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artwork: viewModel.album.artwork!)
+            albumInformation
+            SongListView(
+                songs: viewModel.album.songs,
+                indexLabelColor: viewModel.palette.secondary(colorScheme),
+                foregroundColor: viewModel.palette.primary(colorScheme),
+                explicitSignColor: viewModel.palette.accent(colorScheme),
+                menuColor: viewModel.palette.secondary(colorScheme)
+            )
+            Spacer()
         } menu: {
             Button(action: {}) {
                 Label("Import Music...", systemImage: "plus")
@@ -41,20 +38,8 @@ struct AlbumView: View {
                 Label("Share Album...", systemImage: "square.and.arrow.up")
             }
         }
-        
-        
     }
     
-    
-    var albumArt: some View {
-        Image(viewModel.album.image)
-            .resizable()
-            .scaledToFit()
-            .cornerRadius(8)
-            .padding(.horizontal, 88)
-            .padding(.top, 100)
-            .padding(.bottom, 20)
-    }
     
     var albumInformation: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -67,7 +52,7 @@ struct AlbumView: View {
                 .font(.title)
                 .padding(.bottom, 4)
             HStack {
-                Image(viewModel.album.artist.image)
+                Image(viewModel.album.artist.artwork!)
                     .resizable()
                     .scaledToFit()
                     .clipShape(Circle())

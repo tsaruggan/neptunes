@@ -13,14 +13,14 @@ struct MusicModel {
     
     init() {
         self.artists = [
-            Artist(title: "Drake", image: "drake_artist_art"),
-            Artist(title: "Frank Ocean", image: "frank_ocean_artist_art"),
-            Artist(title: "Travis Scott", image: "travis_scott_artist_art")
+            Artist(title: "Drake", artwork: "drake_artist_art"),
+            Artist(title: "Frank Ocean", artwork: "frank_ocean_artist_art"),
+            Artist(title: "Travis Scott", artwork: "travis_scott_artist_art")
         ]
         self.albums = [
-            Album(title: "Not Around", artist: self.artists[0], image: "drake_album_art_1", header: "drake_header_art", isSingle: true),
-            Album(title: "Endless", artist: self.artists[1], image: "frank_ocean_album_art_1", header: "frank_ocean_header_art"),
-            Album(title: "Days Before Rodeo", artist: self.artists[2], image: "travis_scott_album_art_2", header: "travis_scott_header_art"),
+            Album(title: "Not Around", artist: self.artists[0], artwork: "drake_album_art_1", header: "drake_header_art", isSingle: true),
+            Album(title: "Endless", artist: self.artists[1], artwork: "frank_ocean_album_art_1", header: "frank_ocean_header_art"),
+            Album(title: "Days Before Rodeo", artist: self.artists[2], artwork: "travis_scott_album_art_2", header: "travis_scott_header_art"),
         ]
         self.albums[0].addSongs(
             Song(title: "Not Around", isExplicit: true)

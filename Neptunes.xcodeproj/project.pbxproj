@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		182EF8AB2692AC130018765E /* MusicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182EF8AA2692AC130018765E /* MusicModel.swift */; };
 		183047D326892D9200533BCE /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183047D226892D9200533BCE /* HomePageView.swift */; };
+		183692AB26A079F200999D3D /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183692AA26A079F200999D3D /* ArtworkView.swift */; };
 		184F4197268793DC00832965 /* NeptunesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184F4196268793DC00832965 /* NeptunesApp.swift */; };
 		184F4199268793DC00832965 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184F4198268793DC00832965 /* ContentView.swift */; };
 		184F419B268793DD00832965 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184F419A268793DD00832965 /* Assets.xcassets */; };
@@ -24,7 +25,7 @@
 		188390E22695F13A0026B04D /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390E12695F13A0026B04D /* Song.swift */; };
 		188390E42695F14E0026B04D /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390E32695F14E0026B04D /* Album.swift */; };
 		188390E62695F15E0026B04D /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390E52695F15E0026B04D /* Playlist.swift */; };
-		188390E92695F5900026B04D /* StickyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390E82695F5900026B04D /* StickyHeaderView.swift */; };
+		188390E92695F5900026B04D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390E82695F5900026B04D /* HeaderView.swift */; };
 		188390EB2695F6CF0026B04D /* SongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390EA2695F6CF0026B04D /* SongView.swift */; };
 		188390ED2695F9560026B04D /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188390EC2695F9560026B04D /* AlbumViewModel.swift */; };
 		18BFC65F269C7D1C0057D6A8 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BFC65E269C7D1C0057D6A8 /* Palette.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		182EF8AA2692AC130018765E /* MusicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicModel.swift; sourceTree = "<group>"; };
 		183047D226892D9200533BCE /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
+		183692AA26A079F200999D3D /* ArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
 		184F4193268793DC00832965 /* Neptunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neptunes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		184F4196268793DC00832965 /* NeptunesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeptunesApp.swift; sourceTree = "<group>"; };
 		184F4198268793DC00832965 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,7 +55,7 @@
 		188390E12695F13A0026B04D /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		188390E32695F14E0026B04D /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		188390E52695F15E0026B04D /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
-		188390E82695F5900026B04D /* StickyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderView.swift; sourceTree = "<group>"; };
+		188390E82695F5900026B04D /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		188390EA2695F6CF0026B04D /* SongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongView.swift; sourceTree = "<group>"; };
 		188390EC2695F9560026B04D /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
 		18BFC65E269C7D1C0057D6A8 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
@@ -155,8 +157,6 @@
 			children = (
 				18507F86268E113600B7D10F /* AlbumView.swift */,
 				188390EC2695F9560026B04D /* AlbumViewModel.swift */,
-				188390EA2695F6CF0026B04D /* SongView.swift */,
-				18E09A5C269B657000FE2AB3 /* SongListView.swift */,
 			);
 			path = AlbumView;
 			sourceTree = "<group>";
@@ -174,7 +174,10 @@
 		18E16C21269F716F004092B4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				188390E82695F5900026B04D /* StickyHeaderView.swift */,
+				188390E82695F5900026B04D /* HeaderView.swift */,
+				183692AA26A079F200999D3D /* ArtworkView.swift */,
+				18E09A5C269B657000FE2AB3 /* SongListView.swift */,
+				188390EA2695F6CF0026B04D /* SongView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -264,11 +267,12 @@
 				188390E22695F13A0026B04D /* Song.swift in Sources */,
 				18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */,
 				18507F87268E113600B7D10F /* AlbumView.swift in Sources */,
-				188390E92695F5900026B04D /* StickyHeaderView.swift in Sources */,
+				188390E92695F5900026B04D /* HeaderView.swift in Sources */,
 				188390D92695F0250026B04D /* Sortable.swift in Sources */,
 				184F4197268793DC00832965 /* NeptunesApp.swift in Sources */,
 				188390E02695F12C0026B04D /* Artist.swift in Sources */,
 				188390ED2695F9560026B04D /* AlbumViewModel.swift in Sources */,
+				183692AB26A079F200999D3D /* ArtworkView.swift in Sources */,
 				188390EB2695F6CF0026B04D /* SongView.swift in Sources */,
 				18E16C20269F7122004092B4 /* NeptunesView.swift in Sources */,
 				18DCEA2A269B6C55002CEF62 /* Vector.swift in Sources */,

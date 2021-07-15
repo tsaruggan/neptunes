@@ -10,11 +10,11 @@ import SwiftUI
 struct NeptunesView<Content: View, Group: View>: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    var header: String
+    var header: String?
     var backgroundColor: Color
     let content: Content
     let menu: Group
-    init(header: String, backgroundColor: Color, @ViewBuilder content: () -> Content, @ViewBuilder menu: () -> Group) {
+    init(header: String?, backgroundColor: Color, @ViewBuilder content: () -> Content, @ViewBuilder menu: () -> Group) {
         self.header = header
         self.backgroundColor = backgroundColor
         self.content = content()
@@ -29,11 +29,14 @@ struct NeptunesView<Content: View, Group: View>: View {
         ScrollView(.vertical, showsIndicators: false) {
             ZStack {
                 VStack(spacing: 0) {
-                    StickyHeaderView(header: header)
+                    HeaderView(header: header)
                     Spacer()
                 }
                 
-                content
+                VStack {
+                    content
+                }
+                .padding(.top, 100)
                 .frame(minHeight: UIScreen.main.bounds.height)
             }
         }

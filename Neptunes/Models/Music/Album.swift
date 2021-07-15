@@ -11,7 +11,7 @@ struct Album: Collectable, Identifiable {
     var title: String
     var artist: Artist
     var date: Date = Date()
-    var image: String = "default_album_image"
+    var artwork: String?
     var header: String?
     var songs: [Song] = []
     var isSingle: Bool = false

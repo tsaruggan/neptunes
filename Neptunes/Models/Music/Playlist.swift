@@ -10,7 +10,7 @@ import Foundation
 struct Playlist: Collectable, Identifiable {
     var title: String
     var date: Date = Date()
-    var image: String = "default_playlist_image"
+    var artwork: String?
     var header: String?
     var songs: [Song] = []
     var id: String { return title }
