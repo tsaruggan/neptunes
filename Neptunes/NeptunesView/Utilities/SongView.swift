@@ -23,6 +23,7 @@ struct SongView: View {
             Text(song.title)
                 .fontWeight(.medium)
                 .foregroundColor(foregroundColor)
+                .lineLimit(1)
             if song.isExplicit {
                 Image(systemName: "e.square.fill")
                     .foregroundColor(explicitSignColor)

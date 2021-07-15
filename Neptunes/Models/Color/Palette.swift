@@ -11,10 +11,10 @@ import SwiftUI
 typealias ColorTheme = (light: Color, dark: Color?)
 
 struct Palette {
-    var primary: ColorTheme
-    var secondary: ColorTheme
-    var accent: ColorTheme
-    var background: ColorTheme
+    var primary: ColorTheme = (light: .primary, dark: nil)
+    var secondary: ColorTheme = (light: .secondary, dark: nil)
+    var accent: ColorTheme = (light: .red, dark: nil)
+    var background: ColorTheme = (light: .clear, dark: nil)
     
     func primary(_ scheme: ColorScheme) -> Color { getColor(from: primary, for: scheme) }
     

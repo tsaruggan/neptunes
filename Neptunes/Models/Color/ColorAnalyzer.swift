@@ -12,7 +12,14 @@ import SwiftUI
 
 class ColorAnalyzer {
     
-    static func getPixelsFromImage(cgImage: CGImage, _ resizedWidth: Int, _ resizedHeight: Int) -> [Vector] {
+    public static func generatePalette(artwork: String?, header: String?) -> Palette {
+        guard let colors = getColors(artwork: artwork, header: header, 4) else { return Palette() }
+        let palette = generatePaletteFromColors(colors[0], colors[1], colors[2], colors[3])
+        return palette
+    }
+    
+    private static func getPixelsFromImage(image: String, _ resizedWidth: Int, _ resizedHeight: Int) -> [Vector] {
+        let cgImage: CGImage = UIImage(named: image)!.cgImage!
         let image = SwiftImage.Image<RGBA<UInt8>>(cgImage: cgImage)
         let resizedImage = image.resizedTo(width: resizedWidth, height: resizedHeight, interpolatedBy: .nearestNeighbor)
         let pixels: [Vector] = resizedImage.map { pixel in
@@ -21,14 +28,20 @@ class ColorAnalyzer {
         return pixels
     }
     
-    static func getColors(albumArt: String, headerArt: String, _ numColors: Int) -> [UIColor] {
-        let albumImage: CGImage = UIImage(named: albumArt)!.cgImage!
-        let headerImage: CGImage = UIImage(named: headerArt)!.cgImage!
-        
-        let pixels = getPixelsFromImage(cgImage: albumImage, 16, 16) + getPixelsFromImage(cgImage: headerImage, 24, 8)
+    private static func getColors(artwork: String?, header: String?, _ numColors: Int) -> [UIColor]? {
+        var pixels: [Vector] = []
+        if artwork != nil && header != nil {
+            pixels = getPixelsFromImage(image: artwork!, 16, 16) + getPixelsFromImage(image: header!, 24, 8)
+        } else if artwork != nil {
+            pixels = getPixelsFromImage(image: artwork!, 24, 8)
+        } else if header != nil {
+            pixels = getPixelsFromImage(image: header!, 16, 16)
+        } else {
+            return nil
+        }
+
         let kmm = KMeans(numColors)
         kmm.trainCenters(pixels, convergeDistance: 0.01)
-        
         let colors = kmm.centroids.map { centroid in
             return UIColor(
                 red: centroid.data[0] / 255.0,
@@ -41,11 +54,10 @@ class ColorAnalyzer {
         return sortedColors
     }
     
-    static func generatePalette(album: String, header: String) -> Palette {
-        let colors: [UIColor] = getColors(albumArt: album, headerArt: header, 4)
-        let (primary, background) = generatePrimaryAndBackground(color1: colors[0], color2: colors[1])
-        let secondary = generateTheme(color: colors[2], background: background)
-        let accent = generateTheme(color: colors[3], background: background)
+    private static func generatePaletteFromColors(_ color1: UIColor, _ color2: UIColor, _ color3: UIColor, _ color4: UIColor) -> Palette {
+        let (primary, background) = generatePrimaryAndBackground(color1: color1, color2: color2)
+        let secondary = generateTheme(color: color3, background: background)
+        let accent = generateTheme(color: color4, background: background)
         let palette = Palette(
             primary: primary,
             secondary: secondary,

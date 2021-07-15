@@ -10,14 +10,14 @@ import SwiftUI
 struct AlbumView: View {
     @ObservedObject private var viewModel: AlbumViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
     init(viewModel: AlbumViewModel) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         NeptunesView(header: viewModel.album.header, backgroundColor: viewModel.palette.background(colorScheme)) {
-            ArtworkView(artwork: viewModel.album.artwork!)
+            ArtworkView(artwork: viewModel.album.artwork ?? "default_album_art")
             albumInformation
             SongListView(
                 songs: viewModel.album.songs,
@@ -39,8 +39,8 @@ struct AlbumView: View {
             }
         }
     }
-    
-    
+
+
     var albumInformation: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(viewModel.album.isSingle ? "Single" : "Album")
@@ -49,10 +49,10 @@ struct AlbumView: View {
             Text(viewModel.album.title)
                 .foregroundColor(viewModel.palette.primary(colorScheme))
                 .fontWeight(.bold)
-                .font(.title)
+                .font(.title3)
                 .padding(.bottom, 4)
             HStack {
-                Image(viewModel.album.artist.artwork!)
+                Image(viewModel.album.artist.artwork ?? "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .clipShape(Circle())
@@ -63,8 +63,6 @@ struct AlbumView: View {
         }
         .frame(width: 320, alignment: .leading)
     }
-    
-    
 }
 
 struct AlbumView_Previews: PreviewProvider {
