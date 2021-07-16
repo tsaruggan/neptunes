@@ -15,6 +15,7 @@ final class AlbumViewModel: ObservableObject {
     
     init(album: Album) {
         self.album = album
-        self.palette = ColorAnalyzer.generatePalette(artwork: album.artwork, header: album.header)
+//        self.palette = ColorAnalyzer.generatePalette(artwork: album.artwork, header: album.header)
+        self.palette = Palette()
     }
 }

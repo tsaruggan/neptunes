@@ -49,14 +49,14 @@ struct AlbumView: View {
             Text(viewModel.album.title)
                 .foregroundColor(viewModel.palette.primary(colorScheme))
                 .fontWeight(.bold)
-                .font(.title3)
+                .font(.title2)
                 .padding(.bottom, 4)
             HStack {
                 Image(viewModel.album.artist.artwork ?? "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .clipShape(Circle())
-                    .frame(height: 28)
+                    .frame(height: 24)
                 Text(viewModel.album.artist.title)
                     .foregroundColor(viewModel.palette.primary(colorScheme))
             }
@@ -69,7 +69,7 @@ struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) {
             NavigationView{
-                AlbumView(viewModel: .init(album: MusicModel().albums[0]))
+                AlbumView(viewModel: .init(album: MusicModel().albums[1]))
             }
             .preferredColorScheme($0)
         }

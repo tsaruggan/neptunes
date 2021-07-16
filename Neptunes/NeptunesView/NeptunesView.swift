@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct NeptunesView<Content: View, Group: View>: View {
+struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var header: String?
     var backgroundColor: Color
     let content: Content
-    let menu: Group
-    init(header: String?, backgroundColor: Color, @ViewBuilder content: () -> Content, @ViewBuilder menu: () -> Group) {
+    let menu: MenuButtonGroup
+    init(header: String?, backgroundColor: Color, @ViewBuilder content: () -> Content, @ViewBuilder menu: () -> MenuButtonGroup) {
         self.header = header
         self.backgroundColor = backgroundColor
         self.content = content()
