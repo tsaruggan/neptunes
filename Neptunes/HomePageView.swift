@@ -15,7 +15,7 @@ struct HomePageView: View {
         Item(name: "Playlists", icon: "music.note.list")
     ]
     let model = MusicModel()
-
+    
     init() {
         UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
@@ -77,6 +77,7 @@ struct HomePageView: View {
             }
             .padding(.top)
         }
+        .overlay(NowPlayingBar(), alignment: .bottom)
     }
 }
 

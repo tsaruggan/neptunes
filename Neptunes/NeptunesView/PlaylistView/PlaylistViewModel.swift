@@ -15,7 +15,7 @@ final class PlaylistViewModel: ObservableObject {
     
     init(playlist: Playlist) {
         self.playlist = playlist
-        self.palette = ColorAnalyzer.generatePalette(artwork: playlist.artwork, header: playlist.header)
-//        self.palette = Palette()
+//        self.palette = ColorAnalyzer.generatePalette(artwork: playlist.artwork, header: playlist.header)
+        self.palette = Palette()
     }
 }
