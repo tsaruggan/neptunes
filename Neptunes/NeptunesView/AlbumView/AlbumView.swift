@@ -21,10 +21,11 @@ struct AlbumView: View {
             albumInformation
             SongListView(
                 songs: viewModel.album.songs,
-                indexLabelColor: viewModel.palette.secondary(colorScheme),
+                labelColor: viewModel.palette.secondary(colorScheme),
                 foregroundColor: viewModel.palette.primary(colorScheme),
                 explicitSignColor: viewModel.palette.accent(colorScheme),
-                menuColor: viewModel.palette.secondary(colorScheme)
+                menuColor: viewModel.palette.secondary(colorScheme),
+                isDetailed: false
             )
             Spacer()
         } menu: {

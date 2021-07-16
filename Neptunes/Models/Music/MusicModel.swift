@@ -23,7 +23,7 @@ struct MusicModel {
         self.albums = [
             //            Album(title: "Talk is Cheap (feat. Aaliyah & Static Major)", artist: self.artists[0], artwork: "drake_album_art_2", header: "drake_header_art", isSingle: true),
             Album(title: "Endless", artist: self.artists[1], artwork: "frank_ocean_album_art_1", header: "frank_ocean_header_art"),
-            //            Album(title: "Days Before Rodeo", artist: self.artists[2], artwork: "travis_scott_album_art_2", header: "travis_scott_header_art"),
+            Album(title: "Days Before Rodeo", artist: self.artists[2], artwork: "travis_scott_album_art_2", header: "travis_scott_header_art"),
             Album(title: "nostalgia, ULTRA", artist: artists[1], artwork: "frank_ocean_album_art_2", header: "frank_ocean_header_art_2"),
             Album(title: "Love Galore (Solo Version)", artist: artists[3], artwork: "sza_album_artwork_1" ,header: "sza_header_art_1", isSingle: true)
         ]
@@ -49,21 +49,21 @@ struct MusicModel {
             Song(title: "Mitsubishi Sony"),
             Song(title: "Device Control (Reprise)")
         )
-        //        self.albums[2].addSongs(
-        //            Song(title: "Days Before Rodeo: The Prayer"),
-        //            Song(title: "Mamacita (feat. Rich Homie Quan & Young Thug)", isExplicit: true),
-        //            Song(title: "Quintana Pt. 2", isExplicit: true),
-        //            Song(title: "Drugs You Should Try It"),
-        //            Song(title: "Don't Play (feat. The 1975 & Big Sean)"),
-        //            Song(title: "Skyfall (feat. Young Thug)"),
-        //            Song(title: "Zombies", isExplicit: true),
-        //            Song(title: "Sloppy Toppy (feat. Migos & Peewee Longway)"),
-        //            Song(title: "Basement Freestyle", isExplicit: true),
-        //            Song(title: "Backyard", isExplicit: true),
-        //            Song(title: "Grey"),
-        //            Song(title: "BACC")
-        //        )
         self.albums[1].addSongs(
+            Song(title: "Days Before Rodeo: The Prayer"),
+            Song(title: "Mamacita (feat. Rich Homie Quan & Young Thug)", isExplicit: true),
+            Song(title: "Quintana Pt. 2", isExplicit: true),
+            Song(title: "Drugs You Should Try It"),
+            Song(title: "Don't Play (feat. The 1975 & Big Sean)"),
+            Song(title: "Skyfall (feat. Young Thug)"),
+            Song(title: "Zombies", isExplicit: true),
+            Song(title: "Sloppy Toppy (feat. Migos & Peewee Longway)"),
+            Song(title: "Basement Freestyle", isExplicit: true),
+            Song(title: "Backyard", isExplicit: true),
+            Song(title: "Grey"),
+            Song(title: "BACC")
+        )
+        self.albums[2].addSongs(
             Song(title: "Street Fighter"),
             Song(title: "Strawberry Swing"),
             Song(title: "Novacane", isExplicit: true),
@@ -79,7 +79,7 @@ struct MusicModel {
             Song(title: "Soul Calibur"),
             Song(title: "Nature Feels", isExplicit: true)
         )
-        self.albums[2].addSongs(
+        self.albums[3].addSongs(
             Song(title: "Love Galore (Solo Version)", isExplicit: true)
         )
         
@@ -87,9 +87,10 @@ struct MusicModel {
             Playlist(title: "SUMMER 2021", artwork: "drake_album_art_2",
                      songs: [
                         self.albums[0].songs[8],
-                        self.albums[1].songs[1],
-                        self.albums[2].songs[0],
-                        self.albums[1].songs[2]
+                        self.albums[2].songs[1],
+                        self.albums[3].songs[0],
+                        self.albums[2].songs[2],
+                        self.albums[1].songs[3]
                      ])
         ]
         

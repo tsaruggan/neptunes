@@ -9,24 +9,41 @@ import SwiftUI
 
 struct SongListView: View {
     var songs: [Song]
-    var indexLabelColor: Color
+    var labelColor: Color
     var foregroundColor: Color
     var explicitSignColor: Color
     var menuColor: Color
+    var isDetailed: Bool
+    var paddingTop: CGFloat = 8
+    var paddingBottom: CGFloat = 20
+    var paddingHorizontal: CGFloat = 8
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(songs.indices) { i in
-                SongView(
-                    song: songs[i],
-                    index: i+1,
-                    indexLabelColor: indexLabelColor,
-                    foregroundColor: foregroundColor,
-                    explicitSignColor: explicitSignColor,
-                    menuColor: menuColor
-                )
+            if isDetailed {
+                ForEach(songs.indices) { i in
+                    DetailedSongView(
+                        song: songs[i],
+                        artistLabelColor: labelColor,
+                        foregroundColor: foregroundColor,
+                        explicitSignColor: explicitSignColor,
+                        menuColor: menuColor
+                    )
+                }
+            } else {
+                ForEach(songs.indices) { i in
+                    SongView(
+                        song: songs[i],
+                        index: i+1,
+                        indexLabelColor: labelColor,
+                        foregroundColor: foregroundColor,
+                        explicitSignColor: explicitSignColor,
+                        menuColor: menuColor
+                    )
+                }
             }
         }
-        .padding(.vertical, 20)
-        .padding(.horizontal, 8)
+        .padding(.top, paddingTop)
+        .padding(.bottom, paddingBottom)
+        .padding(.horizontal, paddingHorizontal)
     }
 }

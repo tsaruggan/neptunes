@@ -35,6 +35,7 @@
 		18DCEA2C269B6C70002CEF62 /* ColorAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DCEA2B269B6C70002CEF62 /* ColorAnalyzer.swift */; };
 		18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E09A5C269B657000FE2AB3 /* SongListView.swift */; };
 		18E16C20269F7122004092B4 /* NeptunesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16C1F269F7122004092B4 /* NeptunesView.swift */; };
+		18E5006426A1290300FE0E28 /* DetailedSongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E5006326A1290300FE0E28 /* DetailedSongView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		18DCEA2B269B6C70002CEF62 /* ColorAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAnalyzer.swift; sourceTree = "<group>"; };
 		18E09A5C269B657000FE2AB3 /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		18E16C1F269F7122004092B4 /* NeptunesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeptunesView.swift; sourceTree = "<group>"; };
+		18E5006326A1290300FE0E28 /* DetailedSongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedSongView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 				183692AA26A079F200999D3D /* ArtworkView.swift */,
 				18E09A5C269B657000FE2AB3 /* SongListView.swift */,
 				188390EA2695F6CF0026B04D /* SongView.swift */,
+				18E5006326A1290300FE0E28 /* DetailedSongView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				183692AB26A079F200999D3D /* ArtworkView.swift in Sources */,
 				188390EB2695F6CF0026B04D /* SongView.swift in Sources */,
 				18E16C20269F7122004092B4 /* NeptunesView.swift in Sources */,
+				18E5006426A1290300FE0E28 /* DetailedSongView.swift in Sources */,
 				184B236826A1107300AABBE8 /* PlaylistView.swift in Sources */,
 				18DCEA2A269B6C55002CEF62 /* Vector.swift in Sources */,
 				182EF8AB2692AC130018765E /* MusicModel.swift in Sources */,

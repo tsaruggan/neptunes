@@ -14,7 +14,6 @@ struct HomePageView: View {
         Item(name: "Albums", icon: "square.stack"),
         Item(name: "Playlists", icon: "music.note.list")
     ]
-    let bg: Color = Color(red: 24/255, green: 24/255, blue: 24/255)
     let model = MusicModel()
 
     init() {
