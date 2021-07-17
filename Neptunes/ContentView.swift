@@ -8,13 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var current = 0
+    @State var expanded = false
+    @Namespace var animation
+    
     var body: some View {
-        TabView {
-            HomePageView().tabItem { Label("Home", systemImage: "music.note.house") }
-            PageView(text: "Search page").tabItem { Label("Search", systemImage: "magnifyingglass") }
+        ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
+            TabView(selection: $current) {
+                HomePageView()
+                    .tag(0)
+                    .tabItem { Label("Home", systemImage: "music.note.house") }
+                PageView(text: "Search page")
+                    .tag(1)
+                    .tabItem { Label("Search", systemImage: "magnifyingglass") }
+            }
+            .accentColor(.teal)
+            .background(.ultraThinMaterial)
+            
+            PlayerView(song: MusicModel().albums[0].songs[8] ,expanded: $expanded, animation: animation)
         }
-        .accentColor(.teal)
-        .background(.ultraThinMaterial)
+        
     }
 }
 

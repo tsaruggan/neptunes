@@ -85,6 +85,7 @@ struct HomePageView: View {
             ScrollView(showsIndicators: false) {
                 content
                     .padding()
+                    .padding(.bottom, 80)
                     .navigationBarHidden(true)
             }
             .padding(.top)
@@ -120,7 +121,7 @@ struct CollectableItemView<CollectableView: View>: View {
                 Image(artwork ?? "default_album_art")
                     .resizable()
                     .scaledToFill()
-                    .cornerRadius(5)
+                    .cornerRadius(8)
                 Text(title)
                     .foregroundColor(.primary)
                     .fontWeight(.bold)
