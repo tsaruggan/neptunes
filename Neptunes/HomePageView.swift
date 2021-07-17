@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct HomePageView: View {
-    let items: [Item] = [
-        Item(name: "Songs", icon: "music.note"),
-        Item(name: "Artists", icon: "music.mic"),
-        Item(name: "Albums", icon: "square.stack"),
-        Item(name: "Playlists", icon: "music.note.list")
+    let items = [
+        (name: "Songs", icon: "music.note"),
+        (name: "Artists", icon: "music.mic"),
+        (name: "Albums", icon: "square.stack"),
+        (name: "Playlists", icon: "music.note.list")
     ]
     let model = MusicModel()
     
@@ -21,76 +21,82 @@ struct HomePageView: View {
         UINavigationBar.appearance().isTranslucent = true
     }
     
+    var header: some View {
+        HStack {
+            Text(Date(), style: .time)
+                .foregroundColor(.primary)
+                .fontWeight(.bold)
+            Spacer()
+            Image(systemName: "plus.circle.fill")
+                .font(.title)
+                .foregroundColor(.teal)
+        }
+        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+    }
+    
+    var selectionList: some View {
+        Group{
+            ForEach(items.indices, id: \.self) { index in
+                Divider()
+                    .background(Color.secondary)
+                HStack(alignment: .firstTextBaseline) {
+                    Image(systemName: items[index].icon)
+                        .foregroundColor(.teal)
+                    Text(items[index].name)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    
+                }
+                .listRowInsets(EdgeInsets())
+            }
+            Divider()
+                .background(Color.secondary)
+        }
+    }
+    
+    var collectableGrid: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
+            ForEach(model.collectables.map({ CollectableWrapper($0) })) { anyCollectable in
+                let collectable = anyCollectable.collectable
+                if let album = collectable as? Album {
+                    CollectableItemView(title: album.title, subheading: album.artist.title, artwork: album.artwork) {
+                        AlbumView(viewModel: .init(album: album))
+                    }
+                    
+                } else if let playlist = collectable as? Playlist {
+                    CollectableItemView(title: playlist.title, subheading: "Playlist", artwork: playlist.artwork) {
+                        PlaylistView(viewModel: .init(playlist: playlist))
+                    }
+                }
+            }
+        }
+    }
+    
+    var content: some View {
+        VStack {
+            header
+            selectionList
+            collectableGrid
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                VStack {
-                    HStack {
-                        Text(Date(), style: .time)
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(.primary)
-                            .fontWeight(.bold)
-                        Spacer()
-                        
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.teal)
-                        
-                    }
-                    
-                    ForEach(items) { item in
-                        Divider()
-                            .background(Color.secondary)
-                        HStack {
-                            Image(systemName: item.icon)
-                                .foregroundColor(.teal)
-                            Text(item.name)
-                                .foregroundColor(.primary)
-                            Spacer()
-                        }
-                        
-                        .listRowInsets(EdgeInsets())
-                    }
-                    Divider()
-                        .background(Color.secondary)
-                    
-                    
-                    LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-                        ForEach(model.collectables.map({ CollectableWrapper($0) })) { anyCollectable in
-                            let collectable = anyCollectable.collectable
-                            if let album = collectable as? Album {
-                                CollectableItemView(title: album.title, subheading: album.artist.title, artwork: album.artwork) {
-                                    AlbumView(viewModel: .init(album: album))
-                                }
-                                
-                            } else if let playlist = collectable as? Playlist {
-                                CollectableItemView(title: playlist.title, subheading: "Playlist", artwork: playlist.artwork) {
-                                    PlaylistView(viewModel: .init(playlist: playlist))
-                                }
-                            }
-                        }
-                    }
-                }
-                .padding()
-                .navigationBarHidden(true)
-                .navigationBarTitle("")
+                content
+                    .padding()
+                    .navigationBarHidden(true)
             }
             .padding(.top)
         }
-        .overlay(NowPlayingBar(), alignment: .bottom)
     }
 }
+
 
 struct HomePageView_Previews: PreviewProvider {
     static var previews: some View {
         HomePageView()
     }
-}
-
-struct Item: Identifiable {
-    var id = UUID()
-    var name: String
-    var icon: String
 }
 
 struct CollectableItemView<CollectableView: View>: View {
