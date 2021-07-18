@@ -23,7 +23,7 @@ struct ContentView: View {
                     .tabItem { Label("Search", systemImage: "magnifyingglass") }
             }
             .accentColor(.teal)
-            .background(.ultraThinMaterial)
+            .background(.thinMaterial)
             
             PlayerView(song: MusicModel().albums[0].songs[8] ,expanded: $expanded, animation: animation)
         }
@@ -35,18 +35,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) {
             ContentView().preferredColorScheme($0)
-        }
-    }
-}
-
-struct NowPlayingBar: View {
-    var body: some View {
-        VStack {
-            Spacer()
-            Rectangle()
-                .frame(height: 65)
-                .foregroundColor(Color.white.opacity(0.0))
-                .background(.ultraThinMaterial)
         }
     }
 }
