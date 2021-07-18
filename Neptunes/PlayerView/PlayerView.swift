@@ -8,16 +8,24 @@
 import SwiftUI
 
 struct PlayerView: View {
-    @State var song: Song
+    var song: Song
     @Binding var expanded: Bool
     var animation: Namespace.ID
+    var palette: Palette
+    
     let artworkHeight = UIScreen.main.bounds.height / 3
     @State var offset: CGFloat = 0
-    let palette = Palette()
     @Environment(\.colorScheme) var colorScheme
     
+    init(song: Song, expanded: Binding<Bool>, animation: Namespace.ID) {
+        self.song = song
+        self._expanded = expanded
+        self.animation = animation
+        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
+    }
+    
     var expandedSongInformation: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 3) {
             HStack {
                 Text(song.title)
                     .foregroundColor(palette.primary(colorScheme))
@@ -35,14 +43,18 @@ struct PlayerView: View {
                         .foregroundColor(palette.secondary(colorScheme))
                 }
             }
-            .padding(.vertical)
             .font(.title2)
+            
+            Text(song.artist!.title)
+                .foregroundColor(palette.secondary(colorScheme))
+                .lineLimit(1)
+                .matchedGeometryEffect(id: "artist", in: animation)
             
             Spacer(minLength: 0)
         }
         .frame(height: expanded ? nil : 0)
         .opacity(expanded ? 1 : 0)
-        
+        .padding(.vertical, expanded ? nil : 0)
         .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
     }
     
@@ -69,16 +81,12 @@ struct PlayerView: View {
     }
     
     var collapsedControlButtons: some View {
-        Group {
-            Button(action: {}) {
-                Image(systemName: "play.fill")
-            }
-            Button(action: {}) {
-                Image(systemName: "forward.fill")
-            }
+        Button(action: {}) {
+            Image(systemName: "play.fill")
         }
         .font(.title2)
         .foregroundColor(.primary)
+        .matchedGeometryEffect(id: "playButton", in: animation)
     }
     
     var collapsedSongInformation: some View {
@@ -96,7 +104,7 @@ struct PlayerView: View {
                 }
             }
             
-            Text(song.artist?.title ?? "")
+            Text(song.artist!.title)
                 .foregroundColor(palette.secondary(colorScheme))
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation)
@@ -105,7 +113,7 @@ struct PlayerView: View {
     
     var body: some View {
         VStack {
-            expandedHeader
+            if expanded { expandedHeader }
             HStack(spacing: 15) {
                 if expanded { Spacer(minLength: 0) }
                 songArtwork
@@ -115,10 +123,11 @@ struct PlayerView: View {
             }
             .padding(.horizontal)
             
-            expandedSongInformation
+            if expanded { expandedSongInformation }
+            
         }
         .frame(maxHeight: expanded ? .infinity : 80)
-        .background(palette.background(colorScheme).opacity(0.5))
+        .background(palette.background(colorScheme).opacity(0.75))
         .background(.thinMaterial)
         .onTapGesture {
             withAnimation(.easeInOut){ expanded = true }

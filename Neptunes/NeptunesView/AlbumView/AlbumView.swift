@@ -59,7 +59,7 @@ struct AlbumView: View {
                     .clipShape(Circle())
                     .frame(height: 24)
                 Text(viewModel.album.artist.title)
-                    .foregroundColor(viewModel.palette.primary(colorScheme))
+                    .foregroundColor(viewModel.palette.secondary(colorScheme))
             }
         }
         .frame(width: 320, alignment: .leading)
