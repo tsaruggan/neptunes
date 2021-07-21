@@ -127,11 +127,12 @@ struct PlayerView: View {
             
             if expanded { expandedSongInformation }
             if expanded {
-                ScrubberView(percentage: $percentage)
-                    .frame(height: expanded ? nil : 0)
-                    .opacity(expanded ? 1 : 0)
-                    .padding(.vertical, expanded ? nil : 0)
-                    .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+//                ScrubberView(percentage: $percentage)
+//                    .frame(height: expanded ? nil : 0)
+//                    .opacity(expanded ? 1 : 0)
+//                    .padding(.vertical, expanded ? nil : 0)
+//                    .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+
             }
             
         }
