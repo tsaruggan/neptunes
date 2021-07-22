@@ -8,51 +8,53 @@
 import SwiftUI
 
 struct ScrubberView: View {
-    @Binding var percentage: Double
-    //    private let angle: Double = 45
-    @State var width = 300.0
-    @State var height = 300.0
-    @State var progress: CGFloat = 0.1
-    @State var angle: Double = 0
-    @State var scale: CGFloat = 1.0
+    @Binding var percentage: CGFloat
+    @State private var scale: CGFloat = 1.0
     
     var body: some View {
         GeometryReader { geometry in
+            let fullArch = Arch()
+            let progressArch = Arch().trim(from: 0, to: percentage + 0.01)
+            let handlePoint: CGPoint = progressArch.path(in: geometry.frame(in: .local)).currentPoint!
+            let handleDiameter = 24.0
+            let width = geometry.frame(in: .local).width
+            let height = geometry.frame(in: .local).height
+            
             ZStack {
-                let fullArch = Arch()
-                
                 fullArch
                     .stroke(.blue, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                
-                let progressArch = Arch()
-                    .trim(from: 0, to: progress + 0.01)
                 
                 progressArch
                     .stroke(.red, style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 
-                // Drag Circle
-                let handlePoint: CGPoint = progressArch.path(in: geometry.frame(in: .local)).currentPoint!
                 Circle()
                     .fill(Color.white)
-                    .frame(width: 24, height: 24)
+                    .frame(width: handleDiameter, height: handleDiameter)
                     .scaleEffect(scale)
                     .position(x: handlePoint.x, y: handlePoint.y)
-                    .rotationEffect(Angle(degrees: angle), anchor: .bottom)
                     .gesture(
                         DragGesture(minimumDistance: 0)
                             .onEnded({ _ in withAnimation { self.scale = 1.0 } })
                             .onChanged({ value in
-                        self.progress = min(max(0, Double(value.location.x / geometry.size.width * 1)), 1)
-                        self.scale = 1.4
+                        let vector = CGVector(
+                            dx: value.location.x - width / 2,
+                            dy: value.location.y - height
+                        )
+                        let maxAngle = 2 * asin(width / (2 * height)) * 180 / .pi
+                        let angleAdjustment = 90.0 + maxAngle / 2
+                        let angle = atan2(vector.dy - handleDiameter / 2, vector.dx - handleDiameter / 2) * (180.0 / .pi) + angleAdjustment
+                        withAnimation(Animation.linear(duration: 0.15)) {
+                            self.percentage = min(max(0, Double(angle / maxAngle)), 1)
+                            self.scale = 1.4
+                        }
                     }))
             }
         }
-        .frame(width: width, height: height)
     }
 }
 
 struct ScrubberView_Previews: PreviewProvider {
-    @State static var percentage: Double = 0.5
+    @State static var percentage: CGFloat = 0.5
     static var previews: some View {
         ScrubberView(percentage: $percentage)
             .preferredColorScheme(.dark)

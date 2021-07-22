@@ -17,7 +17,7 @@ struct PlayerView: View {
     @State var offset: CGFloat = 0
     @Environment(\.colorScheme) var colorScheme
     
-    @State var percentage: Double = 0.5
+    @State var percentage: CGFloat = 0.5
     
     init(song: Song, expanded: Binding<Bool>, animation: Namespace.ID) {
         self.song = song
@@ -127,11 +127,11 @@ struct PlayerView: View {
             
             if expanded { expandedSongInformation }
             if expanded {
-//                ScrubberView(percentage: $percentage)
-//                    .frame(height: expanded ? nil : 0)
-//                    .opacity(expanded ? 1 : 0)
-//                    .padding(.vertical, expanded ? nil : 0)
-//                    .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+                ScrubberView(percentage: $percentage)
+                    .frame(height: expanded ? nil : 0)
+                    .opacity(expanded ? 1 : 0)
+                    .padding(.vertical, expanded ? nil : 0)
+                    .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
 
             }
             
