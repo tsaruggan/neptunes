@@ -17,13 +17,15 @@ struct PlayerView: View {
     @State var offset: CGFloat = 0
     @Environment(\.colorScheme) var colorScheme
     
+    @State var duration: Int = 235
     @State var percentage: CGFloat = 0.5
     
     init(song: Song, expanded: Binding<Bool>, animation: Namespace.ID) {
         self.song = song
         self._expanded = expanded
         self.animation = animation
-        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
+//        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
+        self.palette = Palette()
     }
     
     var expandedSongInformation: some View {
@@ -127,14 +129,12 @@ struct PlayerView: View {
             
             if expanded { expandedSongInformation }
             if expanded {
-                ScrubberView(percentage: $percentage)
+                ScrubberView(duration: $duration, percentage: $percentage, color: palette.primary(colorScheme))
                     .frame(height: expanded ? nil : 0)
                     .opacity(expanded ? 1 : 0)
                     .padding(.vertical, expanded ? nil : 0)
                     .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
-
             }
-            
         }
         .frame(maxHeight: expanded ? .infinity : 80)
         .background(palette.background(colorScheme).opacity(0.75))

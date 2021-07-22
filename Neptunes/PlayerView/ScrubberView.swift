@@ -8,25 +8,26 @@
 import SwiftUI
 
 struct ScrubberView: View {
+    @Binding var duration: Int
     @Binding var percentage: CGFloat
+    var color: Color
     @State private var scale: CGFloat = 1.0
-    
     var body: some View {
         GeometryReader { geometry in
+            let width = geometry.size.width
+            let height = geometry.size.height
             let fullArch = Arch()
-            let progressArch = Arch().trim(from: 0, to: percentage + 0.01)
-            let handlePoint: CGPoint = progressArch.path(in: geometry.frame(in: .local)).currentPoint!
+            let progressArch = Arch()
+                .trim(from: 0, to: percentage)
+            let handlePoint: CGPoint = progressArch.path(in: geometry.frame(in: .local)).currentPoint ?? fullArch.path(in: geometry.frame(in: .local)).currentPoint!.applying(CGAffineTransform(translationX: -width, y: 0))
             let handleDiameter = 24.0
-            let width = geometry.frame(in: .local).width
-            let height = geometry.frame(in: .local).height
+            let archHeight = height - (pow(height, 2) - pow(width / 2, 2)).squareRoot()
             
             ZStack {
                 fullArch
-                    .stroke(.blue, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                
+                    .stroke(color.opacity(0.5), style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 progressArch
-                    .stroke(.red, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                
+                    .stroke(color, style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 Circle()
                     .fill(Color.white)
                     .frame(width: handleDiameter, height: handleDiameter)
@@ -48,15 +49,39 @@ struct ScrubberView: View {
                             self.scale = 1.4
                         }
                     }))
+                VStack {
+                    HStack {
+                        Text(formatTime(seconds: Int(CGFloat(duration) * percentage)))
+                        Spacer()
+                        Text(formatTime(seconds: duration))
+                    }
+                    Spacer()
+                }
+                .padding(.top, archHeight + 20)
+                Spacer()
             }
+            
+            
         }
+    }
+    
+    func formatTime(seconds t: Int) -> String {
+        let minutes = t % 3600 / 60
+        let minutesText = "\(minutes)"
+        
+        let seconds = t % 3600 % 60
+        let secondsText = seconds > 9 ? "\(seconds)" : "0\(seconds)"
+        
+        return "\(minutesText):\(secondsText)"
     }
 }
 
 struct ScrubberView_Previews: PreviewProvider {
-    @State static var percentage: CGFloat = 0.5
+    @State static var duration: Int = 194
+    @State static var percentage: CGFloat = 0.69
     static var previews: some View {
-        ScrubberView(percentage: $percentage)
+        ScrubberView(duration: $duration, percentage: $percentage, color: .blue)
+            .frame(width: 300, height: 500)
             .preferredColorScheme(.dark)
     }
 }
