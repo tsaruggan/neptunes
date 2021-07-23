@@ -10,26 +10,27 @@ import SwiftUI
 struct ScrubberView: View {
     @Binding var duration: Int
     @Binding var percentage: CGFloat
-    var color: Color
+    var backgroundColor: Color
+    var textColor: Color
     @State private var scale: CGFloat = 1.0
     var body: some View {
         GeometryReader { geometry in
-            let width = geometry.size.width
-            let height = geometry.size.height
-            let fullArch = Arch()
-            let progressArch = Arch()
+            let width: CGFloat = geometry.size.width
+            let radius: CGFloat = 400
+            let fullArch = Arch(radius: radius)
+            let progressArch = Arch(radius: radius)
                 .trim(from: 0, to: percentage)
             let handlePoint: CGPoint = progressArch.path(in: geometry.frame(in: .local)).currentPoint ?? fullArch.path(in: geometry.frame(in: .local)).currentPoint!.applying(CGAffineTransform(translationX: -width, y: 0))
             let handleDiameter = 24.0
-            let archHeight = height - (pow(height, 2) - pow(width / 2, 2)).squareRoot()
+            let archHeight = radius - (pow(radius, 2) - pow(width / 2, 2)).squareRoot()
             
             ZStack {
                 fullArch
-                    .stroke(color.opacity(0.5), style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                    .stroke(backgroundColor.opacity(0.5), style: StrokeStyle(lineWidth: 4))
                 progressArch
-                    .stroke(color, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                    .stroke(backgroundColor, style: StrokeStyle(lineWidth: 4))
                 Circle()
-                    .fill(Color.white)
+                    .fill(backgroundColor.opacity(1))
                     .frame(width: handleDiameter, height: handleDiameter)
                     .scaleEffect(scale)
                     .position(x: handlePoint.x, y: handlePoint.y)
@@ -39,9 +40,9 @@ struct ScrubberView: View {
                             .onChanged({ value in
                         let vector = CGVector(
                             dx: value.location.x - width / 2,
-                            dy: value.location.y - height
+                            dy: value.location.y - radius
                         )
-                        let maxAngle = 2 * asin(width / (2 * height)) * 180 / .pi
+                        let maxAngle = 2 * asin(width / (2 * radius)) * 180 / .pi
                         let angleAdjustment = 90.0 + maxAngle / 2
                         let angle = atan2(vector.dy - handleDiameter / 2, vector.dx - handleDiameter / 2) * (180.0 / .pi) + angleAdjustment
                         withAnimation(Animation.linear(duration: 0.15)) {
@@ -49,19 +50,19 @@ struct ScrubberView: View {
                             self.scale = 1.4
                         }
                     }))
+                
                 VStack {
                     HStack {
                         Text(formatTime(seconds: Int(CGFloat(duration) * percentage)))
                         Spacer()
                         Text(formatTime(seconds: duration))
                     }
-                    Spacer()
+                    .font(.footnote)
+                    .foregroundColor(textColor)
+                    Spacer(minLength: 0)
                 }
-                .padding(.top, archHeight + 20)
-                Spacer()
+                .padding(.top, archHeight + 16)
             }
-            
-            
         }
     }
     
@@ -80,16 +81,16 @@ struct ScrubberView_Previews: PreviewProvider {
     @State static var duration: Int = 194
     @State static var percentage: CGFloat = 0.69
     static var previews: some View {
-        ScrubberView(duration: $duration, percentage: $percentage, color: .blue)
-            .frame(width: 300, height: 500)
+        ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: .blue, textColor: .primary)
+            .frame(width: 300)
             .preferredColorScheme(.dark)
     }
 }
 
 struct Arch: Shape {
+    let radius: CGFloat
     func path(in rect: CGRect) -> Path {
-        let radius: CGFloat = rect.height
-        let center: CGPoint = CGPoint(x: rect.midX, y: rect.maxY)
+        let center: CGPoint = CGPoint(x: rect.midX, y: radius)
         let angle = Angle.radians(2 * asin(rect.width / (2 * radius)))
         let rotationAdjustment = Angle.degrees(90)
         let start = -angle/2 - rotationAdjustment

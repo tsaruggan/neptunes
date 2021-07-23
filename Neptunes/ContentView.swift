@@ -25,7 +25,7 @@ struct ContentView: View {
             .accentColor(.teal)
             .background(.thinMaterial)
             
-            PlayerView(song: MusicModel().albums[2].songs[1] ,expanded: $expanded, animation: animation)
+            PlayerView(song: MusicModel().albums[1].songs[3] ,expanded: $expanded, animation: animation)
         }
         
     }

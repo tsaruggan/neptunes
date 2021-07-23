@@ -24,8 +24,8 @@ struct PlayerView: View {
         self.song = song
         self._expanded = expanded
         self.animation = animation
-//        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
-        self.palette = Palette()
+        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: nil)
+        //        self.palette = Palette()
     }
     
     var expandedSongInformation: some View {
@@ -56,7 +56,7 @@ struct PlayerView: View {
             
             Spacer(minLength: 0)
         }
-        .frame(height: expanded ? nil : 0)
+        .frame(height: expanded ? 64 : 0)
         .opacity(expanded ? 1 : 0)
         .padding(.vertical, expanded ? nil : 0)
         .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
@@ -89,7 +89,7 @@ struct PlayerView: View {
             Image(systemName: "play.fill")
         }
         .font(.title2)
-        .foregroundColor(.primary)
+        .foregroundColor(palette.secondary(colorScheme))
         .matchedGeometryEffect(id: "playButton", in: animation)
     }
     
@@ -115,6 +115,14 @@ struct PlayerView: View {
         }
     }
     
+    var expandedScrubber: some View {
+        ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: palette.primary(colorScheme), textColor: palette.secondary(colorScheme))
+            .frame(height: expanded ? 50 : 0)
+            .opacity(expanded ? 1 : 0)
+            .padding(.vertical, expanded ? nil : 0)
+            .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+    }
+    
     var body: some View {
         VStack {
             if expanded { expandedHeader }
@@ -129,11 +137,9 @@ struct PlayerView: View {
             
             if expanded { expandedSongInformation }
             if expanded {
-                ScrubberView(duration: $duration, percentage: $percentage, color: palette.primary(colorScheme))
-                    .frame(height: expanded ? nil : 0)
-                    .opacity(expanded ? 1 : 0)
-                    .padding(.vertical, expanded ? nil : 0)
+                PlayerControllerView(duration: $duration, percentage: $percentage, primaryColor: palette.primary(colorScheme), secondaryColor: palette.secondary(colorScheme))
                     .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+                Spacer()
             }
         }
         .frame(maxHeight: expanded ? .infinity : 80)
