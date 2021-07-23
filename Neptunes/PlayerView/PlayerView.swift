@@ -13,13 +13,18 @@ struct PlayerView: View {
     var animation: Namespace.ID
     var palette: Palette
     
-    let artworkHeight = UIScreen.main.bounds.height / 3
     @State var offset: CGFloat = 0
     @Environment(\.colorScheme) var colorScheme
     
     @State var duration: Int = 235
     @State var percentage: CGFloat = 0.5
     @State var scrollText: Bool = true
+    
+    
+    let expandedContentWidth = max(UIScreen.main.bounds.width * 3.0 / 4.0, 264)
+    let expandedContentHeight = UIScreen.main.bounds.height * 2 / 3
+    let expandedContentVerticalOffset = min(UIScreen.main.bounds.height / 8, 200)
+    
     init(song: Song, expanded: Binding<Bool>, animation: Namespace.ID) {
         self.song = song
         self._expanded = expanded
@@ -47,7 +52,7 @@ struct PlayerView: View {
                         .foregroundColor(palette.secondary(colorScheme))
                 }
             }
-            .font(.title2)
+            .font(.title3)
             
             Text(song.artist!.title)
                 .foregroundColor(palette.secondary(colorScheme))
@@ -57,31 +62,27 @@ struct PlayerView: View {
             Spacer(minLength: 0)
         }
         .frame(height: expanded ? 64 : 0)
-        .opacity(expanded ? 1 : 0)
-        .padding(.vertical, expanded ? nil : 0)
-        .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
     }
     
     var expandedHeader: some View {
-        HStack{
+        HStack(alignment: .center){
             Button(action: { withAnimation(.easeInOut){ expanded = false } }) {
                 Image(systemName: "chevron.compact.down")
             }
         }
         .foregroundColor(palette.secondary(colorScheme))
         .font(.title)
-        .frame(height: expanded ? nil : 0)
+        .frame(height: expanded ? expandedContentVerticalOffset : 0)
         .opacity(expanded ? 1 : 0)
-        .padding(.top, expanded ? 30 : 0)
-        .padding(.vertical, expanded ? 30 : 0)
     }
     
     var songArtwork: some View {
         Image(song.artwork ?? "default_album_art")
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: expanded ? artworkHeight : 55, height: expanded ? artworkHeight : 55)
             .cornerRadius(8)
+            .matchedGeometryEffect(id: "artwork", in: animation, properties: .frame)
+            .frame(width: expanded ? nil : 55, height: expanded ? nil : 55)
     }
     
     var collapsedControlButtons: some View {
@@ -125,30 +126,48 @@ struct PlayerView: View {
     
     var body: some View {
         VStack {
-            if expanded { expandedHeader }
-            HStack(spacing: 15) {
-                if expanded { Spacer(minLength: 0) }
-                songArtwork
-                if !expanded { collapsedSongInformation }
-                Spacer(minLength: 0)
-                if !expanded { collapsedControlButtons }
+            if !expanded {
+                HStack(spacing: 15) {
+                    songArtwork
+                    collapsedSongInformation
+                    Spacer(minLength: 0)
+                    collapsedControlButtons
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
             
-            if expanded { expandedSongInformation }
             if expanded {
-                PlayerControllerView(duration: $duration, percentage: $percentage, primaryColor: palette.primary(colorScheme), secondaryColor: palette.secondary(colorScheme))
-                    .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
-                Spacer()
+                ZStack {
+                    //                    expandedHeader
+                    HStack(alignment: .bottom) {
+                        VStack() {
+                            Spacer(minLength: 0)
+                            songArtwork
+                            expandedSongInformation
+                                .padding(.top, 16)
+                            PlayerControllerView(
+                                duration: $duration,
+                                percentage: $percentage,
+                                primaryColor: palette.primary(colorScheme),
+                                secondaryColor: palette.secondary(colorScheme)
+                            )
+                        }
+                        .frame(height: expandedContentHeight)
+                        .padding(36)
+                        .padding(.top, 24)
+                        .opacity(expanded ? 1 : 0)
+                    }
+                }
             }
         }
-        .frame(maxHeight: expanded ? .infinity : 80)
+        .frame(width: UIScreen.main.bounds.width)
+        .frame( maxHeight: expanded ? .infinity : 80)
         .background(palette.background(colorScheme).opacity(0.75))
         .background(.thinMaterial)
         .onTapGesture {
             withAnimation(.easeInOut){ expanded = true }
         }
-        .cornerRadius(expanded ? 20 : 0)
+        .cornerRadius(expanded && offset > 0 ? 20 : 0)
         .offset(y: expanded ? 0 : -48)
         .offset(y: offset)
         .gesture(
@@ -168,7 +187,7 @@ struct PlayerView: View {
     
     func dragGestureOnEnded(value : DragGesture.Value) {
         withAnimation(.easeInOut) {
-            if value.translation.height > artworkHeight {
+            if value.translation.height > expandedContentWidth {
                 expanded = false
             }
             offset = 0

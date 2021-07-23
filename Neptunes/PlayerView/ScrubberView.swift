@@ -57,7 +57,8 @@ struct ScrubberView: View {
                         Spacer()
                         Text(formatTime(seconds: duration))
                     }
-                    .font(.footnote)
+                    .font(.system(.footnote, design: .monospaced))
+//                    .monospacedDigit()
                     .foregroundColor(textColor)
                     Spacer(minLength: 0)
                 }
@@ -69,10 +70,8 @@ struct ScrubberView: View {
     func formatTime(seconds t: Int) -> String {
         let minutes = t % 3600 / 60
         let minutesText = "\(minutes)"
-        
         let seconds = t % 3600 % 60
         let secondsText = seconds > 9 ? "\(seconds)" : "0\(seconds)"
-        
         return "\(minutesText):\(secondsText)"
     }
 }

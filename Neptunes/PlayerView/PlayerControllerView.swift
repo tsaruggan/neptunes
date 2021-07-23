@@ -15,7 +15,7 @@ struct PlayerControllerView: View {
     var body: some View {
         VStack {
             ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: primaryColor, textColor: secondaryColor)
-                .frame(height: 60)
+                .frame(height: 75)
             VStack {
                 HStack() {
                     backwardButton
@@ -34,7 +34,7 @@ struct PlayerControllerView: View {
                     Spacer()
                     queueButton
                 }
-                .padding(.vertical, 16)
+                .padding(.top, 8)
             }
             Spacer(minLength: 0)
         }
