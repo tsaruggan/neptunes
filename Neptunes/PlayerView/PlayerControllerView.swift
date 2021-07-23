@@ -18,32 +18,78 @@ struct PlayerControllerView: View {
                 .frame(height: 60)
             VStack {
                 HStack() {
-                    Image(systemName: "backward.fill")
+                    backwardButton
                     Spacer()
-                    Image(systemName: "play.fill")
+                    playButton
                     Spacer()
-                    Image(systemName: "forward.fill")
+                    forwardButton
                 }
-                .font(.largeTitle)
-                .padding(.vertical, nil)
+                .padding(.vertical, 16)
                 HStack {
-                    Image(systemName: "hifispeaker.2.fill")
+                    speakerButton
                     Spacer()
-                    Image(systemName: "repeat")
+                    repeatButton
                     Spacer()
-                    Image(systemName: "shuffle")
+                    shuffleButton
                     Spacer()
-                    Image(systemName: "list.triangle")
+                    queueButton
                 }
-                .font(.callout)
-                .padding(.vertical, 10)
+                .padding(.vertical, 16)
             }
-            .foregroundColor(secondaryColor)
-            
             Spacer(minLength: 0)
         }
-        
     }
+    
+    var backwardButton: some View {
+        Button(action: {}) {
+            Image(systemName: "backward.fill")
+        }
+        .buttonStyle(LargeMediaButtonStyle(foregroundColor: secondaryColor))
+    }
+    
+    var playButton: some View {
+        Button(action: {}) {
+            Image(systemName: "play.fill")
+        }
+        .buttonStyle(LargeMediaButtonStyle(foregroundColor: secondaryColor))
+    }
+    
+    var forwardButton: some View {
+        Button(action: {}) {
+            Image(systemName: "forward.fill")
+        }
+        .buttonStyle(LargeMediaButtonStyle(foregroundColor: secondaryColor))
+    }
+    
+    var speakerButton: some View {
+        Button(action: {}) {
+//            Image(systemName: "hifispeaker.2.fill")
+            Image(systemName: "airpodsmax")
+        }
+        .buttonStyle(SmalleMediaButtonStyle(foregroundColor: secondaryColor))
+    }
+    
+    var repeatButton: some View {
+        Button(action: {}) {
+            Image(systemName: "repeat")
+        }
+        .buttonStyle(SmalleMediaButtonStyle(foregroundColor: secondaryColor))
+    }
+    
+    var shuffleButton: some View {
+        Button(action: {}) {
+            Image(systemName: "shuffle")
+        }
+        .buttonStyle(SmalleMediaButtonStyle(foregroundColor: secondaryColor))
+    }
+    
+    var queueButton: some View {
+        Button(action: {}) {
+            Image(systemName: "list.triangle")
+        }
+        .buttonStyle(SmalleMediaButtonStyle(foregroundColor: secondaryColor))
+    }
+    
 }
 
 struct PlayerControllerView_Previews: PreviewProvider {
@@ -53,5 +99,23 @@ struct PlayerControllerView_Previews: PreviewProvider {
     static var previews: some View {
         PlayerControllerView(duration: $duration, percentage: $percentage, primaryColor: palette.primary.light, secondaryColor: palette.secondary.light)
             .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+    }
+}
+
+struct LargeMediaButtonStyle: ButtonStyle {
+    var foregroundColor: Color
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .font(.largeTitle)
+            .foregroundColor(foregroundColor)
+    }
+}
+
+struct SmalleMediaButtonStyle: ButtonStyle {
+    var foregroundColor: Color
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .font(.callout)
+            .foregroundColor(foregroundColor)
     }
 }

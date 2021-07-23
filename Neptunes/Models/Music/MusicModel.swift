@@ -80,7 +80,7 @@ struct MusicModel {
             Song(title: "Nature Feels", isExplicit: true)
         )
         self.albums[3].addSongs(
-            Song(title: "Love Galore (Solo Version)", isExplicit: true)
+            Song(title: "Love Galore (Solo)", isExplicit: true)
         )
         
         self.playlists = [

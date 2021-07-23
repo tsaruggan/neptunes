@@ -19,7 +19,7 @@ struct PlayerView: View {
     
     @State var duration: Int = 235
     @State var percentage: CGFloat = 0.5
-    
+    @State var scrollText: Bool = true
     init(song: Song, expanded: Binding<Bool>, animation: Namespace.ID) {
         self.song = song
         self._expanded = expanded
@@ -30,7 +30,7 @@ struct PlayerView: View {
     
     var expandedSongInformation: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack {
+            HStack(spacing: 14){
                 Text(song.title)
                     .foregroundColor(palette.primary(colorScheme))
                     .fontWeight(.bold)
