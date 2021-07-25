@@ -12,6 +12,9 @@ struct PlayerControllerView: View {
     @Binding var percentage: CGFloat
     var primaryColor: Color
     var secondaryColor: Color
+    
+    @State var isPlaying = true
+    
     var body: some View {
         VStack {
             ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: primaryColor, textColor: secondaryColor)
@@ -24,7 +27,8 @@ struct PlayerControllerView: View {
                     Spacer()
                     forwardButton
                 }
-                .padding(.vertical, 16)
+                .frame(height: 24)
+                .padding(.vertical, nil)
                 HStack {
                     speakerButton
                     Spacer()
@@ -34,7 +38,7 @@ struct PlayerControllerView: View {
                     Spacer()
                     queueButton
                 }
-                .padding(.top, 8)
+                .padding(.vertical, nil)
             }
             Spacer(minLength: 0)
         }
@@ -48,8 +52,12 @@ struct PlayerControllerView: View {
     }
     
     var playButton: some View {
-        Button(action: {}) {
-            Image(systemName: "play.fill")
+        Button {
+            withAnimation(.linear(duration: 0.01)) {
+                isPlaying.toggle()
+            }
+        } label: {
+            Image(systemName: isPlaying ? "play.fill" : "pause.fill")
         }
         .buttonStyle(LargeMediaButtonStyle(foregroundColor: secondaryColor))
     }
@@ -63,7 +71,7 @@ struct PlayerControllerView: View {
     
     var speakerButton: some View {
         Button(action: {}) {
-//            Image(systemName: "hifispeaker.2.fill")
+            //            Image(systemName: "hifispeaker.2.fill")
             Image(systemName: "airpodsmax")
         }
         .buttonStyle(SmalleMediaButtonStyle(foregroundColor: secondaryColor))
@@ -92,16 +100,6 @@ struct PlayerControllerView: View {
     
 }
 
-struct PlayerControllerView_Previews: PreviewProvider {
-    @State static var duration: Int = 194
-    @State static var percentage: CGFloat = 0.69
-    static let palette = Palette()
-    static var previews: some View {
-        PlayerControllerView(duration: $duration, percentage: $percentage, primaryColor: palette.primary.light, secondaryColor: palette.secondary.light)
-            .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
-    }
-}
-
 struct LargeMediaButtonStyle: ButtonStyle {
     var foregroundColor: Color
     func makeBody(configuration: Self.Configuration) -> some View {
@@ -117,5 +115,20 @@ struct SmalleMediaButtonStyle: ButtonStyle {
         configuration.label
             .font(.callout)
             .foregroundColor(foregroundColor)
+    }
+}
+
+struct PlayerControllerView_Previews: PreviewProvider {
+    @State static var duration: Int = 194
+    @State static var percentage: CGFloat = 0.69
+    static let palette = Palette()
+    static var previews: some View {
+        PlayerControllerView(
+            duration: $duration,
+            percentage: $percentage,
+            primaryColor: palette.primary.light,
+            secondaryColor: palette.secondary.light
+        )
+            .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
     }
 }

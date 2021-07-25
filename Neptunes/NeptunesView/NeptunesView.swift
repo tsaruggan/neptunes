@@ -37,6 +37,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
                     content
                 }
                 .padding(.top, 100)
+                .padding(.bottom, 80)
                 .frame(minHeight: UIScreen.main.bounds.height)
             }
         }

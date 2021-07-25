@@ -58,7 +58,6 @@ struct ScrubberView: View {
                         Text(formatTime(seconds: duration))
                     }
                     .font(.system(.footnote, design: .monospaced))
-//                    .monospacedDigit()
                     .foregroundColor(textColor)
                     Spacer(minLength: 0)
                 }

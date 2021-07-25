@@ -21,16 +21,72 @@ struct PlayerView: View {
     @State var scrollText: Bool = true
     
     
-    let expandedContentWidth = max(UIScreen.main.bounds.width * 3.0 / 4.0, 264)
-    let expandedContentHeight = UIScreen.main.bounds.height * 2 / 3
+    let expandedContentWidth = max(UIScreen.main.bounds.width * 2.5 / 3, 264)
+    let expandedContentHeight = UIScreen.main.bounds.height * 2.5 / 3
     let expandedContentVerticalOffset = min(UIScreen.main.bounds.height / 8, 200)
     
     init(song: Song, expanded: Binding<Bool>, animation: Namespace.ID) {
         self.song = song
         self._expanded = expanded
         self.animation = animation
-        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: nil)
+        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
         //        self.palette = Palette()
+    }
+    
+    var body: some View {
+        VStack {
+            if expanded {
+                VStack() {
+                    collapseButton
+                    Spacer(minLength: 16)
+                    songArtwork
+                    expandedSongInformation
+                        .padding(.top, 16)
+                    PlayerControllerView(
+                        duration: $duration,
+                        percentage: $percentage,
+                        primaryColor: palette.primary(colorScheme),
+                        secondaryColor: palette.secondary(colorScheme)
+                    )
+                }
+                .frame(height: expandedContentHeight)
+                .padding(48)
+                .opacity(expanded ? 1 : 0)
+            } else {
+                HStack(spacing: 15) {
+                    songArtwork
+                    collapsedSongInformation
+                    Spacer(minLength: 0)
+                    collapsedControlButtons
+                }
+                .padding(.horizontal)
+            }
+        }
+        .frame(width: UIScreen.main.bounds.width)
+        .frame(maxHeight: expanded ? .infinity : 80)
+        .background(palette.background(colorScheme).opacity(0.75))
+        .background(.ultraThinMaterial)
+        .onTapGesture {
+            withAnimation(.easeInOut){ expanded = true }
+        }
+        .cornerRadius(expanded && offset > 0 ? 20 : 0)
+        .offset(y: expanded ? 0 : -48)
+        .offset(y: offset)
+        .gesture(
+            DragGesture()
+                .onEnded(dragGestureOnEnded(value:))
+                .onChanged(dragGestureOnChanged(value:))
+        )
+        .ignoresSafeArea()
+    }
+    
+    var songArtwork: some View {
+        Image(song.artwork ?? "default_album_art")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .cornerRadius(8)
+            .matchedGeometryEffect(id: "artwork", in: animation, properties: .frame)
+            .frame(width: expanded ? nil : 55, height: expanded ? nil : 55)
     }
     
     var expandedSongInformation: some View {
@@ -39,6 +95,7 @@ struct PlayerView: View {
                 Text(song.title)
                     .foregroundColor(palette.primary(colorScheme))
                     .fontWeight(.bold)
+                    .lineLimit(1)
                     .matchedGeometryEffect(id: "title", in: animation, properties: .position)
                 
                 if song.isExplicit {
@@ -64,7 +121,15 @@ struct PlayerView: View {
         .frame(height: expanded ? 64 : 0)
     }
     
-    var expandedHeader: some View {
+    var expandedScrubber: some View {
+        ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: palette.primary(colorScheme), textColor: palette.secondary(colorScheme))
+            .frame(height: expanded ? 50 : 0)
+            .opacity(expanded ? 1 : 0)
+            .padding(.vertical, expanded ? nil : 0)
+            .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+    }
+    
+    var collapseButton: some View {
         HStack(alignment: .center){
             Button(action: { withAnimation(.easeInOut){ expanded = false } }) {
                 Image(systemName: "chevron.compact.down")
@@ -72,17 +137,7 @@ struct PlayerView: View {
         }
         .foregroundColor(palette.secondary(colorScheme))
         .font(.title)
-        .frame(height: expanded ? expandedContentVerticalOffset : 0)
-        .opacity(expanded ? 1 : 0)
-    }
-    
-    var songArtwork: some View {
-        Image(song.artwork ?? "default_album_art")
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .cornerRadius(8)
-            .matchedGeometryEffect(id: "artwork", in: animation, properties: .frame)
-            .frame(width: expanded ? nil : 55, height: expanded ? nil : 55)
+        .padding()
     }
     
     var collapsedControlButtons: some View {
@@ -115,69 +170,6 @@ struct PlayerView: View {
                 .matchedGeometryEffect(id: "artist", in: animation)
         }
     }
-    
-    var expandedScrubber: some View {
-        ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: palette.primary(colorScheme), textColor: palette.secondary(colorScheme))
-            .frame(height: expanded ? 50 : 0)
-            .opacity(expanded ? 1 : 0)
-            .padding(.vertical, expanded ? nil : 0)
-            .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
-    }
-    
-    var body: some View {
-        VStack {
-            if !expanded {
-                HStack(spacing: 15) {
-                    songArtwork
-                    collapsedSongInformation
-                    Spacer(minLength: 0)
-                    collapsedControlButtons
-                }
-                .padding(.horizontal)
-            }
-            
-            if expanded {
-                ZStack {
-                    //                    expandedHeader
-                    HStack(alignment: .bottom) {
-                        VStack() {
-                            Spacer(minLength: 0)
-                            songArtwork
-                            expandedSongInformation
-                                .padding(.top, 16)
-                            PlayerControllerView(
-                                duration: $duration,
-                                percentage: $percentage,
-                                primaryColor: palette.primary(colorScheme),
-                                secondaryColor: palette.secondary(colorScheme)
-                            )
-                        }
-                        .frame(height: expandedContentHeight)
-                        .padding(36)
-                        .padding(.top, 24)
-                        .opacity(expanded ? 1 : 0)
-                    }
-                }
-            }
-        }
-        .frame(width: UIScreen.main.bounds.width)
-        .frame( maxHeight: expanded ? .infinity : 80)
-        .background(palette.background(colorScheme).opacity(0.75))
-        .background(.thinMaterial)
-        .onTapGesture {
-            withAnimation(.easeInOut){ expanded = true }
-        }
-        .cornerRadius(expanded && offset > 0 ? 20 : 0)
-        .offset(y: expanded ? 0 : -48)
-        .offset(y: offset)
-        .gesture(
-            DragGesture()
-                .onEnded(dragGestureOnEnded(value:))
-                .onChanged(dragGestureOnChanged(value:))
-        )
-        .ignoresSafeArea()
-    }
-    
     
     func dragGestureOnChanged(value : DragGesture.Value) {
         if value.translation.height > 0 && expanded {
