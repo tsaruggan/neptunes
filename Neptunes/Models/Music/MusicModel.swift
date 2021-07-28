@@ -15,10 +15,10 @@ struct MusicModel {
     
     init() {
         self.artists = [
-            Artist(title: "Drake", artwork: "drake_artist_art"),
-            Artist(title: "Frank Ocean", artwork: "frank_ocean_artist_art"),
-            Artist(title: "Travis Scott", artwork: "travis_scott_artist_art"),
-            Artist(title: "SZA", artwork: "sza_artist_art")
+            Artist(title: "Drake", artwork: "drake_artist_art", header: "drake_header_art"),
+            Artist(title: "Frank Ocean", artwork: "frank_ocean_artist_art", header: "frank_ocean_header_art"),
+            Artist(title: "Travis Scott", artwork: "travis_scott_artist_art", header: "travis_scott_header_art"),
+            Artist(title: "SZA", artwork: "sza_artist_art", header: "sza_header_art_1")
         ]
         self.albums = [
             //            Album(title: "Talk is Cheap (feat. Aaliyah & Static Major)", artist: self.artists[0], artwork: "drake_album_art_2", header: "drake_header_art", isSingle: true),
