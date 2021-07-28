@@ -16,7 +16,15 @@ struct ArtistView: View {
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NeptunesView(header: viewModel.artist.header, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artwork: viewModel.artist.artwork ?? "default_album_art", isCircle: true)
+            Spacer()
+        } menu: {
+            Button(action: {}) {
+                Label("Edit Artist...", systemImage: "wand.and.stars")
+            }
+        }
+
     }
 }
 
