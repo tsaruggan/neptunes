@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Album: Collectable {
+struct Album: Collectable, Identifiable {
     var title: String
     var artist: Artist
     var date: Date = Date()

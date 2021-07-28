@@ -13,4 +13,14 @@ struct Artist: Sortable, Viewable {
     var artwork: String?
     var header: String?
     var id: String { return title }
+    var albums: [Album] = []
+    var songs: [Song] {
+        var songs: [Song] = []
+        for album in self.albums {
+            for song in album.songs {
+                songs.append(song)
+            }
+        }
+        return songs
+    }
 }
