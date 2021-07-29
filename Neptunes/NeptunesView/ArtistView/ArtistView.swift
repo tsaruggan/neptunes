@@ -19,40 +19,45 @@ struct ArtistView: View {
         NeptunesView(header: viewModel.artist.header, backgroundColor: viewModel.palette.background(colorScheme)) {
             ArtworkView(artwork: viewModel.artist.artwork ?? "default_album_art", paddingHorizontal: 124, isCircle: true)
             
-            VStack(alignment: .leading, spacing: 0) {
-                HStack {
+            
+            HStack {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Artist")
+                        .font(.subheadline)
+                        .foregroundColor(viewModel.palette.secondary(colorScheme))
                     Text(viewModel.artist.title)
                         .foregroundColor(viewModel.palette.primary(colorScheme))
                         .fontWeight(.bold)
-                        .font(.title)
-                    Spacer()
+                        .font(.title2)
                 }
+                Spacer()
             }
             .padding(.horizontal, 20)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 20) {
-                    ForEach(viewModel.artist.albums + viewModel.artist.albums) { album in
-                        VStack(alignment: .leading) {
-                            Image(album.artwork ?? "default_album_art")
-                                .resizable()
-                                .scaledToFill()
-                                .cornerRadius(8)
-                            Text(album.title)
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                                .fontWeight(.bold)
-                                .lineLimit(1)
+                    ForEach(viewModel.artist.albums) { album in
+                        NavigationLink {
+                            AlbumView(viewModel: .init(album: album))
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Image(album.artwork ?? "default_album_art")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .cornerRadius(8)
+                                Text(album.title)
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                    .fontWeight(.bold)
+                                    .lineLimit(1)
+                            }
+                            .frame(width: 164)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.bottom, 20)
-
             }
-            .frame(height: 220)
-            
-            Divider()
             
             SongListView(
                 songs: viewModel.artist.songs,

@@ -52,15 +52,20 @@ struct AlbumView: View {
                 .fontWeight(.bold)
                 .font(.title2)
                 .padding(.bottom, 4)
-            HStack {
-                Image(viewModel.album.artist.artwork ?? "default_album_art")
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(Circle())
-                    .frame(height: 24)
-                Text(viewModel.album.artist.title)
-                    .foregroundColor(viewModel.palette.secondary(colorScheme))
+            NavigationLink {
+                ArtistView(viewModel: .init(artist: viewModel.album.artist))
+            } label: {
+                HStack {
+                    Image(viewModel.album.artist.artwork ?? "default_album_art")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(height: 24)
+                    Text(viewModel.album.artist.title)
+                        .foregroundColor(viewModel.palette.secondary(colorScheme))
+                }
             }
+            .buttonStyle(.plain)
         }
         .frame(width: 320, alignment: .leading)
     }
