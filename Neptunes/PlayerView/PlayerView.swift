@@ -29,8 +29,8 @@ struct PlayerView: View {
         self.song = song
         self._expanded = expanded
         self.animation = animation
-        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
-        //        self.palette = Palette()
+        //        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
+        self.palette = Palette()
     }
     
     var body: some View {

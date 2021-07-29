@@ -47,7 +47,7 @@ struct ArtistView: View {
                                     .cornerRadius(8)
                                 Text(album.title)
                                     .font(.headline)
-                                    .foregroundColor(.primary)
+                                    .foregroundColor(viewModel.palette.primary(colorScheme))
                                     .fontWeight(.bold)
                                     .lineLimit(1)
                             }
