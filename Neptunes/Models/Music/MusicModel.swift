@@ -27,11 +27,6 @@ struct MusicModel {
             Album(title: "nostalgia, ULTRA", artist: artists[1], artwork: "frank_ocean_album_art_2", header: "frank_ocean_header_art_2"),
             Album(title: "Love Galore (Solo Version)", artist: artists[3], artwork: "sza_album_artwork_1" ,header: "sza_header_art_1", isSingle: true)
         ]
-        self.artists[0].albums.append(self.albums[0])
-        self.artists[1].albums.append(self.albums[1])
-        self.artists[1].albums.append(self.albums[3])
-        self.artists[2].albums.append(self.albums[2])
-        self.artists[3].albums.append(self.albums[4])
         
         self.albums[0].addSongs(
             Song(title: "Talk is Cheap (feat. Aaliyah & Static Major)")
@@ -91,6 +86,18 @@ struct MusicModel {
         self.albums[4].addSongs(
             Song(title: "Love Galore (Solo Version)", isExplicit: true)
         )
+        
+        self.artists[0].albums.append(self.albums[0])
+        self.artists[1].albums.append(self.albums[1])
+        self.artists[1].albums.append(self.albums[3])
+        self.artists[2].albums.append(self.albums[2])
+        self.artists[3].albums.append(self.albums[4])
+        
+        self.albums[0].artist = self.artists[0]
+        self.albums[1].artist = self.artists[1]
+        self.albums[3].artist = self.artists[1]
+        self.albums[2].artist = self.artists[2]
+        self.albums[4].artist = self.artists[3]
         
         self.playlists = [
             Playlist(title: "SUMMER 2021", artwork: "drake_album_art_2",

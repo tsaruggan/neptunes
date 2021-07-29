@@ -28,10 +28,10 @@ struct ArtistView: View {
                     Spacer()
                 }
             }
-            .padding(.horizontal, nil)
+            .padding(.horizontal, 20)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
+                HStack(spacing: 20) {
                     ForEach(viewModel.artist.albums + viewModel.artist.albums) { album in
                         VStack(alignment: .leading) {
                             Image(album.artwork ?? "default_album_art")
@@ -46,10 +46,22 @@ struct ArtistView: View {
                         }
                     }
                 }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
+
             }
             .frame(height: 220)
-            .padding(.vertical, nil)
-            .padding(.leading, nil)
+            
+            Divider()
+            
+            SongListView(
+                songs: viewModel.artist.songs,
+                labelColor: viewModel.palette.secondary(colorScheme),
+                foregroundColor: viewModel.palette.primary(colorScheme),
+                explicitSignColor: viewModel.palette.accent(colorScheme),
+                menuColor: viewModel.palette.secondary(colorScheme),
+                isDetailed: true
+            )
             
             Spacer()
             

@@ -21,6 +21,9 @@ struct Artist: Sortable, Viewable {
                 songs.append(song)
             }
         }
+        songs = songs.sorted(by: {
+            $0.title < $1.title
+        })
         return songs
     }
 }
