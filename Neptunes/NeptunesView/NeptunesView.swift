@@ -20,6 +20,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
         self.content = content()
         self.menu = menu()
         
+        UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().barTintColor = .clear
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -44,6 +45,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
         .background(LinearGradient(colors: [backgroundColor, .clear], startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(false)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading){ backButton }
             ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }

@@ -17,8 +17,9 @@ struct HomePageView: View {
     let model = MusicModel()
     
     init() {
-        UITableView.appearance().backgroundColor = .clear
+//        UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
+        
     }
     
     var header: some View {

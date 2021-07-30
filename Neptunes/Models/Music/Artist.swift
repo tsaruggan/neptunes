@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Artist: Sortable, Viewable {
+struct Artist: Sortable, Viewable, Identifiable {
     var title: String
     var date: Date = Date()
     var artwork: String?
