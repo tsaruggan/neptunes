@@ -19,35 +19,39 @@ struct ArtistFinderView: View {
     }
     
     var body: some View {
-        NavigationView {
             ScrollView{
                 VStack {
                     ForEach(artists + artists + artists) { artist in
-                        NavigationLink(
-                            destination: ArtistView(viewModel: .init(artist: artist))) {
-                            HStack{
+                        NavigationLink(destination: ArtistView(viewModel: .init(artist: artist))) {
+                            HStack(spacing: 15) {
+                                Image(artist.artwork ?? "default_album_art")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 48)
+                                    .clipShape(Circle())
                                 Text(artist.title)
+                                    .bold()
                                 Spacer()
                             }
-                            .padding(.horizontal, nil)
-                            .padding(.bottom, nil)
+                            .foregroundColor(.primary)
+                            .padding(5)
                         }
+                        Divider()
                     }
                     Spacer()
                 }
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
                 .navigationTitle("Artists")
-                .navigationBarTitleDisplayMode(.automatic)
-                
+                .navigationBarTitleDisplayMode(.inline)
             }
             .padding()
-            
-        }
     }
 }
 
 struct ArtistFinderView_Previews: PreviewProvider {
     static var previews: some View {
-        ArtistFinderView()
+        NavigationView {
+            ArtistFinderView()
+        }
     }
 }

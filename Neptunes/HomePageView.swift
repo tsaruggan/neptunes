@@ -9,15 +9,15 @@ import SwiftUI
 
 struct HomePageView: View {
     let items = [
-        (name: "Songs", icon: "music.note"),
-        (name: "Artists", icon: "music.mic"),
-        (name: "Albums", icon: "square.stack"),
-        (name: "Playlists", icon: "music.note.list")
+        (name: "Songs", icon: "music.note", destination: ArtistFinderView()),
+        (name: "Artists", icon: "music.mic", destination: ArtistFinderView()),
+        (name: "Albums", icon: "square.stack", destination: ArtistFinderView()),
+        (name: "Playlists", icon: "music.note.list", destination: ArtistFinderView())
     ]
     let model = MusicModel()
     
     init() {
-//        UITableView.appearance().backgroundColor = .clear
+        UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
         
     }
@@ -40,15 +40,21 @@ struct HomePageView: View {
             ForEach(items.indices, id: \.self) { index in
                 Divider()
                     .background(Color.secondary)
-                HStack(alignment: .firstTextBaseline) {
-                    Image(systemName: items[index].icon)
-                        .foregroundColor(.teal)
-                    Text(items[index].name)
-                        .foregroundColor(.primary)
-                    Spacer()
-                    
+                
+                NavigationLink {
+                    items[index].destination
+                } label: {
+                    HStack(alignment: .firstTextBaseline) {
+                        Image(systemName: items[index].icon)
+                            .foregroundColor(.teal)
+                        Text(items[index].name)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        
+                    }
+                    .listRowInsets(EdgeInsets())
                 }
-                .listRowInsets(EdgeInsets())
+                .isDetailLink(false)
             }
             Divider()
                 .background(Color.secondary)
@@ -91,6 +97,7 @@ struct HomePageView: View {
             }
             .padding(.top)
         }
+        .accentColor(.teal)
     }
 }
 
@@ -134,5 +141,6 @@ struct CollectableItemView<CollectableView: View>: View {
             
             .padding(5)
         }
+        .isDetailLink(false)
     }
 }

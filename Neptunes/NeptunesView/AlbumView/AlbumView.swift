@@ -65,6 +65,7 @@ struct AlbumView: View {
                         .foregroundColor(viewModel.palette.secondary(colorScheme))
                 }
             }
+            .isDetailLink(false)
             .buttonStyle(.plain)
         }
         .frame(width: 320, alignment: .leading)
