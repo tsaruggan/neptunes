@@ -8,12 +8,6 @@
 import SwiftUI
 
 struct HomePageView: View {
-    let items = [
-        (name: "Songs", icon: "music.note", destination: ArtistFinderView()),
-        (name: "Artists", icon: "music.mic", destination: ArtistFinderView()),
-        (name: "Albums", icon: "square.stack", destination: ArtistFinderView()),
-        (name: "Playlists", icon: "music.note.list", destination: ArtistFinderView())
-    ]
     let model = MusicModel()
     
     init() {
@@ -35,29 +29,17 @@ struct HomePageView: View {
         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
     }
     
-    var selectionList: some View {
-        Group{
-            ForEach(items.indices, id: \.self) { index in
-                Divider()
-                    .background(Color.secondary)
-                
-                NavigationLink {
-                    items[index].destination
-                } label: {
-                    HStack(alignment: .firstTextBaseline) {
-                        Image(systemName: items[index].icon)
-                            .foregroundColor(.teal)
-                        Text(items[index].name)
-                            .foregroundColor(.primary)
-                        Spacer()
-                        
-                    }
-                    .listRowInsets(EdgeInsets())
-                }
-                .isDetailLink(false)
-            }
-            Divider()
-                .background(Color.secondary)
+    var finderList: some View {
+        Group {
+            Divider().background(Color.secondary)
+            FinderListItemView(text: "Songs", icon: "music.note") { ArtistFinderView() }
+            Divider().background(Color.secondary)
+            FinderListItemView(text: "Artists", icon: "music.mic") { ArtistFinderView() }
+            Divider().background(Color.secondary)
+            FinderListItemView(text: "Albums", icon: "square.stack") { AlbumFinderView() }
+            Divider().background(Color.secondary)
+            FinderListItemView(text: "Playlists", icon: "music.note.list") { ArtistFinderView() }
+            Divider().background(Color.secondary)
         }
     }
     
@@ -82,7 +64,7 @@ struct HomePageView: View {
     var content: some View {
         VStack {
             header
-            selectionList
+            finderList
             collectableGrid
         }
     }
@@ -144,3 +126,34 @@ struct CollectableItemView<CollectableView: View>: View {
         .isDetailLink(false)
     }
 }
+
+struct FinderListItemView<Destination: View>: View {
+    var text: String
+    var icon: String
+    var destination: Destination
+    
+    init(text: String, icon: String, @ViewBuilder destination: () -> Destination) {
+        self.text = text
+        self.icon = icon
+        self.destination = destination()
+    }
+    
+    var body: some View {
+        NavigationLink {
+            destination
+        } label: {
+            HStack(alignment: .firstTextBaseline) {
+                Image(systemName: icon)
+                    .foregroundColor(.teal)
+                Text(text)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            .listRowInsets(EdgeInsets())
+        }
+        .isDetailLink(false)
+    }
+    
+    
+}
+
