@@ -39,7 +39,7 @@ struct AlbumFinderView: View {
             return albums
         } else {
             return albums.filter{
-                $0.title.containsCharactersInSequence(searchText, options: .caseInsensitive).result
+                $0.title.letters.caseInsensitiveContains(searchText.letters)
             }
         }
     }

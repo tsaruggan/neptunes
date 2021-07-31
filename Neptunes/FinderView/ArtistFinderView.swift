@@ -39,39 +39,10 @@ struct ArtistFinderView: View {
             return artists
         } else {
             return artists.filter{
-                $0.title.containsCharactersInSequence(searchText, options: .caseInsensitive).result
+                $0.title.letters.caseInsensitiveContains(searchText.letters)
             }
         }
     }
-}
-
-struct ArtistFinderView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            ArtistFinderView()
-        }
-    }
-}
-
-extension StringProtocol where Self: RangeReplaceableCollection {
-    func containsCharactersInSequence<S: StringProtocol>(_ string: S, options: String.CompareOptions = []) -> (result: Bool, ranges: [Range<Index>]) {
-        var found = 0
-        var startIndex = self.startIndex
-        var index = string.startIndex
-        var ranges: [Range<Index>] = []
-        while index < string.endIndex,
-            let range = self[startIndex...].range(of: string[index...index], options: options) {
-            ranges.append(range)
-            startIndex = range.upperBound
-            string.formIndex(after: &index)
-            found += 1
-        }
-        return (found == string.count, ranges)
-    }
-}
-
-extension StringProtocol where Self: RangeReplaceableCollection {
-    var letters: Self { filter(\.isLetter) }
 }
 
 struct ArtistFinderItemView: View {
@@ -93,4 +64,21 @@ struct ArtistFinderItemView: View {
         }
         .isDetailLink(false)
     }
+}
+
+struct ArtistFinderView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            ArtistFinderView()
+        }
+    }
+}
+
+
+extension StringProtocol {
+    func caseInsensitiveContains<S: StringProtocol>(_ string: S) -> Bool { range(of: string, options: .caseInsensitive) != nil }
+}
+
+extension StringProtocol where Self: RangeReplaceableCollection {
+    var letters: Self { filter(\.isLetter) }
 }
