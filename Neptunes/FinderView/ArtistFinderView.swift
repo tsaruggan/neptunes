@@ -21,20 +21,7 @@ struct ArtistFinderView: View {
             ScrollView{
                 VStack {
                     ForEach(artists) { artist in
-                        NavigationLink(destination: ArtistView(viewModel: .init(artist: artist))) {
-                            HStack(spacing: 15) {
-                                Image(artist.artwork ?? "default_album_art")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 48)
-                                    .clipShape(Circle())
-                                Text(artist.title)
-                                    .bold()
-                                Spacer()
-                            }
-                            .foregroundColor(.primary)
-                            .padding(5)
-                        }
+                        ArtistFinderItemView(artist: artist)
                         Divider()
                     }
                     Spacer()
@@ -85,4 +72,25 @@ extension StringProtocol where Self: RangeReplaceableCollection {
 
 extension StringProtocol where Self: RangeReplaceableCollection {
     var letters: Self { filter(\.isLetter) }
+}
+
+struct ArtistFinderItemView: View {
+    var artist: Artist
+    var body: some View {
+        NavigationLink(destination: ArtistView(viewModel: .init(artist: artist))) {
+            HStack(spacing: 15) {
+                Image(artist.artwork ?? "default_album_art")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 48)
+                    .clipShape(Circle())
+                Text(artist.title)
+                    .bold()
+                Spacer()
+            }
+            .foregroundColor(.primary)
+            .padding(5)
+        }
+        .isDetailLink(false)
+    }
 }
