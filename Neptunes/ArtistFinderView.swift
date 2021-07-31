@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ArtistFinderView: View {
     @State var searchText = ""
-    var artists: [Artist] = MusicModel().artists
     
     init() {
         UINavigationBar.appearance().isTranslucent = true
@@ -21,7 +20,7 @@ struct ArtistFinderView: View {
     var body: some View {
             ScrollView{
                 VStack {
-                    ForEach(artists + artists + artists) { artist in
+                    ForEach(artists) { artist in
                         NavigationLink(destination: ArtistView(viewModel: .init(artist: artist))) {
                             HStack(spacing: 15) {
                                 Image(artist.artwork ?? "default_album_art")
@@ -46,6 +45,17 @@ struct ArtistFinderView: View {
             }
             .padding()
     }
+    
+    var artists: [Artist] {
+        let artists = MusicModel().artists.sorted { $0.title < $1.title }
+        if searchText.isEmpty {
+            return artists
+        } else {
+            return artists.filter{
+                $0.title.containsCharactersInSequence(searchText, options: .caseInsensitive).result
+            }
+        }
+    }
 }
 
 struct ArtistFinderView_Previews: PreviewProvider {
@@ -54,4 +64,25 @@ struct ArtistFinderView_Previews: PreviewProvider {
             ArtistFinderView()
         }
     }
+}
+
+extension StringProtocol where Self: RangeReplaceableCollection {
+    func containsCharactersInSequence<S: StringProtocol>(_ string: S, options: String.CompareOptions = []) -> (result: Bool, ranges: [Range<Index>]) {
+        var found = 0
+        var startIndex = self.startIndex
+        var index = string.startIndex
+        var ranges: [Range<Index>] = []
+        while index < string.endIndex,
+            let range = self[startIndex...].range(of: string[index...index], options: options) {
+            ranges.append(range)
+            startIndex = range.upperBound
+            string.formIndex(after: &index)
+            found += 1
+        }
+        return (found == string.count, ranges)
+    }
+}
+
+extension StringProtocol where Self: RangeReplaceableCollection {
+    var letters: Self { filter(\.isLetter) }
 }
