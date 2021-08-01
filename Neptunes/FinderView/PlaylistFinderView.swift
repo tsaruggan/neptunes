@@ -1,13 +1,13 @@
 //
-//  ArtistFinderView.swift
+//  PlaylistFinderView.swift
 //  Neptunes
 //
-//  Created by Saruggan Thiruchelvan on 2021-07-30.
+//  Created by Saruggan Thiruchelvan on 2021-08-01.
 //
 
 import SwiftUI
 
-struct ArtistFinderView: View {
+struct PlaylistFinderView: View {
     @State var searchText = ""
     
     init() {
@@ -20,42 +20,42 @@ struct ArtistFinderView: View {
     var body: some View {
         ScrollView{
             VStack {
-                ForEach(artists) { artist in
-                    ArtistFinderItemView(artist: artist)
+                ForEach(playlists) { playlist in
+                    PlaylistFinderItemView(playlist: playlist)
                     Divider()
                 }
                 Spacer()
             }
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-            .navigationTitle("Artists")
+            .navigationTitle("Albums")
             .navigationBarTitleDisplayMode(.inline)
         }
         .padding()
     }
     
-    var artists: [Artist] {
-        let artists = MusicModel().artists.sorted { $0.title < $1.title }
+    var playlists: [Playlist] {
+        let playlists = MusicModel().playlists.sorted { $0.title < $1.title }
         if searchText.isEmpty {
-            return artists
+            return playlists
         } else {
-            return artists.filter{
+            return playlists.filter{
                 $0.title.letters.caseInsensitiveContains(searchText.letters)
             }
         }
     }
 }
 
-struct ArtistFinderItemView: View {
-    var artist: Artist
+struct PlaylistFinderItemView: View {
+    var playlist: Playlist
     var body: some View {
-        NavigationLink(destination: ArtistView(viewModel: .init(artist: artist))) {
+        NavigationLink(destination: PlaylistView(viewModel: .init(playlist: playlist))) {
             HStack(spacing: 15) {
-                Image(artist.artwork ?? "default_album_art")
+                Image(playlist.artwork ?? "default_album_art")
                     .resizable()
                     .scaledToFit()
+                    .cornerRadius(5)
                     .frame(height: 48)
-                    .clipShape(Circle())
-                Text(artist.title)
+                Text(playlist.title)
                     .bold()
                     .lineLimit(1)
                 Spacer()
@@ -67,19 +67,10 @@ struct ArtistFinderItemView: View {
     }
 }
 
-struct ArtistFinderView_Previews: PreviewProvider {
+struct PlaylistFinderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ArtistFinderView()
+            PlaylistFinderView()
         }
     }
-}
-
-
-extension StringProtocol {
-    func caseInsensitiveContains<S: StringProtocol>(_ string: S) -> Bool { range(of: string, options: .caseInsensitive) != nil }
-}
-
-extension StringProtocol where Self: RangeReplaceableCollection {
-    var letters: Self { filter(\.isLetter) }
 }

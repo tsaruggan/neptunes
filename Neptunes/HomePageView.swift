@@ -38,7 +38,7 @@ struct HomePageView: View {
             Divider().background(Color.secondary)
             FinderListItemView(text: "Albums", icon: "square.stack") { AlbumFinderView() }
             Divider().background(Color.secondary)
-            FinderListItemView(text: "Playlists", icon: "music.note.list") { ArtistFinderView() }
+            FinderListItemView(text: "Playlists", icon: "music.note.list") { PlaylistFinderView() }
             Divider().background(Color.secondary)
         }
     }

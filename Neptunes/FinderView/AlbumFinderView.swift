@@ -61,6 +61,7 @@ struct AlbumFinderItemView: View {
                         .lineLimit(1)
                     Text(album.artist.title)
                         .font(.callout)
+                        .foregroundColor(.secondary)
                 }
                 
                 Spacer()
