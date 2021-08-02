@@ -14,6 +14,10 @@ struct HomePageView: View {
         UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
         
+        //        UITabBar.appearance().shadowImage = UIImage()
+        //        UITabBar.appearance().backgroundImage = UIImage()
+        //        UITabBar.appearance().isTranslucent = true
+        //        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
     }
     
     var header: some View {
@@ -156,4 +160,3 @@ struct FinderListItemView<Destination: View>: View {
     
     
 }
-

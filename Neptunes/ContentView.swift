@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     @State var current = 0
@@ -22,8 +23,9 @@ struct ContentView: View {
                     .tag(1)
                     .tabItem { Label("Search", systemImage: "magnifyingglass") }
             }
+            //            .background(.thinMaterial)
             .accentColor(.teal)
-            .background(.thinMaterial)
+            
             
             PlayerView(song: MusicModel().albums[0].songs[0] ,expanded: $expanded, animation: animation)
         }
@@ -38,3 +40,5 @@ struct ContentView_Previews: PreviewProvider {
         }
     }
 }
+
+

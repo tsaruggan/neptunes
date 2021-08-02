@@ -131,9 +131,9 @@
 		184F4195268793DC00832965 /* Neptunes */ = {
 			isa = PBXGroup;
 			children = (
+				18E16C1E269F70FF004092B4 /* NeptunesView */,
 				187A96F426B59E9B00A42F5B /* FinderView */,
 				18FF187A26A375570085A769 /* PlayerView */,
-				18E16C1E269F70FF004092B4 /* NeptunesView */,
 				188390D52695EE140026B04D /* Models */,
 				184F4196268793DC00832965 /* NeptunesApp.swift */,
 				184F4198268793DC00832965 /* ContentView.swift */,
@@ -226,6 +226,7 @@
 				188390E72695F5680026B04D /* AlbumView */,
 				184B236626A1104E00AABBE8 /* PlaylistView */,
 				18E16C21269F716F004092B4 /* Utilities */,
+				18E16C1F269F7122004092B4 /* NeptunesView.swift */,
 			);
 			path = NeptunesView;
 			sourceTree = "<group>";
@@ -233,7 +234,6 @@
 		18E16C21269F716F004092B4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				18E16C1F269F7122004092B4 /* NeptunesView.swift */,
 				188390E82695F5900026B04D /* HeaderView.swift */,
 				183692AA26A079F200999D3D /* ArtworkView.swift */,
 				18E09A5C269B657000FE2AB3 /* SongListView.swift */,

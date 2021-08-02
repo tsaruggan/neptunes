@@ -37,6 +37,7 @@ struct FinderView<FinderItemView: View>: View {
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
+            .padding(.bottom, 80)
         }
         .padding()
     }
