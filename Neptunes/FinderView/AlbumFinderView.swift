@@ -41,7 +41,6 @@ struct AlbumFinderItemView: View {
             .foregroundColor(.primary)
             .padding(5)
         }
-        .isDetailLink(false)
     }
 }
 

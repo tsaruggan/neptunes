@@ -9,27 +9,58 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
-    @State var current = 0
+    @State private var selected: Int = 0
+    @State private var tappedTwice = false
+    
+    @State private var home = UUID()
+    @State private var search = UUID()
+    
+    var selectionBinding: Binding<Int> { Binding {
+        self.selected
+    } set: {
+        if $0 == self.selected {
+            tappedTwice = true
+        }
+        self.selected = $0
+    }}
+    
     @State var expanded = false
     @Namespace var animation
     
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
-            TabView(selection: $current) {
-                HomePageView()
-                    .tag(0)
-                    .tabItem { Label("Home", systemImage: "music.note.house") }
-                PageView(text: "Search page")
-                    .tag(1)
-                    .tabItem { Label("Search", systemImage: "magnifyingglass") }
+            TabView(selection: selectionBinding) {
+                NavigationView {
+                    HomePageView()
+                        .id(home)
+                        .onChange(of: tappedTwice, perform: { tappedTwice in
+                            guard tappedTwice else { return }
+                            home = UUID()
+                            self.tappedTwice = false
+                        })
+                }
+                .navigationViewStyle(.stack)
+                .tag(0)
+                .tabItem { Label("Home", systemImage: "music.note.house") }
+                
+                NavigationView {
+                    PageView(text: "Search page")
+                        .id(search)
+                        .onChange(of: tappedTwice, perform: { tappedTwice in
+                            guard tappedTwice else { return }
+                            search = UUID()
+                            self.tappedTwice = false
+                        })
+                }
+                .navigationViewStyle(.stack)
+                .tag(1)
+                .tabItem { Label("Search", systemImage: "magnifyingglass") }
             }
-            //            .background(.thinMaterial)
+            .background(.thinMaterial)
             .accentColor(.teal)
-            
             
             PlayerView(song: MusicModel().albums[0].songs[0] ,expanded: $expanded, animation: animation)
         }
-        
     }
 }
 

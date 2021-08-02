@@ -14,10 +14,10 @@ struct HomePageView: View {
         UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
         
-        //        UITabBar.appearance().shadowImage = UIImage()
-        //        UITabBar.appearance().backgroundImage = UIImage()
-        //        UITabBar.appearance().isTranslucent = true
-        //        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().isTranslucent = true
+        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
     }
     
     var header: some View {
@@ -74,16 +74,13 @@ struct HomePageView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                content
-                    .padding()
-                    .padding(.bottom, 80)
-                    .navigationBarHidden(true)
-            }
-            .padding(.top)
+        ScrollView(showsIndicators: false) {
+            content
+                .padding()
+                .padding(.bottom, 80)
+                .navigationBarHidden(true)
         }
-        .accentColor(.teal)
+        .padding(.top)
     }
 }
 
@@ -108,9 +105,7 @@ struct CollectableItemView<CollectableView: View>: View {
     }
     
     var body: some View {
-        NavigationLink {
-            view
-        } label: {
+        NavigationLink(destination: view) {
             VStack(alignment: .leading) {
                 Image(artwork ?? "default_album_art")
                     .resizable()
@@ -124,10 +119,8 @@ struct CollectableItemView<CollectableView: View>: View {
                     .foregroundColor(.secondary)
                     .lineLimit(1)
             }
-            
             .padding(5)
         }
-        .isDetailLink(false)
     }
 }
 
@@ -143,9 +136,7 @@ struct FinderListItemView<Destination: View>: View {
     }
     
     var body: some View {
-        NavigationLink {
-            destination
-        } label: {
+        NavigationLink(destination: destination) {
             HStack(alignment: .firstTextBaseline) {
                 Image(systemName: icon)
                     .foregroundColor(.teal)
@@ -153,10 +144,6 @@ struct FinderListItemView<Destination: View>: View {
                     .foregroundColor(.primary)
                 Spacer()
             }
-            .listRowInsets(EdgeInsets())
         }
-        .isDetailLink(false)
     }
-    
-    
 }

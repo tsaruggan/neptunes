@@ -35,7 +35,6 @@ struct ArtistFinderItemView: View {
             .foregroundColor(.primary)
             .padding(5)
         }
-        .isDetailLink(false)
     }
 }
 

@@ -52,9 +52,7 @@ struct ArtistView: View {
                                     .lineLimit(1)
                             }
                             .frame(width: 164)
-                            
                         }
-                        .isDetailLink(false)
                         .buttonStyle(.plain)
                     }
                 }

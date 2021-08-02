@@ -14,6 +14,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
     var backgroundColor: Color
     let content: Content
     let menu: MenuButtonGroup
+    
     init(header: String?, backgroundColor: Color, @ViewBuilder content: () -> Content, @ViewBuilder menu: () -> MenuButtonGroup) {
         self.header = header
         self.backgroundColor = backgroundColor
