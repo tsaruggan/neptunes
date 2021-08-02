@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Collectable: Sortable, Viewable {
+protocol Collectable: Viewable {
     var songs: [Song] { get set }
     mutating func addSongs(_ songs: Song...)
 }

@@ -8,38 +8,10 @@
 import SwiftUI
 
 struct ArtistFinderView: View {
-    @State var searchText = ""
-    
-    init() {
-        UINavigationBar.appearance().isTranslucent = true
-        UINavigationBar.appearance().barTintColor = .clear
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-    }
-    
     var body: some View {
-        ScrollView{
-            VStack {
-                ForEach(artists) { artist in
-                    ArtistFinderItemView(artist: artist)
-                    Divider()
-                }
-                Spacer()
-            }
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-            .navigationTitle("Artists")
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        .padding()
-    }
-    
-    var artists: [Artist] {
-        let artists = MusicModel().artists.sorted { $0.title < $1.title }
-        if searchText.isEmpty {
-            return artists
-        } else {
-            return artists.filter{
-                $0.title.letters.caseInsensitiveContains(searchText.letters)
+        FinderView(title: "Artists", findables: MusicModel().artists) { findable in
+            if let artist = findable as? Artist {
+                ArtistFinderItemView(artist: artist)
             }
         }
     }
@@ -73,13 +45,4 @@ struct ArtistFinderView_Previews: PreviewProvider {
             ArtistFinderView()
         }
     }
-}
-
-
-extension StringProtocol {
-    func caseInsensitiveContains<S: StringProtocol>(_ string: S) -> Bool { range(of: string, options: .caseInsensitive) != nil }
-}
-
-extension StringProtocol where Self: RangeReplaceableCollection {
-    var letters: Self { filter(\.isLetter) }
 }

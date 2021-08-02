@@ -32,7 +32,7 @@ struct HomePageView: View {
     var finderList: some View {
         Group {
             Divider().background(Color.secondary)
-            FinderListItemView(text: "Songs", icon: "music.note") { ArtistFinderView() }
+            FinderListItemView(text: "Songs", icon: "music.note") { SongFinderView() }
             Divider().background(Color.secondary)
             FinderListItemView(text: "Artists", icon: "music.mic") { ArtistFinderView() }
             Divider().background(Color.secondary)

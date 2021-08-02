@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Song: Sortable {
+struct Song: Findable, Identifiable {
     var title: String
     var date: Date = Date()
     var album: Album?

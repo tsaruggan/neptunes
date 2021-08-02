@@ -8,38 +8,10 @@
 import SwiftUI
 
 struct AlbumFinderView: View {
-    @State var searchText = ""
-    
-    init() {
-        UINavigationBar.appearance().isTranslucent = true
-        UINavigationBar.appearance().barTintColor = .clear
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-    }
-    
     var body: some View {
-        ScrollView{
-            VStack {
-                ForEach(albums) { album in
-                    AlbumFinderItemView(album: album)
-                    Divider()
-                }
-                Spacer()
-            }
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-            .navigationTitle("Albums")
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        .padding()
-    }
-    
-    var albums: [Album] {
-        let albums = MusicModel().albums.sorted { $0.title < $1.title }
-        if searchText.isEmpty {
-            return albums
-        } else {
-            return albums.filter{
-                $0.title.letters.caseInsensitiveContains(searchText.letters)
+        FinderView(title: "Albums", findables: MusicModel().albums) { findable in
+            if let album = findable as? Album {
+                AlbumFinderItemView(album: album)
             }
         }
     }

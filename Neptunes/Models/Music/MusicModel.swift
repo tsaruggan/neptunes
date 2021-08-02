@@ -12,6 +12,15 @@ struct MusicModel {
     var artists: [Artist]
     var playlists: [Playlist]
     var collectables: [Collectable]
+    var songs: [Song] {
+        var songs: [Song] = []
+        for album in albums {
+            for song in album.songs {
+                songs.append(song)
+            }
+        }
+        return songs
+    }
     
     init() {
         self.artists = [
