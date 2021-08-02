@@ -27,6 +27,14 @@ struct ContentView: View {
     @State var expanded = false
     @Namespace var animation
     
+    init() {
+//        UITabBar.appearance().shadowImage = UIImage()
+//        UITabBar.appearance().backgroundImage = UIImage()
+//        UITabBar.appearance().barStyle =
+
+//        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
+    }
+    
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
             TabView(selection: selectionBinding) {
@@ -71,5 +79,3 @@ struct ContentView_Previews: PreviewProvider {
         }
     }
 }
-
-
