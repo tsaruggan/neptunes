@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import AVKit
 
 struct ContentView: View {
     @State private var selected: Int = 0
@@ -26,6 +27,8 @@ struct ContentView: View {
     
     @State var expanded = false
     @Namespace var animation
+    
+    @State var audioPlayer: AVAudioPlayer!
     
     init() {
         UITabBar.appearance().shadowImage = UIImage()
@@ -66,6 +69,11 @@ struct ContentView: View {
             .accentColor(.teal)
             
             PlayerView(song: MusicData().albums[0].songs[0] ,expanded: $expanded, animation: animation)
+        }
+        .onAppear {
+            let sound = Bundle.main.path(forResource: "song", ofType: "mp3")
+            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+            self.audioPlayer.play()
         }
     }
 }
