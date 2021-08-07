@@ -28,11 +28,9 @@ struct ContentView: View {
     @Namespace var animation
     
     init() {
-//        UITabBar.appearance().shadowImage = UIImage()
-//        UITabBar.appearance().backgroundImage = UIImage()
-//        UITabBar.appearance().barStyle =
-
-//        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
     }
     
     var body: some View {
@@ -67,7 +65,7 @@ struct ContentView: View {
             .background(.thinMaterial)
             .accentColor(.teal)
             
-            PlayerView(song: MusicModel().albums[0].songs[0] ,expanded: $expanded, animation: animation)
+            PlayerView(song: MusicData().albums[0].songs[0] ,expanded: $expanded, animation: animation)
         }
     }
 }

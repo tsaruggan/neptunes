@@ -10,10 +10,9 @@ import SwiftUI
 struct PlayerControllerView: View {
     @Binding var duration: Int
     @Binding var percentage: CGFloat
+    @Binding var isPlaying: Bool
     var primaryColor: Color
     var secondaryColor: Color
-    
-    @State var isPlaying = true
     
     var body: some View {
         VStack {
@@ -53,9 +52,7 @@ struct PlayerControllerView: View {
     
     var playButton: some View {
         Button {
-            withAnimation(.linear(duration: 0.01)) {
-                isPlaying.toggle()
-            }
+            isPlaying.toggle()
         } label: {
             Image(systemName: isPlaying ? "play.fill" : "pause.fill")
         }
@@ -120,12 +117,14 @@ struct SmalleMediaButtonStyle: ButtonStyle {
 
 struct PlayerControllerView_Previews: PreviewProvider {
     @State static var duration: Int = 194
+    @State static var isPlaying: Bool = true
     @State static var percentage: CGFloat = 0.69
     static let palette = Palette()
     static var previews: some View {
         PlayerControllerView(
             duration: $duration,
             percentage: $percentage,
+            isPlaying: $isPlaying,
             primaryColor: palette.primary.light,
             secondaryColor: palette.secondary.light
         )

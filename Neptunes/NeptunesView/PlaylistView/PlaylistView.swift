@@ -57,6 +57,6 @@ struct PlaylistView: View {
 
 struct PlaylistView_Previews: PreviewProvider {
     static var previews: some View {
-        PlaylistView(viewModel: .init(playlist: MusicModel().playlists[0]))
+        PlaylistView(viewModel: .init(playlist: MusicData().playlists[0]))
     }
 }

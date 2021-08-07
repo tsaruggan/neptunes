@@ -83,7 +83,7 @@ struct ArtistView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) {
             NavigationView{
-                ArtistView(viewModel: .init(artist: MusicModel().artists[1]))
+                ArtistView(viewModel: .init(artist: MusicData().artists[1]))
             }
             .preferredColorScheme($0)
         }

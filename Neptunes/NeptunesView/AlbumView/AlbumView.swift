@@ -75,7 +75,7 @@ struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) {
             NavigationView{
-                AlbumView(viewModel: .init(album: MusicModel().albums[1]))
+                AlbumView(viewModel: .init(album: MusicData().albums[1]))
             }
             .preferredColorScheme($0)
         }

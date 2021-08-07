@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomePageView: View {
-    let model = MusicModel()
+    let model = MusicData()
     
     init() {
         UITableView.appearance().backgroundColor = .clear

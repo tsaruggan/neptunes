@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PlaylistFinderView: View {
     var body: some View {
-        FinderView(title: "Playlists", findables: MusicModel().playlists) { findable in
+        FinderView(title: "Playlists", findables: MusicData().playlists) { findable in
             if let playlist = findable as? Playlist {
                 PlaylistFinderItemView(playlist: playlist)
             }

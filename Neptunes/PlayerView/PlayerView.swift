@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct PlayerView: View {
     var song: Song
@@ -16,10 +17,9 @@ struct PlayerView: View {
     @State var offset: CGFloat = 0
     @Environment(\.colorScheme) var colorScheme
     
-    @State var duration: Int = 235
+    @State var duration: Int = 100
     @State var percentage: CGFloat = 0.5
-    @State var scrollText: Bool = true
-    
+    @State var isPlaying: Bool = true
     
     let expandedContentWidth = max(UIScreen.main.bounds.width * 2.5 / 3, 264)
     let expandedContentHeight = UIScreen.main.bounds.height * 2.5 / 3
@@ -29,8 +29,7 @@ struct PlayerView: View {
         self.song = song
         self._expanded = expanded
         self.animation = animation
-        //        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: self.song.header)
-        self.palette = Palette()
+        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: nil)
     }
     
     var body: some View {
@@ -45,6 +44,7 @@ struct PlayerView: View {
                     PlayerControllerView(
                         duration: $duration,
                         percentage: $percentage,
+                        isPlaying: $isPlaying,
                         primaryColor: palette.primary(colorScheme),
                         secondaryColor: palette.secondary(colorScheme)
                     )
@@ -141,8 +141,10 @@ struct PlayerView: View {
     }
     
     var collapsedControlButtons: some View {
-        Button(action: {}) {
-            Image(systemName: "play.fill")
+        Button {
+            isPlaying.toggle()
+        } label: {
+            Image(systemName: isPlaying ? "play.fill" : "pause.fill")
         }
         .font(.title2)
         .foregroundColor(palette.secondary(colorScheme))

@@ -57,7 +57,7 @@ struct FinderView<FinderItemView: View>: View {
 struct FinderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            FinderView(title: "Albums", findables: MusicModel().albums) { findable in
+            FinderView(title: "Albums", findables: MusicData().albums) { findable in
                 if let album = findable as? Album {
                     AlbumFinderItemView(album: album)
                 }
