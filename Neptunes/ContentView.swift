@@ -28,8 +28,6 @@ struct ContentView: View {
     @State var expanded = false
     @Namespace var animation
     
-    @State var audioPlayer: AVAudioPlayer!
-    
     init() {
         UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().backgroundImage = UIImage()
@@ -68,12 +66,7 @@ struct ContentView: View {
             .background(.thinMaterial)
             .accentColor(.teal)
             
-            PlayerView(song: MusicData().albums[0].songs[0] ,expanded: $expanded, animation: animation)
-        }
-        .onAppear {
-            let sound = Bundle.main.path(forResource: "song", ofType: "mp3")
-            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-            self.audioPlayer.play()
+            PlayerView(viewModel: .init(song: MusicData().albums[0].songs[0]) ,expanded: $expanded, animation: animation)
         }
     }
 }

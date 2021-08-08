@@ -9,45 +9,38 @@ import SwiftUI
 import AVFoundation
 
 struct PlayerView: View {
-    var song: Song
+    @ObservedObject var viewModel: PlayerViewModel
     @Binding var expanded: Bool
     var animation: Namespace.ID
-    var palette: Palette
     
-    @State var offset: CGFloat = 0
+    @State var audioPlayer: AVAudioPlayer?
+    
     @Environment(\.colorScheme) var colorScheme
-    
-    @State var duration: Int = 100
-    @State var percentage: CGFloat = 0.5
-    @State var isPlaying: Bool = true
-    
+    @State var offset: CGFloat = 0
     let expandedContentWidth = max(UIScreen.main.bounds.width * 2.5 / 3, 264)
     let expandedContentHeight = UIScreen.main.bounds.height * 2.5 / 3
     let expandedContentVerticalOffset = min(UIScreen.main.bounds.height / 8, 200)
     
-    init(song: Song, expanded: Binding<Bool>, animation: Namespace.ID) {
-        self.song = song
+    init(viewModel: PlayerViewModel, expanded: Binding<Bool>, animation: Namespace.ID) {
+        self.viewModel = viewModel
         self._expanded = expanded
         self.animation = animation
-        self.palette = ColorAnalyzer.generatePalette(artwork: self.song.artwork, header: nil)
     }
     
     var body: some View {
         VStack {
             if expanded {
                 VStack() {
-                    collapseButton
+                    expandedcollapseButton
                     Spacer(minLength: 16)
                     songArtwork
                     expandedSongInformation
                         .padding(.top, 16)
-                    PlayerControllerView(
-                        duration: $duration,
-                        percentage: $percentage,
-                        isPlaying: $isPlaying,
-                        primaryColor: palette.primary(colorScheme),
-                        secondaryColor: palette.secondary(colorScheme)
-                    )
+                    VStack {
+                        expandedScrubber
+                        expandedControlButtons
+                        Spacer(minLength: 0)
+                    }
                 }
                 .frame(height: expandedContentHeight)
                 .padding(48)
@@ -64,7 +57,7 @@ struct PlayerView: View {
         }
         .frame(width: UIScreen.main.bounds.width)
         .frame(maxHeight: expanded ? .infinity : 80)
-        .background(palette.background(colorScheme).opacity(0.75))
+        .background(viewModel.palette.background(colorScheme).opacity(0.75))
         .background(.ultraThinMaterial)
         .onTapGesture {
             withAnimation(.easeInOut){ expanded = true }
@@ -78,10 +71,14 @@ struct PlayerView: View {
                 .onChanged(dragGestureOnChanged(value:))
         )
         .ignoresSafeArea()
+        //        .onAppear {
+        //            let sound = Bundle.main.path(forResource: "song", ofType: "mp3")
+        //            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+        //        }
     }
     
     var songArtwork: some View {
-        Image(song.artwork ?? "default_album_art")
+        Image(viewModel.song.artwork ?? "default_album_art")
             .resizable()
             .aspectRatio(contentMode: .fill)
             .cornerRadius(8)
@@ -92,27 +89,27 @@ struct PlayerView: View {
     var expandedSongInformation: some View {
         VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 14){
-                Text(song.title)
-                    .foregroundColor(palette.primary(colorScheme))
+                Text(viewModel.song.title)
+                    .foregroundColor(viewModel.palette.primary(colorScheme))
                     .fontWeight(.bold)
                     .lineLimit(1)
                     .matchedGeometryEffect(id: "title", in: animation, properties: .position)
                 
-                if song.isExplicit {
+                if viewModel.song.isExplicit {
                     Image(systemName: "e.square.fill")
-                        .foregroundColor(palette.accent(colorScheme))
+                        .foregroundColor(viewModel.palette.accent(colorScheme))
                         .matchedGeometryEffect(id: "explicitSign", in: animation, properties: .position)
                 }
                 Spacer(minLength: 0)
                 Button(action: {}) {
                     Image(systemName: "ellipsis")
-                        .foregroundColor(palette.secondary(colorScheme))
+                        .foregroundColor(viewModel.palette.secondary(colorScheme))
                 }
             }
             .font(.title3)
             
-            Text(song.artist!.title)
-                .foregroundColor(palette.secondary(colorScheme))
+            Text(viewModel.song.artist!.title)
+                .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation)
             
@@ -122,52 +119,85 @@ struct PlayerView: View {
     }
     
     var expandedScrubber: some View {
-        ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: palette.primary(colorScheme), textColor: palette.secondary(colorScheme))
-            .frame(height: expanded ? 50 : 0)
-            .opacity(expanded ? 1 : 0)
-            .padding(.vertical, expanded ? nil : 0)
-            .padding(.horizontal, (UIScreen.main.bounds.width - UIScreen.main.bounds.height / 3) / 2)
+        ScrubberView(duration: $viewModel.duration, percentage: $viewModel.percentage, backgroundColor: viewModel.palette.primary(colorScheme), textColor: viewModel.palette.secondary(colorScheme))
+            .frame(height: 75)
     }
     
-    var collapseButton: some View {
+    var expandedControlButtons: some View {
+        VStack {
+            HStack() {
+                Button(action: {}) {
+                    Image(systemName: "backward.fill")
+                }
+                Spacer()
+                Button(action: viewModel.playPause) {
+                    Image(systemName: viewModel.isPlaying ? "play.fill" : "pause.fill")
+                }
+                Spacer()
+                Button(action: {}) {
+                    Image(systemName: "forward.fill")
+                }
+            }
+            .buttonStyle(LargeMediaButtonStyle(foregroundColor: viewModel.palette.secondary(colorScheme)))
+            .frame(height: 24)
+            .padding(.vertical, nil)
+            
+            HStack {
+                Button(action: {}) {
+                    //            Image(systemName: "hifispeaker.2.fill")
+                    Image(systemName: "airpodsmax")
+                }
+                Spacer()
+                Button(action: {}) {
+                    Image(systemName: "repeat")
+                }
+                Spacer()
+                Button(action: {}) {
+                    Image(systemName: "shuffle")
+                }
+                Spacer()
+                Button(action: {}) {
+                    Image(systemName: "list.triangle")
+                }
+            }
+            .buttonStyle(SmallMediaButtonStyle(foregroundColor: viewModel.palette.secondary(colorScheme)))
+            .padding(.vertical, nil)
+        }
+    }
+    
+    var expandedcollapseButton: some View {
         HStack(alignment: .center){
             Button(action: { withAnimation(.easeInOut){ expanded = false } }) {
                 Image(systemName: "chevron.compact.down")
             }
         }
-        .foregroundColor(palette.secondary(colorScheme))
-        .font(.title)
+        .buttonStyle(LargeMediaButtonStyle(foregroundColor: viewModel.palette.secondary(colorScheme)))
         .padding()
     }
     
     var collapsedControlButtons: some View {
-        Button {
-            isPlaying.toggle()
-        } label: {
-            Image(systemName: isPlaying ? "play.fill" : "pause.fill")
+        Button(action: viewModel.playPause) {
+            Image(systemName: viewModel.isPlaying ? "play.fill" : "pause.fill")
         }
-        .font(.title2)
-        .foregroundColor(palette.secondary(colorScheme))
-        .matchedGeometryEffect(id: "playButton", in: animation)
+        .buttonStyle(SmallMediaButtonStyle(foregroundColor: viewModel.palette.secondary(colorScheme)))
     }
     
     var collapsedSongInformation: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(song.title)
-                    .foregroundColor(palette.primary(colorScheme))
+                Text(viewModel.song.title)
+                    .foregroundColor(viewModel.palette.primary(colorScheme))
                     .fontWeight(.bold)
                     .lineLimit(1)
                     .matchedGeometryEffect(id: "title", in: animation, properties: .position)
-                if song.isExplicit {
+                if viewModel.song.isExplicit {
                     Image(systemName: "e.square.fill")
-                        .foregroundColor(palette.accent(colorScheme))
+                        .foregroundColor(viewModel.palette.accent(colorScheme))
                         .matchedGeometryEffect(id: "explicitSign", in: animation, properties: .position)
                 }
             }
-            
-            Text(song.artist!.title)
-                .foregroundColor(palette.secondary(colorScheme))
+            Text(viewModel.song.artist!.title)
+                .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation)
         }
@@ -185,6 +215,41 @@ struct PlayerView: View {
                 expanded = false
             }
             offset = 0
+        }
+    }
+}
+
+struct LargeMediaButtonStyle: ButtonStyle {
+    var foregroundColor: Color
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .font(.largeTitle)
+            .foregroundColor(foregroundColor)
+    }
+}
+
+struct SmallMediaButtonStyle: ButtonStyle {
+    var foregroundColor: Color
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .font(.headline)
+            .foregroundColor(foregroundColor)
+    }
+}
+
+struct PlayerView_Previews: PreviewProvider {
+    @State static var expanded = true
+    @Namespace static var animation
+    static var previews: some View {
+        ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
+            TabView {
+                PageView(text: "Home page")
+                    .tabItem { Label("Home", systemImage: "music.note.house") }
+                PageView(text: "Search page")
+                    .tabItem { Label("Search", systemImage: "magnifyingglass") }
+            }
+            .accentColor(.teal)
+            PlayerView(viewModel: .init(song: MusicData().albums[0].songs[0]) ,expanded: $expanded, animation: animation)
         }
     }
 }
