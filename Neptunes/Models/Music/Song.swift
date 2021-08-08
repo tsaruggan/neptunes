@@ -25,4 +25,5 @@ struct Song: Findable, Identifiable {
     }
     var isExplicit: Bool = false
     var id = UUID()
+    var file: String
 }

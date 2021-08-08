@@ -31,7 +31,7 @@ final class PlayerViewModel: ObservableObject {
         self.song = song
         //        self.palette = ColorAnalyzer.generatePalette(artwork: song.artwork, header: song.header)
         self.palette = Palette()
-        let sound = Bundle.main.path(forResource: "song", ofType: "mp3")
+        let sound = Bundle.main.path(forResource: song.file, ofType: "mp3")
         self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
     }
     
@@ -62,6 +62,19 @@ final class PlayerViewModel: ObservableObject {
             audioPlayer.play()
             isPlaying = true
             timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+        }
+    }
+    
+    func next() {
+        song = MusicData().albums[0].songs[0]
+        palette = Palette()
+        let sound = Bundle.main.path(forResource: song.file, ofType: "mp3")
+        
+        audioPlayer.pause()
+        audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+        
+        if isPlaying {
+            audioPlayer.play()
         }
     }
     

@@ -129,7 +129,7 @@ struct PlayerView: View {
                     Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                 }
                 Spacer()
-                Button(action: {}) {
+                Button(action: viewModel.next) {
                     Image(systemName: "forward.fill")
                 }
             }
