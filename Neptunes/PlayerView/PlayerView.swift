@@ -13,8 +13,6 @@ struct PlayerView: View {
     @Binding var expanded: Bool
     var animation: Namespace.ID
     
-    @State var audioPlayer: AVAudioPlayer?
-    
     @Environment(\.colorScheme) var colorScheme
     @State var offset: CGFloat = 0
     let expandedContentWidth = max(UIScreen.main.bounds.width * 2.5 / 3, 264)
@@ -71,10 +69,6 @@ struct PlayerView: View {
                 .onChanged(dragGestureOnChanged(value:))
         )
         .ignoresSafeArea()
-        //        .onAppear {
-        //            let sound = Bundle.main.path(forResource: "song", ofType: "mp3")
-        //            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-        //        }
     }
     
     var songArtwork: some View {
@@ -119,8 +113,10 @@ struct PlayerView: View {
     }
     
     var expandedScrubber: some View {
-        ScrubberView(duration: $viewModel.duration, percentage: $viewModel.percentage, backgroundColor: viewModel.palette.primary(colorScheme), textColor: viewModel.palette.secondary(colorScheme))
+        ScrubberView(duration: viewModel.duration, percentage: $viewModel.percentage, backgroundColor: viewModel.palette.primary(colorScheme), textColor: viewModel.palette.secondary(colorScheme),onChanged: viewModel.onScrubberChange, onEnded: viewModel.onScrubberEnded)
             .frame(height: 75)
+            .onReceive(viewModel.timer) { _ in viewModel.onScrubberUpdate() }
+        
     }
     
     var expandedControlButtons: some View {
@@ -131,7 +127,7 @@ struct PlayerView: View {
                 }
                 Spacer()
                 Button(action: viewModel.playPause) {
-                    Image(systemName: viewModel.isPlaying ? "play.fill" : "pause.fill")
+                    Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                 }
                 Spacer()
                 Button(action: {}) {
@@ -177,7 +173,7 @@ struct PlayerView: View {
     
     var collapsedControlButtons: some View {
         Button(action: viewModel.playPause) {
-            Image(systemName: viewModel.isPlaying ? "play.fill" : "pause.fill")
+            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
         }
         .buttonStyle(SmallMediaButtonStyle(foregroundColor: viewModel.palette.secondary(colorScheme)))
     }

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ScrubberView: View {
-    @Binding var duration: Int
+    var duration: Int
     @Binding var percentage: CGFloat
     var backgroundColor: Color
     var textColor: Color
+    var onChanged: () -> Void
+    var onEnded: () -> Void
     @State private var scale: CGFloat = 1.0
     var body: some View {
         GeometryReader { geometry in
@@ -36,20 +38,26 @@ struct ScrubberView: View {
                     .position(x: handlePoint.x, y: handlePoint.y)
                     .gesture(
                         DragGesture(minimumDistance: 0)
-                            .onEnded({ _ in withAnimation { self.scale = 1.0 } })
+                            .onEnded({ _ in
+                                withAnimation {
+                                    self.scale = 1.0
+                                }
+                                onEnded()
+                            })
                             .onChanged({ value in
-                        let vector = CGVector(
-                            dx: value.location.x - width / 2,
-                            dy: value.location.y - radius
-                        )
-                        let maxAngle = 2 * asin(width / (2 * radius)) * 180 / .pi
-                        let angleAdjustment = 90.0 + maxAngle / 2
-                        let angle = atan2(vector.dy - handleDiameter / 2, vector.dx - handleDiameter / 2) * (180.0 / .pi) + angleAdjustment
-                        withAnimation(Animation.linear(duration: 0.15)) {
-                            self.percentage = min(max(0, Double(angle / maxAngle)), 1)
-                            self.scale = 1.4
-                        }
-                    }))
+                                let vector = CGVector(
+                                    dx: value.location.x - width / 2,
+                                    dy: value.location.y - radius
+                                )
+                                let maxAngle = 2 * asin(width / (2 * radius)) * 180 / .pi
+                                let angleAdjustment = 90.0 + maxAngle / 2
+                                let angle = atan2(vector.dy - handleDiameter / 2, vector.dx - handleDiameter / 2) * (180.0 / .pi) + angleAdjustment
+                                withAnimation(Animation.linear(duration: 0.15)) {
+                                    self.percentage = min(max(0, Double(angle / maxAngle)), 1)
+                                    self.scale = 1.4
+                                    onChanged()
+                                }
+                            }))
                 
                 VStack {
                     HStack {
@@ -79,7 +87,7 @@ struct ScrubberView_Previews: PreviewProvider {
     @State static var duration: Int = 194
     @State static var percentage: CGFloat = 0.69
     static var previews: some View {
-        ScrubberView(duration: $duration, percentage: $percentage, backgroundColor: .blue, textColor: .primary)
+        ScrubberView(duration: duration, percentage: $percentage, backgroundColor: .blue, textColor: .primary, onChanged: {}, onEnded: {})
             .frame(width: 300)
             .preferredColorScheme(.dark)
     }
