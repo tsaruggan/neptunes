@@ -36,13 +36,13 @@ struct HomePageView: View {
     var finderList: some View {
         Group {
             Divider().background(Color.secondary)
-            FinderListItemView(text: "Songs", icon: "music.note") { SongFinderView() }
+            FinderListItemView(text: "Songs", icon: "music.note", emoji: "🎸") { SongFinderView() }
             Divider().background(Color.secondary)
-            FinderListItemView(text: "Artists", icon: "music.mic") { ArtistFinderView() }
+            FinderListItemView(text: "Artists", icon: "music.mic", emoji: "🎤") { ArtistFinderView() }
             Divider().background(Color.secondary)
-            FinderListItemView(text: "Albums", icon: "square.stack") { AlbumFinderView() }
+            FinderListItemView(text: "Albums", icon: "square.stack", emoji: "💽") { AlbumFinderView() }
             Divider().background(Color.secondary)
-            FinderListItemView(text: "Playlists", icon: "music.note.list") { PlaylistFinderView() }
+            FinderListItemView(text: "Playlists", icon: "music.note.list", emoji: "🎵") { PlaylistFinderView() }
             Divider().background(Color.secondary)
         }
     }
@@ -127,19 +127,22 @@ struct CollectableItemView<CollectableView: View>: View {
 struct FinderListItemView<Destination: View>: View {
     var text: String
     var icon: String
+    var emoji: String
     var destination: Destination
     
-    init(text: String, icon: String, @ViewBuilder destination: () -> Destination) {
+    init(text: String, icon: String, emoji: String, @ViewBuilder destination: () -> Destination) {
         self.text = text
         self.icon = icon
+        self.emoji = emoji
         self.destination = destination()
     }
     
     var body: some View {
         NavigationLink(destination: destination) {
             HStack(alignment: .firstTextBaseline) {
-                Image(systemName: icon)
-                    .foregroundColor(.teal)
+                Text(emoji)
+//                Image(systemName: icon)
+//                    .foregroundColor(.teal)
                 Text(text)
                     .foregroundColor(.primary)
                 Spacer()

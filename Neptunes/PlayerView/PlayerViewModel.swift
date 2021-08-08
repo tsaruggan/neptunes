@@ -35,7 +35,7 @@ final class PlayerViewModel: ObservableObject {
         self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
     }
     
-    func onScrubberChange() {
+    func onScrubberChanged() {
         audioPlayer.pause()
         audioPlayer.currentTime = playValue
     }
