@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ScrubberView: View {
-    var duration: Int
-    @Binding var percentage: CGFloat
+    var duration: TimeInterval
+    @Binding var percentage: Double
     var backgroundColor: Color
     var textColor: Color
     var onChanged: () -> Void
@@ -61,9 +61,9 @@ struct ScrubberView: View {
                 
                 VStack {
                     HStack {
-                        Text(formatTime(seconds: Int(CGFloat(duration) * percentage)))
+                        Text((duration * percentage).positionalTime)
                         Spacer()
-                        Text(formatTime(seconds: duration))
+                        Text(duration.positionalTime)
                     }
                     .font(.system(.footnote, design: .monospaced))
                     .foregroundColor(textColor)
@@ -72,20 +72,13 @@ struct ScrubberView: View {
                 .padding(.top, archHeight + 16)
             }
         }
-    }
-    
-    func formatTime(seconds t: Int) -> String {
-        let minutes = t % 3600 / 60
-        let minutesText = "\(minutes)"
-        let seconds = t % 3600 % 60
-        let secondsText = seconds > 9 ? "\(seconds)" : "0\(seconds)"
-        return "\(minutesText):\(secondsText)"
+        .frame(height: 75)
     }
 }
 
 struct ScrubberView_Previews: PreviewProvider {
-    @State static var duration: Int = 194
-    @State static var percentage: CGFloat = 0.69
+    @State static var duration: TimeInterval = 194.0
+    @State static var percentage: Double = 0.69
     static var previews: some View {
         ScrubberView(duration: duration, percentage: $percentage, backgroundColor: .blue, textColor: .primary, onChanged: {}, onEnded: {})
             .frame(width: 300)
@@ -110,5 +103,25 @@ struct Arch: Shape {
             clockwise: false
         )
         return path
+    }
+}
+
+extension Formatter {
+    static let positional: DateComponentsFormatter = {
+        let positional = DateComponentsFormatter()
+        positional.unitsStyle = .positional
+        positional.zeroFormattingBehavior = .pad
+        return positional
+    }()
+}
+
+extension TimeInterval {
+    var positionalTime: String {
+        Formatter.positional.allowedUnits = self >= 3600 ?
+        [.hour, .minute, .second] :
+        [.minute, .second]
+        let string = Formatter.positional.string(from: self)!
+        return string.hasPrefix("0") && string.count > 4 ?
+            .init(string.dropFirst()) : string
     }
 }

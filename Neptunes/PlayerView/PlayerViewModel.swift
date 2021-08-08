@@ -12,12 +12,12 @@ final class PlayerViewModel: ObservableObject {
     @Published var song: Song
     @Published var audioPlayer: AVAudioPlayer
     @Published var isPlaying: Bool = false
-    var duration: Int {
-        return Int(audioPlayer.duration)
+    var duration: TimeInterval {
+        return audioPlayer.duration
     }
-    var percentage: CGFloat {
+    var percentage: Double {
         get {
-            return CGFloat(audioPlayer.currentTime / audioPlayer.duration)
+            return audioPlayer.currentTime / audioPlayer.duration
         }
         set {
             playValue = audioPlayer.duration * newValue

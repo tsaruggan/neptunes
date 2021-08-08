@@ -114,7 +114,6 @@ struct PlayerView: View {
     
     var expandedScrubber: some View {
         ScrubberView(duration: viewModel.duration, percentage: $viewModel.percentage, backgroundColor: viewModel.palette.primary(colorScheme), textColor: viewModel.palette.secondary(colorScheme),onChanged: viewModel.onScrubberChanged, onEnded: viewModel.onScrubberEnded)
-            .frame(height: 75)
             .onReceive(viewModel.timer) { _ in viewModel.onScrubberUpdate() }
         
     }
