@@ -12,7 +12,7 @@ import AVKit
 struct ContentView: View {
     @State private var selected: Int = 0
     @State private var tappedTwice = false
-    
+
     @State private var home = UUID()
     @State private var search = UUID()
     
@@ -27,6 +27,8 @@ struct ContentView: View {
     
     @State var expanded = false
     @Namespace var animation
+    
+    @StateObject var audioPlayer = AudioPlayer()
     
     init() {
         UITabBar.appearance().shadowImage = UIImage()
@@ -68,6 +70,7 @@ struct ContentView: View {
             
             PlayerView(viewModel: .init(song: MusicData().albums[2].songs[0]) ,expanded: $expanded, animation: animation)
         }
+        .environmentObject(audioPlayer)
     }
 }
 

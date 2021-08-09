@@ -48,6 +48,7 @@
 		18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E09A5C269B657000FE2AB3 /* SongListView.swift */; };
 		18E16C20269F7122004092B4 /* NeptunesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16C1F269F7122004092B4 /* NeptunesView.swift */; };
 		18E5006426A1290300FE0E28 /* DetailedSongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E5006326A1290300FE0E28 /* DetailedSongView.swift */; };
+		18F2CE6026C1F0FF00C2B13B /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2CE5F26C1F0FF00C2B13B /* AudioPlayer.swift */; };
 		18FF187C26A375710085A769 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF187B26A375710085A769 /* PlayerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		18E09A5C269B657000FE2AB3 /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		18E16C1F269F7122004092B4 /* NeptunesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeptunesView.swift; sourceTree = "<group>"; };
 		18E5006326A1290300FE0E28 /* DetailedSongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedSongView.swift; sourceTree = "<group>"; };
+		18F2CE5F26C1F0FF00C2B13B /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		18FF187B26A375710085A769 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +191,7 @@
 		188390D52695EE140026B04D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				18F2CE5E26C1F0CE00C2B13B /* Playback */,
 				18666654269A94860016CF68 /* Color */,
 				188390DC2695F0700026B04D /* Music */,
 			);
@@ -250,6 +253,14 @@
 				18E5006326A1290300FE0E28 /* DetailedSongView.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		18F2CE5E26C1F0CE00C2B13B /* Playback */ = {
+			isa = PBXGroup;
+			children = (
+				18F2CE5F26C1F0FF00C2B13B /* AudioPlayer.swift */,
+			);
+			path = Playback;
 			sourceTree = "<group>";
 		};
 		18FF187A26A375570085A769 /* PlayerView */ = {
@@ -356,6 +367,7 @@
 				18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */,
 				18507F87268E113600B7D10F /* AlbumView.swift in Sources */,
 				188390E92695F5900026B04D /* HeaderView.swift in Sources */,
+				18F2CE6026C1F0FF00C2B13B /* AudioPlayer.swift in Sources */,
 				1852415B26B748E900B8E179 /* PlaylistFinderView.swift in Sources */,
 				188390D92695F0250026B04D /* Findable.swift in Sources */,
 				184F4197268793DC00832965 /* NeptunesApp.swift in Sources */,

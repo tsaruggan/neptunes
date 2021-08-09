@@ -9,11 +9,14 @@ import SwiftUI
 import AVFoundation
 
 struct PlayerView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var audioPlayer: AudioPlayer
+    
     @ObservedObject var viewModel: PlayerViewModel
     @Binding var expanded: Bool
     var animation: Namespace.ID
     
-    @Environment(\.colorScheme) var colorScheme
+    
     @State var offset: CGFloat = 0
     let expandedContentWidth = max(UIScreen.main.bounds.width * 2.5 / 3, 264)
     let expandedContentHeight = UIScreen.main.bounds.height * 2.5 / 3
