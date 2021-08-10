@@ -120,7 +120,12 @@ extension TimeInterval {
         Formatter.positional.allowedUnits = self >= 3600 ?
         [.hour, .minute, .second] :
         [.minute, .second]
-        let string = Formatter.positional.string(from: self)!
+        var string = ""
+        if self.isFinite {
+            string = Formatter.positional.string(from: self)!
+        } else {
+            string = Formatter.positional.string(from: 0.0)!
+        }
         return string.hasPrefix("0") && string.count > 4 ?
             .init(string.dropFirst()) : string
     }

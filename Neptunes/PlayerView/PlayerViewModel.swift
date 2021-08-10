@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import SwiftUI
 
 final class PlayerViewModel: ObservableObject {
     @Published var audioPlayer: AudioPlayer
@@ -27,12 +28,13 @@ final class PlayerViewModel: ObservableObject {
             playValue = audioPlayer.duration * newValue
         }
     }
-    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Published var playValue: TimeInterval = 0.0
     @Published var palette: Palette = Palette()
     
     init(audioPlayer: AudioPlayer) {
         self.audioPlayer = audioPlayer
+        self.audioPlayer.pause()
     }
     
     func onScrubberChanged() {
@@ -67,10 +69,16 @@ final class PlayerViewModel: ObservableObject {
     
     func next() {
         audioPlayer.next()
+        isPlaying = true
+        playValue = audioPlayer.currentTime
+        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func previous() {
         audioPlayer.previous()
+        isPlaying = true
+        playValue = audioPlayer.currentTime
+        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
 }

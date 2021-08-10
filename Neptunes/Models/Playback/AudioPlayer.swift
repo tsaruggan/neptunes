@@ -10,10 +10,9 @@ import AVFoundation
 
 
 
-final class AudioPlayer: ObservableObject {
-    @Published var player: AVPlayer = AVPlayer()
-    @Published var playerItems: [AVPlayerItem] = []
-    
+class AudioPlayer: ObservableObject {
+    var player: AVPlayer = AVPlayer()
+    var playerItems: [AVPlayerItem] = []
     var queue = MusicData().songs
     var currentSongIndex = 0
     var currentSong: Song {
@@ -21,13 +20,11 @@ final class AudioPlayer: ObservableObject {
     }
     var duration: TimeInterval {
         guard let currentItem = player.currentItem else { return 0.0 }
-        let seconds = currentItem.duration.seconds
-        if seconds.isFinite { return seconds } else { return 0.0 }
+        return currentItem.duration.seconds
     }
     var currentTime: TimeInterval {
         get {
-            let seconds = player.currentTime().seconds
-            if seconds.isFinite { return seconds } else { return 0.0 }
+            return player.currentTime().seconds
         }
         set {
             player.seek(to: CMTime(seconds: newValue, preferredTimescale: 1))
@@ -54,26 +51,28 @@ final class AudioPlayer: ObservableObject {
     }
     
     func previous() {
-        if currentSongIndex - 1 <= 0 {
-            currentSongIndex = (playerItems.count - 1) < 0 ? 0 : (playerItems.count - 1)
+        if currentSongIndex - 1 < 0 {
+            currentSongIndex = playerItems.count - 1
         } else {
             currentSongIndex -= 1
         }
         
         if playerItems.count > 0 {
+            currentTime = 0.0
             player.replaceCurrentItem(with: playerItems[currentSongIndex])
             player.play()
         }
     }
     
     func next() {
-        if currentSongIndex + 1 >= playerItems.count {
+        if currentSongIndex + 1 > playerItems.count - 1 {
             currentSongIndex = 0
         } else {
-            currentSongIndex += 1;
+            currentSongIndex += 1
         }
         
         if playerItems.count > 0 {
+            currentTime = 0.0
             player.replaceCurrentItem(with: playerItems[currentSongIndex])
             player.play()
         }
