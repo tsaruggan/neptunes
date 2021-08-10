@@ -9,8 +9,8 @@ import Foundation
 import AVFoundation
 
 final class PlayerViewModel: ObservableObject {
-    @Published var song: Song
-    @Published var audioPlayer: AVAudioPlayer
+    @Published var song: Song = MusicData().albums[0].songs[0]
+    @Published var audioPlayer: AudioPlayer
     @Published var isPlaying: Bool = false
     var duration: TimeInterval {
         return audioPlayer.duration
@@ -25,14 +25,10 @@ final class PlayerViewModel: ObservableObject {
     }
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Published var playValue: TimeInterval = 0.0
-    @Published var palette: Palette
+    @Published var palette: Palette = Palette()
     
-    init(song: Song) {
-        self.song = song
-        //        self.palette = ColorAnalyzer.generatePalette(artwork: song.artwork, header: song.header)
-        self.palette = Palette()
-        let sound = Bundle.main.path(forResource: song.file, ofType: "mp3")
-        self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+    init(audioPlayer: AudioPlayer) {
+        self.audioPlayer = audioPlayer
     }
     
     func onScrubberChanged() {
@@ -66,16 +62,16 @@ final class PlayerViewModel: ObservableObject {
     }
     
     func next() {
-        song = MusicData().albums[0].songs[0]
-        palette = Palette()
-        let sound = Bundle.main.path(forResource: song.file, ofType: "mp3")
+//        song = MusicData().albums[0].songs[0]
+//        palette = Palette()
+//        let sound = Bundle.main.path(forResource: song.file, ofType: "mp3")
         
-        audioPlayer.pause()
-        audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-        
-        if isPlaying {
-            audioPlayer.play()
-        }
+//        audioPlayer.pause()
+//        audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+//
+//        if isPlaying {
+//            audioPlayer.play()
+//        }
     }
     
 }

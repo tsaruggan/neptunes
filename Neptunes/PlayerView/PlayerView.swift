@@ -11,11 +11,10 @@ import AVFoundation
 struct PlayerView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var audioPlayer: AudioPlayer
-    
     @ObservedObject var viewModel: PlayerViewModel
+    
     @Binding var expanded: Bool
     var animation: Namespace.ID
-    
     
     @State var offset: CGFloat = 0
     let expandedContentWidth = max(UIScreen.main.bounds.width * 2.5 / 3, 264)
@@ -235,19 +234,19 @@ struct SmallMediaButtonStyle: ButtonStyle {
     }
 }
 
-struct PlayerView_Previews: PreviewProvider {
-    @State static var expanded = true
-    @Namespace static var animation
-    static var previews: some View {
-        ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
-            TabView {
-                PageView(text: "Home page")
-                    .tabItem { Label("Home", systemImage: "music.note.house") }
-                PageView(text: "Search page")
-                    .tabItem { Label("Search", systemImage: "magnifyingglass") }
-            }
-            .accentColor(.teal)
-            PlayerView(viewModel: .init(song: MusicData().albums[0].songs[0]) ,expanded: $expanded, animation: animation)
-        }
-    }
-}
+//struct PlayerView_Previews: PreviewProvider {
+//    @State static var expanded = true
+//    @Namespace static var animation
+//    static var previews: some View {
+//        ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
+//            TabView {
+//                PageView(text: "Home page")
+//                    .tabItem { Label("Home", systemImage: "music.note.house") }
+//                PageView(text: "Search page")
+//                    .tabItem { Label("Search", systemImage: "magnifyingglass") }
+//            }
+//            .accentColor(.teal)
+//            PlayerView(expanded: $expanded, animation: animation)
+//        }
+//    }
+//}

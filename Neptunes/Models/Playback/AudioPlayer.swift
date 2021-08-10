@@ -10,9 +10,29 @@ import AVFoundation
 
 final class AudioPlayer: ObservableObject {
     @Published var audioPlayer: AVAudioPlayer
+    var duration: TimeInterval {
+        return audioPlayer.duration
+    }
+    var currentTime: TimeInterval {
+        get {
+            return audioPlayer.currentTime
+        }
+        set {
+            audioPlayer.currentTime = newValue
+        }
+    }
+    
     init() {
         let sound = Bundle.main.path(forResource: "song1", ofType: "mp3")
         self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-        self.audioPlayer.play()
+//        self.audioPlayer.play()
+    }
+    
+    func play() {
+        audioPlayer.play()
+    }
+    
+    func pause() {
+        audioPlayer.pause()
     }
 }

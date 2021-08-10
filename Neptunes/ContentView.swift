@@ -68,7 +68,7 @@ struct ContentView: View {
             .background(.thinMaterial)
             .accentColor(.teal)
             
-            PlayerView(viewModel: .init(song: MusicData().albums[2].songs[0]) ,expanded: $expanded, animation: animation)
+            PlayerView(viewModel: .init(audioPlayer: audioPlayer),expanded: $expanded, animation: animation)
         }
         .environmentObject(audioPlayer)
     }
