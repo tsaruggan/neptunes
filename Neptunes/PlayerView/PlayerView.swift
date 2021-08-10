@@ -123,7 +123,7 @@ struct PlayerView: View {
     var expandedControlButtons: some View {
         VStack {
             HStack() {
-                Button(action: {}) {
+                Button(action: viewModel.previous) {
                     Image(systemName: "backward.fill")
                 }
                 Spacer()

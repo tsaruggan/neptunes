@@ -9,9 +9,13 @@ import Foundation
 import AVFoundation
 
 final class PlayerViewModel: ObservableObject {
-    @Published var song: Song = MusicData().albums[0].songs[0]
     @Published var audioPlayer: AudioPlayer
     @Published var isPlaying: Bool = false
+    
+    var song: Song {
+        audioPlayer.currentSong
+    }
+    
     var duration: TimeInterval {
         return audioPlayer.duration
     }
@@ -62,16 +66,11 @@ final class PlayerViewModel: ObservableObject {
     }
     
     func next() {
-//        song = MusicData().albums[0].songs[0]
-//        palette = Palette()
-//        let sound = Bundle.main.path(forResource: song.file, ofType: "mp3")
-        
-//        audioPlayer.pause()
-//        audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-//
-//        if isPlaying {
-//            audioPlayer.play()
-//        }
+        audioPlayer.next()
+    }
+    
+    func previous() {
+        audioPlayer.previous()
     }
     
 }

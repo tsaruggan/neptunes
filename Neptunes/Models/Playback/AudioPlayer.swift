@@ -8,31 +8,74 @@
 import Foundation
 import AVFoundation
 
+
+
 final class AudioPlayer: ObservableObject {
-    @Published var audioPlayer: AVAudioPlayer
+    @Published var player: AVPlayer = AVPlayer()
+    @Published var playerItems: [AVPlayerItem] = []
+    
+    var queue = MusicData().songs
+    var currentSongIndex = 0
+    var currentSong: Song {
+        return queue[currentSongIndex]
+    }
     var duration: TimeInterval {
-        return audioPlayer.duration
+        guard let currentItem = player.currentItem else { return 0.0 }
+        let seconds = currentItem.duration.seconds
+        if seconds.isFinite { return seconds } else { return 0.0 }
     }
     var currentTime: TimeInterval {
         get {
-            return audioPlayer.currentTime
+            let seconds = player.currentTime().seconds
+            if seconds.isFinite { return seconds } else { return 0.0 }
         }
         set {
-            audioPlayer.currentTime = newValue
+            player.seek(to: CMTime(seconds: newValue, preferredTimescale: 1))
         }
     }
+    let assetKeys = ["playable"]
     
     init() {
-        let sound = Bundle.main.path(forResource: "song1", ofType: "mp3")
-        self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-//        self.audioPlayer.play()
+        for song in queue {
+            let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.file, ofType: "mp3")!)
+            let avAsset = AVAsset(url: url)
+            let playerItem = AVPlayerItem(asset: avAsset, automaticallyLoadedAssetKeys: assetKeys)
+            playerItems.append(playerItem)
+        }
+        player.replaceCurrentItem(with: playerItems[currentSongIndex])
     }
     
     func play() {
-        audioPlayer.play()
+        player.play()
     }
     
     func pause() {
-        audioPlayer.pause()
+        player.pause()
+    }
+    
+    func previous() {
+        if currentSongIndex - 1 <= 0 {
+            currentSongIndex = (playerItems.count - 1) < 0 ? 0 : (playerItems.count - 1)
+        } else {
+            currentSongIndex -= 1
+        }
+        
+        if playerItems.count > 0 {
+            player.replaceCurrentItem(with: playerItems[currentSongIndex])
+            player.play()
+        }
+    }
+    
+    func next() {
+        if currentSongIndex + 1 >= playerItems.count {
+            currentSongIndex = 0
+        } else {
+            currentSongIndex += 1;
+        }
+        
+        if playerItems.count > 0 {
+            player.replaceCurrentItem(with: playerItems[currentSongIndex])
+            player.play()
+        }
     }
 }
