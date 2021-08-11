@@ -6,17 +6,20 @@
 //
 
 import Foundation
+import AVFoundation
 
 struct NowPlaying {
-    private var songs: [Song]
-    private var currentIndex: Int
+    private var songs: [Song] = []
+    private var playerItems: [AVPlayerItem] = []
+    let assetKeys = ["playable"]
+    private var currentIndex: Int = 0
     
     var isEmpty: Bool {
         return songs.isEmpty
     }
     
     var currentSong: Song? {
-        if isEmpty { return nil }
+        if songs.isEmpty { return nil }
         if currentIndex >= 0 && currentIndex < songs.count {
             return songs[currentIndex]
         } else {
@@ -24,9 +27,24 @@ struct NowPlaying {
         }
     }
     
+    var currentPlayerItem: AVPlayerItem? {
+        if playerItems.isEmpty { return nil }
+        if currentIndex >= 0 && currentIndex < playerItems.count {
+            return playerItems[currentIndex]
+        } else {
+            return nil
+        }
+    }
+    
+    init() {
+        self.songs = []
+    }
+    
     init(songs: [Song], from currentIndex: Int) {
-        self.songs = songs
         self.currentIndex = currentIndex
+        for song in songs {
+            add(song: song)
+        }
     }
     
     mutating func goToNext() {
@@ -44,4 +62,14 @@ struct NowPlaying {
             currentIndex = songs.count - 1
         }
     }
+    
+    mutating func add(song: Song) {
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.file, ofType: "mp3")!)
+        let avAsset = AVAsset(url: url)
+        let playerItem = AVPlayerItem(asset: avAsset, automaticallyLoadedAssetKeys: assetKeys)
+        songs.append(song)
+        playerItems.append(playerItem)
+    }
+    
+
 }

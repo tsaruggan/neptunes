@@ -7,19 +7,19 @@
 
 import Foundation
 import AVFoundation
+import NotificationCenter
 
 class AudioPlayer: ObservableObject {
     var player: AVPlayer = AVPlayer()
-    var playerItems: [AVPlayerItem] = []
-    var queue: [Song] = []
-    var currentSongIndex = 0
-    var currentSong: Song {
-        return queue[currentSongIndex]
-    }
+    var queue: Queue = Queue()
+    var nowPlaying: NowPlaying = NowPlaying()
+    var currentSong: Song?
+    
     var duration: TimeInterval {
         guard let currentItem = player.currentItem else { return 0.0 }
         return currentItem.duration.seconds
     }
+    
     var currentTime: TimeInterval {
         get {
             return player.currentTime().seconds
@@ -28,11 +28,14 @@ class AudioPlayer: ObservableObject {
             player.seek(to: CMTime(seconds: newValue, preferredTimescale: 1))
         }
     }
+    
+    var finished: Bool = false
+    
     let assetKeys = ["playable"]
     
     init() {
-        addToQueue(song: MusicData().songs[0])
-        player.replaceCurrentItem(with: playerItems[currentSongIndex])
+        replaceNowPlaying(songs: MusicData().songs, from: 1)
+        NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     func play() {
@@ -44,38 +47,49 @@ class AudioPlayer: ObservableObject {
     }
     
     func previous() {
-        if currentSongIndex - 1 < 0 {
-            currentSongIndex = playerItems.count - 1
+        currentTime = 0.0
+        finished = false
+        if nowPlaying.isEmpty {
+            currentSong = nil
         } else {
-            currentSongIndex -= 1
-        }
-        
-        if playerItems.count > 0 {
-            currentTime = 0.0
-            player.replaceCurrentItem(with: playerItems[currentSongIndex])
+            nowPlaying.goToPrevious()
+            currentSong = nowPlaying.currentSong
+            player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
             player.play()
         }
     }
     
     func next() {
-        if currentSongIndex + 1 > playerItems.count - 1 {
-            currentSongIndex = 0
-        } else {
-            currentSongIndex += 1
-        }
-        
-        if playerItems.count > 0 {
-            currentTime = 0.0
-            player.replaceCurrentItem(with: playerItems[currentSongIndex])
+        currentTime = 0.0
+        finished = false
+        if nowPlaying.isEmpty && queue.isEmpty {
+            currentSong = nil
+        } else if queue.isEmpty {
+            nowPlaying.goToNext()
+            currentSong = nowPlaying.currentSong
+            player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
             player.play()
+        } else {
+            currentSong = queue.currentSong
+            player.replaceCurrentItem(with: queue.currentPlayerItem)
+            player.play()
+            queue.goToNext()
         }
     }
     
+    func replaceNowPlaying(songs: [Song], from: Int) {
+        nowPlaying = NowPlaying(songs: songs, from: from)
+        currentSong = nowPlaying.currentSong
+        player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
+        currentTime = 0.0
+        finished = false
+    }
+    
     func addToQueue(song: Song) {
-        let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.file, ofType: "mp3")!)
-        let avAsset = AVAsset(url: url)
-        let playerItem = AVPlayerItem(asset: avAsset, automaticallyLoadedAssetKeys: assetKeys)
-        playerItems.append(playerItem)
-        queue.append(song)
+        queue.add(song: song)
+    }
+    
+    @objc func playerDidFinishPlaying(note: NSNotification) {
+        finished = true
     }
 }

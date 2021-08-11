@@ -13,7 +13,7 @@ final class PlayerViewModel: ObservableObject {
     @Published var audioPlayer: AudioPlayer
     @Published var isPlaying: Bool = false
     
-    var song: Song {
+    var song: Song? {
         audioPlayer.currentSong
     }
     
@@ -45,12 +45,14 @@ final class PlayerViewModel: ObservableObject {
     func onScrubberEnded() {
         if isPlaying {
             audioPlayer.play()
+            if audioPlayer.finished { next() }
         }
     }
     
     func onScrubberUpdate() {
         if isPlaying {
             playValue = audioPlayer.currentTime
+            if audioPlayer.finished { next() }
         } else {
             timer.upstream.connect().cancel()
         }
