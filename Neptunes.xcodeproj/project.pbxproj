@@ -23,6 +23,8 @@
 		1864E2F02687CF4F00DDADE8 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864E2EF2687CF4F00DDADE8 /* PageView.swift */; };
 		18666653269A90400016CF68 /* SwiftImage in Frameworks */ = {isa = PBXBuildFile; productRef = 18666652269A90400016CF68 /* SwiftImage */; };
 		18666656269A94A50016CF68 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18666655269A94A50016CF68 /* KMeans.swift */; };
+		1866AA1426C4310100F9B698 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866AA1326C4310100F9B698 /* Queue.swift */; };
+		1866AA1626C4311000F9B698 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866AA1526C4311000F9B698 /* NowPlaying.swift */; };
 		186938C426C0965D001EFC48 /* song2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 186938C226C0965D001EFC48 /* song2.mp3 */; };
 		186938C526C0965D001EFC48 /* song1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 186938C326C0965D001EFC48 /* song1.mp3 */; };
 		187A96F626B59F2A00A42F5B /* AlbumFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187A96F526B59F2A00A42F5B /* AlbumFinderView.swift */; };
@@ -70,6 +72,8 @@
 		1852415E26B7538C00B8E179 /* FinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderView.swift; sourceTree = "<group>"; };
 		1864E2EF2687CF4F00DDADE8 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		18666655269A94A50016CF68 /* KMeans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
+		1866AA1326C4310100F9B698 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		1866AA1526C4311000F9B698 /* NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlaying.swift; sourceTree = "<group>"; };
 		186938C226C0965D001EFC48 /* song2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song2.mp3; sourceTree = "<group>"; };
 		186938C326C0965D001EFC48 /* song1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song1.mp3; sourceTree = "<group>"; };
 		187A96F526B59F2A00A42F5B /* AlbumFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFinderView.swift; sourceTree = "<group>"; };
@@ -259,6 +263,8 @@
 			isa = PBXGroup;
 			children = (
 				18F2CE5F26C1F0FF00C2B13B /* AudioPlayer.swift */,
+				1866AA1326C4310100F9B698 /* Queue.swift */,
+				1866AA1526C4311000F9B698 /* NowPlaying.swift */,
 			);
 			path = Playback;
 			sourceTree = "<group>";
@@ -354,10 +360,12 @@
 				188390D72695F0120026B04D /* Viewable.swift in Sources */,
 				182B90B626BF0C43000999F3 /* MusicData.swift in Sources */,
 				188390E62695F15E0026B04D /* Playlist.swift in Sources */,
+				1866AA1426C4310100F9B698 /* Queue.swift in Sources */,
 				184F4199268793DC00832965 /* ContentView.swift in Sources */,
 				1864E2F02687CF4F00DDADE8 /* PageView.swift in Sources */,
 				187C88E626A491E6001DFE2F /* ScrubberView.swift in Sources */,
 				188390DE2695F1030026B04D /* Collectable.swift in Sources */,
+				1866AA1626C4311000F9B698 /* NowPlaying.swift in Sources */,
 				1852415D26B74D1900B8E179 /* SongFinderView.swift in Sources */,
 				183047D326892D9200533BCE /* HomePageView.swift in Sources */,
 				18DEE54E26BF4ADF00AC0D2E /* PlayerViewModel.swift in Sources */,

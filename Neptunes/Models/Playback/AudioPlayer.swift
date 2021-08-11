@@ -8,12 +8,10 @@
 import Foundation
 import AVFoundation
 
-
-
 class AudioPlayer: ObservableObject {
     var player: AVPlayer = AVPlayer()
     var playerItems: [AVPlayerItem] = []
-    var queue = MusicData().songs
+    var queue: [Song] = []
     var currentSongIndex = 0
     var currentSong: Song {
         return queue[currentSongIndex]
@@ -33,12 +31,7 @@ class AudioPlayer: ObservableObject {
     let assetKeys = ["playable"]
     
     init() {
-        for song in queue {
-            let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.file, ofType: "mp3")!)
-            let avAsset = AVAsset(url: url)
-            let playerItem = AVPlayerItem(asset: avAsset, automaticallyLoadedAssetKeys: assetKeys)
-            playerItems.append(playerItem)
-        }
+        addToQueue(song: MusicData().songs[0])
         player.replaceCurrentItem(with: playerItems[currentSongIndex])
     }
     
@@ -76,5 +69,13 @@ class AudioPlayer: ObservableObject {
             player.replaceCurrentItem(with: playerItems[currentSongIndex])
             player.play()
         }
+    }
+    
+    func addToQueue(song: Song) {
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.file, ofType: "mp3")!)
+        let avAsset = AVAsset(url: url)
+        let playerItem = AVPlayerItem(asset: avAsset, automaticallyLoadedAssetKeys: assetKeys)
+        playerItems.append(playerItem)
+        queue.append(song)
     }
 }

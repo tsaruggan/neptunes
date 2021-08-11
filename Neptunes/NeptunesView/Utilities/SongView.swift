@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SongView: View {
+    @EnvironmentObject var audioPlayer: AudioPlayer
     var song: Song
     var index: Int
     var indexLabelColor: Color
@@ -29,8 +30,17 @@ struct SongView: View {
                     .foregroundColor(explicitSignColor)
             }
             Spacer(minLength: 0)
-            Image(systemName: "ellipsis")
-                .foregroundColor(menuColor)
+            Menu() {
+                Button {
+                    audioPlayer.addToQueue(song: song)
+                } label: {
+                    Label("Add to Queue", systemImage: "text.badge.plus")
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .foregroundColor(menuColor)
+                
+            }
         }
         .padding(12)
     }
