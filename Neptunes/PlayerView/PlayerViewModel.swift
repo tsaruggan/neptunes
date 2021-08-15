@@ -49,7 +49,7 @@ final class PlayerViewModel: ObservableObject {
         }
     }
     
-    func onScrubberUpdate() {
+    func onUpdate() {
         if isPlaying {
             playValue = audioPlayer.currentTime
             if audioPlayer.finished { next() }

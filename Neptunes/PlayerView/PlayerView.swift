@@ -71,6 +71,7 @@ struct PlayerView: View {
                     .onEnded(dragGestureOnEnded(value:))
                     .onChanged(dragGestureOnChanged(value:))
             )
+            .onReceive(viewModel.timer) { _ in viewModel.onUpdate() }
             .ignoresSafeArea()
         }
     }
@@ -118,8 +119,6 @@ struct PlayerView: View {
     
     var expandedScrubber: some View {
         ScrubberView(duration: viewModel.duration, percentage: $viewModel.percentage, backgroundColor: viewModel.palette.primary(colorScheme), textColor: viewModel.palette.secondary(colorScheme),onChanged: viewModel.onScrubberChanged, onEnded: viewModel.onScrubberEnded)
-            .onReceive(viewModel.timer) { _ in viewModel.onScrubberUpdate() }
-        
     }
     
     var expandedControlButtons: some View {
