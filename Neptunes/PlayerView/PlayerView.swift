@@ -63,7 +63,7 @@ struct PlayerView: View {
             .onTapGesture {
                 withAnimation(.easeInOut){ expanded = true }
             }
-            .cornerRadius(expanded && offset > 0 ? 20 : 0)
+            .cornerRadius(expanded && offset > 0 ? 48 : 0)
             .offset(y: expanded ? 0 : -48)
             .offset(y: offset)
             .gesture(

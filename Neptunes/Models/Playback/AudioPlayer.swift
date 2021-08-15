@@ -30,6 +30,7 @@ class AudioPlayer: ObservableObject {
     }
     
     var finished: Bool = false
+    var isPlayingFromQueue: Bool = false
     
     let assetKeys = ["playable"]
     
@@ -52,7 +53,11 @@ class AudioPlayer: ObservableObject {
         if nowPlaying.isEmpty {
             currentSong = nil
         } else {
-            nowPlaying.goToPrevious()
+            if isPlayingFromQueue {
+                isPlayingFromQueue = false
+            } else {
+                nowPlaying.goToPrevious()
+            }
             currentSong = nowPlaying.currentSong
             player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
             player.play()
@@ -64,16 +69,19 @@ class AudioPlayer: ObservableObject {
         finished = false
         if nowPlaying.isEmpty && queue.isEmpty {
             currentSong = nil
+            isPlayingFromQueue = false
         } else if queue.isEmpty {
             nowPlaying.goToNext()
             currentSong = nowPlaying.currentSong
             player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
             player.play()
+            isPlayingFromQueue = false
         } else {
             currentSong = queue.currentSong
             player.replaceCurrentItem(with: queue.currentPlayerItem)
             player.play()
             queue.goToNext()
+            isPlayingFromQueue = true
         }
     }
     

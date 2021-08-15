@@ -34,7 +34,7 @@ struct SongView: View {
                 Button {
                     audioPlayer.addToQueue(song: song)
                 } label: {
-                    Label("Add to Queue", systemImage: "text.badge.plus")
+                    Label("Add To Queue", systemImage: "text.badge.plus")
                 }
             } label: {
                 Image(systemName: "ellipsis")

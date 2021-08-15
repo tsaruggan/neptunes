@@ -63,7 +63,7 @@ struct ScrubberView: View {
                     HStack {
                         Text((duration * percentage).positionalTime)
                         Spacer()
-                        Text(duration.positionalTime)
+                        Text((duration * (1 - percentage)).positionalTime)
                     }
                     .font(.system(.footnote, design: .monospaced))
                     .foregroundColor(textColor)
@@ -120,13 +120,12 @@ extension TimeInterval {
         Formatter.positional.allowedUnits = self >= 3600 ?
         [.hour, .minute, .second] :
         [.minute, .second]
-        var string = ""
         if self.isFinite {
-            string = Formatter.positional.string(from: self)!
+            let string = Formatter.positional.string(from: self)!
+            return string.hasPrefix("0") && string.count > 4 ?
+                .init(string.dropFirst()) : string
         } else {
-            string = Formatter.positional.string(from: 0.0)!
+            return "-:--"
         }
-        return string.hasPrefix("0") && string.count > 4 ?
-            .init(string.dropFirst()) : string
     }
 }
