@@ -77,8 +77,12 @@ final class PlayerViewModel: ObservableObject {
     }
     
     func previous() {
-        audioPlayer.previous()
-        isPlaying = true
+        if playValue < 5.0 {
+            audioPlayer.previous()
+            isPlaying = true
+        } else {
+            audioPlayer.currentTime = 0.0
+        }
         playValue = audioPlayer.currentTime
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
