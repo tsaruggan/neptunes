@@ -32,6 +32,10 @@ final class PlayerViewModel: ObservableObject {
     @Published var playValue: TimeInterval = 0.0
     @Published var palette: Palette = Palette()
     
+    @Published var isOnRepeat: Bool = false
+    @Published var isOnRepeatOne: Bool = false
+    @Published var isOnShuffle: Bool = false
+    
     init(audioPlayer: AudioPlayer) {
         self.audioPlayer = audioPlayer
         self.audioPlayer.pause()
@@ -98,4 +102,24 @@ final class PlayerViewModel: ObservableObject {
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
+    func toggleRepeat() {
+        if isOnRepeat {
+            isOnRepeat = false
+            isOnRepeatOne = true
+        } else if isOnRepeatOne {
+            isOnRepeat = false
+            isOnRepeatOne = false
+        } else {
+            isOnRepeat = true
+            isOnRepeatOne = false
+        }
+    }
+    
+    func toggleShuffle() {
+        if isOnShuffle {
+            isOnShuffle = false
+        } else {
+            isOnShuffle = true
+        }
+    }
 }

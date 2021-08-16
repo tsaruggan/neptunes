@@ -146,12 +146,25 @@ struct PlayerView: View {
                     Image(systemName: "airpodsmax")
                 }
                 Spacer()
-                Button(action: {}) {
-                    Image(systemName: "repeat")
+                Button(action: viewModel.toggleRepeat) {
+                    if viewModel.isOnRepeat {
+                        Image(systemName: "repeat")
+                            .foregroundColor(viewModel.palette.accent(colorScheme))
+                    } else if viewModel.isOnRepeatOne {
+                        Image(systemName: "repeat.1")
+                            .foregroundColor(viewModel.palette.accent(colorScheme))
+                    } else {
+                        Image(systemName: "repeat")
+                    }
                 }
                 Spacer()
-                Button(action: {}) {
-                    Image(systemName: "shuffle")
+                Button(action: viewModel.toggleShuffle) {
+                    if viewModel.isOnShuffle {
+                        Image(systemName: "shuffle")
+                            .foregroundColor(viewModel.palette.accent(colorScheme))
+                    } else {
+                        Image(systemName: "shuffle")
+                    }
                 }
                 Spacer()
                 Button(action: {}) {
