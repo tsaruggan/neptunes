@@ -30,7 +30,9 @@ final class PlayerViewModel: ObservableObject {
     }
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Published var playValue: TimeInterval = 0.0
-    @Published var palette: Palette = Palette()
+    var palette: Palette {
+        return audioPlayer.currentSong!.palette
+    }
     
     @Published var isOnRepeat: Bool = false
     @Published var isOnRepeatOne: Bool = false

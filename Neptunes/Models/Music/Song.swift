@@ -23,6 +23,10 @@ struct Song: Findable, Identifiable {
         if let artist = album?.artist { return artist }
         return nil
     }
+    var palette: Palette {
+        if let album = album { return album.palette }
+        return Palette()
+    }
     var isExplicit: Bool = false
     var id = UUID()
     var file: String

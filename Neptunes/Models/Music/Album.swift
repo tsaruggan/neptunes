@@ -20,6 +20,7 @@ struct Album: Collectable, Findable, Identifiable {
     var publisher: String?
     var producer: String?
     var id = UUID()
+    var palette = Palette()
     
     mutating func addSongs(_ songs: Song...) {
         for song in songs {
