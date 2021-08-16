@@ -56,7 +56,15 @@ final class PlayerViewModel: ObservableObject {
     func onUpdate() {
         if isPlaying {
             playValue = audioPlayer.currentTime
-            if audioPlayer.finished { next() }
+            if audioPlayer.finished {
+                if isOnRepeatOne {
+                    audioPlayer.currentTime = 0.0
+                    audioPlayer.finished = false
+                    play()
+                } else {
+                    next()
+                }
+            }
         }
         
         if audioPlayer.nowPlayingIsReplaced {
@@ -87,6 +95,10 @@ final class PlayerViewModel: ObservableObject {
     func next() {
         audioPlayer.next()
         isPlaying = true
+        if isOnRepeatOne {
+            isOnRepeatOne = false
+            isOnRepeat = true
+        }
         playValue = audioPlayer.currentTime
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
@@ -95,6 +107,10 @@ final class PlayerViewModel: ObservableObject {
         if playValue < 5.0 {
             audioPlayer.previous()
             isPlaying = true
+            if isOnRepeatOne {
+                isOnRepeatOne = false
+                isOnRepeat = true
+            }
         } else {
             audioPlayer.currentTime = 0.0
         }
