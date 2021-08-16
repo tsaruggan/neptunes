@@ -15,21 +15,27 @@ struct SongView: View {
     var foregroundColor: Color
     var explicitSignColor: Color
     var menuColor: Color
+    var onTap: () -> Void
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
-            Text(index < 10 ? String(format: "%2d", index) : String(index))
-                .font(.system(.callout, design: .monospaced))
-                .monospacedDigit()
-                .foregroundColor(indexLabelColor)
-            Text(song.title)
-                .fontWeight(.medium)
-                .foregroundColor(foregroundColor)
-                .lineLimit(1)
-            if song.isExplicit {
-                Image(systemName: "e.square.fill")
-                    .foregroundColor(explicitSignColor)
+            HStack(alignment: .center, spacing: 14) {
+                Text(index < 10 ? String(format: "%2d", index) : String(index))
+                    .font(.system(.callout, design: .monospaced))
+                    .monospacedDigit()
+                    .foregroundColor(indexLabelColor)
+                Text(song.title)
+                    .fontWeight(.medium)
+                    .foregroundColor(foregroundColor)
+                    .lineLimit(1)
+                if song.isExplicit {
+                    Image(systemName: "e.square.fill")
+                        .foregroundColor(explicitSignColor)
+                }
+                Spacer(minLength: 0)
             }
-            Spacer(minLength: 0)
+            .onTapGesture {
+                onTap()
+            }
             Menu() {
                 Button {
                     audioPlayer.addToQueue(song: song)

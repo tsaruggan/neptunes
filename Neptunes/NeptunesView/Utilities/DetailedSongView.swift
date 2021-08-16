@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct DetailedSongView: View {
+    @EnvironmentObject var audioPlayer: AudioPlayer
     var song: Song
     var artistLabelColor: Color
     var foregroundColor: Color
     var explicitSignColor: Color
     var menuColor: Color
+    var onTap: () -> Void
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             Image(song.artwork ?? "default_album_art")
@@ -37,9 +39,22 @@ struct DetailedSongView: View {
                     .font(.callout)
                     .lineLimit(1)
             }
+            .onTapGesture {
+                onTap()
+            }
             Spacer(minLength: 0)
-            Image(systemName: "ellipsis")
-                .foregroundColor(menuColor)
+            Menu() {
+                Button {
+                    audioPlayer.addToQueue(song: song)
+                } label: {
+                    Label("Add To Queue", systemImage: "text.badge.plus")
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .foregroundColor(menuColor)
+                
+            }
+
         }
         .padding(12)
     }

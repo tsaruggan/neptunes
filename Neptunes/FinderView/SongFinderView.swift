@@ -18,6 +18,7 @@ struct SongFinderView: View {
 }
 
 struct SongFinderItemView: View {
+    @EnvironmentObject var audioPlayer: AudioPlayer
     var song: Song
     var body: some View {
         DetailedSongView(
@@ -25,8 +26,9 @@ struct SongFinderItemView: View {
             artistLabelColor: .secondary,
             foregroundColor: .primary,
             explicitSignColor: .accentColor,
-            menuColor: .secondary
-        )
+            menuColor: .secondary) {
+                audioPlayer.replaceNowPlaying(songs: [song], from: 0)
+            }
     }
 }
 

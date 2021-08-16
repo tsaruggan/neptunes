@@ -53,20 +53,31 @@ final class PlayerViewModel: ObservableObject {
         if isPlaying {
             playValue = audioPlayer.currentTime
             if audioPlayer.finished { next() }
-        } else {
-            timer.upstream.connect().cancel()
+        }
+        
+        if audioPlayer.nowPlayingIsReplaced {
+            play()
+            audioPlayer.nowPlayingIsReplaced = false
         }
     }
     
     func playPause() {
         if isPlaying {
-            audioPlayer.pause()
-            isPlaying = false
+            pause()
         } else {
-            audioPlayer.play()
-            isPlaying = true
-            timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+            play()
         }
+    }
+    
+    func play() {
+        audioPlayer.play()
+        isPlaying = true
+        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    }
+    
+    func pause() {
+        audioPlayer.pause()
+        isPlaying = false
     }
     
     func next() {

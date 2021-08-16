@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SongListView: View {
+    @EnvironmentObject var audioPlayer: AudioPlayer
     var songs: [Song]
     var labelColor: Color
     var foregroundColor: Color
@@ -26,8 +27,9 @@ struct SongListView: View {
                         artistLabelColor: labelColor,
                         foregroundColor: foregroundColor,
                         explicitSignColor: explicitSignColor,
-                        menuColor: menuColor
-                    )
+                        menuColor: menuColor) {
+                            audioPlayer.replaceNowPlaying(songs: songs, from: i)
+                        }
                 }
             } else {
                 ForEach(songs.indices) { i in
@@ -37,8 +39,9 @@ struct SongListView: View {
                         indexLabelColor: labelColor,
                         foregroundColor: foregroundColor,
                         explicitSignColor: explicitSignColor,
-                        menuColor: menuColor
-                    )
+                        menuColor: menuColor) {
+                            audioPlayer.replaceNowPlaying(songs: songs, from: i)
+                        }
                 }
             }
         }

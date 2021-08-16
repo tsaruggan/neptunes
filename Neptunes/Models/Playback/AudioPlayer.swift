@@ -31,11 +31,15 @@ class AudioPlayer: ObservableObject {
     
     var finished: Bool = false
     var isPlayingFromQueue: Bool = false
+    var nowPlayingIsReplaced: Bool = false
     
     let assetKeys = ["playable"]
     
     init() {
-        replaceNowPlaying(songs: MusicData().songs, from: 1)
+        nowPlaying = NowPlaying(songs: MusicData().songs, from: 1)
+        currentSong = nowPlaying.currentSong
+        player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
+        currentTime = 0.0
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
@@ -91,6 +95,7 @@ class AudioPlayer: ObservableObject {
         player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
         currentTime = 0.0
         finished = false
+        nowPlayingIsReplaced = true
     }
     
     func addToQueue(song: Song) {
