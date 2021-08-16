@@ -36,6 +36,11 @@ struct NowPlaying {
         }
     }
     
+    var hasReachedEnd: Bool {
+        if isEmpty { return false }
+        return currentIndex == songs.count - 1
+    }
+    
     init() {
         self.songs = []
     }

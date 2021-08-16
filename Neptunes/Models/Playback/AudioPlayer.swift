@@ -32,6 +32,9 @@ class AudioPlayer: ObservableObject {
     var finished: Bool = false
     var isPlayingFromQueue: Bool = false
     var nowPlayingIsReplaced: Bool = false
+    var hasReachedEnd: Bool {
+        return nowPlaying.hasReachedEnd
+    }
     
     let assetKeys = ["playable"]
     

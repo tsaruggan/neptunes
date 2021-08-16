@@ -61,6 +61,14 @@ final class PlayerViewModel: ObservableObject {
                     audioPlayer.currentTime = 0.0
                     audioPlayer.finished = false
                     play()
+                } else if audioPlayer.hasReachedEnd {
+                    if isOnRepeat {
+                        next()
+                    } else {
+                        audioPlayer.next()
+                        audioPlayer.pause()
+                        isPlaying = false
+                    }
                 } else {
                     next()
                 }
@@ -71,6 +79,8 @@ final class PlayerViewModel: ObservableObject {
             play()
             audioPlayer.nowPlayingIsReplaced = false
         }
+        
+        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func playPause() {
