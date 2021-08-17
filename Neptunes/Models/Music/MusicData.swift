@@ -42,7 +42,7 @@ struct MusicData {
 //        self.albums[1].palette = palette2
 //        self.albums[2].palette = palette3
         
-        self.albums[0].addSongs(Song(title: "Not Around", file: "song1"))
+        self.albums[0].addSongs(Song(title: "Not Around",isExplicit: true ,file: "song1"))
         self.artists[0].albums.append(self.albums[0])
         self.albums[0].artist = self.artists[0]
         
@@ -53,6 +53,7 @@ struct MusicData {
         
         
         self.albums[2].addSongs(Song(title: "Wither", file: "song3"))
+        self.albums[2].addSongs(Song(title: "Rushes", file: "song4"))
         self.artists[2].albums.append(self.albums[2])
         self.albums[2].artist = self.artists[2]
         

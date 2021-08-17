@@ -146,8 +146,10 @@ final class PlayerViewModel: ObservableObject {
     func toggleShuffle() {
         if isOnShuffle {
             isOnShuffle = false
+            audioPlayer.isShuffled = false
         } else {
             isOnShuffle = true
+            audioPlayer.isShuffled = true
         }
     }
 }

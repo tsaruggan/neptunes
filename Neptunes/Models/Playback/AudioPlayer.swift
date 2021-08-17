@@ -36,10 +36,21 @@ class AudioPlayer: ObservableObject {
         return nowPlaying.hasReachedEnd
     }
     
+    private var _isShuffled: Bool = false
+    var isShuffled: Bool {
+        get {
+            return _isShuffled
+        }
+        set {
+            _isShuffled = newValue
+            nowPlaying.isShuffled = newValue
+        }
+    }
+    
     let assetKeys = ["playable"]
     
     init() {
-        nowPlaying = NowPlaying(songs: MusicData().songs, from: 1)
+        nowPlaying = NowPlaying(songs: MusicData().songs, from: 0)
         currentSong = nowPlaying.currentSong
         player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
         currentTime = 0.0
@@ -94,6 +105,7 @@ class AudioPlayer: ObservableObject {
     
     func replaceNowPlaying(songs: [Song], from: Int) {
         nowPlaying = NowPlaying(songs: songs, from: from)
+        nowPlaying.isShuffled = isShuffled
         currentSong = nowPlaying.currentSong
         player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
         currentTime = 0.0
