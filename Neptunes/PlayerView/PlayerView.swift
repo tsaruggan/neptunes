@@ -63,7 +63,7 @@ struct PlayerView: View {
             .onTapGesture {
                 withAnimation(.easeInOut){ expanded = true }
             }
-            .cornerRadius(expanded && offset > 0 ? 48 : 0)
+            .cornerRadius(expanded && offset > 0 ? 48 : 0, corners: [.topLeft, .topRight])
             .offset(y: expanded ? 0 : -48)
             .offset(y: offset)
             .gesture(
@@ -158,11 +158,10 @@ struct PlayerView: View {
                             Image(systemName: "repeat")
                         }
                     }
-                    if viewModel.isOnRepeat || viewModel.isOnRepeatOne {
-                        Image(systemName: "circle.fill")
-                            .foregroundColor(viewModel.palette.accent(colorScheme))
-                            .font(.system(size: 4))
-                    }
+                    
+                    Image(systemName: "circle.fill")
+                        .foregroundColor(viewModel.isOnRepeat || viewModel.isOnRepeatOne ? viewModel.palette.accent(colorScheme) : .clear)
+                        .font(.system(size: 4))
                 }
                 
                 Spacer()
@@ -175,11 +174,9 @@ struct PlayerView: View {
                             Image(systemName: "shuffle")
                         }
                     }
-                    if viewModel.isOnShuffle {
-                        Image(systemName: "circle.fill")
-                            .foregroundColor(viewModel.palette.accent(colorScheme))
-                            .font(.system(size: 4))
-                    }
+                    Image(systemName: "circle.fill")
+                        .foregroundColor(viewModel.isOnShuffle ? viewModel.palette.accent(colorScheme) : .clear)
+                        .font(.system(size: 4))
                 }
                 Spacer()
                 Button(action: {}) {
@@ -237,7 +234,7 @@ struct PlayerView: View {
     
     func dragGestureOnEnded(value : DragGesture.Value) {
         withAnimation(.easeInOut) {
-            if value.translation.height > expandedContentWidth {
+            if value.translation.height > 50 {
                 expanded = false
             }
             offset = 0
@@ -279,3 +276,18 @@ struct SmallMediaButtonStyle: ButtonStyle {
 //        }
 //    }
 //}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
