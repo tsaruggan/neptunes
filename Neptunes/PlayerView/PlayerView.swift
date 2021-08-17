@@ -140,30 +140,45 @@ struct PlayerView: View {
             .frame(height: 24)
             .padding(.vertical, nil)
             
-            HStack {
+            HStack(alignment: .top) {
                 Button(action: {}) {
                     //            Image(systemName: "hifispeaker.2.fill")
                     Image(systemName: "airpodsmax")
                 }
                 Spacer()
-                Button(action: viewModel.toggleRepeat) {
-                    if viewModel.isOnRepeat {
-                        Image(systemName: "repeat")
+                VStack(spacing: 4){
+                    Button(action: viewModel.toggleRepeat) {
+                        if viewModel.isOnRepeat {
+                            Image(systemName: "repeat")
+                                .foregroundColor(viewModel.palette.accent(colorScheme))
+                        } else if viewModel.isOnRepeatOne {
+                            Image(systemName: "repeat.1")
+                                .foregroundColor(viewModel.palette.accent(colorScheme))
+                        } else {
+                            Image(systemName: "repeat")
+                        }
+                    }
+                    if viewModel.isOnRepeat || viewModel.isOnRepeatOne {
+                        Image(systemName: "circle.fill")
                             .foregroundColor(viewModel.palette.accent(colorScheme))
-                    } else if viewModel.isOnRepeatOne {
-                        Image(systemName: "repeat.1")
-                            .foregroundColor(viewModel.palette.accent(colorScheme))
-                    } else {
-                        Image(systemName: "repeat")
+                            .font(.system(size: 4))
                     }
                 }
+                
                 Spacer()
-                Button(action: viewModel.toggleShuffle) {
+                VStack(spacing: 4){
+                    Button(action: viewModel.toggleShuffle) {
+                        if viewModel.isOnShuffle {
+                            Image(systemName: "shuffle")
+                                .foregroundColor(viewModel.palette.accent(colorScheme))
+                        } else {
+                            Image(systemName: "shuffle")
+                        }
+                    }
                     if viewModel.isOnShuffle {
-                        Image(systemName: "shuffle")
+                        Image(systemName: "circle.fill")
                             .foregroundColor(viewModel.palette.accent(colorScheme))
-                    } else {
-                        Image(systemName: "shuffle")
+                            .font(.system(size: 4))
                     }
                 }
                 Spacer()

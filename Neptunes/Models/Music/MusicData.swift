@@ -34,17 +34,24 @@ struct MusicData {
             Album(title: "Owl Pharaoh", artist: self.artists[1], artwork: "travis_scott_album_art_1"),
             Album(title: "Endless", artist: self.artists[2], artwork: "frank_ocean_album_art_1")
         ]
-        self.albums[0].palette = ColorAnalyzer.generatePalette(artwork: self.albums[0].artwork, header: self.albums[0].header)
+        
+//        let palette1 = ColorAnalyzer.generatePalette(artwork: self.albums[0].artwork, header: self.albums[0].header)
+//        let palette2 = ColorAnalyzer.generatePalette(artwork: self.albums[1].artwork, header: self.albums[1].header)
+//        let palette3 = ColorAnalyzer.generatePalette(artwork: self.albums[2].artwork, header: self.albums[2].header)
+//        self.albums[0].palette = palette1
+//        self.albums[1].palette = palette2
+//        self.albums[2].palette = palette3
+        
         self.albums[0].addSongs(Song(title: "Not Around", file: "song1"))
         self.artists[0].albums.append(self.albums[0])
         self.albums[0].artist = self.artists[0]
         
-        self.albums[1].palette = ColorAnalyzer.generatePalette(artwork: self.albums[1].artwork, header: self.albums[1].header)
+        
         self.albums[1].addSongs(Song(title: "Hell of a Night", file: "song2"))
         self.artists[1].albums.append(self.albums[1])
         self.albums[1].artist = self.artists[1]
         
-        self.albums[2].palette = ColorAnalyzer.generatePalette(artwork: self.albums[2].artwork, header: self.albums[2].header)
+        
         self.albums[2].addSongs(Song(title: "Wither", file: "song3"))
         self.artists[2].albums.append(self.albums[2])
         self.albums[2].artist = self.artists[2]

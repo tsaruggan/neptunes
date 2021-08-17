@@ -33,9 +33,11 @@ struct SongFinderItemView: View {
 }
 
 struct SongFinderView_Previews: PreviewProvider {
+    @StateObject static var audioPlayer = AudioPlayer()
     static var previews: some View {
         NavigationView{
             SongFinderView()
+                .environmentObject(audioPlayer)
         }
     }
 }

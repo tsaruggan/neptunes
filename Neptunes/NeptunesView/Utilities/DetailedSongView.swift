@@ -17,32 +17,36 @@ struct DetailedSongView: View {
     var onTap: () -> Void
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
-            Image(song.artwork ?? "default_album_art")
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(2)
-                .frame(height: 40)
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(alignment: .center, spacing: 14) {
-                    Text(song.title)
-                        .fontWeight(.medium)
-                        .foregroundColor(foregroundColor)
-                        .lineLimit(1)
-                    if song.isExplicit {
-                        Image(systemName: "e.square.fill")
-                            .foregroundColor(explicitSignColor)
-                    }
-                }
+            HStack(alignment: .center, spacing: 14) {
+                Image(song.artwork ?? "default_album_art")
+                    .resizable()
+                    .scaledToFit()
+                    .cornerRadius(2)
+                    .frame(height: 40)
                 
-                Text(song.artist!.title)
-                    .foregroundColor(artistLabelColor)
-                    .font(.callout)
-                    .lineLimit(1)
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(alignment: .center, spacing: 14) {
+                        Text(song.title)
+                            .fontWeight(.medium)
+                            .foregroundColor(foregroundColor)
+                            .lineLimit(1)
+                        if song.isExplicit {
+                            Image(systemName: "e.square.fill")
+                                .foregroundColor(explicitSignColor)
+                        }
+                    }
+                    
+                    Text(song.artist!.title)
+                        .foregroundColor(artistLabelColor)
+                        .font(.callout)
+                        .lineLimit(1)
+                }
+                Spacer(minLength: 0)
             }
             .onTapGesture {
                 onTap()
             }
-            Spacer(minLength: 0)
+            
             Menu() {
                 Button {
                     audioPlayer.addToQueue(song: song)
@@ -54,7 +58,7 @@ struct DetailedSongView: View {
                     .foregroundColor(menuColor)
                 
             }
-
+            
         }
         .padding(12)
     }

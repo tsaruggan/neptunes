@@ -36,6 +36,7 @@ struct SongView: View {
             .onTapGesture {
                 onTap()
             }
+            
             Menu() {
                 Button {
                     audioPlayer.addToQueue(song: song)
