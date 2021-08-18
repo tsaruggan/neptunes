@@ -18,7 +18,7 @@ struct SongFinderView: View {
 }
 
 struct SongFinderItemView: View {
-    @EnvironmentObject var audioPlayer: AudioPlayer
+    @EnvironmentObject var audioPlayer: Player
     var song: Song
     var body: some View {
         DetailedSongView(
@@ -33,7 +33,7 @@ struct SongFinderItemView: View {
 }
 
 struct SongFinderView_Previews: PreviewProvider {
-    @StateObject static var audioPlayer = AudioPlayer()
+    @StateObject static var audioPlayer = Player()
     static var previews: some View {
         NavigationView{
             SongFinderView()

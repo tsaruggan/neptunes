@@ -1,6 +1,6 @@
 //
-//  AudioPlayer.swift
-//  AudioPlayer
+//  Player.swift
+//  Player
 //
 //  Created by Saruggan Thiruchelvan on 2021-08-09.
 //
@@ -9,11 +9,16 @@ import Foundation
 import AVFoundation
 import NotificationCenter
 
-class AudioPlayer: ObservableObject {
+class Player: ObservableObject {
     var player: AVPlayer = AVPlayer()
     var queue: Queue = Queue()
     var nowPlaying: NowPlaying = NowPlaying()
     var currentSong: Song?
+    
+    var _isPlaying: Bool = false
+    var isPlaying: Bool {
+        return _isPlaying || (self.player.rate != 0 && self.player.error == nil)
+    }
     
     var duration: TimeInterval {
         guard let currentItem = player.currentItem else { return 0.0 }
@@ -59,10 +64,12 @@ class AudioPlayer: ObservableObject {
     
     func play() {
         player.play()
+        _isPlaying = true
     }
     
     func pause() {
         player.pause()
+        _isPlaying = false
     }
     
     func previous() {
@@ -70,6 +77,7 @@ class AudioPlayer: ObservableObject {
         finished = false
         if nowPlaying.isEmpty {
             currentSong = nil
+            _isPlaying = false
         } else {
             if isPlayingFromQueue {
                 isPlayingFromQueue = false
@@ -78,7 +86,7 @@ class AudioPlayer: ObservableObject {
             }
             currentSong = nowPlaying.currentSong
             player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
-            player.play()
+            play()
         }
     }
     
@@ -88,6 +96,7 @@ class AudioPlayer: ObservableObject {
         if nowPlaying.isEmpty && queue.isEmpty {
             currentSong = nil
             isPlayingFromQueue = false
+            _isPlaying = false
         } else if queue.isEmpty {
             nowPlaying.goToNext()
             currentSong = nowPlaying.currentSong
@@ -97,7 +106,7 @@ class AudioPlayer: ObservableObject {
         } else {
             currentSong = queue.currentSong
             player.replaceCurrentItem(with: queue.currentPlayerItem)
-            player.play()
+            play()
             queue.goToNext()
             isPlayingFromQueue = true
         }
@@ -111,6 +120,7 @@ class AudioPlayer: ObservableObject {
         currentTime = 0.0
         finished = false
         nowPlayingIsReplaced = true
+        _isPlaying = false
     }
     
     func addToQueue(song: Song) {

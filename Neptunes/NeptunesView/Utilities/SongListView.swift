@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SongListView: View {
-    @EnvironmentObject var audioPlayer: AudioPlayer
+    @EnvironmentObject var audioPlayer: Player
     var songs: [Song]
     var labelColor: Color
     var foregroundColor: Color

@@ -10,66 +10,76 @@ import AVFoundation
 import SwiftUI
 
 final class PlayerViewModel: ObservableObject {
-    @Published var audioPlayer: AudioPlayer
-    @Published var isPlaying: Bool = false
+    @Published var player: Player
+    
+    var isPlaying: Bool {
+        if isBeingScrubbed { return true }
+        return player.isPlaying
+    }
     
     var song: Song? {
-        return audioPlayer.currentSong
+        return player.currentSong
     }
     
     var duration: TimeInterval {
-        return audioPlayer.duration
-    }
-    var percentage: Double {
-        get {
-            return audioPlayer.currentTime / audioPlayer.duration
-        }
-        set {
-            playValue = audioPlayer.duration * newValue
-        }
-    }
-    @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @Published var playValue: TimeInterval = 0.0
-    var palette: Palette {
-        return audioPlayer.currentSong!.palette
+        return player.duration
     }
     
+    var percentage: Double {
+        get {
+            return player.currentTime / player.duration
+        }
+        set {
+            playValue = player.duration * newValue
+        }
+    }
+    
+    var palette: Palette {
+        return player.currentSong!.palette
+    }
+    
+    @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @Published var playValue: TimeInterval = 0.0
     @Published var isOnRepeat: Bool = false
     @Published var isOnRepeatOne: Bool = false
     @Published var isOnShuffle: Bool = false
+    @Published var isBeingScrubbed: Bool = false
     
-    init(audioPlayer: AudioPlayer) {
-        self.audioPlayer = audioPlayer
-        self.audioPlayer.pause()
+    init(audioPlayer: Player) {
+        self.player = audioPlayer
+        self.player.pause()
     }
     
     func onScrubberChanged() {
-        audioPlayer.pause()
-        audioPlayer.currentTime = playValue
+        if isPlaying {
+            isBeingScrubbed = true
+        }
+        player.pause()
+        player.currentTime = playValue
     }
     
     func onScrubberEnded() {
-        if isPlaying {
-            audioPlayer.play()
-            if audioPlayer.finished { next() }
+        if isBeingScrubbed {
+            player.play()
+            if player.finished { next() }
+            isBeingScrubbed = false
         }
     }
     
     func onUpdate() {
         if isPlaying {
-            playValue = audioPlayer.currentTime
-            if audioPlayer.finished {
+            playValue = player.currentTime
+            if player.finished {
                 if isOnRepeatOne {
-                    audioPlayer.currentTime = 0.0
-                    audioPlayer.finished = false
+                    player.currentTime = 0.0
+                    player.finished = false
                     play()
-                } else if audioPlayer.hasReachedEnd {
+                } else if player.hasReachedEnd {
                     if isOnRepeat {
                         next()
                     } else {
-                        audioPlayer.next()
-                        audioPlayer.pause()
-                        isPlaying = false
+                        player.next()
+                        player.pause()
                     }
                 } else {
                     next()
@@ -77,9 +87,9 @@ final class PlayerViewModel: ObservableObject {
             }
         }
         
-        if audioPlayer.nowPlayingIsReplaced {
+        if player.nowPlayingIsReplaced {
             play()
-            audioPlayer.nowPlayingIsReplaced = false
+            player.nowPlayingIsReplaced = false
         }
         
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -94,39 +104,35 @@ final class PlayerViewModel: ObservableObject {
     }
     
     func play() {
-        audioPlayer.play()
-        isPlaying = true
+        player.play()
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func pause() {
-        audioPlayer.pause()
-        isPlaying = false
+        player.pause()
     }
     
     func next() {
-        audioPlayer.next()
-        isPlaying = true
+        player.next()
         if isOnRepeatOne {
             isOnRepeatOne = false
             isOnRepeat = true
         }
-        playValue = audioPlayer.currentTime
+        playValue = player.currentTime
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func previous() {
         if playValue < 5.0 {
-            audioPlayer.previous()
-            isPlaying = true
+            player.previous()
             if isOnRepeatOne {
                 isOnRepeatOne = false
                 isOnRepeat = true
             }
         } else {
-            audioPlayer.currentTime = 0.0
+            player.currentTime = 0.0
         }
-        playValue = audioPlayer.currentTime
+        playValue = player.currentTime
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
@@ -146,10 +152,10 @@ final class PlayerViewModel: ObservableObject {
     func toggleShuffle() {
         if isOnShuffle {
             isOnShuffle = false
-            audioPlayer.isShuffled = false
+            player.isShuffled = false
         } else {
             isOnShuffle = true
-            audioPlayer.isShuffled = true
+            player.isShuffled = true
         }
     }
 }

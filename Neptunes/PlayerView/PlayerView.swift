@@ -10,7 +10,7 @@ import AVFoundation
 
 struct PlayerView: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var audioPlayer: AudioPlayer
+    @EnvironmentObject var audioPlayer: Player
     @ObservedObject var viewModel: PlayerViewModel
     
     @Binding var expanded: Bool
@@ -32,11 +32,12 @@ struct PlayerView: View {
             VStack {
                 if expanded {
                     VStack() {
+                        Spacer(minLength: 16)
                         expandedcollapseButton
                         Spacer(minLength: 16)
                         songArtwork
                         expandedSongInformation
-                            .padding(.top, 16)
+                            .padding(.vertical, 8)
                         VStack {
                             expandedScrubber
                             expandedControlButtons
@@ -86,7 +87,7 @@ struct PlayerView: View {
     }
     
     var expandedSongInformation: some View {
-        VStack(alignment: .leading, spacing: 3) {
+        VStack(alignment: .leading, spacing: 0) {
             MarqueeView(
                 autoreverses: true,
                 direction: .left2right,
@@ -103,6 +104,7 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song!.artist!.title)
+                .font(.callout)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation)
@@ -113,7 +115,14 @@ struct PlayerView: View {
     }
     
     var expandedScrubber: some View {
-        ScrubberView(duration: viewModel.duration, percentage: $viewModel.percentage, backgroundColor: viewModel.palette.primary(colorScheme), textColor: viewModel.palette.secondary(colorScheme),onChanged: viewModel.onScrubberChanged, onEnded: viewModel.onScrubberEnded)
+        ScrubberView(
+            duration: viewModel.duration,
+            percentage: $viewModel.percentage,
+            backgroundColor: viewModel.palette.primary(colorScheme),
+            textColor: viewModel.palette.secondary(colorScheme),
+            onChanged: viewModel.onScrubberChanged,
+            onEnded: viewModel.onScrubberEnded
+        )
     }
     
     var expandedControlButtons: some View {
@@ -137,7 +146,6 @@ struct PlayerView: View {
             
             HStack(alignment: .top) {
                 Button(action: {}) {
-                    //            Image(systemName: "hifispeaker.2.fill")
                     Image(systemName: "airpodsmax")
                 }
                 Spacer()
@@ -153,12 +161,10 @@ struct PlayerView: View {
                             Image(systemName: "repeat")
                         }
                     }
-                    
                     Image(systemName: "circle.fill")
                         .foregroundColor(viewModel.isOnRepeat || viewModel.isOnRepeatOne ? viewModel.palette.accent(colorScheme) : .clear)
                         .font(.system(size: 4))
                 }
-                
                 Spacer()
                 VStack(spacing: 4){
                     Button(action: viewModel.toggleShuffle) {
@@ -217,6 +223,7 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song!.artist!.title)
+                .font(.callout)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation)
@@ -256,23 +263,6 @@ struct SmallMediaButtonStyle: ButtonStyle {
             .foregroundColor(foregroundColor)
     }
 }
-
-//struct PlayerView_Previews: PreviewProvider {
-//    @State static var expanded = true
-//    @Namespace static var animation
-//    static var previews: some View {
-//        ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
-//            TabView {
-//                PageView(text: "Home page")
-//                    .tabItem { Label("Home", systemImage: "music.note.house") }
-//                PageView(text: "Search page")
-//                    .tabItem { Label("Search", systemImage: "magnifyingglass") }
-//            }
-//            .accentColor(.teal)
-//            PlayerView(expanded: $expanded, animation: animation)
-//        }
-//    }
-//}
 
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {

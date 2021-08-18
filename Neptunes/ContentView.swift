@@ -28,7 +28,7 @@ struct ContentView: View {
     @State var expanded = false
     @Namespace var animation
     
-    @StateObject var audioPlayer = AudioPlayer()
+    @StateObject var audioPlayer = Player()
     
     init() {
         UITabBar.appearance().shadowImage = UIImage()
