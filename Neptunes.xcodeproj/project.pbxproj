@@ -27,6 +27,7 @@
 		1866AA1626C4311000F9B698 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866AA1526C4311000F9B698 /* NowPlaying.swift */; };
 		186938C426C0965D001EFC48 /* song2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 186938C226C0965D001EFC48 /* song2.mp3 */; };
 		186938C526C0965D001EFC48 /* song1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 186938C326C0965D001EFC48 /* song1.mp3 */; };
+		18786BA326CC275B00FEBF2A /* MarqueeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18786BA226CC275B00FEBF2A /* MarqueeView.swift */; };
 		187A677326CB5494009F2593 /* song4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 187A677226CB5494009F2593 /* song4.mp3 */; };
 		187A96F626B59F2A00A42F5B /* AlbumFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187A96F526B59F2A00A42F5B /* AlbumFinderView.swift */; };
 		187C88E626A491E6001DFE2F /* ScrubberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187C88E526A491E6001DFE2F /* ScrubberView.swift */; };
@@ -77,6 +78,7 @@
 		1866AA1526C4311000F9B698 /* NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlaying.swift; sourceTree = "<group>"; };
 		186938C226C0965D001EFC48 /* song2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song2.mp3; sourceTree = "<group>"; };
 		186938C326C0965D001EFC48 /* song1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song1.mp3; sourceTree = "<group>"; };
+		18786BA226CC275B00FEBF2A /* MarqueeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeView.swift; sourceTree = "<group>"; };
 		187A677226CB5494009F2593 /* song4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song4.mp3; sourceTree = "<group>"; };
 		187A96F526B59F2A00A42F5B /* AlbumFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFinderView.swift; sourceTree = "<group>"; };
 		187C88E526A491E6001DFE2F /* ScrubberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrubberView.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				18FF187B26A375710085A769 /* PlayerView.swift */,
 				187C88E526A491E6001DFE2F /* ScrubberView.swift */,
 				18DEE54D26BF4ADF00AC0D2E /* PlayerViewModel.swift */,
+				18786BA226CC275B00FEBF2A /* MarqueeView.swift */,
 			);
 			path = PlayerView;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				189FC45426B1C05500DF0806 /* ArtistViewModel.swift in Sources */,
 				188390E02695F12C0026B04D /* Artist.swift in Sources */,
 				189FC45226B1C04400DF0806 /* ArtistView.swift in Sources */,
+				18786BA326CC275B00FEBF2A /* MarqueeView.swift in Sources */,
 				188390ED2695F9560026B04D /* AlbumViewModel.swift in Sources */,
 				183692AB26A079F200999D3D /* ArtworkView.swift in Sources */,
 				188390EB2695F6CF0026B04D /* SongView.swift in Sources */,

@@ -53,7 +53,7 @@ struct PlayerView: View {
                         Spacer(minLength: 0)
                         collapsedControlButtons
                     }
-                    .padding(.horizontal)
+                    .padding()
                 }
             }
             .frame(width: UIScreen.main.bounds.width)
@@ -87,25 +87,20 @@ struct PlayerView: View {
     
     var expandedSongInformation: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 14){
+            MarqueeView(
+                autoreverses: true,
+                direction: .left2right,
+                stopWhenNoFit: true,
+                idleAlignment: .leading
+            ) {
                 Text(viewModel.song!.title)
+                    .font(.title3)
                     .foregroundColor(viewModel.palette.primary(colorScheme))
                     .fontWeight(.bold)
                     .lineLimit(1)
-                    .matchedGeometryEffect(id: "title", in: animation, properties: .position)
-                
-                if viewModel.song!.isExplicit {
-                    Image(systemName: "e.square.fill")
-                        .foregroundColor(viewModel.palette.accent(colorScheme))
-                        .matchedGeometryEffect(id: "explicitSign", in: animation, properties: .position)
-                }
-                Spacer(minLength: 0)
-                Button(action: {}) {
-                    Image(systemName: "ellipsis")
-                        .foregroundColor(viewModel.palette.secondary(colorScheme))
-                }
             }
-            .font(.title3)
+            .id(viewModel.song!.title)
+            .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song!.artist!.title)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
@@ -207,18 +202,20 @@ struct PlayerView: View {
     
     var collapsedSongInformation: some View {
         VStack(alignment: .leading) {
-            HStack {
+            MarqueeView(
+                autoreverses: true,
+                direction: .left2right,
+                stopWhenNoFit: true,
+                idleAlignment: .leading
+            ) {
                 Text(viewModel.song!.title)
                     .foregroundColor(viewModel.palette.primary(colorScheme))
                     .fontWeight(.bold)
                     .lineLimit(1)
-                    .matchedGeometryEffect(id: "title", in: animation, properties: .position)
-                if viewModel.song!.isExplicit {
-                    Image(systemName: "e.square.fill")
-                        .foregroundColor(viewModel.palette.accent(colorScheme))
-                        .matchedGeometryEffect(id: "explicitSign", in: animation, properties: .position)
-                }
             }
+            .id(viewModel.song!.title)
+            .matchedGeometryEffect(id: "title", in: animation, properties: .position)
+            
             Text(viewModel.song!.artist!.title)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)

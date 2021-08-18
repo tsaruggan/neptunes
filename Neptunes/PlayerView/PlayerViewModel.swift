@@ -14,7 +14,7 @@ final class PlayerViewModel: ObservableObject {
     @Published var isPlaying: Bool = false
     
     var song: Song? {
-        audioPlayer.currentSong
+        return audioPlayer.currentSong
     }
     
     var duration: TimeInterval {
