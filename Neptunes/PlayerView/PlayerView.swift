@@ -48,17 +48,17 @@ struct PlayerView: View {
                     .padding(48)
                     .opacity(expanded ? 1 : 0)
                 } else {
-                    HStack(spacing: 15) {
+                    HStack(spacing: 10) {
                         songArtwork
                         collapsedSongInformation
                         Spacer(minLength: 0)
                         collapsedControlButtons
                     }
-                    .padding()
+                    .padding(10)
                 }
             }
             .frame(width: UIScreen.main.bounds.width)
-            .frame(maxHeight: expanded ? .infinity : 80)
+            .frame(maxHeight: expanded ? .infinity : 72)
             .background(viewModel.palette.background(colorScheme).opacity(0.75))
             .background(.ultraThinMaterial)
             .onTapGesture {
@@ -104,14 +104,14 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song!.artist!.title)
-                .font(.callout)
+                .font(.body)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
-                .matchedGeometryEffect(id: "artist", in: animation)
+                .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
             
-            Spacer(minLength: 0)
+            Spacer()
         }
-        .frame(height: expanded ? 64 : 0)
+        .frame(height: expanded ? 60 : 0)
     }
     
     var expandedScrubber: some View {
@@ -207,7 +207,7 @@ struct PlayerView: View {
     }
     
     var collapsedSongInformation: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             MarqueeView(
                 autoreverses: true,
                 direction: .left2right,
@@ -216,6 +216,7 @@ struct PlayerView: View {
             ) {
                 Text(viewModel.song!.title)
                     .foregroundColor(viewModel.palette.primary(colorScheme))
+                    .font(.callout)
                     .fontWeight(.bold)
                     .lineLimit(1)
             }
@@ -223,11 +224,13 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song!.artist!.title)
-                .font(.callout)
+                .font(.subheadline)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
-                .matchedGeometryEffect(id: "artist", in: animation)
+                .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
+            Spacer()
         }
+        .frame(height: 50)
     }
     
     func dragGestureOnChanged(value : DragGesture.Value) {

@@ -28,7 +28,7 @@ struct MarqueeView<Content: View>: View {
     
     public var body: some View {
         GeometryReader { proxy in
-            VStack {
+            VStack() {
                 if isAppear {
                     content()
                         .background(GeometryBackground())
@@ -111,17 +111,23 @@ struct MarqueeView<Content: View>: View {
 
 struct MarqueeView_Previews: PreviewProvider {
     static var previews: some View {
-        MarqueeView(
-            autoreverses: true,
-            direction: .left2right,
-            stopWhenNoFit: true,
-            idleAlignment: .leading
-        ) {
-            Text("Hold On, We're Going Home ")
+        VStack(alignment: .leading, spacing: 0) {
+            MarqueeView(
+                autoreverses: true,
+                direction: .left2right,
+                stopWhenNoFit: true,
+                idleAlignment: .leading
+            ) {
+                Text("Hold On, We're Going Home ")
+                    .fontWeight(.bold)
+                    .font(.title)
+            }
+            Text("Drake")
                 .fontWeight(.bold)
-                .font(.system(size: 40))
+                .font(.callout)
+            Spacer()
         }
-        .frame(width: 200)
+        .frame(width: 200, height: 60)
     }
 }
 

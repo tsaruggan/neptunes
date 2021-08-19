@@ -36,13 +36,13 @@ struct MusicData {
         ]
         
         let palette1 = ColorAnalyzer.generatePalette(artwork: self.albums[0].artwork, header: self.albums[0].header)
-        let palette2 = ColorAnalyzer.generatePalette(artwork: self.albums[1].artwork, header: self.albums[1].header)
-        let palette3 = ColorAnalyzer.generatePalette(artwork: self.albums[2].artwork, header: self.albums[2].header)
+//        let palette2 = ColorAnalyzer.generatePalette(artwork: self.albums[1].artwork, header: self.albums[1].header)
+//        let palette3 = ColorAnalyzer.generatePalette(artwork: self.albums[2].artwork, header: self.albums[2].header)
         self.albums[0].palette = palette1
-        self.albums[1].palette = palette2
-        self.albums[2].palette = palette3
+//        self.albums[1].palette = palette2
+//        self.albums[2].palette = palette3
         
-        self.albums[0].addSongs(Song(title: "Not Around",isExplicit: true ,file: "song1"))
+        self.albums[0].addSongs(Song(title: "Not Around (Official Leak - OVO Sound 2013)",isExplicit: true ,file: "song1"))
         self.artists[0].albums.append(self.albums[0])
         self.albums[0].artist = self.artists[0]
         
