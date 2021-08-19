@@ -48,13 +48,12 @@ struct PlayerView: View {
                     .padding(48)
                     .opacity(expanded ? 1 : 0)
                 } else {
-                    HStack(alignment: .center, spacing: 10) {
+                    HStack(alignment: .center, spacing: 12) {
                         songArtwork
                         collapsedSongInformation
-                        Spacer(minLength: 0)
                         collapsedControlButtons
                     }
-                    .padding(10)
+                    .padding(.all, 12)
                 }
             }
             .frame(width: UIScreen.main.bounds.width)
@@ -62,7 +61,7 @@ struct PlayerView: View {
             .background(viewModel.palette.background(colorScheme).opacity(0.75))
             .background(.ultraThinMaterial)
             .onTapGesture {
-                withAnimation(.easeInOut){ expanded = true }
+                withAnimation(.spring()){ expanded = true }
             }
             .cornerRadius(expanded && offset > 0 ? 48 : 0, corners: [.topLeft, .topRight])
             .offset(y: expanded ? 0 : -48)
@@ -192,7 +191,7 @@ struct PlayerView: View {
     
     var expandedcollapseButton: some View {
         HStack(alignment: .center){
-            Button(action: { withAnimation(.easeInOut){ expanded = false } }) {
+            Button(action: { withAnimation(.easeInOut.speed(1.5)){ expanded = false } }) {
                 Image(systemName: "chevron.compact.down")
             }
         }
@@ -243,7 +242,7 @@ struct PlayerView: View {
     }
     
     func dragGestureOnEnded(value : DragGesture.Value) {
-        withAnimation(.easeInOut) {
+        withAnimation(.easeInOut.speed(1.5)) {
             if value.translation.height > 50 {
                 expanded = false
             }
