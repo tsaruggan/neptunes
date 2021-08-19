@@ -48,7 +48,7 @@ struct PlayerView: View {
                     .padding(48)
                     .opacity(expanded ? 1 : 0)
                 } else {
-                    HStack(spacing: 10) {
+                    HStack(alignment: .center, spacing: 10) {
                         songArtwork
                         collapsedSongInformation
                         Spacer(minLength: 0)
@@ -89,8 +89,9 @@ struct PlayerView: View {
     var expandedSongInformation: some View {
         VStack(alignment: .leading, spacing: 0) {
             MarqueeView(
+                startDelay: 3.0,
                 autoreverses: true,
-                direction: .left2right,
+                direction: .right2left,
                 stopWhenNoFit: true,
                 idleAlignment: .leading
             ) {
@@ -203,14 +204,16 @@ struct PlayerView: View {
         Button(action: viewModel.playPause) {
             Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
         }
-        .buttonStyle(SmallMediaButtonStyle(foregroundColor: viewModel.palette.secondary(colorScheme)))
+        .font(.title2)
+        .foregroundColor(viewModel.palette.secondary(colorScheme))
     }
     
     var collapsedSongInformation: some View {
         VStack(alignment: .leading, spacing: 0) {
             MarqueeView(
+                startDelay: 3.0,
                 autoreverses: true,
-                direction: .left2right,
+                direction: .right2left,
                 stopWhenNoFit: true,
                 idleAlignment: .leading
             ) {

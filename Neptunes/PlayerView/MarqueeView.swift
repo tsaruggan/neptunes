@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MarqueeView<Content: View>: View {
+    private var startDelay: Double
     private var autoreverses: Bool
     private var direction: MarqueeDirection
     private var stopWhenNotFit: Bool
@@ -18,7 +19,8 @@ struct MarqueeView<Content: View>: View {
     @State private var duration: CGFloat = 0
     @State private var isAppear = false
     
-    public init(autoreverses: Bool, direction: MarqueeDirection, stopWhenNoFit: Bool, idleAlignment: HorizontalAlignment ,@ViewBuilder content: @escaping () -> Content) {
+    public init(startDelay: Double, autoreverses: Bool, direction: MarqueeDirection, stopWhenNoFit: Bool, idleAlignment: HorizontalAlignment ,@ViewBuilder content: @escaping () -> Content) {
+        self.startDelay = startDelay
         self.autoreverses = autoreverses
         self.direction = direction
         self.stopWhenNotFit = stopWhenNoFit
@@ -96,7 +98,7 @@ struct MarqueeView<Content: View>: View {
         
         withAnimation(.instant) {
             self.state = .ready
-            withAnimation(Animation.linear(duration: duration).repeatForever(autoreverses: autoreverses)) {
+            withAnimation(Animation.linear(duration: duration).delay(startDelay).repeatForever(autoreverses: autoreverses)) {
                 self.state = .animating
             }
         }
@@ -113,8 +115,9 @@ struct MarqueeView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .leading, spacing: 0) {
             MarqueeView(
+                startDelay: 3.0,
                 autoreverses: true,
-                direction: .left2right,
+                direction: .right2left,
                 stopWhenNoFit: true,
                 idleAlignment: .leading
             ) {
