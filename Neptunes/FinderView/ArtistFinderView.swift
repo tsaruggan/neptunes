@@ -27,7 +27,7 @@ struct ArtistFinderItemView: View {
                     .scaledToFit()
                     .frame(height: 48)
                     .clipShape(Circle())
-                Text(artist.title)
+                Text(artist.title!)
                     .bold()
                     .lineLimit(1)
                 Spacer()

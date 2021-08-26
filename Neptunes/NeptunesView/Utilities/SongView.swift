@@ -23,7 +23,7 @@ struct SongView: View {
                     .font(.system(.callout, design: .monospaced))
                     .monospacedDigit()
                     .foregroundColor(indexLabelColor)
-                Text(song.title)
+                Text(song.title!)
                     .fontWeight(.medium)
                     .foregroundColor(foregroundColor)
                     .lineLimit(1)

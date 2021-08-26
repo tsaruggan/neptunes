@@ -28,10 +28,10 @@ struct AlbumFinderItemView: View {
                     .cornerRadius(5)
                     .frame(height: 48)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(album.title)
+                    Text(album.title!)
                         .bold()
                         .lineLimit(1)
-                    Text(album.artist.title)
+                    Text(album.artist!.title!)
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }

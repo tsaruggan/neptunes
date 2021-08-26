@@ -27,7 +27,7 @@ struct PlaylistFinderItemView: View {
                     .scaledToFit()
                     .cornerRadius(5)
                     .frame(height: 48)
-                Text(playlist.title)
+                Text(playlist.title!)
                     .bold()
                     .lineLimit(1)
                 Spacer()

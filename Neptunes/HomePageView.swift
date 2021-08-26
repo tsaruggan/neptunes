@@ -52,12 +52,12 @@ struct HomePageView: View {
             ForEach(model.collectables.map({ CollectableWrapper($0) })) { anyCollectable in
                 let collectable = anyCollectable.collectable
                 if let album = collectable as? Album {
-                    CollectableItemView(title: album.title, subheading: album.artist.title, artwork: album.artwork) {
+                    CollectableItemView(title: album.title!, subheading: album.artist!.title!, artwork: album.artwork) {
                         AlbumView(viewModel: .init(album: album))
                     }
                     
                 } else if let playlist = collectable as? Playlist {
-                    CollectableItemView(title: playlist.title, subheading: "Playlist", artwork: playlist.artwork) {
+                    CollectableItemView(title: playlist.title!, subheading: "Playlist", artwork: playlist.artwork!) {
                         PlaylistView(viewModel: .init(playlist: playlist))
                     }
                 }

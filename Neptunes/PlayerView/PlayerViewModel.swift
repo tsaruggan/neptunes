@@ -35,7 +35,7 @@ final class PlayerViewModel: ObservableObject {
     }
     
     var palette: Palette {
-        return player.currentSong!.palette
+        return Palette()
     }
     
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()

@@ -8,6 +8,6 @@
 import Foundation
 
 protocol Findable {
-    var title: String { get set }
-    var date: Date { get }
+    var title: String? { get set }
+    var date: Date? { get }
 }

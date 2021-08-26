@@ -20,7 +20,7 @@ struct AlbumView: View {
             ArtworkView(artwork: viewModel.album.artwork ?? "default_album_art")
             albumInformation
             SongListView(
-                songs: viewModel.album.songs,
+                songs: Array(viewModel.album.songs! as! Set<Song>),
                 labelColor: viewModel.palette.secondary(colorScheme),
                 foregroundColor: viewModel.palette.primary(colorScheme),
                 explicitSignColor: viewModel.palette.accent(colorScheme),
@@ -47,21 +47,21 @@ struct AlbumView: View {
             Text(viewModel.album.isSingle ? "Single" : "Album")
                 .font(.subheadline)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
-            Text(viewModel.album.title)
+            Text(viewModel.album.title!)
                 .foregroundColor(viewModel.palette.primary(colorScheme))
                 .fontWeight(.bold)
                 .font(.title2)
                 .padding(.bottom, 4)
             NavigationLink {
-                ArtistView(viewModel: .init(artist: viewModel.album.artist))
+                ArtistView(viewModel: .init(artist: viewModel.album.artist!))
             } label: {
                 HStack {
-                    Image(viewModel.album.artist.artwork ?? "default_album_art")
+                    Image(viewModel.album.artist!.artwork ?? "default_album_art")
                         .resizable()
                         .scaledToFit()
                         .clipShape(Circle())
                         .frame(height: 24)
-                    Text(viewModel.album.artist.title)
+                    Text(viewModel.album.artist!.title!)
                         .foregroundColor(viewModel.palette.secondary(colorScheme))
                 }
             }

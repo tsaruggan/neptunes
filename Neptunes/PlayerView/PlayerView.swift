@@ -94,7 +94,7 @@ struct PlayerView: View {
                 stopWhenNoFit: true,
                 idleAlignment: .leading
             ) {
-                Text(viewModel.song!.title)
+                Text(viewModel.song!.title!)
                     .font(.title3)
                     .foregroundColor(viewModel.palette.primary(colorScheme))
                     .fontWeight(.bold)
@@ -103,7 +103,7 @@ struct PlayerView: View {
             .id(viewModel.song!.title)
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
-            Text(viewModel.song!.artist!.title)
+            Text(viewModel.song!.artist!.title!)
                 .font(.body)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
@@ -216,7 +216,7 @@ struct PlayerView: View {
                 stopWhenNoFit: true,
                 idleAlignment: .leading
             ) {
-                Text(viewModel.song!.title)
+                Text(viewModel.song!.title!)
                     .foregroundColor(viewModel.palette.primary(colorScheme))
                     .font(.callout)
                     .fontWeight(.bold)
@@ -225,7 +225,7 @@ struct PlayerView: View {
             .id(viewModel.song!.title)
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
-            Text(viewModel.song!.artist!.title)
+            Text(viewModel.song!.artist!.title!)
                 .font(.subheadline)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)

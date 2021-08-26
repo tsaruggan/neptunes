@@ -43,12 +43,12 @@ struct FinderView<FinderItemView: View>: View {
     }
     
     var findables: [Findable] {
-        let findables = _findables.sorted { $0.title < $1.title }
+        let findables = _findables.sorted { $0.title! < $1.title! }
         if searchText.isEmpty {
             return findables
         } else {
             return findables.filter {
-                $0.title.letters.caseInsensitiveContains(searchText.letters)
+                $0.title!.letters.caseInsensitiveContains(searchText.letters)
             }
         }
     }

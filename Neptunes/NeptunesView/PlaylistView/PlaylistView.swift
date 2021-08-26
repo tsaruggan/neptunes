@@ -20,7 +20,7 @@ struct PlaylistView: View {
             ArtworkView(artwork: viewModel.playlist.artwork ?? "default_album_art")
             playlistInformation
             SongListView(
-                songs: viewModel.playlist.songs,
+                songs: Array(viewModel.playlist.songs! as! Set<Song>),
                 labelColor: viewModel.palette.secondary(colorScheme),
                 foregroundColor: viewModel.palette.primary(colorScheme),
                 explicitSignColor: viewModel.palette.accent(colorScheme),
@@ -46,7 +46,7 @@ struct PlaylistView: View {
             Text("Playlist")
                 .font(.subheadline)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
-            Text(viewModel.playlist.title)
+            Text(viewModel.playlist.title!)
                 .foregroundColor(viewModel.palette.primary(colorScheme))
                 .fontWeight(.bold)
                 .font(.title2)

@@ -25,7 +25,7 @@ struct ArtistView: View {
                     Text("Artist")
                         .font(.subheadline)
                         .foregroundColor(viewModel.palette.secondary(colorScheme))
-                    Text(viewModel.artist.title)
+                    Text(viewModel.artist.title!)
                         .foregroundColor(viewModel.palette.primary(colorScheme))
                         .fontWeight(.bold)
                         .font(.title2)
@@ -36,7 +36,7 @@ struct ArtistView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 20) {
-                    ForEach(viewModel.artist.albums) { album in
+                    ForEach(Array(viewModel.artist.albums! as! Set<Album>)) { album in
                         NavigationLink {
                             AlbumView(viewModel: .init(album: album))
                         } label: {
@@ -45,7 +45,7 @@ struct ArtistView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .cornerRadius(8)
-                                Text(album.title)
+                                Text(album.title!)
                                     .font(.headline)
                                     .foregroundColor(viewModel.palette.primary(colorScheme))
                                     .fontWeight(.bold)
@@ -60,7 +60,7 @@ struct ArtistView: View {
             }
             
             SongListView(
-                songs: viewModel.artist.songs,
+                songs: Array(viewModel.artist.songs! as! Set<Song>),
                 labelColor: viewModel.palette.secondary(colorScheme),
                 foregroundColor: viewModel.palette.primary(colorScheme),
                 explicitSignColor: viewModel.palette.accent(colorScheme),
