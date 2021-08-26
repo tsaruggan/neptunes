@@ -52,6 +52,7 @@
 		18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E09A5C269B657000FE2AB3 /* SongListView.swift */; };
 		18E16C20269F7122004092B4 /* NeptunesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16C1F269F7122004092B4 /* NeptunesView.swift */; };
 		18E5006426A1290300FE0E28 /* DetailedSongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E5006326A1290300FE0E28 /* DetailedSongView.swift */; };
+		18E87DB926D72132000569F6 /* NeptunesContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18E87DB726D72132000569F6 /* NeptunesContainer.xcdatamodeld */; };
 		18F2CE6026C1F0FF00C2B13B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2CE5F26C1F0FF00C2B13B /* Player.swift */; };
 		18FF187C26A375710085A769 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF187B26A375710085A769 /* PlayerView.swift */; };
 /* End PBXBuildFile section */
@@ -103,6 +104,7 @@
 		18E09A5C269B657000FE2AB3 /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		18E16C1F269F7122004092B4 /* NeptunesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeptunesView.swift; sourceTree = "<group>"; };
 		18E5006326A1290300FE0E28 /* DetailedSongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedSongView.swift; sourceTree = "<group>"; };
+		18E87DB826D72132000569F6 /* NeptunesContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NeptunesContainer.xcdatamodel; sourceTree = "<group>"; };
 		18F2CE5F26C1F0FF00C2B13B /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		18FF187B26A375710085A769 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,6 +164,7 @@
 				184F419A268793DD00832965 /* Assets.xcassets */,
 				184F419F268793DD00832965 /* Info.plist */,
 				184F419C268793DD00832965 /* Preview Content */,
+				18E87DB726D72132000569F6 /* NeptunesContainer.xcdatamodeld */,
 			);
 			path = Neptunes;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				188390E22695F13A0026B04D /* Song.swift in Sources */,
 				18E09A5D269B657000FE2AB3 /* SongListView.swift in Sources */,
 				18507F87268E113600B7D10F /* AlbumView.swift in Sources */,
+				18E87DB926D72132000569F6 /* NeptunesContainer.xcdatamodeld in Sources */,
 				188390E92695F5900026B04D /* HeaderView.swift in Sources */,
 				18F2CE6026C1F0FF00C2B13B /* Player.swift in Sources */,
 				1852415B26B748E900B8E179 /* PlaylistFinderView.swift in Sources */,
@@ -611,6 +615,19 @@
 			productName = SwiftImage;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		18E87DB726D72132000569F6 /* NeptunesContainer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				18E87DB826D72132000569F6 /* NeptunesContainer.xcdatamodel */,
+			);
+			currentVersion = 18E87DB826D72132000569F6 /* NeptunesContainer.xcdatamodel */;
+			path = NeptunesContainer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 184F418B268793DC00832965 /* Project object */;
 }
