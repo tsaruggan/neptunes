@@ -2,7 +2,7 @@
 //  Song+CoreDataProperties.swift
 //  Song
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-25.
+//  Created by Saruggan Thiruchelvan on 2021-08-26.
 //
 //
 
@@ -23,13 +23,10 @@ extension Song {
     @NSManaged public var artwork: String?
     @NSManaged public var album: Album?
     @NSManaged public var artist: Artist?
+    @NSManaged public var playlists: Playlist?
 
 }
 
-extension Song: Identifiable, Findable {
-    var date: Date? {
-        return nil
-    }
-    
+extension Song : Identifiable {
 
 }

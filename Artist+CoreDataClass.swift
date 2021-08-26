@@ -13,3 +13,11 @@ import CoreData
 public class Artist: NSManagedObject {
 
 }
+
+extension Artist : Findable {
+    var date: Date? {
+        nil
+    }
+    
+
+}

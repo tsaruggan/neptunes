@@ -2,7 +2,7 @@
 //  Playlist+CoreDataProperties.swift
 //  Playlist
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-25.
+//  Created by Saruggan Thiruchelvan on 2021-08-26.
 //
 //
 
@@ -19,6 +19,7 @@ extension Playlist {
     @NSManaged public var title: String?
     @NSManaged public var artwork: String?
     @NSManaged public var header: String?
+    @NSManaged public var id: UUID?
     @NSManaged public var songs: NSSet?
 
 }
@@ -40,10 +41,6 @@ extension Playlist {
 
 }
 
-extension Playlist : Identifiable, Findable {
-    var date: Date? {
-        return nil
-    }
-    
+extension Playlist : Identifiable {
 
 }

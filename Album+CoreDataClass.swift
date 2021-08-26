@@ -13,3 +13,11 @@ import CoreData
 public class Album: NSManagedObject {
     var palette = Palette()
 }
+
+extension Album : Findable, Collectable {
+    var date: Date? {
+        return nil
+    }
+    
+
+}

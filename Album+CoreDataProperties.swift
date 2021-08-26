@@ -2,7 +2,7 @@
 //  Album+CoreDataProperties.swift
 //  Album
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-25.
+//  Created by Saruggan Thiruchelvan on 2021-08-26.
 //
 //
 
@@ -20,6 +20,7 @@ extension Album {
     @NSManaged public var header: String?
     @NSManaged public var isSingle: Bool
     @NSManaged public var title: String?
+    @NSManaged public var id: UUID?
     @NSManaged public var songs: NSSet?
     @NSManaged public var artist: Artist?
 
@@ -42,10 +43,6 @@ extension Album {
 
 }
 
-extension Album : Identifiable, Findable {
-    var date: Date? {
-        return nil
-    }
-    
+extension Album : Identifiable {
 
 }

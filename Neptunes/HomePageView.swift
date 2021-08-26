@@ -6,9 +6,76 @@
 //
 
 import SwiftUI
+import CoreData
+
+class HomePageViewModel: ObservableObject {
+    let container: NSPersistentContainer
+    @Published var reccomendations: [Collectable] = []
+    
+    init() {
+        container = NSPersistentContainer(name: "NeptunesContainer")
+        container.loadPersistentStores { description, error in
+            if let error = error {
+                print(error)
+            }
+        }
+        fetchReccomendations()
+        
+        if self.reccomendations.isEmpty {
+            initializeReccomendations()
+        }
+    }
+    
+    func fetchReccomendations() {
+        let albumsRequest = NSFetchRequest<Album>(entityName: "Album")
+        let playlistsRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+        do {
+            self.reccomendations = try container.viewContext.fetch(albumsRequest)
+            self.reccomendations += try container.viewContext.fetch(playlistsRequest)
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    func initializeReccomendations() {
+        let albumArtwork = "drake_album_art_2"
+        let artistArtwork = "drake_artist_art"
+        
+        let song = Song(context: container.viewContext)
+        song.title = "Not Around"
+        song.isExplicit = false
+        song.file = "song1"
+        song.artwork = albumArtwork
+        song.id = UUID()
+        
+        let album = Album(context: container.viewContext)
+        album.title = "Not Around"
+        album.artwork = albumArtwork
+        album.id = UUID()
+        album.addToSongs(song)
+        
+        let artist = Artist(context: container.viewContext)
+        artist.title = "Drake"
+        artist.artwork = artistArtwork
+        artist.id = UUID()
+        artist.addToSongs(song)
+        album.artist = artist
+        
+        saveData()
+    }
+    
+    func saveData() {
+        do {
+            try container.viewContext.save()
+            fetchReccomendations()
+        } catch let error {
+            print("An error occurred while saving. \(error)")
+        }
+    }
+}
 
 struct HomePageView: View {
-    let model = MusicData()
+    @ObservedObject var viewModel: HomePageViewModel = HomePageViewModel()
     
     init() {
         UITableView.appearance().backgroundColor = .clear
@@ -49,7 +116,7 @@ struct HomePageView: View {
     
     var collectableGrid: some View {
         LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-            ForEach(model.collectables.map({ CollectableWrapper($0) })) { anyCollectable in
+            ForEach(viewModel.reccomendations.map({ CollectableWrapper($0) })) { anyCollectable in
                 let collectable = anyCollectable.collectable
                 if let album = collectable as? Album {
                     CollectableItemView(title: album.title!, subheading: album.artist!.title!, artwork: album.artwork) {

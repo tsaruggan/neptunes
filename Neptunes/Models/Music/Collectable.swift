@@ -8,8 +8,7 @@
 import Foundation
 
 protocol Collectable: Viewable {
-    var songs: [Song] { get set }
-    mutating func addSongs(_ songs: Song...)
+
 }
 
 struct CollectableWrapper: Identifiable {

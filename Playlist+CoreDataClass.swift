@@ -13,3 +13,11 @@ import CoreData
 public class Playlist: NSManagedObject {
 
 }
+
+extension Playlist : Findable, Collectable  {
+    var date: Date? {
+        return nil
+    }
+    
+
+}

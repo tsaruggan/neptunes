@@ -13,3 +13,11 @@ import CoreData
 public class Song: NSManagedObject {
     
 }
+
+extension Song:  Findable {
+    var date: Date? {
+        return nil
+    }
+    
+
+}
