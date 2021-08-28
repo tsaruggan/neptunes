@@ -22,12 +22,12 @@ struct PlaylistFinderItemView: View {
     var body: some View {
         NavigationLink(destination: PlaylistView(viewModel: .init(playlist: playlist))) {
             HStack(spacing: 15) {
-                Image(playlist.artwork ?? "default_album_art")
+                Image(playlist.artworkURI ?? "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(5)
                     .frame(height: 48)
-                Text(playlist.title!)
+                Text(playlist.title)
                     .bold()
                     .lineLimit(1)
                 Spacer()

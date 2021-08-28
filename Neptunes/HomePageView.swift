@@ -44,19 +44,18 @@ class HomePageViewModel: ObservableObject {
         let song = Song(context: container.viewContext)
         song.title = "Not Around"
         song.isExplicit = false
-        song.file = "song1"
-        song.artwork = albumArtwork
+        song.audioURI = "song1"
         song.id = UUID()
         
         let album = Album(context: container.viewContext)
         album.title = "Not Around"
-        album.artwork = albumArtwork
+        album.artworkURI = albumArtwork
         album.id = UUID()
         album.addToSongs(song)
         
         let artist = Artist(context: container.viewContext)
         artist.title = "Drake"
-        artist.artwork = artistArtwork
+        artist.artworkURI = artistArtwork
         artist.id = UUID()
         artist.addToSongs(song)
         album.artist = artist
@@ -81,10 +80,10 @@ struct HomePageView: View {
         UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
         
-//        UITabBar.appearance().shadowImage = UIImage()
-//        UITabBar.appearance().backgroundImage = UIImage()
-//        UITabBar.appearance().isTranslucent = true
-//        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
+        //        UITabBar.appearance().shadowImage = UIImage()
+        //        UITabBar.appearance().backgroundImage = UIImage()
+        //        UITabBar.appearance().isTranslucent = true
+        //        UITabBar.appearance().backgroundColor = UIColor.systemBackground.withAlphaComponent(0.95)
     }
     
     var header: some View {
@@ -116,15 +115,14 @@ struct HomePageView: View {
     
     var collectableGrid: some View {
         LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-            ForEach(viewModel.reccomendations.map({ CollectableWrapper($0) })) { anyCollectable in
-                let collectable = anyCollectable.collectable
-                if let album = collectable as? Album {
-                    CollectableItemView(title: album.title!, subheading: album.artist!.title!, artwork: album.artwork) {
+            ForEach(viewModel.reccomendations, id: \.self.id) { reccomendation in
+                if let album = reccomendation as? Album {
+                    CollectableItemView(title: album.title, subheading: album.artist.title, artwork: album.artworkURI) {
                         AlbumView(viewModel: .init(album: album))
                     }
                     
-                } else if let playlist = collectable as? Playlist {
-                    CollectableItemView(title: playlist.title!, subheading: "Playlist", artwork: playlist.artwork!) {
+                } else if let playlist = reccomendation as? Playlist {
+                    CollectableItemView(title: playlist.title, subheading: "Playlist", artwork: playlist.artworkURI) {
                         PlaylistView(viewModel: .init(playlist: playlist))
                     }
                 }
@@ -208,8 +206,8 @@ struct FinderListItemView<Destination: View>: View {
         NavigationLink(destination: destination) {
             HStack(alignment: .firstTextBaseline) {
                 Text(emoji)
-//                Image(systemName: icon)
-//                    .foregroundColor(.teal)
+                //                Image(systemName: icon)
+                //                    .foregroundColor(.teal)
                 Text(text)
                     .foregroundColor(.primary)
                 Spacer()

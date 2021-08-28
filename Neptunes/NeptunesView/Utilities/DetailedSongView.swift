@@ -18,7 +18,7 @@ struct DetailedSongView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             HStack(alignment: .center, spacing: 14) {
-                Image(song.artwork ?? "default_album_art")
+                Image(song.artworkURI ?? "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(2)
@@ -26,7 +26,7 @@ struct DetailedSongView: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .center, spacing: 14) {
-                        Text(song.title!)
+                        Text(song.title)
                             .fontWeight(.medium)
                             .foregroundColor(foregroundColor)
                             .lineLimit(1)
@@ -36,7 +36,7 @@ struct DetailedSongView: View {
                         }
                     }
                     
-                    Text(song.artist!.title!)
+                    Text(song.artist.title)
                         .foregroundColor(artistLabelColor)
                         .font(.callout)
                         .lineLimit(1)

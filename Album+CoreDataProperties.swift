@@ -2,7 +2,7 @@
 //  Album+CoreDataProperties.swift
 //  Album
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-26.
+//  Created by Saruggan Thiruchelvan on 2021-08-28.
 //
 //
 
@@ -16,18 +16,36 @@ extension Album {
         return NSFetchRequest<Album>(entityName: "Album")
     }
 
-    @NSManaged public var artwork: String?
-    @NSManaged public var header: String?
+    @NSManaged public var artworkURI: String?
+    @NSManaged public var headerURI: String?
+    @NSManaged public var id: UUID
     @NSManaged public var isSingle: Bool
-    @NSManaged public var title: String?
-    @NSManaged public var id: UUID?
-    @NSManaged public var songs: NSSet?
-    @NSManaged public var artist: Artist?
+    @NSManaged public var title: String
+    @NSManaged public var artist: Artist
+    @NSManaged public var songs: NSOrderedSet
 
 }
 
 // MARK: Generated accessors for songs
 extension Album {
+
+    @objc(insertObject:inSongsAtIndex:)
+    @NSManaged public func insertIntoSongs(_ value: Song, at idx: Int)
+
+    @objc(removeObjectFromSongsAtIndex:)
+    @NSManaged public func removeFromSongs(at idx: Int)
+
+    @objc(insertSongs:atIndexes:)
+    @NSManaged public func insertIntoSongs(_ values: [Song], at indexes: NSIndexSet)
+
+    @objc(removeSongsAtIndexes:)
+    @NSManaged public func removeFromSongs(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInSongsAtIndex:withObject:)
+    @NSManaged public func replaceSongs(at idx: Int, with value: Song)
+
+    @objc(replaceSongsAtIndexes:withSongs:)
+    @NSManaged public func replaceSongs(at indexes: NSIndexSet, with values: [Song])
 
     @objc(addSongsObject:)
     @NSManaged public func addToSongs(_ value: Song)
@@ -36,10 +54,10 @@ extension Album {
     @NSManaged public func removeFromSongs(_ value: Song)
 
     @objc(addSongs:)
-    @NSManaged public func addToSongs(_ values: NSSet)
+    @NSManaged public func addToSongs(_ values: NSOrderedSet)
 
     @objc(removeSongs:)
-    @NSManaged public func removeFromSongs(_ values: NSSet)
+    @NSManaged public func removeFromSongs(_ values: NSOrderedSet)
 
 }
 

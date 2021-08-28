@@ -16,11 +16,11 @@ struct PlaylistView: View {
     }
     
     var body: some View {
-        NeptunesView(header: viewModel.playlist.header, backgroundColor: viewModel.palette.background(colorScheme)) {
-            ArtworkView(artwork: viewModel.playlist.artwork ?? "default_album_art")
+        NeptunesView(header: viewModel.playlist.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artwork: viewModel.playlist.artworkURI ?? "default_album_art")
             playlistInformation
             SongListView(
-                songs: Array(viewModel.playlist.songs! as! Set<Song>),
+                songs: Array(_immutableCocoaArray: viewModel.playlist.songs),
                 labelColor: viewModel.palette.secondary(colorScheme),
                 foregroundColor: viewModel.palette.primary(colorScheme),
                 explicitSignColor: viewModel.palette.accent(colorScheme),
@@ -46,7 +46,7 @@ struct PlaylistView: View {
             Text("Playlist")
                 .font(.subheadline)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
-            Text(viewModel.playlist.title!)
+            Text(viewModel.playlist.title)
                 .foregroundColor(viewModel.palette.primary(colorScheme))
                 .fontWeight(.bold)
                 .font(.title2)

@@ -16,11 +16,11 @@ struct AlbumView: View {
     }
 
     var body: some View {
-        NeptunesView(header: viewModel.album.header, backgroundColor: viewModel.palette.background(colorScheme)) {
-            ArtworkView(artwork: viewModel.album.artwork ?? "default_album_art")
+        NeptunesView(header: viewModel.album.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artwork: viewModel.album.artworkURI ?? "default_album_art")
             albumInformation
             SongListView(
-                songs: Array(viewModel.album.songs! as! Set<Song>),
+                songs: Array(_immutableCocoaArray: viewModel.album.songs),
                 labelColor: viewModel.palette.secondary(colorScheme),
                 foregroundColor: viewModel.palette.primary(colorScheme),
                 explicitSignColor: viewModel.palette.accent(colorScheme),
@@ -47,21 +47,21 @@ struct AlbumView: View {
             Text(viewModel.album.isSingle ? "Single" : "Album")
                 .font(.subheadline)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
-            Text(viewModel.album.title!)
+            Text(viewModel.album.title)
                 .foregroundColor(viewModel.palette.primary(colorScheme))
                 .fontWeight(.bold)
                 .font(.title2)
                 .padding(.bottom, 4)
             NavigationLink {
-                ArtistView(viewModel: .init(artist: viewModel.album.artist!))
+                ArtistView(viewModel: .init(artist: viewModel.album.artist))
             } label: {
                 HStack {
-                    Image(viewModel.album.artist!.artwork ?? "default_album_art")
+                    Image(viewModel.album.artist.artworkURI ?? "default_album_art")
                         .resizable()
                         .scaledToFit()
                         .clipShape(Circle())
                         .frame(height: 24)
-                    Text(viewModel.album.artist!.title!)
+                    Text(viewModel.album.artist.title)
                         .foregroundColor(viewModel.palette.secondary(colorScheme))
                 }
             }

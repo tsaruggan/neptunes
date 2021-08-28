@@ -22,12 +22,12 @@ struct ArtistFinderItemView: View {
     var body: some View {
         NavigationLink(destination: ArtistView(viewModel: .init(artist: artist))) {
             HStack(spacing: 15) {
-                Image(artist.artwork ?? "default_album_art")
+                Image(artist.artworkURI ?? "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 48)
                     .clipShape(Circle())
-                Text(artist.title!)
+                Text(artist.title)
                     .bold()
                     .lineLimit(1)
                 Spacer()

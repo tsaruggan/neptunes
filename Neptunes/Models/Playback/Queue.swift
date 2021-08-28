@@ -34,7 +34,7 @@ struct Queue {
     }
     
     mutating func add(song: Song) {
-        let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.file, ofType: "mp3")!)
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.audioURI, ofType: "mp3")!)
         let avAsset = AVAsset(url: url)
         let playerItem = AVPlayerItem(asset: avAsset, automaticallyLoadedAssetKeys: assetKeys)
         songs.append(song)

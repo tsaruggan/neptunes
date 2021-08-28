@@ -2,7 +2,7 @@
 //  Album+CoreDataClass.swift
 //  Album
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-25.
+//  Created by Saruggan Thiruchelvan on 2021-08-28.
 //
 //
 
@@ -10,14 +10,6 @@ import Foundation
 import CoreData
 
 @objc(Album)
-public class Album: NSManagedObject {
-    var palette = Palette()
-}
-
-extension Album : Findable, Collectable {
-    var date: Date? {
-        return nil
-    }
-    
+public class Album: NSManagedObject, Findable, Collectable {
 
 }

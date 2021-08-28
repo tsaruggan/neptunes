@@ -2,7 +2,7 @@
 //  Song+CoreDataClass.swift
 //  Song
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-25.
+//  Created by Saruggan Thiruchelvan on 2021-08-28.
 //
 //
 
@@ -10,14 +10,8 @@ import Foundation
 import CoreData
 
 @objc(Song)
-public class Song: NSManagedObject {
-    
-}
-
-extension Song:  Findable {
-    var date: Date? {
-        return nil
+public class Song: NSManagedObject, Findable {
+    var artworkURI: String? {
+        return album.artworkURI
     }
-    
-
 }

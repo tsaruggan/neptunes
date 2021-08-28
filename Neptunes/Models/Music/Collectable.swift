@@ -7,15 +7,9 @@
 
 import Foundation
 
-protocol Collectable: Viewable {
-
-}
-
-struct CollectableWrapper: Identifiable {
-    let id = UUID()
-    let collectable: Collectable
-    
-    init(_ collectable: Collectable) {
-        self.collectable = collectable
-    }
+protocol Collectable {
+    var id: UUID { get set }
+    var title: String { get set }
+    var artworkURI: String? { get set }
+    var headerURI: String? { get set }
 }

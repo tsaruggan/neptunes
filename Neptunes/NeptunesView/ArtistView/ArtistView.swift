@@ -16,8 +16,8 @@ struct ArtistView: View {
     }
     
     var body: some View {
-        NeptunesView(header: viewModel.artist.header, backgroundColor: viewModel.palette.background(colorScheme)) {
-            ArtworkView(artwork: viewModel.artist.artwork ?? "default_album_art", paddingHorizontal: 124, isCircle: true)
+        NeptunesView(header: viewModel.artist.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artwork: viewModel.artist.artworkURI ?? "default_album_art", paddingHorizontal: 124, isCircle: true)
             
             
             HStack {
@@ -25,7 +25,7 @@ struct ArtistView: View {
                     Text("Artist")
                         .font(.subheadline)
                         .foregroundColor(viewModel.palette.secondary(colorScheme))
-                    Text(viewModel.artist.title!)
+                    Text(viewModel.artist.title)
                         .foregroundColor(viewModel.palette.primary(colorScheme))
                         .fontWeight(.bold)
                         .font(.title2)
@@ -36,16 +36,16 @@ struct ArtistView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 20) {
-                    ForEach(Array(viewModel.artist.albums! as! Set<Album>)) { album in
+                    ForEach(Array(viewModel.artist.albums as! Set<Album>)) { album in
                         NavigationLink {
                             AlbumView(viewModel: .init(album: album))
                         } label: {
                             VStack(alignment: .leading) {
-                                Image(album.artwork ?? "default_album_art")
+                                Image(album.artworkURI ?? "default_album_art")
                                     .resizable()
                                     .scaledToFit()
                                     .cornerRadius(8)
-                                Text(album.title!)
+                                Text(album.title)
                                     .font(.headline)
                                     .foregroundColor(viewModel.palette.primary(colorScheme))
                                     .fontWeight(.bold)
@@ -60,7 +60,7 @@ struct ArtistView: View {
             }
             
             SongListView(
-                songs: Array(viewModel.artist.songs! as! Set<Song>),
+                songs: Array(viewModel.artist.songs as! Set<Song>),
                 labelColor: viewModel.palette.secondary(colorScheme),
                 foregroundColor: viewModel.palette.primary(colorScheme),
                 explicitSignColor: viewModel.palette.accent(colorScheme),

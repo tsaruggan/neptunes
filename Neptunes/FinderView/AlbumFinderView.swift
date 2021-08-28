@@ -22,16 +22,16 @@ struct AlbumFinderItemView: View {
     var body: some View {
         NavigationLink(destination: AlbumView(viewModel: .init(album: album))) {
             HStack(spacing: 15) {
-                Image(album.artwork ?? "default_album_art")
+                Image(album.artworkURI ?? "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(5)
                     .frame(height: 48)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(album.title!)
+                    Text(album.title)
                         .bold()
                         .lineLimit(1)
-                    Text(album.artist!.title!)
+                    Text(album.artist.title)
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }
