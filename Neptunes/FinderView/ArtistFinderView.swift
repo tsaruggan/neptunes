@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ArtistFinderView: View {
+    @ObservedObject var viewModel = FinderViewModel<Artist>(entityName: "Artist")
     var body: some View {
-        FinderView(title: "Artists", findables: MusicData().artists) { findable in
+        FinderView(title: "Artists", findables: viewModel.findables) { findable in
             if let artist = findable as? Artist {
                 ArtistFinderItemView(artist: artist)
             }
