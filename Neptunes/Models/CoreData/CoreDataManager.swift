@@ -22,7 +22,7 @@ final class CoreDataManager {
     
     init() {
         if fetchReccomendations().isEmpty {
-            initializeReccomendations()
+            initializeData()
         }
     }
     
@@ -39,54 +39,47 @@ final class CoreDataManager {
         return reccomendations
     }
     
-    func initializeReccomendations() {
-        let albumArtwork1 = "drake_album_art_2"
-        let artistArtwork1 = "drake_artist_art"
-        
-        let song1 = Song(context: persistentContainer.viewContext)
-        song1.title = "Not Around"
-        song1.isExplicit = false
-        song1.audioURI = "song1"
-        song1.id = UUID()
-        
-        let album1 = Album(context: persistentContainer.viewContext)
-        album1.title = "Not Around"
-        album1.artworkURI = albumArtwork1
-        album1.id = UUID()
+    private func initializeSong(title: String, audioURI: String, isExplicit: Bool=false) -> Song {
+        let song = Song(context: persistentContainer.viewContext)
+        song.title = title
+        song.audioURI = audioURI
+        song.isExplicit = isExplicit
+        song.id = UUID()
+        return song
+    }
+    
+    private func initializeAlbum(title: String, artworkURI: String?=nil, headerURI: String?=nil, isSingle: Bool=false) -> Album {
+        let album = Album(context: persistentContainer.viewContext)
+        album.title = title
+        album.artworkURI = artworkURI
+        album.headerURI = headerURI
+        album.isSingle = isSingle
+        album.id = UUID()
+        return album
+    }
+    
+    private func initializeArtist(title: String, artworkURI: String?=nil, headerURI: String?=nil) -> Artist {
+        let artist = Artist(context: persistentContainer.viewContext)
+        artist.title = title
+        artist.artworkURI = artworkURI
+        artist.headerURI = headerURI
+        artist.id = UUID()
+        return artist
+    }
+    
+    private func initializeData() {
+        let song1 = initializeSong(title: "Not Around", audioURI: "song1", isExplicit: true)
+        let album1 = initializeAlbum(title: "Not Around", artworkURI: "drake_album_art_2", isSingle: true)
         album1.addToSongs(song1)
-        
-        let artist1 = Artist(context: persistentContainer.viewContext)
-        artist1.title = "Drake"
-        artist1.artworkURI = artistArtwork1
-        artist1.id = UUID()
+        let artist1 = initializeArtist(title: "Drake", artworkURI: "drake_artist_art")
         artist1.addToSongs(song1)
-        album1.artist = artist1
+        artist1.addToAlbums(album1)
         
-        let albumArtwork2 = "frank_ocean_album_art_1"
-        let artistArtwork2 = "frank_ocean_artist_art"
-        
-        let song3 = Song(context: persistentContainer.viewContext)
-        song3.title = "Wither"
-        song3.isExplicit = false
-        song3.audioURI = "song3"
-        song3.id = UUID()
-        
-        let song4 = Song(context: persistentContainer.viewContext)
-        song4.title = "Rushes"
-        song4.isExplicit = false
-        song4.audioURI = "song4"
-        song4.id = UUID()
-        
-        let album2 = Album(context: persistentContainer.viewContext)
-        album2.title = "Endless"
-        album2.artworkURI = albumArtwork2
-        album2.id = UUID()
+        let song3 = initializeSong(title: "Wither", audioURI: "song3")
+        let song4 = initializeSong(title: "Rushes", audioURI: "song4", isExplicit: true)
+        let album2 = initializeAlbum(title: "Endless", artworkURI: "frank_ocean_album_art_1")
         album2.addToSongs([song3, song4])
-        
-        let artist2 = Artist(context: persistentContainer.viewContext)
-        artist2.title = "Frank Ocean"
-        artist2.artworkURI = artistArtwork2
-        artist2.id = UUID()
+        let artist2 = initializeArtist(title: "Frank Ocean", artworkURI: "frank_ocean_artist_art")
         artist2.addToSongs([song3, song4])
         album2.artist = artist2
         
