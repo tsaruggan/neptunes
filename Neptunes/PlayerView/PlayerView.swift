@@ -28,52 +28,51 @@ struct PlayerView: View {
     }
     
     var body: some View {
-        if viewModel.song != nil {
-            VStack {
-                if expanded {
-                    VStack() {
-                        Spacer(minLength: 16)
-                        expandedcollapseButton
-                        Spacer(minLength: 16)
-                        songArtwork
-                        expandedSongInformation
-                            .padding(.vertical, 8)
-                        VStack {
-                            expandedScrubber
-                            expandedControlButtons
-                            Spacer(minLength: 0)
-                        }
+        VStack {
+            if expanded {
+                VStack() {
+                    Spacer(minLength: 16)
+                    expandedcollapseButton
+                    Spacer(minLength: 16)
+                    songArtwork
+                    expandedSongInformation
+                        .padding(.vertical, 8)
+                    VStack {
+                        expandedScrubber
+                        expandedControlButtons
+                        Spacer(minLength: 0)
                     }
-                    .frame(height: expandedContentHeight)
-                    .padding(48)
-                    .opacity(expanded ? 1 : 0)
-                } else {
-                    HStack(alignment: .center, spacing: 12) {
-                        songArtwork
-                        collapsedSongInformation
-                        collapsedControlButtons
-                    }
-                    .padding(.all, 12)
                 }
+                .frame(height: expandedContentHeight)
+                .padding(48)
+                .opacity(expanded ? 1 : 0)
+            } else {
+                HStack(alignment: .center, spacing: 12) {
+                    songArtwork
+                    collapsedSongInformation
+                    collapsedControlButtons
+                }
+                .padding(.all, 12)
             }
-            .frame(width: UIScreen.main.bounds.width)
-            .frame(maxHeight: expanded ? .infinity : 72)
-            .background(viewModel.palette.background(colorScheme).opacity(0.75))
-            .background(.ultraThinMaterial)
-            .onTapGesture {
-                withAnimation(.spring()){ expanded = true }
-            }
-            .cornerRadius(expanded && offset > 0 ? 48 : 0, corners: [.topLeft, .topRight])
-            .offset(y: expanded ? 0 : -48)
-            .offset(y: offset)
-            .gesture(
-                DragGesture()
-                    .onEnded(dragGestureOnEnded(value:))
-                    .onChanged(dragGestureOnChanged(value:))
-            )
-            .onReceive(viewModel.timer) { _ in viewModel.onUpdate() }
-            .ignoresSafeArea()
         }
+        .frame(width: UIScreen.main.bounds.width)
+        .frame(maxHeight: expanded ? .infinity : 72)
+        .background(viewModel.palette.background(colorScheme).opacity(0.75))
+        .background(.ultraThinMaterial)
+        .opacity(viewModel.song != nil ? 1 : 0)
+        .onTapGesture {
+            withAnimation(.spring()){ expanded = true }
+        }
+        .cornerRadius(expanded && offset > 0 ? 48 : 0, corners: [.topLeft, .topRight])
+        .offset(y: expanded ? 0 : -48)
+        .offset(y: offset)
+        .gesture(
+            DragGesture()
+                .onEnded(dragGestureOnEnded(value:))
+                .onChanged(dragGestureOnChanged(value:))
+        )
+        .onReceive(viewModel.timer) { _ in viewModel.onUpdate() }
+        .ignoresSafeArea()
     }
     
     var songArtwork: some View {
@@ -94,16 +93,16 @@ struct PlayerView: View {
                 stopWhenNoFit: true,
                 idleAlignment: .leading
             ) {
-                Text(viewModel.song!.title)
+                Text(viewModel.song?.title ?? "")
                     .font(.title3)
                     .foregroundColor(viewModel.palette.primary(colorScheme))
                     .fontWeight(.bold)
                     .lineLimit(1)
             }
-            .id(viewModel.song!.title)
+            .id(viewModel.song?.title ?? "")
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
-            Text(viewModel.song!.artist.title)
+            Text(viewModel.song?.artist.title ?? "")
                 .font(.body)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)
@@ -216,16 +215,16 @@ struct PlayerView: View {
                 stopWhenNoFit: true,
                 idleAlignment: .leading
             ) {
-                Text(viewModel.song!.title)
+                Text(viewModel.song?.title ?? "")
                     .foregroundColor(viewModel.palette.primary(colorScheme))
                     .font(.callout)
                     .fontWeight(.bold)
                     .lineLimit(1)
             }
-            .id(viewModel.song!.title)
+            .id(viewModel.song?.title ?? "")
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
-            Text(viewModel.song!.artist.title)
+            Text(viewModel.song?.artist.title ?? "")
                 .font(.subheadline)
                 .foregroundColor(viewModel.palette.secondary(colorScheme))
                 .lineLimit(1)

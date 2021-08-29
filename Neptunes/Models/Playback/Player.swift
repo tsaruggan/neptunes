@@ -8,6 +8,7 @@
 import Foundation
 import AVFoundation
 import NotificationCenter
+import CoreData
 
 class Player: ObservableObject {
     var player: AVPlayer = AVPlayer()
@@ -55,10 +56,6 @@ class Player: ObservableObject {
     let assetKeys = ["playable"]
     
     init() {
-        nowPlaying = NowPlaying(songs: MusicData().songs, from: 0)
-        currentSong = nowPlaying.currentSong
-        player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
-        currentTime = 0.0
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     

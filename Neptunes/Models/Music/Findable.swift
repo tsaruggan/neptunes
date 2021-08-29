@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import CoreData
 
 protocol Findable {
     var title: String { get set }
 }
 
+ 
