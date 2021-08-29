@@ -9,67 +9,11 @@ import SwiftUI
 import CoreData
 
 class HomePageViewModel: ObservableObject {
-    let container: NSPersistentContainer
     @Published var reccomendations: [Collectable] = []
+    var dataManager = CoreDataManager()
     
     init() {
-        container = NSPersistentContainer(name: "NeptunesContainer")
-        container.loadPersistentStores { description, error in
-            if let error = error {
-                print(error)
-            }
-        }
-        fetchReccomendations()
-        
-        if self.reccomendations.isEmpty {
-            initializeReccomendations()
-        }
-    }
-    
-    func fetchReccomendations() {
-        let albumsRequest = NSFetchRequest<Album>(entityName: "Album")
-        let playlistsRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-        do {
-            self.reccomendations = try container.viewContext.fetch(albumsRequest)
-            self.reccomendations += try container.viewContext.fetch(playlistsRequest)
-        } catch let error {
-            print(error)
-        }
-    }
-    
-    func initializeReccomendations() {
-        let albumArtwork = "drake_album_art_2"
-        let artistArtwork = "drake_artist_art"
-        
-        let song = Song(context: container.viewContext)
-        song.title = "Not Around"
-        song.isExplicit = false
-        song.audioURI = "song1"
-        song.id = UUID()
-        
-        let album = Album(context: container.viewContext)
-        album.title = "Not Around"
-        album.artworkURI = albumArtwork
-        album.id = UUID()
-        album.addToSongs(song)
-        
-        let artist = Artist(context: container.viewContext)
-        artist.title = "Drake"
-        artist.artworkURI = artistArtwork
-        artist.id = UUID()
-        artist.addToSongs(song)
-        album.artist = artist
-        
-        saveData()
-    }
-    
-    func saveData() {
-        do {
-            try container.viewContext.save()
-            fetchReccomendations()
-        } catch let error {
-            print("An error occurred while saving. \(error)")
-        }
+        reccomendations = dataManager.fetchReccomendations()
     }
 }
 
