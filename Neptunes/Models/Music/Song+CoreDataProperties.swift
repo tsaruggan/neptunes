@@ -2,7 +2,7 @@
 //  Song+CoreDataProperties.swift
 //  Song
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-28.
+//  Created by Saruggan Thiruchelvan on 2021-09-06.
 //
 //
 
@@ -16,7 +16,7 @@ extension Song {
         return NSFetchRequest<Song>(entityName: "Song")
     }
 
-    @NSManaged public var audioURI: String
+    @NSManaged public var audioURI: URL
     @NSManaged public var id: UUID
     @NSManaged public var isExplicit: Bool
     @NSManaged public var title: String

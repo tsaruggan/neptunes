@@ -39,12 +39,12 @@ final class CoreDataManager {
         return reccomendations
     }
     
-    private func initializeSong(title: String, audioURI: String, isExplicit: Bool=false) -> Song {
+    private func initializeSong(title: String, audioURI: URL, id: UUID, isExplicit: Bool=false) -> Song {
         let song = Song(context: persistentContainer.viewContext)
         song.title = title
         song.audioURI = audioURI
         song.isExplicit = isExplicit
-        song.id = UUID()
+        song.id = id
         return song
     }
     
@@ -68,20 +68,29 @@ final class CoreDataManager {
     }
     
     private func initializeData() {
-        let song1 = initializeSong(title: "Not Around", audioURI: "song1", isExplicit: true)
+        let lfm = LocalFileManager()
+        
+        let songID1 = UUID()
+        let songFile1 = "song1"
+        let audioURI = lfm.saveAudio(file: songFile1, id: songID1)!
+        let song1 = initializeSong(title: "Not Around", audioURI: audioURI, id: songID1, isExplicit: true)
+        
+        
         let album1 = initializeAlbum(title: "Not Around", artworkURI: "drake_album_art_2", isSingle: true)
         album1.addToSongs(song1)
         let artist1 = initializeArtist(title: "Drake", artworkURI: "drake_artist_art")
         artist1.addToSongs(song1)
         artist1.addToAlbums(album1)
         
-        let song3 = initializeSong(title: "Wither", audioURI: "song3")
-        let song4 = initializeSong(title: "Rushes", audioURI: "song4", isExplicit: true)
-        let album2 = initializeAlbum(title: "Endless", artworkURI: "frank_ocean_album_art_1")
-        album2.addToSongs([song3, song4])
-        let artist2 = initializeArtist(title: "Frank Ocean", artworkURI: "frank_ocean_artist_art")
-        artist2.addToSongs([song3, song4])
-        album2.artist = artist2
+        
+        
+//        let song3 = initializeSong(title: "Wither", audioURI: "song3")
+//        let song4 = initializeSong(title: "Rushes", audioURI: "song4", isExplicit: true)
+//        let album2 = initializeAlbum(title: "Endless", artworkURI: "frank_ocean_album_art_1")
+//        album2.addToSongs([song3, song4])
+//        let artist2 = initializeArtist(title: "Frank Ocean", artworkURI: "frank_ocean_artist_art")
+//        artist2.addToSongs([song3, song4])
+//        album2.artist = artist2
         
         saveData()
     }
