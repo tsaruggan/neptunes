@@ -16,9 +16,8 @@ struct ArtistView: View {
     }
     
     var body: some View {
-        NeptunesView(header: viewModel.artist.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
-            ArtworkView(artwork: viewModel.artist.artworkURI ?? "default_album_art", paddingHorizontal: 124, isCircle: true)
-            
+        NeptunesView(headerURI: viewModel.artist.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artworkURI: viewModel.artist.artworkURI, paddingHorizontal: 124, isCircle: true)
             
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
@@ -41,7 +40,7 @@ struct ArtistView: View {
                             AlbumView(viewModel: .init(album: album))
                         } label: {
                             VStack(alignment: .leading) {
-                                Image(album.artworkURI ?? "default_album_art")
+                                Image(imageURI: album.artworkURI, default: "default_album_art")
                                     .resizable()
                                     .scaledToFit()
                                     .cornerRadius(8)

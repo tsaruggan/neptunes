@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19186" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Album" representedClassName="Album" syncable="YES">
-        <attribute name="artworkURI" optional="YES" attributeType="String"/>
-        <attribute name="headerURI" optional="YES" attributeType="String"/>
+        <attribute name="artworkURI" optional="YES" attributeType="URI"/>
+        <attribute name="headerURI" optional="YES" attributeType="URI"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isSingle" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
@@ -10,16 +10,16 @@
         <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Song" inverseName="album" inverseEntity="Song"/>
     </entity>
     <entity name="Artist" representedClassName="Artist" syncable="YES">
-        <attribute name="artworkURI" optional="YES" attributeType="String"/>
-        <attribute name="headerURI" optional="YES" attributeType="String"/>
+        <attribute name="artworkURI" optional="YES" attributeType="URI"/>
+        <attribute name="headerURI" optional="YES" attributeType="URI"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="artist" inverseEntity="Album"/>
         <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="artist" inverseEntity="Song"/>
     </entity>
     <entity name="Playlist" representedClassName="Playlist" syncable="YES">
-        <attribute name="artworkURI" optional="YES" attributeType="String"/>
-        <attribute name="headerURI" optional="YES" attributeType="String"/>
+        <attribute name="artworkURI" optional="YES" attributeType="URI"/>
+        <attribute name="headerURI" optional="YES" attributeType="URI"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Song" inverseName="playlists" inverseEntity="Song"/>

@@ -48,22 +48,22 @@ final class CoreDataManager {
         return song
     }
     
-    private func initializeAlbum(title: String, artworkURI: String?=nil, headerURI: String?=nil, isSingle: Bool=false) -> Album {
+    private func initializeAlbum(title: String, id: UUID, artworkURI: URL?=nil, headerURI: URL?=nil, isSingle: Bool=false) -> Album {
         let album = Album(context: persistentContainer.viewContext)
         album.title = title
         album.artworkURI = artworkURI
         album.headerURI = headerURI
         album.isSingle = isSingle
-        album.id = UUID()
+        album.id = id
         return album
     }
     
-    private func initializeArtist(title: String, artworkURI: String?=nil, headerURI: String?=nil) -> Artist {
+    private func initializeArtist(title: String, id: UUID, artworkURI: URL?=nil, headerURI: URL?=nil) -> Artist {
         let artist = Artist(context: persistentContainer.viewContext)
         artist.title = title
         artist.artworkURI = artworkURI
         artist.headerURI = headerURI
-        artist.id = UUID()
+        artist.id = id
         return artist
     }
     
@@ -72,17 +72,20 @@ final class CoreDataManager {
         
         let songID1 = UUID()
         let songFile1 = "song1"
-        let audioURI = lfm.saveAudio(file: songFile1, id: songID1)!
-        let song1 = initializeSong(title: "Not Around", audioURI: audioURI, id: songID1, isExplicit: true)
+        let audioURI1 = lfm.saveAudio(file: songFile1, id: songID1)!
+        let song1 = initializeSong(title: "Not Around", audioURI: audioURI1, id: songID1, isExplicit: true)
         
         
-        let album1 = initializeAlbum(title: "Not Around", artworkURI: "drake_album_art_2", isSingle: true)
+        let albumID1 = UUID()
+        let artworkURI1 = lfm.saveArtwork(file: "drake_album_art_2", id: albumID1)
+        let album1 = initializeAlbum(title: "Not Around", id: albumID1, artworkURI: artworkURI1, isSingle: true)
         album1.addToSongs(song1)
-        let artist1 = initializeArtist(title: "Drake", artworkURI: "drake_artist_art")
+        
+        let artistID1 = UUID()
+        let artworkURI2 = lfm.saveArtwork(file: "drake_artist_art", id: artistID1)
+        let artist1 = initializeArtist(title: "Drake", id: artistID1, artworkURI: artworkURI2)
         artist1.addToSongs(song1)
         artist1.addToAlbums(album1)
-        
-        
         
 //        let song3 = initializeSong(title: "Wither", audioURI: "song3")
 //        let song4 = initializeSong(title: "Rushes", audioURI: "song4", isExplicit: true)

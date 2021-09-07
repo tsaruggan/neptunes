@@ -23,7 +23,7 @@ struct AlbumFinderItemView: View {
     var body: some View {
         NavigationLink(destination: AlbumView(viewModel: .init(album: album))) {
             HStack(spacing: 15) {
-                Image(album.artworkURI ?? "default_album_art")
+                Image(imageURI: album.artworkURI, default: "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(5)

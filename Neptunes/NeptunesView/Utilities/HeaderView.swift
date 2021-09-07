@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct HeaderView: View {
-    var header: String?
+    var headerURI: URL?
     var body: some View {
-        if let header = header {
+        if let headerURI = headerURI {
             GeometryReader { g in
-                Image(header)
+                Image(imageURI: headerURI, default: "")
                     .resizable()
                     .scaledToFill()
                     .offset(y: g.frame(in: .global).minY > 0 ? -g.frame(in: .global).minY : 0)

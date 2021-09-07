@@ -23,7 +23,7 @@ struct ArtistFinderItemView: View {
     var body: some View {
         NavigationLink(destination: ArtistView(viewModel: .init(artist: artist))) {
             HStack(spacing: 15) {
-                Image(artist.artworkURI ?? "default_album_art")
+                Image(imageURI: artist.artworkURI, default: "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 48)

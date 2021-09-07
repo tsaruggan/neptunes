@@ -12,4 +12,6 @@ import CoreData
 @objc(Album)
 public class Album: NSManagedObject, Findable, Collectable {
 
+    
+
 }

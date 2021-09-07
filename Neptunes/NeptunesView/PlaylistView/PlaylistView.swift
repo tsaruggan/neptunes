@@ -16,8 +16,8 @@ struct PlaylistView: View {
     }
     
     var body: some View {
-        NeptunesView(header: viewModel.playlist.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
-            ArtworkView(artwork: viewModel.playlist.artworkURI ?? "default_album_art")
+        NeptunesView(headerURI: viewModel.playlist.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artworkURI: viewModel.playlist.artworkURI)
             playlistInformation
             SongListView(
                 songs: Array(_immutableCocoaArray: viewModel.playlist.songs),

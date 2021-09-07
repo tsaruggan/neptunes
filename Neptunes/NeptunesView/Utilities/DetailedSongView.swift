@@ -18,7 +18,7 @@ struct DetailedSongView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             HStack(alignment: .center, spacing: 14) {
-                Image(song.artworkURI ?? "default_album_art")
+                Image(imageURI: song.artworkURI, default: "default_album_art")
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(2)

@@ -16,8 +16,8 @@ struct AlbumView: View {
     }
 
     var body: some View {
-        NeptunesView(header: viewModel.album.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
-            ArtworkView(artwork: viewModel.album.artworkURI ?? "default_album_art")
+        NeptunesView(headerURI: viewModel.album.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
+            ArtworkView(artworkURI: viewModel.album.artworkURI)
             albumInformation
             SongListView(
                 songs: Array(_immutableCocoaArray: viewModel.album.songs),
@@ -56,7 +56,7 @@ struct AlbumView: View {
                 ArtistView(viewModel: .init(artist: viewModel.album.artist))
             } label: {
                 HStack {
-                    Image(viewModel.album.artist.artworkURI ?? "default_album_art")
+                    Image(imageURI: viewModel.album.artist.artworkURI, default: "default_album_art")
                         .resizable()
                         .scaledToFit()
                         .clipShape(Circle())

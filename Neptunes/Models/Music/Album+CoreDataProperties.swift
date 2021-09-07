@@ -2,7 +2,7 @@
 //  Album+CoreDataProperties.swift
 //  Album
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-28.
+//  Created by Saruggan Thiruchelvan on 2021-09-06.
 //
 //
 
@@ -16,8 +16,8 @@ extension Album {
         return NSFetchRequest<Album>(entityName: "Album")
     }
 
-    @NSManaged public var artworkURI: String?
-    @NSManaged public var headerURI: String?
+    @NSManaged public var artworkURI: URL?
+    @NSManaged public var headerURI: URL?
     @NSManaged public var id: UUID
     @NSManaged public var isSingle: Bool
     @NSManaged public var title: String

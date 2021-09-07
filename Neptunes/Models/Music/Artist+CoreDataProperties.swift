@@ -2,7 +2,7 @@
 //  Artist+CoreDataProperties.swift
 //  Artist
 //
-//  Created by Saruggan Thiruchelvan on 2021-08-28.
+//  Created by Saruggan Thiruchelvan on 2021-09-06.
 //
 //
 
@@ -16,8 +16,8 @@ extension Artist {
         return NSFetchRequest<Artist>(entityName: "Artist")
     }
 
-    @NSManaged public var artworkURI: String?
-    @NSManaged public var headerURI: String?
+    @NSManaged public var artworkURI: URL?
+    @NSManaged public var headerURI: URL?
     @NSManaged public var id: UUID
     @NSManaged public var title: String
     @NSManaged public var albums: NSSet

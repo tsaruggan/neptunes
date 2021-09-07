@@ -61,12 +61,12 @@ struct HomePageView: View {
         LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
             ForEach(viewModel.reccomendations, id: \.self.id) { reccomendation in
                 if let album = reccomendation as? Album {
-                    CollectableItemView(title: album.title, subheading: album.artist.title, artwork: album.artworkURI) {
+                    CollectableItemView(title: album.title, subheading: album.artist.title, artworkURI: album.artworkURI) {
                         AlbumView(viewModel: .init(album: album))
                     }
                     
                 } else if let playlist = reccomendation as? Playlist {
-                    CollectableItemView(title: playlist.title, subheading: "Playlist", artwork: playlist.artworkURI) {
+                    CollectableItemView(title: playlist.title, subheading: "Playlist", artworkURI: playlist.artworkURI) {
                         PlaylistView(viewModel: .init(playlist: playlist))
                     }
                 }
@@ -103,20 +103,20 @@ struct HomePageView_Previews: PreviewProvider {
 struct CollectableItemView<CollectableView: View>: View {
     var title: String
     var subheading: String
-    var artwork: String?
+    var artworkURI: URL?
     let view: CollectableView
     
-    init(title: String, subheading: String, artwork: String?, @ViewBuilder view: () -> CollectableView) {
+    init(title: String, subheading: String, artworkURI: URL?, @ViewBuilder view: () -> CollectableView) {
         self.title = title
         self.subheading = subheading
-        self.artwork = artwork
+        self.artworkURI = artworkURI
         self.view = view()
     }
     
     var body: some View {
         NavigationLink(destination: view) {
             VStack(alignment: .leading) {
-                Image(artwork ?? "default_album_art")
+                Image(imageURI: artworkURI, default: "default_album_art")
                     .resizable()
                     .scaledToFill()
                     .cornerRadius(8)

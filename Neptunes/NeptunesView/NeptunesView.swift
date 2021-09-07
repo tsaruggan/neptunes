@@ -10,13 +10,13 @@ import SwiftUI
 struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    var header: String?
+    var headerURI: URL?
     var backgroundColor: Color
     let content: Content
     let menu: MenuButtonGroup
     
-    init(header: String?, backgroundColor: Color, @ViewBuilder content: () -> Content, @ViewBuilder menu: () -> MenuButtonGroup) {
-        self.header = header
+    init(headerURI: URL?, backgroundColor: Color, @ViewBuilder content: () -> Content, @ViewBuilder menu: () -> MenuButtonGroup) {
+        self.headerURI = headerURI
         self.backgroundColor = backgroundColor
         self.content = content()
         self.menu = menu()
@@ -31,7 +31,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
         ScrollView(.vertical, showsIndicators: false) {
             ZStack {
                 VStack(spacing: 0) {
-                    HeaderView(header: header)
+                    HeaderView(headerURI: headerURI)
                     Spacer()
                 }
                 

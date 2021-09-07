@@ -76,7 +76,17 @@ struct PlayerView: View {
     }
     
     var songArtwork: some View {
-        Image(viewModel.song?.artworkURI ?? "default_album_art")
+        guard let path = viewModel.song?.artworkURI?.path,
+              let image = UIImage(contentsOfFile: path)
+        else {
+            return Image("default_album_art")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .cornerRadius(8)
+                .matchedGeometryEffect(id: "artwork", in: animation, properties: .frame)
+                .frame(width: expanded ? nil : 55, height: expanded ? nil : 55)
+        }
+        return Image(uiImage: image)
             .resizable()
             .aspectRatio(contentMode: .fill)
             .cornerRadius(8)

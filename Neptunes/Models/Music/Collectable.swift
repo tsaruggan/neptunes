@@ -10,6 +10,6 @@ import Foundation
 protocol Collectable {
     var id: UUID { get set }
     var title: String { get set }
-    var artworkURI: String? { get set }
-    var headerURI: String? { get set }
+    var artworkURI: URL? { get set }
+    var headerURI: URL? { get set }
 }

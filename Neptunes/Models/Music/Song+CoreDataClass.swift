@@ -11,7 +11,7 @@ import CoreData
 
 @objc(Song)
 public class Song: NSManagedObject, Findable {
-    var artworkURI: String? {
+    var artworkURI: URL? {
         return album.artworkURI
     }
 }
