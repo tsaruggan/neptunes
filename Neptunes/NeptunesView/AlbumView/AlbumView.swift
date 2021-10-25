@@ -10,11 +10,13 @@ import SwiftUI
 struct AlbumView: View {
     @ObservedObject private var viewModel: AlbumViewModel
     @Environment(\.colorScheme) var colorScheme
-
+    
+    @State private var showingEditor = false
+    
     init(viewModel: AlbumViewModel) {
         self.viewModel = viewModel
     }
-
+    
     var body: some View {
         NeptunesView(headerURI: viewModel.album.headerURI, backgroundColor: viewModel.palette.background(colorScheme)) {
             ArtworkView(artworkURI: viewModel.album.artworkURI)
@@ -32,16 +34,22 @@ struct AlbumView: View {
             Button(action: {}) {
                 Label("Import Music...", systemImage: "plus")
             }
-            Button(action: {}) {
+            Button {
+                showingEditor.toggle()
+            } label: {
                 Label("Edit Album...", systemImage: "wand.and.stars")
             }
             Button(action: {}) {
                 Label("Share Album...", systemImage: "square.and.arrow.up")
             }
         }
+        .sheet(isPresented: $showingEditor) {
+            AlbumEditorView(viewModel: .init(album: viewModel.album))
+        }
+        
     }
-
-
+    
+    
     var albumInformation: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(viewModel.album.isSingle ? "Single" : "Album")

@@ -43,6 +43,12 @@ struct SongView: View {
                 } label: {
                     Label("Add To Queue", systemImage: "text.badge.plus")
                 }
+                Button {
+                    
+                } label: {
+                    Label("Edit \(song.title)...", systemImage: "wand.and.stars")
+                }
+
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(menuColor)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		181288522700017D000D1BC9 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181288512700017D000D1BC9 /* EditorView.swift */; };
 		1826890426D742730020E58A /* Collectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826890326D742730020E58A /* Collectable.swift */; };
 		183047D326892D9200533BCE /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183047D226892D9200533BCE /* HomePageView.swift */; };
 		183692AB26A079F200999D3D /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183692AA26A079F200999D3D /* ArtworkView.swift */; };
@@ -48,6 +49,7 @@
 		189FC45226B1C04400DF0806 /* ArtistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189FC45126B1C04400DF0806 /* ArtistView.swift */; };
 		189FC45426B1C05500DF0806 /* ArtistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189FC45326B1C05500DF0806 /* ArtistViewModel.swift */; };
 		18B41E8426B4599E008CC8F5 /* ArtistFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B41E8326B4599E008CC8F5 /* ArtistFinderView.swift */; };
+		18B9EFBC272660AA009D55A3 /* AlbumEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9EFBB272660AA009D55A3 /* AlbumEditorView.swift */; };
 		18BFC65F269C7D1C0057D6A8 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BFC65E269C7D1C0057D6A8 /* Palette.swift */; };
 		18D20D3526D72CAB009A7D7B /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D20D3426D72CAB009A7D7B /* MusicData.swift */; };
 		18DCEA2A269B6C55002CEF62 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DCEA29269B6C55002CEF62 /* Vector.swift */; };
@@ -64,6 +66,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		181288512700017D000D1BC9 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		1826890326D742730020E58A /* Collectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectable.swift; sourceTree = "<group>"; };
 		183047D226892D9200533BCE /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		183692AA26A079F200999D3D /* ArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
@@ -106,6 +109,7 @@
 		189FC45126B1C04400DF0806 /* ArtistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistView.swift; sourceTree = "<group>"; };
 		189FC45326B1C05500DF0806 /* ArtistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistViewModel.swift; sourceTree = "<group>"; };
 		18B41E8326B4599E008CC8F5 /* ArtistFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistFinderView.swift; sourceTree = "<group>"; };
+		18B9EFBB272660AA009D55A3 /* AlbumEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumEditorView.swift; sourceTree = "<group>"; };
 		18BFC65E269C7D1C0057D6A8 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		18D20D3426D72CAB009A7D7B /* MusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicData.swift; sourceTree = "<group>"; };
 		18DCEA29269B6C55002CEF62 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
@@ -133,6 +137,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18128850270000B2000D1BC9 /* EditorView */ = {
+			isa = PBXGroup;
+			children = (
+				181288512700017D000D1BC9 /* EditorView.swift */,
+				18B9EFBB272660AA009D55A3 /* AlbumEditorView.swift */,
+			);
+			path = EditorView;
+			sourceTree = "<group>";
+		};
 		184B236626A1104E00AABBE8 /* PlaylistView */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +179,7 @@
 				189DFF8A26C09C19006C473B /* song3.mp3 */,
 				187A677226CB5494009F2593 /* song4.mp3 */,
 				18E16C1E269F70FF004092B4 /* NeptunesView */,
+				18128850270000B2000D1BC9 /* EditorView */,
 				187A96F426B59E9B00A42F5B /* FinderView */,
 				18FF187A26A375570085A769 /* PlayerView */,
 				188390D52695EE140026B04D /* Models */,
@@ -412,6 +426,7 @@
 				18507F87268E113600B7D10F /* AlbumView.swift in Sources */,
 				18E87DB926D72132000569F6 /* NeptunesContainer.xcdatamodeld in Sources */,
 				188390E92695F5900026B04D /* HeaderView.swift in Sources */,
+				18B9EFBC272660AA009D55A3 /* AlbumEditorView.swift in Sources */,
 				18F2CE6026C1F0FF00C2B13B /* Player.swift in Sources */,
 				187AB1D226DAF5010038C25B /* Song+CoreDataClass.swift in Sources */,
 				1852415B26B748E900B8E179 /* PlaylistFinderView.swift in Sources */,
@@ -438,6 +453,7 @@
 				187A96F626B59F2A00A42F5B /* AlbumFinderView.swift in Sources */,
 				1852415F26B7538C00B8E179 /* FinderView.swift in Sources */,
 				18EE5BE226DB0A5A00436196 /* FinderViewModel.swift in Sources */,
+				181288522700017D000D1BC9 /* EditorView.swift in Sources */,
 				18DCEA2C269B6C70002CEF62 /* ColorAnalyzer.swift in Sources */,
 				187AB1CE26DAF5010038C25B /* Artist+CoreDataClass.swift in Sources */,
 			);
