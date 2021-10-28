@@ -15,7 +15,7 @@ final class ArtistViewModel: ObservableObject {
     
     init(artist: Artist) {
         self.artist = artist
-//        self.palette = ColorAnalyzer.generatePalette(artwork: artist.artwork, header: artist.header)
-        self.palette = Palette()
+        self.palette = ColorAnalyzer.generatePalette(artwork: "travis_scott_artist_art", header: "travis_scott_header_art")
+//        self.palette = Palette()
     }
 }

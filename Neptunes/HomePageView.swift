@@ -59,8 +59,66 @@ class HomePageViewModel: ObservableObject {
         //        let artist2 = initializeArtist(title: "Frank Ocean", artworkURI: "frank_ocean_artist_art")
         //        artist2.addToSongs([song3, song4])
         //        album2.artist = artist2
-        initializeDemoData()
+//        initializeDemoData()
+        mockup2()
         dataManager.saveData()
+    }
+    func mockup2() {
+        let songID = UUID()
+        let songFile = "song3"
+        let audioURI = fileManager.saveAudio(file: songFile, id: songID)!
+        
+        let song1 = dataManager.initializeSong(title: "Street Fighter", audioURI: audioURI, id: songID)
+        let song2 = dataManager.initializeSong(title: "Strawberry Swing", audioURI: audioURI, id: songID)
+        let song3 = dataManager.initializeSong(title: "Novacane", audioURI: audioURI, id: songID, isExplicit: true)
+        let song4 = dataManager.initializeSong(title: "We All Try", audioURI: audioURI, id: songID)
+        let song5 = dataManager.initializeSong(title: "Bitches Talkin'", audioURI: audioURI, id: songID)
+        let song6 = dataManager.initializeSong(title: "Songs for Women", audioURI: audioURI, id: songID, isExplicit: true)
+        let song7 = dataManager.initializeSong(title: "Lovecrimes", audioURI: audioURI, id: songID)
+        let song8 = dataManager.initializeSong(title: "Goldeneye", audioURI: audioURI, id: songID)
+        let song9 = dataManager.initializeSong(title: "There Will Be Tears", audioURI: audioURI, id: songID)
+        let song10 = dataManager.initializeSong(title: "Swim Good", audioURI: audioURI, id: songID)
+        
+        let albumID = UUID()
+        let artworkURI = fileManager.saveArtwork(file: "frank_ocean_album_art_2", id: albumID)
+        let headerURI = fileManager.saveHeader(file: "frank_ocean_header_art_2", id: albumID)
+        let album = dataManager.initializeAlbum(title: "nostalgia, ULTRA.", id: albumID, artworkURI: artworkURI, headerURI: headerURI)
+        album.addToSongs([song1, song2, song3, song4, song5, song6, song7, song8, song9, song10])
+        
+        let artistID = UUID()
+        let artistArtworkURI = fileManager.saveArtwork(file: "frank_ocean_artist_art", id: artistID)
+        let artist = dataManager.initializeArtist(title: "Frank Ocean", id: artistID, artworkURI: artistArtworkURI)
+        artist.addToSongs([song1, song2, song3, song4, song5, song6, song7, song8, song9, song10])
+        artist.addToAlbums(album)
+    }
+    
+    func mockup() {
+        let songID = UUID()
+        let songFile = "song5"
+        let audioURI = fileManager.saveAudio(file: songFile, id: songID)!
+        
+        let song1 = dataManager.initializeSong(title: "Hell of a Night", audioURI: audioURI, id: songID, isExplicit: true)
+        let song2 = dataManager.initializeSong(title: "Drugs You Should Try It", audioURI: audioURI, id: songID, isExplicit: false)
+        let song3 = dataManager.initializeSong(title: "Skyfall (feat. Young Thug)", audioURI: audioURI, id: songID)
+    
+        let albumID1 = UUID()
+        let artworkURI1 = fileManager.saveArtwork(file: "travis_scott_album_art_1", id: albumID1)
+        let album1 = dataManager.initializeAlbum(title: "Owl Pharaoh", id: albumID1, artworkURI: artworkURI1)
+        album1.addToSongs(song1)
+        
+        let albumID2 = UUID()
+        let artworkURI2 = fileManager.saveArtwork(file: "travis_scott_album_art_2", id: albumID2)
+        let album2 = dataManager.initializeAlbum(title: "Days Before Rodeo", id: albumID2, artworkURI: artworkURI2)
+        album2.addToSongs([song2, song3])
+        
+        let artistID = UUID()
+        let artworkURI = fileManager.saveArtwork(file: "travis_scott_artist_art", id: artistID)
+        let headerURI = fileManager.saveHeader(file: "travis_scott_header_art", id: artistID)
+        let artist = dataManager.initializeArtist(title: "Travis Scott", id: artistID, artworkURI: artworkURI, headerURI: headerURI)
+        artist.addToSongs([song1, song2, song3])
+        artist.addToAlbums([album1, album2])
+        
+        
     }
     
     func initializeDemoData() {
