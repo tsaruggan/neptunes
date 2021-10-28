@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		181288522700017D000D1BC9 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181288512700017D000D1BC9 /* EditorView.swift */; };
+		1815CAFE272B46B400D58089 /* song5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1815CAFD272B46B400D58089 /* song5.mp3 */; };
 		1826890426D742730020E58A /* Collectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826890326D742730020E58A /* Collectable.swift */; };
 		183047D326892D9200533BCE /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183047D226892D9200533BCE /* HomePageView.swift */; };
 		183692AB26A079F200999D3D /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183692AA26A079F200999D3D /* ArtworkView.swift */; };
@@ -67,6 +68,7 @@
 
 /* Begin PBXFileReference section */
 		181288512700017D000D1BC9 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
+		1815CAFD272B46B400D58089 /* song5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song5.mp3; sourceTree = "<group>"; };
 		1826890326D742730020E58A /* Collectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectable.swift; sourceTree = "<group>"; };
 		183047D226892D9200533BCE /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		183692AA26A079F200999D3D /* ArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				186938C226C0965D001EFC48 /* song2.mp3 */,
 				189DFF8A26C09C19006C473B /* song3.mp3 */,
 				187A677226CB5494009F2593 /* song4.mp3 */,
+				1815CAFD272B46B400D58089 /* song5.mp3 */,
 				18E16C1E269F70FF004092B4 /* NeptunesView */,
 				18128850270000B2000D1BC9 /* EditorView */,
 				187A96F426B59E9B00A42F5B /* FinderView */,
@@ -393,6 +396,7 @@
 			files = (
 				184F419E268793DD00832965 /* Preview Assets.xcassets in Resources */,
 				186938C426C0965D001EFC48 /* song2.mp3 in Resources */,
+				1815CAFE272B46B400D58089 /* song5.mp3 in Resources */,
 				189DFF8B26C09C19006C473B /* song3.mp3 in Resources */,
 				184F419B268793DD00832965 /* Assets.xcassets in Resources */,
 				187A677326CB5494009F2593 /* song4.mp3 in Resources */,

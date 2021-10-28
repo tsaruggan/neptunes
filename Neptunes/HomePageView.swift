@@ -24,43 +24,60 @@ class HomePageViewModel: ObservableObject {
     }
     
     func initializeData() {
+        //        let songID1 = UUID()
+        //        let songFile1 = "song1"
+        //        let audioURI1 = fileManager.saveAudio(file: songFile1, id: songID1)!
+        //        let song1 = dataManager.initializeSong(title: "Not Around", audioURI: audioURI1, id: songID1, isExplicit: true)
+        //
+        //        let songID2 = UUID()
+        //        let songFile2 = "song2"
+        //        let audioURI2 = fileManager.saveAudio(file: songFile2, id: songID2)!
+        //        let song2 = dataManager.initializeSong(title: "Hell of a Night", audioURI: audioURI2, id: songID2, isExplicit: true)
+        //
+        //        let songID3 = UUID()
+        //        let songFile3 = "song3"
+        //        let audioURI3 = fileManager.saveAudio(file: songFile3, id: songID3)!
+        //        let song3 = dataManager.initializeSong(title: "Wither", audioURI: audioURI3, id: songID3)
+        //
+        //
+        //        let albumID1 = UUID()
+        //        let artworkURI1 = fileManager.saveArtwork(file: "drake_album_art_2", id: albumID1)
+        //        let album1 = dataManager.initializeAlbum(title: "Not Around", id: albumID1, artworkURI: artworkURI1, isSingle: true)
+        //        album1.addToSongs([song1, song2, song3])
+        //
+        //
+        //        let artistID1 = UUID()
+        //        let artworkURI2 = fileManager.saveArtwork(file: "drake_artist_art", id: artistID1)
+        //        let artist1 = dataManager.initializeArtist(title: "Drake", id: artistID1, artworkURI: artworkURI2)
+        //        artist1.addToSongs([song1, song2, song3])
+        //        artist1.addToAlbums(album1)
+        
+        //        let song3 = initializeSong(title: "Wither", audioURI: "song3")
+        //        let song4 = initializeSong(title: "Rushes", audioURI: "song4", isExplicit: true)
+        //        let album2 = initializeAlbum(title: "Endless", artworkURI: "frank_ocean_album_art_1")
+        //        album2.addToSongs([song3, song4])
+        //        let artist2 = initializeArtist(title: "Frank Ocean", artworkURI: "frank_ocean_artist_art")
+        //        artist2.addToSongs([song3, song4])
+        //        album2.artist = artist2
+        initializeDemoData()
+        dataManager.saveData()
+    }
+    
+    func initializeDemoData() {
         let songID1 = UUID()
-        let songFile1 = "song1"
+        let songFile1 = "song5"
         let audioURI1 = fileManager.saveAudio(file: songFile1, id: songID1)!
-        let song1 = dataManager.initializeSong(title: "Not Around", audioURI: audioURI1, id: songID1, isExplicit: true)
-        
-        let songID2 = UUID()
-        let songFile2 = "song2"
-        let audioURI2 = fileManager.saveAudio(file: songFile2, id: songID2)!
-        let song2 = dataManager.initializeSong(title: "Hell of a Night", audioURI: audioURI2, id: songID2, isExplicit: true)
-        
-        let songID3 = UUID()
-        let songFile3 = "song3"
-        let audioURI3 = fileManager.saveAudio(file: songFile3, id: songID3)!
-        let song3 = dataManager.initializeSong(title: "Wither", audioURI: audioURI3, id: songID3)
-        
+        let song1 = dataManager.initializeSong(title: "Cancun", audioURI: audioURI1, id: songID1, isExplicit: true)
         
         let albumID1 = UUID()
-        let artworkURI1 = fileManager.saveArtwork(file: "drake_album_art_2", id: albumID1)
+        let artworkURI1 = fileManager.saveArtwork(file: "playboi_carti_album_art_1", id: albumID1)
         let album1 = dataManager.initializeAlbum(title: "Not Around", id: albumID1, artworkURI: artworkURI1, isSingle: true)
-        album1.addToSongs([song1, song2, song3])
-        
+        album1.addToSongs(song1)
         
         let artistID1 = UUID()
-        let artworkURI2 = fileManager.saveArtwork(file: "drake_artist_art", id: artistID1)
-        let artist1 = dataManager.initializeArtist(title: "Drake", id: artistID1, artworkURI: artworkURI2)
-        artist1.addToSongs([song1, song2, song3])
+        let artist1 = dataManager.initializeArtist(title: "Playboi Carti", id: artistID1)
+        artist1.addToSongs(song1)
         artist1.addToAlbums(album1)
-        
-//        let song3 = initializeSong(title: "Wither", audioURI: "song3")
-//        let song4 = initializeSong(title: "Rushes", audioURI: "song4", isExplicit: true)
-//        let album2 = initializeAlbum(title: "Endless", artworkURI: "frank_ocean_album_art_1")
-//        album2.addToSongs([song3, song4])
-//        let artist2 = initializeArtist(title: "Frank Ocean", artworkURI: "frank_ocean_artist_art")
-//        artist2.addToSongs([song3, song4])
-//        album2.artist = artist2
-        
-        dataManager.saveData()
     }
 }
 
@@ -68,7 +85,7 @@ struct HomePageView: View {
     @ObservedObject var viewModel: HomePageViewModel = HomePageViewModel()
     
     init() {
-//        UITableView.appearance().backgroundColor = .clear
+        //        UITableView.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
         
         //        UITabBar.appearance().shadowImage = UIImage()

@@ -34,9 +34,11 @@ final class PlayerViewModel: ObservableObject {
         }
     }
     
-    var palette: Palette {
-        return Palette()
-    }
+//    var palette: Palette {
+//        return Palette()
+//    }
+    
+    var palette: Palette = ColorAnalyzer.generatePalette(artwork: "playboi_carti_album_art_1", header: nil)
     
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Published var playValue: TimeInterval = 0.0
