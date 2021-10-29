@@ -22,12 +22,12 @@ Neptunes provides all the main functionality you'd expect from a typical music p
 * Uses machine learning to generate individual matching color palettes based on cover artwork and header artwork — for both light mode and dark mode 🎨
 * Intuitive playback controls and a curved audio scrubber 🕹
 
-Please refer to the [issues](https://github.com/tsaruggan/neptunes/issues) page to see what new features are being implemented!
+Please refer to the [issues](https://github.com/tsaruggan/neptunes/issues) page to see what new features are being implemented! ✨
 
 ![App mockup of artist and album views](https://i.imgur.com/JhrwIR8.png)
 	
 ## Setup and Installation
-This project is still under currently under construction and is **not available on the App Store** — yet! 🏗
+This project is still currently under construction and is **not available on the App Store** — yet! 🏗
 
 If you dare to experiment with the prototype, run the XCode iOS Simulator. You must have XCode 13 and use an iOS 15.0+ compatible device 📲
 
