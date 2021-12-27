@@ -82,7 +82,7 @@ struct AlbumEditorView: View {
                             
                         }
                         Spacer()
-                        Image(imageURI: viewModel.albumHeader, default: "default_album_art")
+                        Image(imageURI: viewModel.albumHeader, default: "default_header_art")
                             .resizable()
                             .aspectRatio(3, contentMode: .fit)
                             .frame(width: 40)
@@ -107,7 +107,7 @@ struct AlbumEditorView: View {
                             
                         }
                         Spacer()
-                        Image(imageURI: viewModel.artistHeader, default: "default_album_art")
+                        Image(imageURI: viewModel.artistHeader, default: "default_header_art")
                             .resizable()
                             .aspectRatio(3, contentMode: .fit)
                             .frame(width: 40)
