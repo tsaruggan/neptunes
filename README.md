@@ -4,7 +4,7 @@ A powerful native iOS music player application built using SwiftUI and CoreData.
 
 > **NOTICE** ⚠️🎸🌱👨🏽‍💻❤️‍🔥
 > 
-> *Development of this project is on pause for the time being. I'm working on other much cooler stuff right now but I'll be back to finish it some other time (probably not).*
+> *Development of this project is on pause for the time being. I'm working on other, much cooler stuff right now, but I'll be back to finish it some other time (probably not).*
 
 ![App mockup of player view](https://i.imgur.com/wR2dENi.png)
 
