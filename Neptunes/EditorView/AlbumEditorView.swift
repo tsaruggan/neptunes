@@ -37,12 +37,12 @@ class AlbumEditorViewModel: ObservableObject {
     }
     
     func rearrangeSongs(from source: IndexSet, to destination: Int) {
-        //        songs.move(fromOffsets: source, toOffset: destination)
+        songs.move(fromOffsets: source, toOffset: destination)
     }
     
     func deleteSong(from offsets: IndexSet) {
-        //        let indices = NSIndexSet(indexSet: offsets)
-        //        album.removeFromSongs(at: indices)
+        let indices = NSIndexSet(indexSet: offsets)
+        album.removeFromSongs(at: indices)
     }
     
     func save() {

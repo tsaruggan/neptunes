@@ -29,7 +29,7 @@ struct EditorView<Content: View>: View {
                 .environment(\.editMode, editing ? .constant(.active) : .constant(.inactive))
             
         }
-        .interactiveDismissDisabled(true)
+//        .interactiveDismissDisabled(true)
         
     }
 }
