@@ -2,7 +2,7 @@
   "object": {
     "pins": [
       {
-        "package": "swift-image",
+        "package": "SwiftImage",
         "repositoryURL": "https://github.com/koher/swift-image.git",
         "state": {
           "branch": null,
