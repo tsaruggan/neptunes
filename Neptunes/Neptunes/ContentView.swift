@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import AVFoundation
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -16,6 +17,9 @@ struct ContentView: View {
         animation: .default)
     private var songs: FetchedResults<Song>
     
+    var fileManager = LocalFileManager()
+    var player: AVPlayer = AVPlayer()
+    
     var body: some View {
         NavigationView {
             List {
@@ -23,6 +27,10 @@ struct ContentView: View {
                     VStack {
                         Text(song.title!)
                         Image(uiImage: UIImage(data: song.album!.coverArtwork!)!)
+                    }
+                    .onTapGesture {
+                        let url = fileManager.getAudioURL(id: song.id!)
+                        play(url: url!)
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -58,6 +66,9 @@ struct ContentView: View {
             newSong.title = metadata.title
             newSong.album = newAlbum
             newSong.artist = newArtist
+            newSong.id = UUID()
+            
+            fileManager.saveAudio(file: filename, id: newSong.id!)
             
             
             do {
@@ -86,10 +97,67 @@ struct ContentView: View {
             }
         }
     }
+    
+    func play(url: URL) {
+        print("playing \(url)")
+        let playerItem = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: playerItem)
+        player.play()
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
+}
+
+import Foundation
+import UIKit
+
+final class LocalFileManager {
+    let fileManager = FileManager.default
+    let songsDirectory: URL
+    
+    init() {
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        songsDirectory = documentsDirectory.appendingPathComponent("songs", isDirectory: true)
+    }
+    
+    func saveAudio(file: String, id: UUID) -> URL? {
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: file, ofType: "mp3")!))
+            let audioURI = save(data: data, filename: "\(id.uuidString).mp3", directory: songsDirectory)
+            return audioURI
+        } catch {
+            print("Error saving audio. \(error)")
+            return nil
+        }
+    }
+    
+    func getAudioURL(id: UUID) -> URL? {
+        let filename = "\(id.uuidString).mp3"
+        let url = songsDirectory.appendingPathComponent(filename)
+        return url
+    }
+        
+    func save(data: Data, filename: String, directory: URL) -> URL? {
+        if !fileManager.fileExists(atPath: directory.path) {
+            do {
+                try fileManager.createDirectory(atPath: directory.path, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("Error creating directory \(directory). \(error)")
+            }
+        }
+        
+        do {
+            let path = directory.appendingPathComponent(filename)
+            try data.write(to: path)
+            print("Success saving to \(path).")
+            return path
+        } catch {
+            print("Error saving to path. \(error)")
+            return nil
+        }
     }
 }
