@@ -13,6 +13,7 @@
 		181777E529D2667F006D6DB8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181777E429D2667F006D6DB8 /* Preview Assets.xcassets */; };
 		181777E729D2667F006D6DB8 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181777E629D2667F006D6DB8 /* Persistence.swift */; };
 		181777EA29D2667F006D6DB8 /* Neptunes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 181777E829D2667F006D6DB8 /* Neptunes.xcdatamodeld */; };
+		182F1FA029D681D6003ED13F /* 01 Nikes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 182F1F9F29D681D6003ED13F /* 01 Nikes.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		181777E429D2667F006D6DB8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		181777E629D2667F006D6DB8 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		181777E929D2667F006D6DB8 /* Neptunes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neptunes.xcdatamodel; sourceTree = "<group>"; };
+		182F1F9F29D681D6003ED13F /* 01 Nikes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "01 Nikes.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 		181777DC29D2667E006D6DB8 /* Neptunes */ = {
 			isa = PBXGroup;
 			children = (
+				182F1F9F29D681D6003ED13F /* 01 Nikes.mp3 */,
 				181777DD29D2667E006D6DB8 /* NeptunesApp.swift */,
 				181777DF29D2667E006D6DB8 /* ContentView.swift */,
 				181777E129D2667F006D6DB8 /* Assets.xcassets */,
@@ -131,6 +134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182F1FA029D681D6003ED13F /* 01 Nikes.mp3 in Resources */,
 				181777E529D2667F006D6DB8 /* Preview Assets.xcassets in Resources */,
 				181777E229D2667F006D6DB8 /* Assets.xcassets in Resources */,
 			);

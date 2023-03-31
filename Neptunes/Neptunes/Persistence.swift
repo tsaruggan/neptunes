@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import AVFoundation
 
 struct PersistenceController {
     static let shared = PersistenceController()
@@ -13,10 +14,7 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-        }
+        
         do {
             try viewContext.save()
         } catch {
@@ -25,6 +23,7 @@ struct PersistenceController {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+        
         return result
     }()
 
@@ -52,5 +51,47 @@ struct PersistenceController {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+}
+
+struct Metadata {
+    var title: String?
+    var artist: String?
+    var albumName: String?
+    var artwork: Data?
+    
+    init(titleItem: AVMetadataItem?, artistItem: AVMetadataItem?, albumNameItem: AVMetadataItem?, artworkItem: AVMetadataItem?) async {
+        do {
+            title = try await titleItem?.load(.stringValue)
+            artist = try await artistItem?.load(.stringValue)
+            albumName = try await albumNameItem?.load(.stringValue)
+            artwork = try await artworkItem?.load(.dataValue)
+        } catch {
+            print(error)
+        }
+    }
+    
+    static func getMetadata(for url: URL) async -> Metadata {
+        let asset = AVAsset(url: url)
+        var metadata = [AVMetadataItem]()
+        do {
+            metadata = try await asset.loadMetadata(for: .id3Metadata)
+        } catch {
+            print(error)
+        }
+        let titleItem = getMetadataItem(metadata: metadata, identifier: .commonIdentifierTitle)
+        let artistItem = getMetadataItem(metadata: metadata, identifier: .commonIdentifierArtist)
+        let albumNameItem = getMetadataItem(metadata: metadata, identifier: .commonIdentifierAlbumName)
+        let artworkItem = getMetadataItem(metadata: metadata, identifier: .commonIdentifierArtwork)
+        
+        return await Metadata(titleItem: titleItem,
+                              artistItem: artistItem,
+                              albumNameItem: albumNameItem,
+                              artworkItem: artworkItem)
+    }
+    
+    static func getMetadataItem(metadata: [AVMetadataItem], identifier: AVMetadataIdentifier) -> AVMetadataItem? {
+        return AVMetadataItem.metadataItems(from: metadata, filteredByIdentifier: identifier).first
     }
 }

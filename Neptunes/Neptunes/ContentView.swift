@@ -10,20 +10,19 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Song.title, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
-
+    private var songs: FetchedResults<Song>
+    
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+                ForEach(songs) { song in
+                    VStack {
+                        Text(song.title!)
+                        Image(uiImage: UIImage(data: song.album!.coverArtwork!)!)
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -34,19 +33,33 @@ struct ContentView: View {
                 }
                 ToolbarItem {
                     Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                        Label("Add Song", systemImage: "plus")
                     }
                 }
             }
-            Text("Select an item")
         }
     }
-
+    
     private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
+        // create Song from mp3 file
+        Task {
+            let filename = "01 Nikes"
+            let url = Bundle.main.url(forResource: filename, withExtension: "mp3")!
+            let metadata = await Metadata.getMetadata(for: url)
+            
+            let newArtist = Artist(context: viewContext)
+            newArtist.title = metadata.artist
+            
+            let newAlbum = Album(context: viewContext)
+            newAlbum.artist = newArtist
+            newAlbum.coverArtwork = metadata.artwork
+            
+            let newSong = Song(context: viewContext)
+            newSong.title = metadata.title
+            newSong.album = newAlbum
+            newSong.artist = newArtist
+            
+            
             do {
                 try viewContext.save()
             } catch {
@@ -56,12 +69,13 @@ struct ContentView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
+        
     }
-
+    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
+            offsets.map { songs[$0] }.forEach(viewContext.delete)
+            
             do {
                 try viewContext.save()
             } catch {
@@ -73,13 +87,6 @@ struct ContentView: View {
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
