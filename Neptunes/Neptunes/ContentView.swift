@@ -20,6 +20,12 @@ struct ContentView: View {
     var fileManager = LocalFileManager()
     var player: AVPlayer = AVPlayer()
     
+    @State private var showingEditor = false
+    @State private var showingImporter = false
+    
+    @State var currentURL: URL? = nil
+    @State var currentMetadata: Metadata? = nil
+    
     var body: some View {
         NavigationView {
             List {
@@ -40,46 +46,72 @@ struct ContentView: View {
                     EditButton()
                 }
                 ToolbarItem {
-                    Button(action: addItem) {
+                    Button {
+                        showingImporter = true
+                    } label: {
                         Label("Add Song", systemImage: "plus")
                     }
+                }
+            }
+        }
+        .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.mp3], onCompletion: { result in
+            switch result {
+            case .success(let url):
+                print(url)
+                currentURL = url
+                
+                Task {
+                    currentMetadata = await Metadata.getMetadata(for: url)
+                }
+                
+                showingEditor = true
+            case .failure(let error):
+                print(error)
+            }
+        })
+        .sheet(isPresented: $showingEditor) {
+            Form {
+                Section(header: Text("Song Information")) {
+                    Text(currentMetadata?.title ?? "No title.")
                 }
             }
         }
     }
     
     private func addItem() {
+        showingEditor = true
+        
         // create Song from mp3 file
-        Task {
-            let filename = "01 Nikes"
-            let url = Bundle.main.url(forResource: filename, withExtension: "mp3")!
-            let metadata = await Metadata.getMetadata(for: url)
-            
-            let newArtist = Artist(context: viewContext)
-            newArtist.title = metadata.artist
-            
-            let newAlbum = Album(context: viewContext)
-            newAlbum.artist = newArtist
-            newAlbum.coverArtwork = metadata.artwork
-            
-            let newSong = Song(context: viewContext)
-            newSong.title = metadata.title
-            newSong.album = newAlbum
-            newSong.artist = newArtist
-            newSong.id = UUID()
-            
-            fileManager.saveSong(filename: filename, song: newSong)
-            
-            
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
+//        Task {
+//            let filename = "01 Nikes"
+//            let url = Bundle.main.url(forResource: filename, withExtension: "mp3")!
+//            let metadata = await Metadata.getMetadata(for: url)
+//
+//            let newArtist = Artist(context: viewContext)
+//            newArtist.title = metadata.artist
+//
+//            let newAlbum = Album(context: viewContext)
+//            newAlbum.artist = newArtist
+//            newAlbum.coverArtwork = metadata.artwork
+//
+//            let newSong = Song(context: viewContext)
+//            newSong.title = metadata.title
+//            newSong.album = newAlbum
+//            newSong.artist = newArtist
+//            newSong.id = UUID()
+//
+//            fileManager.saveSong(filename: filename, song: newSong)
+//
+//
+//            do {
+//                try viewContext.save()
+//            } catch {
+//                // Replace this implementation with code to handle the error appropriately.
+//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//                let nsError = error as NSError
+//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//            }
+//        }
         
     }
     
@@ -104,6 +136,7 @@ struct ContentView: View {
         player.replaceCurrentItem(with: playerItem)
         player.play()
     }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
