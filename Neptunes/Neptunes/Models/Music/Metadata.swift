@@ -9,22 +9,33 @@ import Foundation
 import AVFoundation
 
 struct Metadata {
+    
     var title: String?
     var artist: String?
     var albumName: String?
     var artwork: Data?
+    var url: URL?
     
-    init(titleItem: AVMetadataItem?, artistItem: AVMetadataItem?, albumNameItem: AVMetadataItem?, artworkItem: AVMetadataItem?) async {
+    init(titleItem: AVMetadataItem?, artistItem: AVMetadataItem?, albumNameItem: AVMetadataItem?, artworkItem: AVMetadataItem?, url: URL?) async {
         do {
             title = try await titleItem?.load(.stringValue)
             artist = try await artistItem?.load(.stringValue)
             albumName = try await albumNameItem?.load(.stringValue)
             artwork = try await artworkItem?.load(.dataValue)
+            self.url = url
         } catch {
             print(error)
         }
     }
     
+    init() {
+        title = nil
+        artist = nil
+        albumName = nil
+        artwork = nil
+        url = nil
+    }
+
     static func getMetadata(for url: URL) async -> Metadata {
         let asset = AVAsset(url: url)
         var metadata = [AVMetadataItem]()
@@ -41,7 +52,8 @@ struct Metadata {
         return await Metadata(titleItem: titleItem,
                               artistItem: artistItem,
                               albumNameItem: albumNameItem,
-                              artworkItem: artworkItem)
+                              artworkItem: artworkItem,
+                              url: url)
     }
     
     static func getMetadataItem(metadata: [AVMetadataItem], identifier: AVMetadataIdentifier) -> AVMetadataItem? {

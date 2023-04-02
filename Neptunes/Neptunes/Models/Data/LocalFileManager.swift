@@ -25,6 +25,15 @@ final class LocalFileManager {
         }
     }
     
+    func saveSongFromURL(url: URL, song: Song) {
+        do {
+            let data = try Data(contentsOf: url)
+            save(data: data, filename: "\(song.id!.uuidString).mp3", directory: songsDirectory)
+        } catch {
+            print("Error saving audio. \(error)")
+        }
+    }
+    
     func retrieveSong(song: Song) -> URL? {
         let filename = "\(song.id!.uuidString).mp3"
         let url = songsDirectory.appendingPathComponent(filename)
