@@ -13,8 +13,8 @@
 		181777E529D2667F006D6DB8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181777E429D2667F006D6DB8 /* Preview Assets.xcassets */; };
 		181777E729D2667F006D6DB8 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181777E629D2667F006D6DB8 /* Persistence.swift */; };
 		181777EA29D2667F006D6DB8 /* Neptunes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 181777E829D2667F006D6DB8 /* Neptunes.xcdatamodeld */; };
-		182F1FA029D681D6003ED13F /* 01 Nikes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 182F1F9F29D681D6003ED13F /* 01 Nikes.mp3 */; };
 		1866E93029DA131100DE0C22 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866E92F29DA131100DE0C22 /* Metadata.swift */; };
+		1891ABE829DB19F200A4989A /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891ABE729DB19F200A4989A /* EditorView.swift */; };
 		18EE347029DA0ECB00571EF9 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EE346F29DA0ECB00571EF9 /* LocalFileManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +26,8 @@
 		181777E429D2667F006D6DB8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		181777E629D2667F006D6DB8 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		181777E929D2667F006D6DB8 /* Neptunes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neptunes.xcdatamodel; sourceTree = "<group>"; };
-		182F1F9F29D681D6003ED13F /* 01 Nikes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "01 Nikes.mp3"; sourceTree = "<group>"; };
 		1866E92F29DA131100DE0C22 /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
+		1891ABE729DB19F200A4989A /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		18EE346F29DA0ECB00571EF9 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,8 +61,8 @@
 		181777DC29D2667E006D6DB8 /* Neptunes */ = {
 			isa = PBXGroup;
 			children = (
+				1891ABE729DB19F200A4989A /* EditorView.swift */,
 				18EE347129DA10DB00571EF9 /* Models */,
-				182F1F9F29D681D6003ED13F /* 01 Nikes.mp3 */,
 				181777DD29D2667E006D6DB8 /* NeptunesApp.swift */,
 				181777DF29D2667E006D6DB8 /* ContentView.swift */,
 				181777E129D2667F006D6DB8 /* Assets.xcassets */,
@@ -164,7 +164,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				182F1FA029D681D6003ED13F /* 01 Nikes.mp3 in Resources */,
 				181777E529D2667F006D6DB8 /* Preview Assets.xcassets in Resources */,
 				181777E229D2667F006D6DB8 /* Assets.xcassets in Resources */,
 			);
@@ -180,6 +179,7 @@
 				181777E729D2667F006D6DB8 /* Persistence.swift in Sources */,
 				181777E029D2667E006D6DB8 /* ContentView.swift in Sources */,
 				18EE347029DA0ECB00571EF9 /* LocalFileManager.swift in Sources */,
+				1891ABE829DB19F200A4989A /* EditorView.swift in Sources */,
 				181777DE29D2667E006D6DB8 /* NeptunesApp.swift in Sources */,
 				1866E93029DA131100DE0C22 /* Metadata.swift in Sources */,
 				181777EA29D2667F006D6DB8 /* Neptunes.xcdatamodeld in Sources */,
