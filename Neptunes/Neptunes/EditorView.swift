@@ -17,29 +17,9 @@ struct EditorView: View {
     var body: some View {
         Form {
             Section(header: Text("Metadata")) {
-                LabeledContent {
-                    TextField("", text: $viewModel.currentTitle)
-                } label: {
-                    Text("Song Title:")
-                }
-                
-                LabeledContent {
-                    TextField("", text: $viewModel.currentAlbumName)
-                } label: {
-                    Text("Album Title:")
-                }
-                
-                LabeledContent {
-                    TextField("", text: $viewModel.currentArtist)
-                } label: {
-                    Text("Artist Title:")
-                }
-                
-                if let artwork = $viewModel.currentArtwork.wrappedValue {
-                    Image(uiImage: UIImage(data: artwork)!)
-                } else {
-                    Image(systemName: "photo.fill")
-                }
+                TextField("Title", text: $viewModel.currentTitle)
+                TextField("Album", text: $viewModel.currentAlbumName)
+                TextField("Artist", text: $viewModel.currentArtist)
             }
         }
         .onSubmit(of: .text, {
@@ -79,9 +59,9 @@ final class EditorViewModel: ObservableObject {
     @Published var currentURL: URL?
 
     init(metadata: Metadata) {
-        currentTitle = metadata.title ?? "No title found!"
-        currentArtist = metadata.artist ?? "No artist found!"
-        currentAlbumName = metadata.albumName ?? "No album found!"
+        currentTitle = metadata.title ?? ""
+        currentArtist = metadata.artist ?? ""
+        currentAlbumName = metadata.albumName ?? ""
         currentArtwork = metadata.artwork
         currentURL = metadata.url
     }

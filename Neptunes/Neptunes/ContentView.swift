@@ -24,16 +24,10 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(songs) { song in
-                    VStack {
-                        Text(song.title ?? "No title found!").font(.headline)
+                    VStack(alignment: .leading) {
+                        Text(song.title ?? "No title found!").bold()
                         Text(song.album?.title ?? "No album found!").font(.caption)
-                        Text(song.artist?.title ?? "No artist found!").font(.subheadline)
-                        
-                        if let coverArtwork = song.album?.coverArtwork {
-                            Image(uiImage: UIImage(data: coverArtwork)!)
-                        } else {
-                            Image(systemName: "photo.fill")
-                        }
+                        Text(song.artist?.title ?? "No artist found!").font(.caption2)
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -51,12 +45,9 @@ struct ContentView: View {
         .fileImporter(isPresented: $presentingImporter, allowedContentTypes: [.mp3], onCompletion: { result in
             switch result {
             case .success(let url):
-                print(url)
-                
                 Task {
                     currentMetadata = await Metadata.getMetadata(for: url)
                 }
-                
                 presentingEditor = true
             case .failure(let error):
                 print(error)
@@ -65,10 +56,6 @@ struct ContentView: View {
         .sheet(isPresented: $presentingEditor) {
             EditorView(viewModel: EditorViewModel(metadata: currentMetadata))
         }
-    }
-    
-    private func addItem() {
-        presentingEditor = true
     }
     
     private func deleteItems(offsets: IndexSet) {
