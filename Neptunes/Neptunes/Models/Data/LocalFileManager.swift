@@ -19,7 +19,7 @@ final class LocalFileManager {
     func saveSong(filename: String, song: Song) {
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: filename, ofType: "mp3")!))
-            save(data: data, filename: "\(song.id!.uuidString).mp3", directory: songsDirectory)
+            save(data: data, filename: "\(song.id.uuidString).mp3", directory: songsDirectory)
         } catch {
             print("Error saving audio. \(error)")
         }
@@ -28,14 +28,14 @@ final class LocalFileManager {
     func saveSongFromURL(url: URL, song: Song) {
         do {
             let data = try Data(contentsOf: url)
-            save(data: data, filename: "\(song.id!.uuidString).mp3", directory: songsDirectory)
+            save(data: data, filename: "\(song.id.uuidString).mp3", directory: songsDirectory)
         } catch {
             print("Error saving audio. \(error)")
         }
     }
     
     func retrieveSong(song: Song) -> URL? {
-        let filename = "\(song.id!.uuidString).mp3"
+        let filename = "\(song.id.uuidString).mp3"
         let url = songsDirectory.appendingPathComponent(filename)
         return url
     }

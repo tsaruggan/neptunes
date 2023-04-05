@@ -11,6 +11,8 @@ struct EditorView: View {
     
     @ObservedObject public var viewModel: EditorViewModel
     
+    @Binding var presentingEditor: Bool
+    
     @Environment(\.managedObjectContext) private var viewContext
     var fileManager = LocalFileManager()
     
@@ -21,33 +23,35 @@ struct EditorView: View {
                 TextField("Album", text: $viewModel.currentAlbumName)
                 TextField("Artist", text: $viewModel.currentArtist)
             }
-        }
-        .onSubmit(of: .text, {
-            let newArtist = Artist(context: viewContext)
-            newArtist.title = viewModel.currentArtist
-            
-            let newAlbum = Album(context: viewContext)
-            newAlbum.title = viewModel.currentAlbumName
-            newAlbum.artist = newArtist
-            newAlbum.coverArtwork = viewModel.currentArtwork
-            
-            let newSong = Song(context: viewContext)
-            newSong.title = viewModel.currentTitle
-            newSong.album = newAlbum
-            newSong.artist = newArtist
-            newSong.id = UUID()
-            
-            fileManager.saveSongFromURL(url: viewModel.currentURL!, song: newSong)
-            
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+
+            Button("Submit") {
+                let newArtist = Artist(context: viewContext)
+                newArtist.title = viewModel.currentArtist
+                
+                let newAlbum = Album(context: viewContext)
+                newAlbum.title = viewModel.currentAlbumName
+                newAlbum.artist = newArtist
+                newAlbum.coverArtwork = viewModel.currentArtwork
+                
+                let newSong = Song(context: viewContext)
+                newSong.title = viewModel.currentTitle
+                newSong.album = newAlbum
+                newSong.artist = newArtist
+                newSong.id = UUID()
+                
+                fileManager.saveSongFromURL(url: viewModel.currentURL!, song: newSong)
+                presentingEditor = false
+                
+                do {
+                    try viewContext.save()
+                } catch {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    let nsError = error as NSError
+                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                }
             }
-        })
+        }
     }
 }
 

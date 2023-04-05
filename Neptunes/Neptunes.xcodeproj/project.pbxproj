@@ -7,18 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1816D71529DDBA7400C50796 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816D71429DDBA7400C50796 /* HomeView.swift */; };
+		1816D71729DDBB7400C50796 /* SongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816D71629DDBB7400C50796 /* SongView.swift */; };
 		181777DE29D2667E006D6DB8 /* NeptunesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181777DD29D2667E006D6DB8 /* NeptunesApp.swift */; };
 		181777E029D2667E006D6DB8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181777DF29D2667E006D6DB8 /* ContentView.swift */; };
 		181777E229D2667F006D6DB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181777E129D2667F006D6DB8 /* Assets.xcassets */; };
 		181777E529D2667F006D6DB8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181777E429D2667F006D6DB8 /* Preview Assets.xcassets */; };
 		181777E729D2667F006D6DB8 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181777E629D2667F006D6DB8 /* Persistence.swift */; };
 		181777EA29D2667F006D6DB8 /* Neptunes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 181777E829D2667F006D6DB8 /* Neptunes.xcdatamodeld */; };
+		1823215429DDC61900D18708 /* Album+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1823214E29DDC61900D18708 /* Album+CoreDataClass.swift */; };
+		1823215529DDC61900D18708 /* Album+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1823214F29DDC61900D18708 /* Album+CoreDataProperties.swift */; };
+		1823215629DDC61900D18708 /* Song+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1823215029DDC61900D18708 /* Song+CoreDataClass.swift */; };
+		1823215729DDC61900D18708 /* Song+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1823215129DDC61900D18708 /* Song+CoreDataProperties.swift */; };
+		1823215829DDC61900D18708 /* Artist+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1823215229DDC61900D18708 /* Artist+CoreDataClass.swift */; };
+		1823215929DDC61900D18708 /* Artist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1823215329DDC61900D18708 /* Artist+CoreDataProperties.swift */; };
 		1866E93029DA131100DE0C22 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866E92F29DA131100DE0C22 /* Metadata.swift */; };
 		1891ABE829DB19F200A4989A /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891ABE729DB19F200A4989A /* EditorView.swift */; };
 		18EE347029DA0ECB00571EF9 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EE346F29DA0ECB00571EF9 /* LocalFileManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1816D71429DDBA7400C50796 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		1816D71629DDBB7400C50796 /* SongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongView.swift; sourceTree = "<group>"; };
 		181777DA29D2667E006D6DB8 /* Neptunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neptunes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		181777DD29D2667E006D6DB8 /* NeptunesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeptunesApp.swift; sourceTree = "<group>"; };
 		181777DF29D2667E006D6DB8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -26,6 +36,12 @@
 		181777E429D2667F006D6DB8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		181777E629D2667F006D6DB8 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		181777E929D2667F006D6DB8 /* Neptunes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neptunes.xcdatamodel; sourceTree = "<group>"; };
+		1823214E29DDC61900D18708 /* Album+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Album+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		1823214F29DDC61900D18708 /* Album+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Album+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		1823215029DDC61900D18708 /* Song+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		1823215129DDC61900D18708 /* Song+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		1823215229DDC61900D18708 /* Artist+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		1823215329DDC61900D18708 /* Artist+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		1866E92F29DA131100DE0C22 /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
 		1891ABE729DB19F200A4989A /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		18EE346F29DA0ECB00571EF9 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
@@ -61,13 +77,15 @@
 		181777DC29D2667E006D6DB8 /* Neptunes */ = {
 			isa = PBXGroup;
 			children = (
-				1891ABE729DB19F200A4989A /* EditorView.swift */,
+				181777E129D2667F006D6DB8 /* Assets.xcassets */,
+				181777E329D2667F006D6DB8 /* Preview Content */,
 				18EE347129DA10DB00571EF9 /* Models */,
 				181777DD29D2667E006D6DB8 /* NeptunesApp.swift */,
 				181777DF29D2667E006D6DB8 /* ContentView.swift */,
-				181777E129D2667F006D6DB8 /* Assets.xcassets */,
 				181777E829D2667F006D6DB8 /* Neptunes.xcdatamodeld */,
-				181777E329D2667F006D6DB8 /* Preview Content */,
+				1816D71429DDBA7400C50796 /* HomeView.swift */,
+				1816D71629DDBB7400C50796 /* SongView.swift */,
+				1891ABE729DB19F200A4989A /* EditorView.swift */,
 			);
 			path = Neptunes;
 			sourceTree = "<group>";
@@ -83,6 +101,12 @@
 		1866E92E29DA12FB00DE0C22 /* Music */ = {
 			isa = PBXGroup;
 			children = (
+				1823214E29DDC61900D18708 /* Album+CoreDataClass.swift */,
+				1823214F29DDC61900D18708 /* Album+CoreDataProperties.swift */,
+				1823215029DDC61900D18708 /* Song+CoreDataClass.swift */,
+				1823215129DDC61900D18708 /* Song+CoreDataProperties.swift */,
+				1823215229DDC61900D18708 /* Artist+CoreDataClass.swift */,
+				1823215329DDC61900D18708 /* Artist+CoreDataProperties.swift */,
 				1866E92F29DA131100DE0C22 /* Metadata.swift */,
 			);
 			path = Music;
@@ -176,11 +200,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1816D71729DDBB7400C50796 /* SongView.swift in Sources */,
 				181777E729D2667F006D6DB8 /* Persistence.swift in Sources */,
+				1823215929DDC61900D18708 /* Artist+CoreDataProperties.swift in Sources */,
+				1823215729DDC61900D18708 /* Song+CoreDataProperties.swift in Sources */,
+				1823215629DDC61900D18708 /* Song+CoreDataClass.swift in Sources */,
 				181777E029D2667E006D6DB8 /* ContentView.swift in Sources */,
+				1823215529DDC61900D18708 /* Album+CoreDataProperties.swift in Sources */,
+				1823215429DDC61900D18708 /* Album+CoreDataClass.swift in Sources */,
 				18EE347029DA0ECB00571EF9 /* LocalFileManager.swift in Sources */,
 				1891ABE829DB19F200A4989A /* EditorView.swift in Sources */,
 				181777DE29D2667E006D6DB8 /* NeptunesApp.swift in Sources */,
+				1823215829DDC61900D18708 /* Artist+CoreDataClass.swift in Sources */,
+				1816D71529DDBA7400C50796 /* HomeView.swift in Sources */,
 				1866E93029DA131100DE0C22 /* Metadata.swift in Sources */,
 				181777EA29D2667F006D6DB8 /* Neptunes.xcdatamodeld in Sources */,
 			);
