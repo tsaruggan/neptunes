@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SongView: View {
+    
+    @EnvironmentObject var audioPlayer: Player
+    
     var song: Song
     
     var body: some View {
@@ -33,6 +36,9 @@ struct SongView: View {
                     .font(.caption)
             }
             Spacer()
+        }
+        .onTapGesture {
+            audioPlayer.replaceNowPlaying(songs: [song], from: 0)
         }
     }
 }

@@ -7,71 +7,51 @@
 
 import SwiftUI
 import CoreData
+import AVKit
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    @State private var selected: Int = 0
+    @State private var tappedTwice = false
+
+    var selectionBinding: Binding<Int> { Binding {
+        self.selected
+    } set: {
+        if $0 == self.selected {
+            tappedTwice = true
+        }
+        self.selected = $0
+    }}
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Song.title, ascending: true)],
-        animation: .default)
-    private var songs: FetchedResults<Song>
+    @State var expanded = false
+    @Namespace var animation
+    @StateObject var audioPlayer = Player()
     
-    @State private var presentingEditor = false
-    @State private var presentingImporter = false
-    @State private var currentMetadata = Metadata()
+    @State private var home = UUID()
+    @State private var search = UUID()
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(songs) { song in
-                    VStack(alignment: .leading) {
-                        Text(song.title ?? "No title found!").bold()
-                        Text(song.album?.title ?? "No album found!").font(.caption)
-                        Text(song.artist?.title ?? "No artist found!").font(.caption2)
-                    }
+        ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
+            TabView(selection: selectionBinding) {
+                NavigationView {
+                    HomeView()
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        presentingImporter = true
-                    } label: {
-                        Label("Add Song", systemImage: "plus")
-                    }
+                .navigationViewStyle(.stack)
+                .tag(0)
+                .tabItem { Label("Home", systemImage: "music.note.house") }
+                
+                NavigationView {
+                    Text("Search")
                 }
+                .navigationViewStyle(.stack)
+                .tag(1)
+                .tabItem { Label("Search", systemImage: "magnifyingglass") }
+                
             }
+            
+            PlayerView(viewModel: .init(audioPlayer: audioPlayer), expanded: $expanded, animation: animation)
         }
-        .fileImporter(isPresented: $presentingImporter, allowedContentTypes: [.mp3], onCompletion: { result in
-            switch result {
-            case .success(let url):
-                Task {
-                    currentMetadata = await Metadata.getMetadata(for: url)
-                }
-                presentingEditor = true
-            case .failure(let error):
-                print(error)
-            }
-        })
-        .sheet(isPresented: $presentingEditor) {
-            EditorView(viewModel: EditorViewModel(metadata: currentMetadata))
-        }
+        .environmentObject(audioPlayer)
     }
-    
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { songs[$0] }.forEach(viewContext.delete)
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
