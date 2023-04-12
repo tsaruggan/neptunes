@@ -9,19 +9,18 @@ import Foundation
 import AVFoundation
 
 struct Metadata {
-    
-    var title: String?
-    var artist: String?
-    var albumName: String?
-    var artwork: Data?
+    var songTitle: String?
+    var albumTitle: String?
+    var albumCoverArtwork: Data?
+    var artistTitle: String?
     var url: URL?
     
     init(titleItem: AVMetadataItem?, artistItem: AVMetadataItem?, albumNameItem: AVMetadataItem?, artworkItem: AVMetadataItem?, url: URL?) async {
         do {
-            title = try await titleItem?.load(.stringValue)
-            artist = try await artistItem?.load(.stringValue)
-            albumName = try await albumNameItem?.load(.stringValue)
-            artwork = try await artworkItem?.load(.dataValue)
+            songTitle = try await titleItem?.load(.stringValue)
+            artistTitle = try await artistItem?.load(.stringValue)
+            albumTitle = try await albumNameItem?.load(.stringValue)
+            albumCoverArtwork = try await artworkItem?.load(.dataValue)
             self.url = url
         } catch {
             print(error)
@@ -29,10 +28,10 @@ struct Metadata {
     }
     
     init() {
-        title = nil
-        artist = nil
-        albumName = nil
-        artwork = nil
+        songTitle = nil
+        artistTitle = nil
+        albumTitle = nil
+        albumCoverArtwork = nil
         url = nil
     }
 
