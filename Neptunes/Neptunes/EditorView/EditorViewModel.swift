@@ -64,18 +64,17 @@ final class EditorViewModel: ObservableObject {
     
         
         if let album = currentAlbum {
-            song.album = album
+            album.addToSongs(song)
         } else {
             let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork)
-            song.album = album
+            album.addToSongs(song)
         }
         
         if let artist = currentArtist {
-            song.artist = artist
+            artist.addToSongs(song)
         } else {
             let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork)
-            song.artist = artist
-            song.album.artist = artist
+            artist.addToSongs(song)
         }
         
         fileManager.saveSongFromURL(url: url!, song: song)
