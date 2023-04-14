@@ -7,12 +7,15 @@
 
 import Foundation
 import CoreData
+import SwiftUI
+import AVFoundation
 
 final class EditorViewModel: ObservableObject {
     @Published var songTitle: String
     @Published var albumTitle: String
     @Published var albumCoverArtwork: Data?
     @Published var artistTitle: String
+    @Published var artistCoverArtwork: Data?
     @Published var url: URL?
     
     var viewContext: NSManagedObjectContext
@@ -21,6 +24,9 @@ final class EditorViewModel: ObservableObject {
     
     @Published var currentAlbum: Album?
     @Published var currentArtist: Artist?
+    
+    @Published var audioPlayer: AVPlayer?
+    @Published var isPlaying: Bool = false
     
     init(metadata: Metadata, viewContext: NSManagedObjectContext) {
         self.songTitle = metadata.songTitle ?? ""
@@ -31,21 +37,28 @@ final class EditorViewModel: ObservableObject {
         
         self.viewContext = viewContext
         self.dataManager = CoreDataManager(viewContext: viewContext)
+    }
+    
+    func togglePlay() {
+        if audioPlayer == nil {
+            let temp = fileManager.saveSongTemp(url: url!)
+            audioPlayer = AVPlayer(url: temp!)
+        }
         
-//        self.currentAlbum = dataManager.initializeAlbum(title: metadata.albumTitle ?? "", coverArtwork: metadata.albumCoverArtwork)
-//        self.currentArtist = dataManager.initializeArtist(title: metadata.artistTitle ?? "")
+        if audioPlayer != nil {
+            if audioPlayer!.rate != 0 {
+                audioPlayer!.pause()
+                isPlaying = false
+            } else {
+                audioPlayer!.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
+                audioPlayer!.play()
+                isPlaying = true
+            }
+        }
+        
     }
     
     func addSong() {
-//        currentAlbum.artist = currentArtist
-//        
-//        currentSong.album = currentAlbum
-//        currentSong.artist = currentArtist
-//        
-//        fileManager.saveSongFromURL(url: url!, song: currentSong)
-//        
-//        dataManager.saveData()
-        
         
         let song = dataManager.initializeSong(title: songTitle, id: UUID())
     
@@ -60,7 +73,7 @@ final class EditorViewModel: ObservableObject {
         if let artist = currentArtist {
             song.artist = artist
         } else {
-            let artist = dataManager.initializeArtist(title: artistTitle)
+            let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork)
             song.artist = artist
             song.album.artist = artist
         }

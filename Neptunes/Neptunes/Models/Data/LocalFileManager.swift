@@ -10,10 +10,12 @@ import Foundation
 final class LocalFileManager {
     let fileManager = FileManager.default
     let songsDirectory: URL
+    let tempDirectory: URL
     
     init() {
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         songsDirectory = documentsDirectory.appendingPathComponent("songs", isDirectory: true)
+        tempDirectory = fileManager.temporaryDirectory
     }
     
     func saveSong(filename: String, song: Song) {
@@ -34,13 +36,24 @@ final class LocalFileManager {
         }
     }
     
+    func saveSongTemp(url: URL) -> URL? {
+        do {
+            let data = try Data(contentsOf: url)
+            let id = UUID()
+            return save(data: data, filename: "\(id.uuidString).mp3", directory: tempDirectory)
+        } catch {
+            print("Error saving audio. \(error)")
+        }
+        return nil
+    }
+    
     func retrieveSong(song: Song) -> URL? {
         let filename = "\(song.id.uuidString).mp3"
         let url = songsDirectory.appendingPathComponent(filename)
         return url
     }
         
-    func save(data: Data, filename: String, directory: URL) {
+    func save(data: Data, filename: String, directory: URL) -> URL? {
         if !fileManager.fileExists(atPath: directory.path) {
             do {
                 try fileManager.createDirectory(atPath: directory.path, withIntermediateDirectories: true, attributes: nil)
@@ -53,8 +66,10 @@ final class LocalFileManager {
             let path = directory.appendingPathComponent(filename)
             try data.write(to: path)
             print("Success saving to \(path).")
+            return path
         } catch {
             print("Error saving to path. \(error)")
         }
+        return nil
     }
 }

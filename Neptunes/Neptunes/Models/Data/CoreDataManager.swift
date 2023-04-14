@@ -25,9 +25,10 @@ struct CoreDataManager {
         return album
     }
     
-    func initializeArtist(title: String) -> Artist {
+    func initializeArtist(title: String, coverArtwork: Data?) -> Artist {
         let artist = Artist(context: viewContext)
         artist.title = title
+        artist.coverArtwork = coverArtwork
         return artist
     }
     
