@@ -68,10 +68,6 @@ final class EditorViewModel: ObservableObject {
         } else {
             let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork)
             album.addToSongs(song)
-            
-            let colorPalette = ColorAnalyzer.generatePalette(coverArtwork: albumCoverArtwork, headerArtwork: nil)
-            let palette = dataManager.initializePalette(colorPalette: colorPalette)
-            album.palette = palette
         }
         
         if let artist = currentArtist {
