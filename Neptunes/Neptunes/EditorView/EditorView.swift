@@ -37,16 +37,8 @@ struct EditorView: View {
                 artistInformation
                 
                 Section {
-                    Button {
-                        viewModel.togglePlay()
-                    } label: {
-                        Image(systemName: viewModel.isPlaying ? "stop.circle.fill" : "play.circle.fill")
-                    }
-                    
-                    Button("Add song") {
-                        viewModel.addSong()
-                        presentingEditor = false
-                    }
+                    previewPlayButton
+                    addSongButton
                 }
             }
         }
@@ -168,6 +160,21 @@ struct EditorView: View {
                     }
                 }
             }
+        }
+    }
+    
+    var previewPlayButton: some View {
+        Button {
+            viewModel.togglePlay()
+        } label: {
+            Image(systemName: viewModel.isPlaying ? "stop.circle.fill" : "play.circle.fill")
+        }
+    }
+    
+    var addSongButton: some View {
+        Button("Add song") {
+            viewModel.addSong()
+            presentingEditor = false
         }
     }
 }

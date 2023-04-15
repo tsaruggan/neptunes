@@ -55,13 +55,10 @@ final class EditorViewModel: ObservableObject {
                 isPlaying = true
             }
         }
-        
     }
     
     func addSong() {
-        
         let song = dataManager.initializeSong(title: songTitle, id: UUID())
-    
         
         if let album = currentAlbum {
             album.addToSongs(song)

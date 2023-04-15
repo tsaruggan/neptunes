@@ -111,12 +111,12 @@
 			children = (
 				181936F729E61FCF00AEA7A4 /* EditorView */,
 				181936E629E6120E00AEA7A4 /* PlayerView */,
-				181777E129D2667F006D6DB8 /* Assets.xcassets */,
-				181777E329D2667F006D6DB8 /* Preview Content */,
 				18EE347129DA10DB00571EF9 /* Models */,
+				181777E329D2667F006D6DB8 /* Preview Content */,
+				181777E129D2667F006D6DB8 /* Assets.xcassets */,
+				181777E829D2667F006D6DB8 /* Neptunes.xcdatamodeld */,
 				181777DD29D2667E006D6DB8 /* NeptunesApp.swift */,
 				181777DF29D2667E006D6DB8 /* ContentView.swift */,
-				181777E829D2667F006D6DB8 /* Neptunes.xcdatamodeld */,
 				1816D71429DDBA7400C50796 /* HomeView.swift */,
 				1816D71629DDBB7400C50796 /* SongView.swift */,
 			);
@@ -168,6 +168,8 @@
 				185AB7E329EA090400E82749 /* Vector.swift */,
 				185AB7E529EA091A00E82749 /* ColorAnalyzer.swift */,
 				185AB7EA29EA173E00E82749 /* UIColor+hex.swift */,
+				185AB7D229EA087300E82749 /* Palette+CoreDataClass.swift */,
+				185AB7D329EA087300E82749 /* Palette+CoreDataProperties.swift */,
 			);
 			path = Color;
 			sourceTree = "<group>";
@@ -177,8 +179,6 @@
 			children = (
 				185AB7D029EA087300E82749 /* Album+CoreDataClass.swift */,
 				185AB7D129EA087300E82749 /* Album+CoreDataProperties.swift */,
-				185AB7D229EA087300E82749 /* Palette+CoreDataClass.swift */,
-				185AB7D329EA087300E82749 /* Palette+CoreDataProperties.swift */,
 				185AB7D429EA087300E82749 /* Artist+CoreDataClass.swift */,
 				185AB7D529EA087300E82749 /* Artist+CoreDataProperties.swift */,
 				185AB7D629EA087300E82749 /* Song+CoreDataClass.swift */,
