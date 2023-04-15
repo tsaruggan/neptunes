@@ -57,6 +57,7 @@ struct PlayerView: View {
         }
         .frame(width: UIScreen.main.bounds.width)
         .frame(maxHeight: expanded ? .infinity : 72)
+        .background(viewModel.song != nil ? viewModel.song!.album.palette!.background(colorScheme)!.opacity(0.75) : .secondary)
         .background(.ultraThinMaterial)
         .opacity(viewModel.song != nil ? 1 : 0)
         .onTapGesture {

@@ -32,6 +32,23 @@ struct CoreDataManager {
         return artist
     }
     
+    func initializePalette(colorPalette: ColorPalette?) -> Palette? {
+        guard let (primaryTheme, secondaryTheme, accentTheme, backgroundTheme) = colorPalette else {
+            return nil
+        }
+        
+        let palette = Palette(context: viewContext)
+        palette.primaryLight = primaryTheme.lightColor.hex
+        palette.primaryDark = primaryTheme.darkColor.hex
+        palette.secondaryLight = secondaryTheme.lightColor.hex
+        palette.secondaryDark = secondaryTheme.darkColor.hex
+        palette.accentLight = accentTheme.lightColor.hex
+        palette.accentDark = accentTheme.darkColor.hex
+        palette.backgroundLight = backgroundTheme.lightColor.hex
+        palette.backgroundDark = backgroundTheme.darkColor.hex
+        return palette
+    }
+    
     func saveData() {
         do {
             try viewContext.save()
