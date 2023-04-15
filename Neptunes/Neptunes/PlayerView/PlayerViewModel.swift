@@ -34,6 +34,10 @@ final class PlayerViewModel: ObservableObject {
         }
     }
     
+    var palette: Palette? {
+        return song?.album.palette
+    }
+    
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Published var playValue: TimeInterval = 0.0
     @Published var isOnRepeat: Bool = false

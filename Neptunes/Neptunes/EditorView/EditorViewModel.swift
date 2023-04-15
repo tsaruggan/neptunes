@@ -79,6 +79,7 @@ final class EditorViewModel: ObservableObject {
         } else {
             let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork)
             artist.addToSongs(song)
+            artist.addToAlbums(song.album)
         }
         
         fileManager.saveSongFromURL(url: url!, song: song)

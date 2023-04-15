@@ -12,7 +12,7 @@ import AVKit
 struct ContentView: View {
     @State private var selected: Int = 0
     @State private var tappedTwice = false
-
+    
     var selectionBinding: Binding<Int> { Binding {
         self.selected
     } set: {
@@ -56,6 +56,15 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        
+        ContentView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        
+        
+//        ForEach(ColorScheme.allCases, id: \.self) {
+//            ContentView()
+//                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//                .preferredColorScheme($0)
+//        }
     }
 }

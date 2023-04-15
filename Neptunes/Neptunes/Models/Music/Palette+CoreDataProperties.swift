@@ -45,7 +45,7 @@ extension Palette {
     }
     
     func background(_ scheme: ColorScheme) -> Color? {
-        return getColor(lightHex: accentLight, darkHex: accentDark, scheme: scheme)
+        return getColor(lightHex: backgroundLight, darkHex: backgroundDark, scheme: scheme)
     }
     
     private func getColor(lightHex: String, darkHex: String, scheme: ColorScheme) -> Color? {

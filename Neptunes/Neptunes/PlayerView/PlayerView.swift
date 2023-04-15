@@ -57,7 +57,7 @@ struct PlayerView: View {
         }
         .frame(width: UIScreen.main.bounds.width)
         .frame(maxHeight: expanded ? .infinity : 72)
-        .background(viewModel.song != nil ? viewModel.song!.album.palette!.background(colorScheme)!.opacity(0.75) : .secondary)
+        .background(viewModel.palette?.background(colorScheme)?.opacity(0.75) ?? .clear)
         .background(.ultraThinMaterial)
         .opacity(viewModel.song != nil ? 1 : 0)
         .onTapGesture {
@@ -105,6 +105,7 @@ struct PlayerView: View {
             ) {
                 Text(viewModel.song?.title ?? "")
                     .font(.title3)
+                    .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                     .fontWeight(.bold)
                     .lineLimit(1)
             }
@@ -113,6 +114,7 @@ struct PlayerView: View {
             
             Text(viewModel.song?.artist.title ?? "")
                 .font(.body)
+                .foregroundColor(viewModel.palette?.secondary(colorScheme) ?? .secondary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
             
@@ -125,8 +127,8 @@ struct PlayerView: View {
         ScrubberView(
             duration: viewModel.duration,
             percentage: $viewModel.percentage,
-            backgroundColor: .primary,
-            textColor: .primary,
+            backgroundColor: viewModel.palette?.primary(colorScheme) ?? .primary,
+            textColor: viewModel.palette?.secondary(colorScheme) ?? .secondary,
             onChanged: viewModel.onScrubberChanged,
             onEnded: viewModel.onScrubberEnded
         )
@@ -147,7 +149,7 @@ struct PlayerView: View {
                     Image(systemName: "forward.fill")
                 }
             }
-            .buttonStyle(LargeMediaButtonStyle(foregroundColor: .primary))
+            .buttonStyle(LargeMediaButtonStyle(foregroundColor: viewModel.palette?.secondary(colorScheme) ?? .secondary))
             .frame(height: 24)
             .padding(.vertical, nil)
             
@@ -160,16 +162,16 @@ struct PlayerView: View {
                     Button(action: viewModel.toggleRepeat) {
                         if viewModel.isOnRepeat {
                             Image(systemName: "repeat")
-                                .foregroundColor(.teal)
+                                .foregroundColor(viewModel.palette?.accent(colorScheme) ?? .teal)
                         } else if viewModel.isOnRepeatOne {
                             Image(systemName: "repeat.1")
-                                .foregroundColor(.teal)
+                                .foregroundColor(viewModel.palette?.accent(colorScheme) ?? .teal)
                         } else {
                             Image(systemName: "repeat")
                         }
                     }
                     Image(systemName: "circle.fill")
-                        .foregroundColor(viewModel.isOnRepeat || viewModel.isOnRepeatOne ? .teal : .clear)
+                        .foregroundColor(viewModel.isOnRepeat || viewModel.isOnRepeatOne ? (viewModel.palette?.accent(colorScheme) ?? .teal) : .clear)
                         .font(.system(size: 4))
                 }
                 Spacer()
@@ -177,13 +179,13 @@ struct PlayerView: View {
                     Button(action: viewModel.toggleShuffle) {
                         if viewModel.isOnShuffle {
                             Image(systemName: "shuffle")
-                                .foregroundColor(.teal)
+                                .foregroundColor(viewModel.palette?.accent(colorScheme) ?? .teal)
                         } else {
                             Image(systemName: "shuffle")
                         }
                     }
                     Image(systemName: "circle.fill")
-                        .foregroundColor(viewModel.isOnShuffle ? .teal : .clear)
+                        .foregroundColor(viewModel.isOnShuffle ? (viewModel.palette?.accent(colorScheme) ?? .teal) : .clear)
                         .font(.system(size: 4))
                 }
                 Spacer()
@@ -191,7 +193,7 @@ struct PlayerView: View {
                     Image(systemName: "list.triangle")
                 }
             }
-            .buttonStyle(SmallMediaButtonStyle(foregroundColor: .primary))
+            .buttonStyle(SmallMediaButtonStyle(foregroundColor: viewModel.palette?.secondary(colorScheme) ?? .secondary))
             .padding(.vertical, nil)
         }
     }
@@ -202,7 +204,7 @@ struct PlayerView: View {
                 Image(systemName: "chevron.compact.down")
             }
         }
-        .buttonStyle(LargeMediaButtonStyle(foregroundColor: .primary))
+        .buttonStyle(LargeMediaButtonStyle(foregroundColor: viewModel.palette?.secondary(colorScheme) ?? .secondary))
         .padding()
     }
     
@@ -211,7 +213,7 @@ struct PlayerView: View {
             Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
         }
         .font(.title2)
-        .foregroundColor(.primary)
+        .foregroundColor(viewModel.palette?.secondary(colorScheme) ?? .secondary)
     }
     
     var collapsedSongInformation: some View {
@@ -234,7 +236,7 @@ struct PlayerView: View {
             
             Text(viewModel.song?.artist.title ?? "")
                 .font(.subheadline)
-                .foregroundColor(.primary)
+                .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
             Spacer()
