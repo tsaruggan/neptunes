@@ -57,17 +57,10 @@ struct EditorView: View {
             if viewModel.currentAlbum == nil {
                 TextField("Album", text: $viewModel.albumTitle)
                 PhotosPicker(selection: $selectedAlbumPhotosPickerItem, matching: .images) {
-                    if let artwork = viewModel.albumCoverArtwork, let image = UIImage(data: artwork) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                    } else {
-                        Image("defaultcover")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                    }
+                    Image(data: viewModel.albumCoverArtwork, fallback: "defaultcover")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
                 }
                 .onChange(of: selectedAlbumPhotosPickerItem) { newItem in
                     Task {
@@ -84,25 +77,12 @@ struct EditorView: View {
         Picker("Existing Album", selection: $viewModel.currentAlbum) {
             List {
                 Text("None selected").tag(nil as Album?)
-                ForEach(existingAlbums.filter({ album in
-                    if viewModel.currentArtist != nil {
-                        return album.artist == viewModel.currentArtist
-                    } else {
-                        return true
-                    }
-                })) { album in
+                ForEach(existingAlbums.filter({ viewModel.currentArtist == nil || $0.artist == viewModel.currentArtist })) { album in
                     HStack {
-                        if let artwork = album.coverArtwork, let image = UIImage(data: artwork) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                        } else {
-                            Image("defaultcover")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                        }
+                        Image(data: album.coverArtwork, fallback: "defaultcover")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
                         VStack(alignment: .leading) {
                             Text(album.title).bold()
                             Text(album.artist.title)
@@ -121,19 +101,11 @@ struct EditorView: View {
             if viewModel.currentArtist == nil {
                 TextField("Artist", text: $viewModel.artistTitle)
                 PhotosPicker(selection: $selectedArtistPhotosPickerItem, matching: .images) {
-                    if let artwork = viewModel.artistCoverArtwork, let image = UIImage(data: artwork) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                    } else {
-                        Image("defaultartist")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                    }
+                    Image(data: viewModel.artistCoverArtwork, fallback: "defaultartist")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
                 }
                 .onChange(of: selectedArtistPhotosPickerItem) { newItem in
                     Task {
@@ -152,20 +124,11 @@ struct EditorView: View {
                 Text("None selected").tag(nil as Artist?)
                 ForEach(existingArtists) { artist in
                     HStack {
-                        if let artwork = artist.coverArtwork,
-                           let image = UIImage(data: artwork) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .clipShape(Circle())
-                        } else {
-                            Image("defaultartist")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .clipShape(Circle())
-                        }
+                        Image(data: artist.coverArtwork, fallback: "defaultartist")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                            .clipShape(Circle())
                         Text(artist.title)
                     }.tag(Optional(artist))
                 }
@@ -190,4 +153,13 @@ struct EditorView: View {
     }
 }
 
-
+extension Image {
+    init(data: Data?, fallback: String) {
+        if let artwork = data,
+           let image = UIImage(data: artwork) {
+            self.init(uiImage: image)
+        } else {
+            self.init(fallback)
+        }
+    }
+}
