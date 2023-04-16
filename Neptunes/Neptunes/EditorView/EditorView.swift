@@ -33,8 +33,8 @@ struct EditorView: View {
         NavigationView {
             Form {
                 songInformation
-                albumInformation
                 artistInformation
+                albumInformation
                 
                 Section {
                     previewPlayButton
@@ -53,35 +53,7 @@ struct EditorView: View {
     
     var albumInformation: some View {
         Section(header: Text("Album Information")) {
-            Picker("Existing Album", selection: $viewModel.currentAlbum) {
-                List {
-                    Text("None selected").tag(nil as Album?)
-                    ForEach(existingAlbums) { album in
-                        HStack {
-                            if let artwork = album.coverArtwork, let image = UIImage(data: artwork) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 25, height: 25)
-                            } else {
-                                Image("defaultcover")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 25, height: 25)
-                            }
-                            VStack(alignment: .leading) {
-                                Text(album.title).bold()
-                                Text(album.artist.title)
-                            }
-                        }
-                        .tag(Optional(album))
-                        
-                        
-                    }
-                }
-            }
-            .pickerStyle(.navigationLink)
-            
+            existingAlbumInformation
             if viewModel.currentAlbum == nil {
                 TextField("Album", text: $viewModel.albumTitle)
                 PhotosPicker(selection: $selectedAlbumPhotosPickerItem, matching: .images) {
@@ -108,33 +80,44 @@ struct EditorView: View {
         }
     }
     
-    var artistInformation: some View {
-        Section("Artist Information") {
-            Picker("Existing Artist", selection: $viewModel.currentArtist) {
-                List {
-                    Text("None selected").tag(nil as Artist?)
-                    ForEach(existingArtists) { artist in
-                        HStack {
-                            if let artwork = artist.coverArtwork, let image = UIImage(data: artwork) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 25, height: 25)
-                                    .clipShape(Circle())
-                            } else {
-                                Image("defaultartist")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 25, height: 25)
-                                    .clipShape(Circle())
-                            }
-                            Text(artist.title)
-                        }.tag(Optional(artist))
+    var existingAlbumInformation: some View {
+        Picker("Existing Album", selection: $viewModel.currentAlbum) {
+            List {
+                Text("None selected").tag(nil as Album?)
+                ForEach(existingAlbums.filter({ album in
+                    if viewModel.currentArtist != nil {
+                        return album.artist == viewModel.currentArtist
+                    } else {
+                        return true
                     }
+                })) { album in
+                    HStack {
+                        if let artwork = album.coverArtwork, let image = UIImage(data: artwork) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                        } else {
+                            Image("defaultcover")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                        }
+                        VStack(alignment: .leading) {
+                            Text(album.title).bold()
+                            Text(album.artist.title)
+                        }
+                    }
+                    .tag(Optional(album))
                 }
             }
-            .pickerStyle(.navigationLink)
-            
+        }
+        .pickerStyle(.navigationLink)
+    }
+    
+    var artistInformation: some View {
+        Section("Artist Information") {
+            existingArtistInformation
             if viewModel.currentArtist == nil {
                 TextField("Artist", text: $viewModel.artistTitle)
                 PhotosPicker(selection: $selectedArtistPhotosPickerItem, matching: .images) {
@@ -161,6 +144,34 @@ struct EditorView: View {
                 }
             }
         }
+    }
+    
+    var existingArtistInformation: some View {
+        Picker("Existing Artist", selection: $viewModel.currentArtist) {
+            List {
+                Text("None selected").tag(nil as Artist?)
+                ForEach(existingArtists) { artist in
+                    HStack {
+                        if let artwork = artist.coverArtwork,
+                           let image = UIImage(data: artwork) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                                .clipShape(Circle())
+                        } else {
+                            Image("defaultartist")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                                .clipShape(Circle())
+                        }
+                        Text(artist.title)
+                    }.tag(Optional(artist))
+                }
+            }
+        }
+        .pickerStyle(.navigationLink)
     }
     
     var previewPlayButton: some View {

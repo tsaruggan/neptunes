@@ -22,8 +22,40 @@ final class EditorViewModel: ObservableObject {
     var dataManager: CoreDataManager
     var fileManager: LocalFileManager = LocalFileManager()
     
-    @Published var currentAlbum: Album?
-    @Published var currentArtist: Artist?
+    @Published private var _currentAlbum: Album?
+    @Published private var _currentArtist: Artist?
+    
+    var currentArtist: Artist? {
+        get {
+            return self._currentArtist
+        }
+        
+        set {
+            self._currentArtist = newValue
+            
+            if newValue != nil {
+                if self._currentAlbum != nil && self._currentAlbum!.artist != newValue {
+                    self._currentAlbum = nil
+                }
+            } else {
+                self._currentAlbum = nil
+            }
+        }
+    }
+    
+    var currentAlbum: Album? {
+        get {
+            return self._currentAlbum
+        }
+        
+        set {
+            self._currentAlbum = newValue
+            
+            if newValue != nil {
+                self._currentArtist = newValue!.artist
+            }
+        }
+    }
     
     @Published var audioPlayer: AVPlayer?
     @Published var isPlaying: Bool = false
@@ -60,7 +92,7 @@ final class EditorViewModel: ObservableObject {
     func addSong() {
         let song = dataManager.initializeSong(title: songTitle, id: UUID())
         
-        if let album = currentAlbum {
+        if let album = _currentAlbum {
             album.addToSongs(song)
         } else {
             let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork)
@@ -71,7 +103,7 @@ final class EditorViewModel: ObservableObject {
             album.palette = palette
         }
         
-        if let artist = currentArtist {
+        if let artist = _currentArtist {
             artist.addToSongs(song)
         } else {
             let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork)
