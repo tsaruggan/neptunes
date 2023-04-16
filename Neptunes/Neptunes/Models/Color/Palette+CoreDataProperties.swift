@@ -51,13 +51,10 @@ extension Palette {
     private func getColor(lightHex: String, darkHex: String, scheme: ColorScheme) -> Color? {
         switch scheme {
         case .light:
-//            guard let uiColor = UIColor(hex: lightHex) else { return nil }
             return Color(uiColor: UIColor(hex: lightHex))
         case .dark:
-//            guard let uiColor = UIColor(hex: darkHex) else { return nil }
             return Color(uiColor: UIColor(hex: darkHex))
         @unknown default:
-//            guard let uiColor = UIColor(hex: lightHex) else { return nil }
             return Color(uiColor: UIColor(hex: lightHex))
         }
     }

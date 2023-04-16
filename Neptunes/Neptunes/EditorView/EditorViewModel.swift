@@ -9,22 +9,20 @@ import Foundation
 import CoreData
 import SwiftUI
 import AVFoundation
+import PhotosUI
 
 final class EditorViewModel: ObservableObject {
     @Published var songTitle: String
-    @Published var albumTitle: String
-    @Published var albumCoverArtwork: Data?
-    @Published var artistTitle: String
-    @Published var artistCoverArtwork: Data?
     @Published var url: URL?
     
     var viewContext: NSManagedObjectContext
     var dataManager: CoreDataManager
     var fileManager: LocalFileManager = LocalFileManager()
     
+    @Published var albumTitle: String
+    @Published var albumCoverArtwork: Data?
+    var albumColorPalette: ColorPalette?
     @Published private var _currentAlbum: Album?
-    @Published private var _currentArtist: Artist?
-    
     var currentArtist: Artist? {
         get {
             return self._currentArtist
@@ -32,7 +30,6 @@ final class EditorViewModel: ObservableObject {
         
         set {
             self._currentArtist = newValue
-            
             if newValue != nil {
                 if self._currentAlbum != nil && self._currentAlbum!.artist != newValue {
                     self._currentAlbum = nil
@@ -43,6 +40,10 @@ final class EditorViewModel: ObservableObject {
         }
     }
     
+    @Published var artistTitle: String
+    @Published var artistCoverArtwork: Data?
+    var artistColorPalette: ColorPalette?
+    @Published private var _currentArtist: Artist?
     var currentAlbum: Album? {
         get {
             return self._currentAlbum
@@ -50,13 +51,34 @@ final class EditorViewModel: ObservableObject {
         
         set {
             self._currentAlbum = newValue
-            
             if newValue != nil {
                 self._currentArtist = newValue!.artist
             }
         }
     }
     
+    func updateAlbumCoverArtwork(item: PhotosPickerItem?) {
+        Task {
+            if let imageData = try? await item?.loadTransferable(type: Data.self) {
+                albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
+                DispatchQueue.main.async {
+                    self.albumCoverArtwork = imageData
+                }
+            }
+        }
+    }
+    
+    func updateArtistCoverArtwork(item: PhotosPickerItem?) {
+        Task {
+            if let imageData = try? await item?.loadTransferable(type: Data.self) {
+                artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
+                DispatchQueue.main.async {
+                    self.artistCoverArtwork = imageData
+                }
+            }
+        }
+    }
+
     @Published var audioPlayer: AVPlayer?
     @Published var isPlaying: Bool = false
     
@@ -98,9 +120,8 @@ final class EditorViewModel: ObservableObject {
             let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork)
             album.addToSongs(song)
             
-            let colorPalette = ColorAnalyzer.generatePalette(coverArtwork: albumCoverArtwork, headerArtwork: nil)
-            let palette = dataManager.initializePalette(colorPalette: colorPalette)
-            album.palette = palette
+            let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
+            album.palette = albumPalette
         }
         
         if let artist = _currentArtist {
@@ -109,6 +130,9 @@ final class EditorViewModel: ObservableObject {
             let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork)
             artist.addToSongs(song)
             artist.addToAlbums(song.album)
+            
+            let artistPalette = dataManager.initializePalette(colorPalette: artistColorPalette)
+            artist.palette = artistPalette
         }
         
         fileManager.saveSongFromURL(url: url!, song: song)

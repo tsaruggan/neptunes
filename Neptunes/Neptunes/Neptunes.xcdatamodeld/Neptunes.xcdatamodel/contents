@@ -13,6 +13,7 @@
         <attribute name="headerArtwork" optional="YES" attributeType="Binary"/>
         <attribute name="title" attributeType="String"/>
         <relationship name="albums" toMany="YES" deletionRule="Cascade" destinationEntity="Album" inverseName="artist" inverseEntity="Album"/>
+        <relationship name="palette" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Palette"/>
         <relationship name="songs" toMany="YES" deletionRule="Cascade" destinationEntity="Song" inverseName="artist" inverseEntity="Song"/>
     </entity>
     <entity name="Palette" representedClassName="Palette" syncable="YES">

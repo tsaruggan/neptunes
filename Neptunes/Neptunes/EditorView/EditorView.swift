@@ -48,7 +48,6 @@ struct EditorView: View {
         Section(header: Text("Song Information")) {
             TextField("Title", text: $viewModel.songTitle)
         }
-        
     }
     
     var albumInformation: some View {
@@ -63,11 +62,7 @@ struct EditorView: View {
                         .frame(width: 100, height: 100)
                 }
                 .onChange(of: selectedAlbumPhotosPickerItem) { newItem in
-                    Task {
-                        if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                            viewModel.albumCoverArtwork = data
-                        }
-                    }
+                    viewModel.updateAlbumCoverArtwork(item: newItem)
                 }
             }
         }
@@ -108,11 +103,7 @@ struct EditorView: View {
                         .clipShape(Circle())
                 }
                 .onChange(of: selectedArtistPhotosPickerItem) { newItem in
-                    Task {
-                        if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                            viewModel.artistCoverArtwork = data
-                        }
-                    }
+                    viewModel.updateArtistCoverArtwork(item: newItem)
                 }
             }
         }

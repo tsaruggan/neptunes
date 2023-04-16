@@ -2,7 +2,7 @@
 //  Artist+CoreDataProperties.swift
 //  Neptunes
 //
-//  Created by Saruggan Thiruchelvan on 2023-04-14.
+//  Created by Saruggan Thiruchelvan on 2023-04-16.
 //
 //
 
@@ -20,6 +20,7 @@ extension Artist {
     @NSManaged public var headerArtwork: Data?
     @NSManaged public var title: String
     @NSManaged public var albums: NSSet?
+    @NSManaged public var palette: Palette?
     @NSManaged public var songs: NSSet?
 
 }
