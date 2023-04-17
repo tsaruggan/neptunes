@@ -14,6 +14,11 @@ struct HomeView: View {
         animation: .default)
     private var songs: FetchedResults<Song>
     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Album.title, ascending: true)],
+        animation: .default)
+    private var albums: FetchedResults<Album>
+    
     @State private var presentingEditor = false
     @State private var presentingImporter = false
     @State private var currentMetadata = Metadata()
@@ -23,13 +28,22 @@ struct HomeView: View {
     var body: some View {
         
         List {
-            ForEach(songs.indices, id: \.self) { i in
-                SongView(song: songs[i])
-                    .onTapGesture {
-                        audioPlayer.replaceNowPlaying(songs: Array(songs), from: i)
-                    }
+//            ForEach(songs.indices, id: \.self) { i in
+//                SongView(song: songs[i])
+//                    .onTapGesture {
+//                        audioPlayer.replaceNowPlaying(songs: Array(songs), from: i)
+//                    }
+//            }
+//            .onDelete(perform: deleteItems)
+            
+            
+            ForEach(albums.indices, id: \.self) { i in
+                NavigationLink {
+                    AlbumView(viewModel: .init(album: albums[i]))
+                } label: {
+                    Text(albums[i].title)
+                }
             }
-            .onDelete(perform: deleteItems)
         }
         .toolbar {
             ToolbarItem {
