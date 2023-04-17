@@ -56,28 +56,6 @@ final class EditorViewModel: ObservableObject {
             }
         }
     }
-    
-    func updateAlbumCoverArtwork(item: PhotosPickerItem?) {
-        Task {
-            if let imageData = try? await item?.loadTransferable(type: Data.self) {
-                albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
-                DispatchQueue.main.async {
-                    self.albumCoverArtwork = imageData
-                }
-            }
-        }
-    }
-    
-    func updateArtistCoverArtwork(item: PhotosPickerItem?) {
-        Task {
-            if let imageData = try? await item?.loadTransferable(type: Data.self) {
-                artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
-                DispatchQueue.main.async {
-                    self.artistCoverArtwork = imageData
-                }
-            }
-        }
-    }
 
     @Published var audioPlayer: AVPlayer?
     @Published var isPlaying: Bool = false
@@ -137,5 +115,27 @@ final class EditorViewModel: ObservableObject {
         
         fileManager.saveSongFromURL(url: url!, song: song)
         dataManager.saveData()
+    }
+    
+    func updateAlbumCoverArtwork(item: PhotosPickerItem?) {
+        Task {
+            if let imageData = try? await item?.loadTransferable(type: Data.self) {
+                albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
+                DispatchQueue.main.async {
+                    self.albumCoverArtwork = imageData
+                }
+            }
+        }
+    }
+    
+    func updateArtistCoverArtwork(item: PhotosPickerItem?) {
+        Task {
+            if let imageData = try? await item?.loadTransferable(type: Data.self) {
+                artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
+                DispatchQueue.main.async {
+                    self.artistCoverArtwork = imageData
+                }
+            }
+        }
     }
 }

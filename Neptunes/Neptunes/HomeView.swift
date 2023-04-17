@@ -18,11 +18,16 @@ struct HomeView: View {
     @State private var presentingImporter = false
     @State private var currentMetadata = Metadata()
     
+    @EnvironmentObject var audioPlayer: Player
+    
     var body: some View {
         
         List {
-            ForEach(songs) { song in
-                SongView(song: song)
+            ForEach(songs.indices, id: \.self) { i in
+                SongView(song: songs[i])
+                    .onTapGesture {
+                        audioPlayer.replaceNowPlaying(songs: Array(songs), from: i)
+                    }
             }
             .onDelete(perform: deleteItems)
         }
