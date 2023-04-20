@@ -63,7 +63,7 @@ struct AlbumView: View {
                 .font(.title2)
                 .padding(.bottom, 4)
             NavigationLink {
-//                ArtistView(viewModel: .init(artist: viewModel.album.artist))
+                ArtistView(viewModel: .init(artist: viewModel.album.artist))
             } label: {
                 HStack {
                     Image(data: viewModel.album.artist.coverArtwork, fallback: "defaultartist")

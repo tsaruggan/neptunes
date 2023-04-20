@@ -45,15 +45,15 @@ struct HomeView: View {
                 }
             }
         }
-//        .toolbar {
-//            ToolbarItem {
-//                Button {
-//                    presentingImporter = true
-//                } label: {
-//                    Label("Add Song", systemImage: "plus")
-//                }
-//            }
-//        }
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    presentingImporter = true
+                } label: {
+                    Label("Add Song", systemImage: "plus")
+                }
+            }
+        }
         .fileImporter(isPresented: $presentingImporter, allowedContentTypes: [.mp3], onCompletion: { result in
             switch result {
             case .success(let url):
