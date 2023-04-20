@@ -51,7 +51,6 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
             ToolbarItemGroup(placement: .navigationBarLeading){ backButton }
             ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }
         }
-        .buttonStyle(ToolbarButtonStyle(backgroundColor: backgroundColor))
     }
     
     var backButton: some View {
@@ -60,6 +59,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
         } label: {
             Label("Back", systemImage: "chevron.backward")
         }
+        .buttonStyle(ToolbarButtonStyle(backgroundColor: backgroundColor))
     }
     
     var menuButton: some View {
@@ -67,6 +67,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
             menu
         } label: {
             Button(action: {}) { Image(systemName: "ellipsis") }
+                .buttonStyle(ToolbarButtonStyle(backgroundColor: backgroundColor))
         }
     }
 }
