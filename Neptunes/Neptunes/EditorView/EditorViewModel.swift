@@ -20,7 +20,7 @@ final class EditorViewModel: ObservableObject {
     var fileManager: LocalFileManager = LocalFileManager()
     
     @Published var albumTitle: String
-    @Published var albumCoverArtwork: Data?
+    @Published var albumCoverArtwork: UIImage?
     var albumColorPalette: ColorPalette?
     @Published private var _currentAlbum: Album?
     var currentArtist: Artist? {
@@ -41,7 +41,7 @@ final class EditorViewModel: ObservableObject {
     }
     
     @Published var artistTitle: String
-    @Published var artistCoverArtwork: Data?
+    @Published var artistCoverArtwork: UIImage?
     var artistColorPalette: ColorPalette?
     @Published private var _currentArtist: Artist?
     var currentAlbum: Album? {
@@ -56,14 +56,21 @@ final class EditorViewModel: ObservableObject {
             }
         }
     }
-
+    
     @Published var audioPlayer: AVPlayer?
     @Published var isPlaying: Bool = false
     
     init(metadata: Metadata, viewContext: NSManagedObjectContext) {
         self.songTitle = metadata.songTitle ?? ""
         self.albumTitle = metadata.albumTitle ?? ""
-        self.albumCoverArtwork = metadata.albumCoverArtwork
+        
+        self.albumCoverArtwork = nil
+        if let albumCoverArtworkData = metadata.albumCoverArtwork,
+            let albumCoverArtwork = UIImage(data: albumCoverArtworkData) {
+            self.albumCoverArtwork = albumCoverArtwork
+            self.albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: albumCoverArtwork, headerArtwork: nil)
+        }
+        
         self.artistTitle = metadata.artistTitle ?? ""
         self.url = metadata.url
         
@@ -117,25 +124,16 @@ final class EditorViewModel: ObservableObject {
         dataManager.saveData()
     }
     
-    func updateAlbumCoverArtwork(item: PhotosPickerItem?) {
+    func onAlbumCoverArtworkChange(newImage: UIImage?) {
         Task {
-            if let imageData = try? await item?.loadTransferable(type: Data.self) {
-                albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
-                DispatchQueue.main.async {
-                    self.albumCoverArtwork = imageData
-                }
-            }
+            albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: newImage, headerArtwork: nil)
         }
     }
     
-    func updateArtistCoverArtwork(item: PhotosPickerItem?) {
+    func onArtistCoverArtworkChange(newImage: UIImage?) {
         Task {
-            if let imageData = try? await item?.loadTransferable(type: Data.self) {
-                artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: imageData, headerArtwork: nil)
-                DispatchQueue.main.async {
-                    self.artistCoverArtwork = imageData
-                }
-            }
+            artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: newImage, headerArtwork: nil)
         }
     }
+
 }

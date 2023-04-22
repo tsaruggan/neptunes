@@ -24,7 +24,7 @@ typealias ColorPalette = (
 
 class ColorAnalyzer {
     
-    public static func generatePalette(coverArtwork: Data?, headerArtwork: Data?) -> ColorPalette? {
+    public static func generatePalette(coverArtwork: UIImage?, headerArtwork: UIImage?) -> ColorPalette? {
         if let colors = getColors(coverArtwork: coverArtwork, headerArtwork: headerArtwork, 4) {
             return generatePaletteFromColors(colors[0], colors[1], colors[2], colors[3])
         } else{
@@ -43,17 +43,15 @@ class ColorAnalyzer {
         return pixels
     }
     
-    private static func getColors(coverArtwork: Data?, headerArtwork: Data?, _ numColors: Int) -> [UIColor]? {
+    private static func getColors(coverArtwork: UIImage?, headerArtwork: UIImage?, _ numColors: Int) -> [UIColor]? {
         var pixels: [Vector] = []
         
-        if let cover = coverArtwork,
-           let coverUIImage = UIImage(data: cover),
+        if let coverUIImage = coverArtwork,
            let coverCGImage = coverUIImage.cgImage {
             pixels += getPixelsFromImage(cgImage: coverCGImage, 16, 16)
         }
         
-        if let header = headerArtwork,
-           let headerUIImage = UIImage(data: header),
+        if let headerUIImage = headerArtwork,
            let headerCGImage = headerUIImage.cgImage {
             pixels += getPixelsFromImage(cgImage: headerCGImage, 24, 8)
         }

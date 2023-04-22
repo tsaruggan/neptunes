@@ -31,6 +31,9 @@
 		1828909A29ED90A10013BC1C /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1828909929ED90A10013BC1C /* SongListView.swift */; };
 		1828909C29ED90C70013BC1C /* DetailedSongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1828909B29ED90C70013BC1C /* DetailedSongView.swift */; };
 		1828909E29ED90F10013BC1C /* SongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1828909D29ED90F10013BC1C /* SongView.swift */; };
+		1829D1EF29F43CDD00BECBCD /* Mantis in Frameworks */ = {isa = PBXBuildFile; productRef = 1829D1EE29F43CDD00BECBCD /* Mantis */; };
+		1829D1F229F4449E00BECBCD /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1829D1F129F4449E00BECBCD /* ImageCropper.swift */; };
+		1829D1F429F4453100BECBCD /* ImageCropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1829D1F329F4453100BECBCD /* ImageCropperViewController.swift */; };
 		185AB7D829EA087300E82749 /* Album+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185AB7D029EA087300E82749 /* Album+CoreDataClass.swift */; };
 		185AB7D929EA087300E82749 /* Album+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185AB7D129EA087300E82749 /* Album+CoreDataProperties.swift */; };
 		185AB7DA29EA087300E82749 /* Palette+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185AB7D229EA087300E82749 /* Palette+CoreDataClass.swift */; };
@@ -48,6 +51,7 @@
 		187E6B9B29EC6EA000FE4EA1 /* Artist+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187E6B9929EC6EA000FE4EA1 /* Artist+CoreDataClass.swift */; };
 		187E6B9C29EC6EA000FE4EA1 /* Artist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187E6B9A29EC6EA000FE4EA1 /* Artist+CoreDataProperties.swift */; };
 		1891ABE829DB19F200A4989A /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891ABE729DB19F200A4989A /* EditorView.swift */; };
+		18A329CE29F4779D00CC1867 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A329CD29F4779D00CC1867 /* PhotoPickerView.swift */; };
 		18EE347029DA0ECB00571EF9 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EE346F29DA0ECB00571EF9 /* LocalFileManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +81,8 @@
 		1828909929ED90A10013BC1C /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		1828909B29ED90C70013BC1C /* DetailedSongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedSongView.swift; sourceTree = "<group>"; };
 		1828909D29ED90F10013BC1C /* SongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongView.swift; sourceTree = "<group>"; };
+		1829D1F129F4449E00BECBCD /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
+		1829D1F329F4453100BECBCD /* ImageCropperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropperViewController.swift; sourceTree = "<group>"; };
 		185AB7D029EA087300E82749 /* Album+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Album+CoreDataClass.swift"; sourceTree = "<group>"; };
 		185AB7D129EA087300E82749 /* Album+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Album+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		185AB7D229EA087300E82749 /* Palette+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Palette+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -93,6 +99,7 @@
 		187E6B9929EC6EA000FE4EA1 /* Artist+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataClass.swift"; sourceTree = "<group>"; };
 		187E6B9A29EC6EA000FE4EA1 /* Artist+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1891ABE729DB19F200A4989A /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
+		18A329CD29F4779D00CC1867 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		18EE346F29DA0ECB00571EF9 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1829D1EF29F43CDD00BECBCD /* Mantis in Frameworks */,
 				185AB7E929EA0A9A00E82749 /* SwiftImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,6 +181,7 @@
 		181936F729E61FCF00AEA7A4 /* EditorView */ = {
 			isa = PBXGroup;
 			children = (
+				18A329CC29F4776F00CC1867 /* PhotoPickerView */,
 				1891ABE729DB19F200A4989A /* EditorView.swift */,
 				181936F829E6200100AEA7A4 /* EditorViewModel.swift */,
 			);
@@ -211,6 +220,15 @@
 			path = AlbumView;
 			sourceTree = "<group>";
 		};
+		1829D1F029F4441400BECBCD /* ImageCropper */ = {
+			isa = PBXGroup;
+			children = (
+				1829D1F129F4449E00BECBCD /* ImageCropper.swift */,
+				1829D1F329F4453100BECBCD /* ImageCropperViewController.swift */,
+			);
+			path = ImageCropper;
+			sourceTree = "<group>";
+		};
 		185AB7E029EA08D400E82749 /* Color */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +263,15 @@
 				186EE60429F19AC90007EF9A /* ArtistView.swift */,
 			);
 			path = ArtistView;
+			sourceTree = "<group>";
+		};
+		18A329CC29F4776F00CC1867 /* PhotoPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				1829D1F029F4441400BECBCD /* ImageCropper */,
+				18A329CD29F4779D00CC1867 /* PhotoPickerView.swift */,
+			);
+			path = PhotoPickerView;
 			sourceTree = "<group>";
 		};
 		18EE347129DA10DB00571EF9 /* Models */ = {
@@ -286,6 +313,7 @@
 			name = Neptunes;
 			packageProductDependencies = (
 				185AB7E829EA0A9A00E82749 /* SwiftImage */,
+				1829D1EE29F43CDD00BECBCD /* Mantis */,
 			);
 			productName = Neptunes;
 			productReference = 181777DA29D2667E006D6DB8 /* Neptunes.app */;
@@ -317,6 +345,7 @@
 			mainGroup = 181777D129D2667E006D6DB8;
 			packageReferences = (
 				185AB7E729EA0A9A00E82749 /* XCRemoteSwiftPackageReference "swift-image" */,
+				1829D1ED29F43CDD00BECBCD /* XCRemoteSwiftPackageReference "Mantis" */,
 			);
 			productRefGroup = 181777DB29D2667E006D6DB8 /* Products */;
 			projectDirPath = "";
@@ -363,10 +392,12 @@
 				185AB7E429EA090400E82749 /* Vector.swift in Sources */,
 				185AB7E629EA091A00E82749 /* ColorAnalyzer.swift in Sources */,
 				181936E829E6124900AEA7A4 /* Player.swift in Sources */,
+				18A329CE29F4779D00CC1867 /* PhotoPickerView.swift in Sources */,
 				181936EC29E6127E00AEA7A4 /* Queue.swift in Sources */,
 				1828909129ED8DDA0013BC1C /* HeaderView.swift in Sources */,
 				181777E029D2667E006D6DB8 /* ContentView.swift in Sources */,
 				1828909629ED8F0E0013BC1C /* AlbumView.swift in Sources */,
+				1829D1F429F4453100BECBCD /* ImageCropperViewController.swift in Sources */,
 				181936F229E6141900AEA7A4 /* MarqueeView.swift in Sources */,
 				18EE347029DA0ECB00571EF9 /* LocalFileManager.swift in Sources */,
 				187E6B9B29EC6EA000FE4EA1 /* Artist+CoreDataClass.swift in Sources */,
@@ -379,6 +410,7 @@
 				181936EE29E613AB00AEA7A4 /* PlayerView.swift in Sources */,
 				185AB7E229EA08F900E82749 /* KMeans.swift in Sources */,
 				185AB7D829EA087300E82749 /* Album+CoreDataClass.swift in Sources */,
+				1829D1F229F4449E00BECBCD /* ImageCropper.swift in Sources */,
 				185AB7EB29EA173E00E82749 /* UIColor+hex.swift in Sources */,
 				1828908F29ED8CAF0013BC1C /* ArtworkView.swift in Sources */,
 				181777EA29D2667F006D6DB8 /* Neptunes.xcdatamodeld in Sources */,
@@ -585,6 +617,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1829D1ED29F43CDD00BECBCD /* XCRemoteSwiftPackageReference "Mantis" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/guoyingtao/Mantis.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.9.1;
+			};
+		};
 		185AB7E729EA0A9A00E82749 /* XCRemoteSwiftPackageReference "swift-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/koher/swift-image.git";
@@ -596,6 +636,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1829D1EE29F43CDD00BECBCD /* Mantis */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1829D1ED29F43CDD00BECBCD /* XCRemoteSwiftPackageReference "Mantis" */;
+			productName = Mantis;
+		};
 		185AB7E829EA0A9A00E82749 /* SwiftImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 185AB7E729EA0A9A00E82749 /* XCRemoteSwiftPackageReference "swift-image" */;

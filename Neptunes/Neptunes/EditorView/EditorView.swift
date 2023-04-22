@@ -8,6 +8,7 @@
 import SwiftUI
 import PhotosUI
 import AVFoundation
+import Mantis
 
 struct EditorView: View {
     
@@ -15,8 +16,12 @@ struct EditorView: View {
     
     @Binding var presentingEditor: Bool
     
-    @State private var selectedAlbumPhotosPickerItem: PhotosPickerItem? = nil
-    @State private var selectedArtistPhotosPickerItem: PhotosPickerItem? = nil
+    @State private var selectedAlbumCoverArtworkPhotosPickerItem: PhotosPickerItem? = nil
+    @State private var selectedArtistCoverArtworkPhotosPickerItem: PhotosPickerItem? = nil
+    @State private var selectedAlbumHeaderArtworkPhotosPickerItem: PhotosPickerItem? = nil
+    @State private var selectedArtistHeaderArtworkPhotosPickerItem: PhotosPickerItem? = nil
+    
+    
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Artist.title, ascending: true)],
@@ -55,18 +60,18 @@ struct EditorView: View {
             existingAlbumInformation
             if viewModel.currentAlbum == nil {
                 TextField("Album", text: $viewModel.albumTitle)
-                PhotosPicker(selection: $selectedAlbumPhotosPickerItem, matching: .images) {
-                    Image(data: viewModel.albumCoverArtwork, fallback: "defaultcover")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                }
-                .onChange(of: selectedAlbumPhotosPickerItem) { newItem in
-                    viewModel.updateAlbumCoverArtwork(item: newItem)
-                }
+                albumCoverArtworkPicker
             }
         }
     }
+    
+    var albumCoverArtworkPicker: some View {
+        PhotoPickerView(image: $viewModel.albumCoverArtwork,
+                        placeholder: "defaultcover",
+                        type: .album,
+                        onChange: viewModel.onAlbumCoverArtworkChange)
+    }
+    
     
     var existingAlbumInformation: some View {
         Picker("Existing Album", selection: $viewModel.currentAlbum) {
@@ -95,18 +100,16 @@ struct EditorView: View {
             existingArtistInformation
             if viewModel.currentArtist == nil {
                 TextField("Artist", text: $viewModel.artistTitle)
-                PhotosPicker(selection: $selectedArtistPhotosPickerItem, matching: .images) {
-                    Image(data: viewModel.artistCoverArtwork, fallback: "defaultartist")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
-                }
-                .onChange(of: selectedArtistPhotosPickerItem) { newItem in
-                    viewModel.updateArtistCoverArtwork(item: newItem)
-                }
+                artistCoverArtworkPicker
             }
         }
+    }
+    
+    var artistCoverArtworkPicker: some View {
+        PhotoPickerView(image: $viewModel.artistCoverArtwork,
+                        placeholder: "defaultartist",
+                        type: .artist,
+                        onChange: viewModel.onArtistCoverArtworkChange)
     }
     
     var existingArtistInformation: some View {

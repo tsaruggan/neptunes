@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 struct CoreDataManager {
     var viewContext: NSManagedObjectContext
@@ -18,17 +19,17 @@ struct CoreDataManager {
         return song
     }
     
-   func initializeAlbum(title: String, coverArtwork: Data?) -> Album {
+   func initializeAlbum(title: String, coverArtwork: UIImage?) -> Album {
         let album = Album(context: viewContext)
         album.title = title
-        album.coverArtwork = coverArtwork
+       album.coverArtwork = coverArtwork?.pngData()
         return album
     }
     
-    func initializeArtist(title: String, coverArtwork: Data?) -> Artist {
+    func initializeArtist(title: String, coverArtwork: UIImage?) -> Artist {
         let artist = Artist(context: viewContext)
         artist.title = title
-        artist.coverArtwork = coverArtwork
+        artist.coverArtwork = coverArtwork?.pngData()
         return artist
     }
     
