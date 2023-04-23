@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Mantis
 
 enum PhotoPickerType {
     case album
@@ -18,7 +19,7 @@ struct PhotoPickerView: View {
     @Binding var image: UIImage?
     var placeholder: String
     var type: PhotoPickerType
-    var onChange: (UIImage?) -> Void
+    var onChange: () -> Void
     
     @State var presentingCropper: Bool = false
     @State var selectedPhotosPickerItem: PhotosPickerItem? = nil
@@ -29,7 +30,10 @@ struct PhotoPickerView: View {
             HStack{
                 picture
                 Spacer()
-                removeButton
+                
+                if image != nil {
+                    removeButton
+                }
             }
         }
         .onChange(of: selectedPhotosPickerItem) { newItem in
@@ -37,9 +41,9 @@ struct PhotoPickerView: View {
         }
         .fullScreenCover(isPresented: $presentingCropper, content: {
             ImageCropper(image: $selectedImage,
-                         cropShapeType: .square,
-                         presetFixedRatioType: .alwaysUsingOnePresetFixedRatio(),
-                         type: .normal,
+                         cropShapeType: getCropShape(),
+                         presetFixedRatioType: .alwaysUsingOnePresetFixedRatio(ratio: getPrefixedRatio()),
+                         type: type,
                          didCropTrigger: didCrop,
                          didCancelTrigger: didCancel)
             .ignoresSafeArea()
@@ -50,16 +54,17 @@ struct PhotoPickerView: View {
         Image(uiImage: image ?? UIImage(named: placeholder)!)
             .resizable()
             .scaledToFit()
-            .frame(width: 100, height: 100)
+            .frame(width: 100, height: type == .header ? 100 / 3 : 100)
             .clipShape(getClipShape())
     }
     
     var removeButton: some View {
-        Button("remove") {
+        Button("remove", role: .destructive, action: {
             clear()
-        }
+        })
         .padding()
         .buttonStyle(.bordered)
+        .buttonBorderShape(.capsule)
     }
     
     func onPhotosPickerItemChange(item: PhotosPickerItem?) {
@@ -76,7 +81,7 @@ struct PhotoPickerView: View {
     
     func didCrop() -> Void {
         image = selectedImage
-        onChange(selectedImage)
+        onChange()
     }
     
     func didCancel() {
@@ -88,6 +93,8 @@ struct PhotoPickerView: View {
         selectedPhotosPickerItem = nil
         selectedImage = nil
         image = nil
+        
+        onChange()
     }
     
     func getClipShape() -> AnyShape {
@@ -98,6 +105,28 @@ struct PhotoPickerView: View {
             return AnyShape(Circle())
         case .header:
             return AnyShape(Rectangle())
+        }
+    }
+    
+    func getCropShape() -> CropShapeType {
+        switch type {
+        case .album:
+            return CropShapeType.square
+        case .artist:
+            return CropShapeType.circle()
+        case .header:
+            return CropShapeType.rect
+        }
+    }
+    
+    func getPrefixedRatio() -> Double {
+        switch type {
+        case .album:
+            return 1.0 / 1.0
+        case .artist:
+            return 1.0 / 1.0
+        case .header:
+            return 3.0 / 1.0
         }
     }
 }

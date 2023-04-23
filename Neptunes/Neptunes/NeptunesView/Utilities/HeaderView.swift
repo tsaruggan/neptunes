@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct HeaderView: View {
     var headerArtwork: Data?
     var body: some View {

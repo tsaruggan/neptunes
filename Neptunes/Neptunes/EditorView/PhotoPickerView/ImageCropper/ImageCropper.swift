@@ -8,17 +8,11 @@
 import Mantis
 import SwiftUI
 
-enum ImageCropperType {
-    case normal
-    case noRotationDial
-    case noAttachedToolbar
-}
-
 struct ImageCropper: UIViewControllerRepresentable {
     @Binding var image: UIImage?
     var cropShapeType: Mantis.CropShapeType
     var presetFixedRatioType: Mantis.PresetFixedRatioType
-    var type: ImageCropperType
+    var type: PhotoPickerType
     
     var didCropTrigger: (() -> Void)? = nil
     var didCancelTrigger: (() -> Void)? = nil
@@ -56,14 +50,22 @@ struct ImageCropper: UIViewControllerRepresentable {
     }
     
     func makeUIViewController(context: Context) -> UIViewController {
-        switch type {
-        case .normal:
-            return makeNormalImageCropper(context: context)
-        case .noRotationDial:
-            return makeImageCropperHidingRotationDial(context: context)
-        case .noAttachedToolbar:
-            return makeImageCropperWithoutAttachedToolbar(context: context)
-        }
+        var config = Mantis.Config()
+        config.cropViewConfig.cropShapeType = cropShapeType
+        config.presetFixedRatioType = presetFixedRatioType
+        
+//        switch type {
+//        case .album:
+//            return CropShapeType.square
+//        case .artist:
+//            return CropShapeType.circle()
+//        case .header:
+//            return CropShapeType.rect
+//        }
+        
+        let cropViewController = Mantis.cropViewController(image: image ?? UIImage(ciImage: .empty()), config: config)
+        cropViewController.delegate = context.coordinator
+        return cropViewController
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
@@ -71,31 +73,3 @@ struct ImageCropper: UIViewControllerRepresentable {
     }
 }
 
-extension ImageCropper {
-    func makeNormalImageCropper(context: Context) -> UIViewController {
-        var config = Mantis.Config()
-        config.cropViewConfig.cropShapeType = cropShapeType
-        config.presetFixedRatioType = presetFixedRatioType
-        let cropViewController = Mantis.cropViewController(image: image ?? UIImage(ciImage: .empty()), config: config)
-        cropViewController.delegate = context.coordinator
-        return cropViewController
-    }
-    
-    func makeImageCropperHidingRotationDial(context: Context) -> UIViewController {
-        var config = Mantis.Config()
-        config.cropViewConfig.showRotationDial = false
-        let cropViewController = Mantis.cropViewController(image: image ?? UIImage(ciImage: .empty()), config: config)
-        cropViewController.delegate = context.coordinator
-        
-        return cropViewController
-    }
-    
-    func makeImageCropperWithoutAttachedToolbar(context: Context) -> UIViewController {
-        var config = Mantis.Config()
-        config.showAttachedCropToolbar = false
-        let cropViewController: ImageCropperViewController = Mantis.cropViewController(image: image ?? UIImage(ciImage: .empty()), config: config)
-        cropViewController.delegate = context.coordinator
-        
-        return UINavigationController(rootViewController: cropViewController)
-    }
-}

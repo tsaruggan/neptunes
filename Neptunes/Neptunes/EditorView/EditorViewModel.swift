@@ -21,6 +21,7 @@ final class EditorViewModel: ObservableObject {
     
     @Published var albumTitle: String
     @Published var albumCoverArtwork: UIImage?
+    @Published var albumHeaderArtwork: UIImage?
     var albumColorPalette: ColorPalette?
     @Published private var _currentAlbum: Album?
     var currentArtist: Artist? {
@@ -42,6 +43,7 @@ final class EditorViewModel: ObservableObject {
     
     @Published var artistTitle: String
     @Published var artistCoverArtwork: UIImage?
+    @Published var artistHeaderArtwork: UIImage?
     var artistColorPalette: ColorPalette?
     @Published private var _currentArtist: Artist?
     var currentAlbum: Album? {
@@ -102,7 +104,7 @@ final class EditorViewModel: ObservableObject {
         if let album = _currentAlbum {
             album.addToSongs(song)
         } else {
-            let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork)
+            let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
             album.addToSongs(song)
             
             let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
@@ -112,7 +114,7 @@ final class EditorViewModel: ObservableObject {
         if let artist = _currentArtist {
             artist.addToSongs(song)
         } else {
-            let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork)
+            let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork)
             artist.addToSongs(song)
             artist.addToAlbums(song.album)
             
@@ -124,15 +126,17 @@ final class EditorViewModel: ObservableObject {
         dataManager.saveData()
     }
     
-    func onAlbumCoverArtworkChange(newImage: UIImage?) {
+    func onAlbumArtworkChange() {
         Task {
-            albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: newImage, headerArtwork: nil)
+            albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: albumCoverArtwork,
+                                                              headerArtwork: albumHeaderArtwork)
         }
     }
     
-    func onArtistCoverArtworkChange(newImage: UIImage?) {
+    func onArtistArtworkChange() {
         Task {
-            artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: newImage, headerArtwork: nil)
+            artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: artistCoverArtwork,
+                                                               headerArtwork: albumHeaderArtwork)
         }
     }
 

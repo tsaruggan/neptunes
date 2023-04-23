@@ -61,6 +61,7 @@ struct EditorView: View {
             if viewModel.currentAlbum == nil {
                 TextField("Album", text: $viewModel.albumTitle)
                 albumCoverArtworkPicker
+                albumHeaderArtworkPicker
             }
         }
     }
@@ -69,7 +70,14 @@ struct EditorView: View {
         PhotoPickerView(image: $viewModel.albumCoverArtwork,
                         placeholder: "defaultcover",
                         type: .album,
-                        onChange: viewModel.onAlbumCoverArtworkChange)
+                        onChange: viewModel.onAlbumArtworkChange)
+    }
+    
+    var albumHeaderArtworkPicker: some View {
+        PhotoPickerView(image: $viewModel.albumHeaderArtwork,
+                        placeholder: "defaultheader",
+                        type: .header,
+                        onChange: viewModel.onAlbumArtworkChange)
     }
     
     
@@ -101,6 +109,7 @@ struct EditorView: View {
             if viewModel.currentArtist == nil {
                 TextField("Artist", text: $viewModel.artistTitle)
                 artistCoverArtworkPicker
+                artistHeaderArtworkPicker
             }
         }
     }
@@ -109,7 +118,14 @@ struct EditorView: View {
         PhotoPickerView(image: $viewModel.artistCoverArtwork,
                         placeholder: "defaultartist",
                         type: .artist,
-                        onChange: viewModel.onArtistCoverArtworkChange)
+                        onChange: viewModel.onArtistArtworkChange)
+    }
+    
+    var artistHeaderArtworkPicker: some View {
+        PhotoPickerView(image: $viewModel.artistHeaderArtwork,
+                        placeholder: "defaultheader",
+                        type: .header,
+                        onChange: viewModel.onArtistArtworkChange)
     }
     
     var existingArtistInformation: some View {
