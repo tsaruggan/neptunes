@@ -21,8 +21,6 @@ struct EditorView: View {
     @State private var selectedAlbumHeaderArtworkPhotosPickerItem: PhotosPickerItem? = nil
     @State private var selectedArtistHeaderArtworkPhotosPickerItem: PhotosPickerItem? = nil
     
-    
-    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Artist.title, ascending: true)],
         animation: .default)
