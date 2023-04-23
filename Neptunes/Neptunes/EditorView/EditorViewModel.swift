@@ -101,25 +101,32 @@ final class EditorViewModel: ObservableObject {
     func addSong() {
         let song = dataManager.initializeSong(title: songTitle, id: UUID())
         
-        if let album = _currentAlbum {
-            album.addToSongs(song)
-        } else {
-            let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
-            album.addToSongs(song)
-            
-            let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
-            album.palette = albumPalette
-        }
-        
         if let artist = _currentArtist {
             artist.addToSongs(song)
+            
+            if let album = _currentAlbum {
+                album.addToSongs(song)
+            } else {
+                let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
+                let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
+                album.palette = albumPalette
+                
+                album.addToSongs(song)
+                artist.addToAlbums(album)
+            }
+            
         } else {
             let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork)
-            artist.addToSongs(song)
-            artist.addToAlbums(song.album)
-            
             let artistPalette = dataManager.initializePalette(colorPalette: artistColorPalette)
             artist.palette = artistPalette
+            
+            let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
+            let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
+            album.palette = albumPalette
+            
+            artist.addToSongs(song)
+            album.addToSongs(song)
+            artist.addToAlbums(album)
         }
         
         fileManager.saveSongFromURL(url: url!, song: song)
@@ -128,15 +135,13 @@ final class EditorViewModel: ObservableObject {
     
     func onAlbumArtworkChange() {
         Task {
-            albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: albumCoverArtwork,
-                                                              headerArtwork: albumHeaderArtwork)
+            albumColorPalette = ColorAnalyzer.generatePalette(coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
         }
     }
     
     func onArtistArtworkChange() {
         Task {
-            artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: artistCoverArtwork,
-                                                               headerArtwork: albumHeaderArtwork)
+            artistColorPalette = ColorAnalyzer.generatePalette(coverArtwork: artistCoverArtwork, headerArtwork: artistCoverArtwork)
         }
     }
 
