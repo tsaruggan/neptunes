@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import MediaPlayer
 
 struct NowPlaying {
     var fileManager = LocalFileManager()
@@ -125,6 +126,19 @@ struct NowPlaying {
     mutating func add(song: Song) {
         if let url = fileManager.retrieveSong(song: song) {
             let playerItem = AVPlayerItem(url: url)
+            
+            var artwork = MPMediaItemArtwork(image: UIImage(named: "defaultcover")!)
+            if let coverArtwork = song.album.coverArtwork, let uiImage = UIImage(data: coverArtwork) {
+                artwork = MPMediaItemArtwork(image: uiImage)
+            }
+            
+            let title = song.title
+            
+            playerItem.nowPlayingInfo = [
+                MPMediaItemPropertyTitle: title,
+                MPMediaItemPropertyArtwork: artwork
+            ]
+            
             songs.append(song)
             playerItems.append(playerItem)
         }

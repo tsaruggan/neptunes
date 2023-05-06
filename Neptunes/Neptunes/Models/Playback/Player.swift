@@ -9,9 +9,11 @@ import Foundation
 import AVFoundation
 import NotificationCenter
 import CoreData
+import MediaPlayer
 
 class Player: ObservableObject {
     var player: AVPlayer = AVPlayer()
+    var session: MPNowPlayingSession
     
     var queue: Queue = Queue()
     var nowPlaying: NowPlaying = NowPlaying()
@@ -55,6 +57,17 @@ class Player: ObservableObject {
     let assetKeys = ["playable"]
     
     init() {
+        self.session = MPNowPlayingSession(players: [self.player])
+        self.session.automaticallyPublishesNowPlayingInfo = true
+        self.session.remoteCommandCenter.playCommand.addTarget { event in
+            self.play()
+            return .success
+        }
+        self.session.remoteCommandCenter.pauseCommand.addTarget { event in
+            self.pause()
+            return .success
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     

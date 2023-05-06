@@ -57,6 +57,10 @@ struct HomeView: View {
         .fileImporter(isPresented: $presentingImporter, allowedContentTypes: [.mp3], onCompletion: { result in
             switch result {
             case .success(let url):
+                guard url.startAccessingSecurityScopedResource() else { 
+                     return
+                }
+                
                 Task {
                     currentMetadata = await Metadata.getMetadata(for: url)
                 }
