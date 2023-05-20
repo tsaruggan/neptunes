@@ -24,10 +24,16 @@ struct ContentView: View {
     
     @State var expanded = false
     @Namespace var animation
-    @StateObject var audioPlayer = Player()
+//    @StateObject var audioPlayer = Player()
+    @StateObject var assetPlayer: AssetPlayer
     
     @State private var home = UUID()
     @State private var search = UUID()
+    
+    init() {
+        ConfigModel.shared = ConfigModel(nowPlayableBehavior: IOSNowPlayableBehavior())
+        self._assetPlayer = StateObject(wrappedValue: try! AssetPlayer())
+    }
     
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
@@ -48,9 +54,9 @@ struct ContentView: View {
                 
             }
             
-            PlayerView(viewModel: .init(audioPlayer: audioPlayer), expanded: $expanded, animation: animation)
+            PlayerView(viewModel: .init(player: assetPlayer), expanded: $expanded, animation: animation)
         }
-        .environmentObject(audioPlayer)
+        .environmentObject(assetPlayer)
     }
 }
 

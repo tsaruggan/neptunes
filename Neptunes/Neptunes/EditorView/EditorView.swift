@@ -171,3 +171,13 @@ extension Image {
         }
     }
 }
+
+extension UIImage {
+    convenience init?(data: Data?, fallback: String) {
+        if let artwork = data {
+            self.init(data: artwork)
+        } else {
+            self.init(named: fallback)
+        }
+    }
+}

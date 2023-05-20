@@ -6,17 +6,17 @@
 //
 
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-`AssetPlayer` uses an AVQueuePlayer for playback of `ConfigAsset` items,
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ `AssetPlayer` uses an AVQueuePlayer for playback of `ConfigAsset` items,
  with a `NowPlayable` delegate for handling platform-specific behavior.
-*/
+ */
 
 import AVFoundation
 import MediaPlayer
 
-class AssetPlayer {
+class AssetPlayer: ObservableObject {
     
     // Possible values of the `playerState` property.
     
@@ -34,42 +34,83 @@ class AssetPlayer {
     // player, or may play content in any way that is wishes, provided that it uses
     // the NowPlayable behavior correctly.
     
-    let player: AVQueuePlayer
+    let player: AVPlayer
     
     // A playlist of items to play.
     
-    private let playerItems: [AVPlayerItem]
+    public var playerItems: [AVPlayerItem?]
     
     // Metadata for each item.
     
-    private let staticMetadatas: [NowPlayableStaticMetadata]
+    public var staticMetadatas: [NowPlayableStaticMetadata?]
     
     // The internal state of this AssetPlayer separate from the state
     // of its AVQueuePlayer.
     
-    private var playerState: PlayerState = .stopped {
+    public var playerState: PlayerState = .stopped {
         didSet {
-            #if os(macOS)
+#if os(macOS)
             NSLog("%@", "**** Set player state \(playerState), playbackState \(MPNowPlayingInfoCenter.default().playbackState.rawValue)")
-            #else
+#else
             NSLog("%@", "**** Set player state \(playerState)")
-            #endif
+#endif
         }
     }
     
     // `true` if the current session has been interrupted by another app.
     
-    private var isInterrupted: Bool = false
+    public var isInterrupted: Bool = false
     
     // Private observers of notifications and property changes.
     
-    private var itemObserver: NSKeyValueObservation!
-    private var rateObserver: NSKeyValueObservation!
-    private var statusObserver: NSObjectProtocol!
+    public var itemObserver: NSKeyValueObservation!
+    public var rateObserver: NSKeyValueObservation!
+    public var statusObserver: NSObjectProtocol!
     
     // A shorter name for a very long property name.
     
-    private static let mediaSelectionKey = "availableMediaCharacteristicsWithMediaSelectionOptions"
+    public static let mediaSelectionKey = "availableMediaCharacteristicsWithMediaSelectionOptions"
+    
+    var fileManager = LocalFileManager()
+    
+    var queue: Queue = Queue()
+    var nowPlaying: NowPlaying = NowPlaying()
+    var currentSong: Song?
+    var isPlaying: Bool {
+        return playerState == .playing
+    }
+    
+    var duration: TimeInterval {
+        guard let currentItem = player.currentItem else { return 0.0 }
+        return currentItem.duration.seconds
+    }
+    
+    var currentTime: TimeInterval {
+        get {
+            return player.currentTime().seconds
+        }
+        set {
+            player.seek(to: CMTime(seconds: newValue, preferredTimescale: 1))
+        }
+    }
+    
+    var finished: Bool = false
+    var isPlayingFromQueue: Bool = false
+    var nowPlayingIsReplaced: Bool = false
+    var hasReachedEnd: Bool { return nowPlaying.hasReachedEnd }
+    
+    private var _isShuffled: Bool = false
+    var isShuffled: Bool {
+        get {
+            return _isShuffled
+        }
+        set {
+            _isShuffled = newValue
+            nowPlaying.isShuffled = newValue
+        }
+    }
+    
+    let assetKeys = ["playable"]
     
     // Initialize a new `AssetPlayer` object.
     
@@ -80,17 +121,20 @@ class AssetPlayer {
         // Get the subset of assets that the configuration actually wants to play,
         // and use it to construct the playlist.
         
-        let playableAssets = ConfigModel.shared.assets.compactMap { $0.shouldPlay ? $0 : nil }
+        //        let playableAssets = ConfigModel.shared.assets.compactMap { $0.shouldPlay ? $0 : nil }
+        //
+        //        self.staticMetadatas = playableAssets.map { $0.metadata }
+        //        self.playerItems = playableAssets.map {
+        //            AVPlayerItem(asset: $0.urlAsset, automaticallyLoadedAssetKeys: [AssetPlayer.mediaSelectionKey])
+        //        }
         
-        self.staticMetadatas = playableAssets.map { $0.metadata }
-        self.playerItems = playableAssets.map {
-            AVPlayerItem(asset: $0.urlAsset, automaticallyLoadedAssetKeys: [AssetPlayer.mediaSelectionKey])
-        }
+        self.staticMetadatas = []
+        self.playerItems = []
         
         // Create a player, and configure it for external playback, if the
         // configuration requires.
         
-        self.player = AVQueuePlayer(items: playerItems)
+        self.player = AVPlayer()
         player.allowsExternalPlayback = ConfigModel.shared.allowsExternalPlayback
         
         // Construct lists of commands to be registered or disabled.
@@ -110,37 +154,36 @@ class AssetPlayer {
                                                                commandHandler: handleCommand(command:event:),
                                                                interruptionHandler: handleInterrupt(with:))
         
-        // Start playing, if there is something to play.
+        // Start a playback session.
         
-        if !playerItems.isEmpty {
+        try nowPlayableBehavior.handleNowPlayableSessionStart()
+        
+        
+        //        // Start playing, if there is something to play.
+        //
+        //        if !playerItems.isEmpty {
+        //
+        //
+        //        }
+    }
+    
+    func observeChanges() {
+        if player.currentItem != nil {
             
-            // Start a playback session.
-            
-            try nowPlayableBehavior.handleNowPlayableSessionStart()
-            
-            // Observe changes to the current item and playback rate.
-            
-            if player.currentItem != nil {
-                
-                itemObserver = player.observe(\.currentItem, options: .initial) {
-                    [unowned self] _, _ in
-                    self.handlePlayerItemChange()
-                }
-                
-                rateObserver = player.observe(\.rate, options: .initial) {
-                    [unowned self] _, _ in
-                    self.handlePlaybackChange()
-                }
-                
-                statusObserver = player.observe(\.currentItem?.status, options: .initial) {
-                    [unowned self] _, _ in
-                    self.handlePlaybackChange()
-                }
+            itemObserver = player.observe(\.currentItem, options: .initial) {
+                [unowned self] _, _ in
+                self.handlePlayerItemChange()
             }
             
-            // Start the player.
+            rateObserver = player.observe(\.rate, options: .initial) {
+                [unowned self] _, _ in
+                self.handlePlaybackChange()
+            }
             
-            play()
+            statusObserver = player.observe(\.currentItem?.status, options: .initial) {
+                [unowned self] _, _ in
+                self.handlePlaybackChange()
+            }
         }
     }
     
@@ -153,7 +196,8 @@ class AssetPlayer {
         statusObserver = nil
         
         player.pause()
-        player.removeAllItems()
+        //        player.removeAllItems()
+        
         playerState = .stopped
         
         nowPlayableBehavior.handleNowPlayableSessionEnd()
@@ -163,7 +207,7 @@ class AssetPlayer {
     
     // Helper method: update Now Playing Info when the current item changes.
     
-    private func handlePlayerItemChange() {
+    public func handlePlayerItemChange() {
         
         guard playerState != .stopped else { return }
         
@@ -174,14 +218,14 @@ class AssetPlayer {
         
         // Set the Now Playing Info from static item metadata.
         
-        let metadata = staticMetadatas[currentIndex]
-        
-        nowPlayableBehavior.handleNowPlayableItemChange(metadata: metadata)
+        if let metadata = staticMetadatas[currentIndex] {
+            nowPlayableBehavior.handleNowPlayableItemChange(metadata: metadata)
+        }
     }
     
     // Helper method: update Now Playing Info when playback rate or position changes.
     
-    private func handlePlaybackChange() {
+    public func handlePlaybackChange() {
         
         guard playerState != .stopped else { return }
         
@@ -202,14 +246,14 @@ class AssetPlayer {
         
         var languageOptionGroups: [MPNowPlayingInfoLanguageOptionGroup] = []
         var currentLanguageOptions: [MPNowPlayingInfoLanguageOption] = []
-
+        
         if asset.statusOfValue(forKey: AssetPlayer.mediaSelectionKey, error: nil) == .loaded {
             
             // Examine each media selection group.
             
             for mediaCharacteristic in asset.availableMediaCharacteristicsWithMediaSelectionOptions {
                 guard mediaCharacteristic == .audible || mediaCharacteristic == .legible,
-                    let mediaSelectionGroup = asset.mediaSelectionGroup(forMediaCharacteristic: mediaCharacteristic) else { continue }
+                      let mediaSelectionGroup = asset.mediaSelectionGroup(forMediaCharacteristic: mediaCharacteristic) else { continue }
                 
                 // Make a corresponding language option group.
                 
@@ -220,7 +264,7 @@ class AssetPlayer {
                 // create a corresponding language option.
                 
                 if let selectedMediaOption = currentItem.currentMediaSelection.selectedMediaOption(in: mediaSelectionGroup),
-                    let currentLanguageOption = selectedMediaOption.makeNowPlayingInfoLanguageOption() {
+                   let currentLanguageOption = selectedMediaOption.makeNowPlayingInfoLanguageOption() {
                     currentLanguageOptions.append(currentLanguageOption)
                 }
             }
@@ -244,7 +288,7 @@ class AssetPlayer {
     
     // The following methods handle various playback conditions triggered by remote commands.
     
-    private func play() {
+    public func play() {
         
         switch playerState {
             
@@ -253,7 +297,7 @@ class AssetPlayer {
             player.play()
             
             handlePlayerItemChange()
-
+            
         case .playing:
             break
             
@@ -266,7 +310,7 @@ class AssetPlayer {
         }
     }
     
-    private func pause() {
+    public func pause() {
         
         switch playerState {
             
@@ -285,8 +329,8 @@ class AssetPlayer {
         }
     }
     
-    private func togglePlayPause() {
-
+    public func togglePlayPause() {
+        
         switch playerState {
             
         case .stopped:
@@ -300,38 +344,47 @@ class AssetPlayer {
         }
     }
     
-    private func nextTrack() {
-        
-        if case .stopped = playerState { return }
-        
-        player.advanceToNextItem()
-    }
-    
-    private func previousTrack() {
-        
-        if case .stopped = playerState { return }
-        
-        let currentTime = player.currentTime().seconds
-        let currentItems = player.items()
-        let previousIndex = playerItems.count - currentItems.count - 1
-        
-        guard currentTime < 3, previousIndex > 0, previousIndex < playerItems.count else { seek(to: .zero); return }
-        
-        player.removeAllItems()
-        
-        for playerItem in playerItems[(previousIndex - 1)...] {
-            
-            if player.canInsert(playerItem, after: nil) {
-                player.insert(playerItem, after: nil)
-            }
-        }
-        
-        if case .playing = playerState {
+    public func nextTrack() {
+        currentTime = 0.0
+        finished = false
+        if nowPlaying.isEmpty && queue.isEmpty {
+            currentSong = nil
+            isPlayingFromQueue = false
+            optOut()
+        } else if queue.isEmpty {
+            nowPlaying.goToNext()
+            currentSong = nowPlaying.currentSong
+            player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
             player.play()
+            isPlayingFromQueue = false
+        } else {
+            currentSong = queue.currentSong
+            player.replaceCurrentItem(with: queue.currentPlayerItem)
+            play()
+            queue.goToNext()
+            isPlayingFromQueue = true
         }
     }
     
-    private func seek(to time: CMTime) {
+    public func previousTrack() {
+        currentTime = 0.0
+        finished = false
+        if nowPlaying.isEmpty {
+            currentSong = nil
+            optOut()
+        } else {
+            if isPlayingFromQueue {
+                isPlayingFromQueue = false
+            } else {
+                nowPlaying.goToPrevious()
+            }
+            currentSong = nowPlaying.currentSong
+            player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
+            play()
+        }
+    }
+    
+    public func seek(to time: CMTime) {
         
         if case .stopped = playerState { return }
         
@@ -343,26 +396,26 @@ class AssetPlayer {
         }
     }
     
-    private func seek(to position: TimeInterval) {
+    public func seek(to position: TimeInterval) {
         seek(to: CMTime(seconds: position, preferredTimescale: 1))
     }
     
-    private func skipForward(by interval: TimeInterval) {
+    public func skipForward(by interval: TimeInterval) {
         seek(to: player.currentTime() + CMTime(seconds: interval, preferredTimescale: 1))
     }
     
-    private func skipBackward(by interval: TimeInterval) {
+    public func skipBackward(by interval: TimeInterval) {
         seek(to: player.currentTime() - CMTime(seconds: interval, preferredTimescale: 1))
     }
     
-    private func setPlaybackRate(_ rate: Float) {
+    public func setPlaybackRate(_ rate: Float) {
         
         if case .stopped = playerState { return }
         
         player.rate = rate
     }
     
-    private func didEnableLanguageOption(_ languageOption: MPNowPlayingInfoLanguageOption) -> Bool {
+    public func didEnableLanguageOption(_ languageOption: MPNowPlayingInfoLanguageOption) -> Bool {
         
         guard let currentItem = player.currentItem else { return false }
         guard let (mediaSelectionOption, mediaSelectionGroup) = enabledMediaSelection(for: languageOption) else { return false }
@@ -373,11 +426,11 @@ class AssetPlayer {
         return true
     }
     
-    private func didDisableLanguageOption(_ languageOption: MPNowPlayingInfoLanguageOption) -> Bool {
+    public func didDisableLanguageOption(_ languageOption: MPNowPlayingInfoLanguageOption) -> Bool {
         
         guard let currentItem = player.currentItem else { return false }
         guard let mediaSelectionGroup = disabledMediaSelection(for: languageOption) else { return false }
-
+        
         guard mediaSelectionGroup.allowsEmptySelection else { return false }
         currentItem.select(nil, in: mediaSelectionGroup)
         handlePlaybackChange()
@@ -387,7 +440,7 @@ class AssetPlayer {
     
     // Helper method to get the media selection group and media selection for enabling a language option.
     
-    private func enabledMediaSelection(for languageOption: MPNowPlayingInfoLanguageOption) -> (AVMediaSelectionOption, AVMediaSelectionGroup)? {
+    public func enabledMediaSelection(for languageOption: MPNowPlayingInfoLanguageOption) -> (AVMediaSelectionOption, AVMediaSelectionGroup)? {
         
         // In your code, you would implement your logic for choosing a media selection option
         // from a suitable media selection group.
@@ -404,7 +457,7 @@ class AssetPlayer {
     
     // Helper method to get the media selection group for disabling a language option`.
     
-    private func disabledMediaSelection(for languageOption: MPNowPlayingInfoLanguageOption) -> AVMediaSelectionGroup? {
+    public func disabledMediaSelection(for languageOption: MPNowPlayingInfoLanguageOption) -> AVMediaSelectionGroup? {
         
         // In your code, you would implement your logic for finding the media selection group
         // being disabled.
@@ -423,7 +476,7 @@ class AssetPlayer {
     
     // Handle a command registered with the Remote Command Center.
     
-    private func handleCommand(command: NowPlayableCommand, event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    public func handleCommand(command: NowPlayableCommand, event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         
         switch command {
             
@@ -472,11 +525,11 @@ class AssetPlayer {
         case .enableLanguageOption:
             guard let event = event as? MPChangeLanguageOptionCommandEvent else { return .commandFailed }
             guard didEnableLanguageOption(event.languageOption) else { return .noActionableNowPlayingItem }
-
+            
         case .disableLanguageOption:
             guard let event = event as? MPChangeLanguageOptionCommandEvent else { return .commandFailed }
             guard didDisableLanguageOption(event.languageOption) else { return .noActionableNowPlayingItem }
-
+            
         default:
             break
         }
@@ -488,7 +541,7 @@ class AssetPlayer {
     
     // Handle a session interruption.
     
-    private func handleInterrupt(with interruption: NowPlayableInterruption) {
+    public func handleInterrupt(with interruption: NowPlayableInterruption) {
         
         switch interruption {
             
@@ -517,6 +570,30 @@ class AssetPlayer {
             print(error.localizedDescription)
             optOut()
         }
+    }
+    
+    func replaceNowPlaying(songs: [Song], from: Int) {
+        nowPlaying = NowPlaying(songs: songs, from: from)
+        nowPlaying.isShuffled = isShuffled
+        currentSong = nowPlaying.currentSong
+        let currentPlayerItem = nowPlaying.currentPlayerItem
+        let currentStaticMetadata = nowPlaying.currentStaticMetadata
+        playerItems.append(currentPlayerItem)
+        staticMetadatas.append(currentStaticMetadata)
+        player.replaceCurrentItem(with: currentPlayerItem)
+        currentTime = 0.0
+        finished = false
+        nowPlayingIsReplaced = true
+        observeChanges()
+        optOut()
+    }
+    
+    func addToQueue(song: Song) {
+        queue.add(song: song)
+    }
+    
+    @objc func playerDidFinishPlaying(note: NSNotification) {
+        finished = true
     }
     
 }

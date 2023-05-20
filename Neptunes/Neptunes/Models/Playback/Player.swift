@@ -12,29 +12,31 @@ import CoreData
 import MediaPlayer
 
 class Player: ObservableObject {
-    var player: AVPlayer = AVPlayer()
-    var session: MPNowPlayingSession
+//    var player: AVPlayer = AVPlayer()
+    var player: AssetPlayer
+    
+//    var session: MPNowPlayingSession
     
     var queue: Queue = Queue()
     var nowPlaying: NowPlaying = NowPlaying()
     var currentSong: Song?
     
-    var _isPlaying: Bool = false
     var isPlaying: Bool {
-        return _isPlaying || (self.player.rate != 0 && self.player.error == nil)
+        return player.playerState == .playing
     }
     
     var duration: TimeInterval {
-        guard let currentItem = player.currentItem else { return 0.0 }
+        guard let currentItem = player.player.currentItem else { return 0.0 }
         return currentItem.duration.seconds
     }
     
     var currentTime: TimeInterval {
         get {
-            return player.currentTime().seconds
+            return player.player.currentTime().seconds
         }
         set {
-            player.seek(to: CMTime(seconds: newValue, preferredTimescale: 1))
+//            player.seek(to: CMTime(seconds: newValue, preferredTimescale: 1))
+            player.seek(to: newValue)
         }
     }
     
@@ -57,28 +59,36 @@ class Player: ObservableObject {
     let assetKeys = ["playable"]
     
     init() {
-        self.session = MPNowPlayingSession(players: [self.player])
-        self.session.automaticallyPublishesNowPlayingInfo = true
-        self.session.remoteCommandCenter.playCommand.addTarget { event in
-            self.play()
-            return .success
-        }
-        self.session.remoteCommandCenter.pauseCommand.addTarget { event in
-            self.pause()
-            return .success
-        }
+//        self.session = MPNowPlayingSession(players: [self.player])
+//        self.session.automaticallyPublishesNowPlayingInfo = true
+//        self.session.remoteCommandCenter.playCommand.addTarget { event in
+//            self.play()
+//            return .success
+//        }
+//        self.session.remoteCommandCenter.pauseCommand.addTarget { event in
+//            self.pause()
+//            return .success
+//        }
+//
         
+        
+//        do {
+//            
+//            
+//        } catch {
+//            print(error)
+//        }
+        ConfigModel.shared = ConfigModel(nowPlayableBehavior: IOSNowPlayableBehavior())
+        player = try! AssetPlayer()
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     func play() {
         player.play()
-        _isPlaying = true
     }
     
     func pause() {
         player.pause()
-        _isPlaying = false
     }
     
     func previous() {
@@ -86,7 +96,6 @@ class Player: ObservableObject {
         finished = false
         if nowPlaying.isEmpty {
             currentSong = nil
-            _isPlaying = false
         } else {
             if isPlayingFromQueue {
                 isPlayingFromQueue = false
@@ -94,7 +103,7 @@ class Player: ObservableObject {
                 nowPlaying.goToPrevious()
             }
             currentSong = nowPlaying.currentSong
-            player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
+            player.player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
             play()
         }
     }
@@ -105,16 +114,15 @@ class Player: ObservableObject {
         if nowPlaying.isEmpty && queue.isEmpty {
             currentSong = nil
             isPlayingFromQueue = false
-            _isPlaying = false
         } else if queue.isEmpty {
             nowPlaying.goToNext()
             currentSong = nowPlaying.currentSong
-            player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
+            player.player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
             player.play()
             isPlayingFromQueue = false
         } else {
             currentSong = queue.currentSong
-            player.replaceCurrentItem(with: queue.currentPlayerItem)
+            player.player.replaceCurrentItem(with: queue.currentPlayerItem)
             play()
             queue.goToNext()
             isPlayingFromQueue = true
@@ -125,11 +133,10 @@ class Player: ObservableObject {
         nowPlaying = NowPlaying(songs: songs, from: from)
         nowPlaying.isShuffled = isShuffled
         currentSong = nowPlaying.currentSong
-        player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
+        player.player.replaceCurrentItem(with: nowPlaying.currentPlayerItem)
         currentTime = 0.0
         finished = false
         nowPlayingIsReplaced = true
-        _isPlaying = false
     }
     
     func addToQueue(song: Song) {

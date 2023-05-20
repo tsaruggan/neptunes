@@ -67,7 +67,7 @@ extension ConfigModel {
                                 artist: "Drake",
                                 artwork: artworkNamed("defaultcover"),
                                 albumArtist: "Drake",
-                                albumTitle: "Certified Lover Boy")
+                                albumTitle: "Songs to Sing")
             
         ]
         

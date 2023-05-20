@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 struct SongListView: View {
-    @EnvironmentObject var audioPlayer: Player
+    @EnvironmentObject var assetPlayer: AssetPlayer
     var songs: [Song]
     var labelColor: Color
     var foregroundColor: Color
@@ -28,7 +29,7 @@ struct SongListView: View {
                         foregroundColor: foregroundColor,
                         explicitSignColor: explicitSignColor,
                         menuColor: menuColor) {
-                            audioPlayer.replaceNowPlaying(songs: songs, from: i)
+                            assetPlayer.replaceNowPlaying(songs: songs, from: i)
                         }
                 }
             } else {
@@ -40,7 +41,7 @@ struct SongListView: View {
                         foregroundColor: foregroundColor,
                         explicitSignColor: explicitSignColor,
                         menuColor: menuColor) {
-                            audioPlayer.replaceNowPlaying(songs: songs, from: i)
+                            assetPlayer.replaceNowPlaying(songs: songs, from: i)
                         }
                 }
             }

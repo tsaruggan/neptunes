@@ -14,6 +14,7 @@ struct NowPlaying {
     
     private var songs: [Song] = []
     private var playerItems: [AVPlayerItem] = []
+    private var staticMetadatas: [NowPlayableStaticMetadata] = []
     let assetKeys = ["playable"]
     private var currentIndex: Int = 0
     
@@ -74,6 +75,23 @@ struct NowPlaying {
         }
     }
     
+    var currentStaticMetadata: NowPlayableStaticMetadata? {
+        if playerItems.isEmpty { return nil }
+        if isShuffled {
+            if currentShuffledIndex >= 0 && currentShuffledIndex < songs.count {
+                return staticMetadatas[shuffledIndices[currentShuffledIndex]]
+            } else {
+                return nil
+            }
+        } else {
+            if currentIndex >= 0 && currentIndex < playerItems.count {
+                return staticMetadatas[currentIndex]
+            } else {
+                return nil
+            }
+        }
+    }
+    
     var hasReachedEnd: Bool {
         if isEmpty { return false }
         if isShuffled {
@@ -123,25 +141,46 @@ struct NowPlaying {
         }
     }
     
+    //    mutating func add(song: Song) {
+    //        if let url = fileManager.retrieveSong(song: song) {
+    //            let playerItem = AVPlayerItem(url: url)
+    //
+    //            var artwork = MPMediaItemArtwork(image: UIImage(named: "defaultcover")!)
+    //            if let coverArtwork = song.album.coverArtwork, let uiImage = UIImage(data: coverArtwork) {
+    //                artwork = MPMediaItemArtwork(image: uiImage)
+    //            }
+    //
+    //            let title = song.title
+    //
+    //            playerItem.nowPlayingInfo = [
+    //                MPMediaItemPropertyTitle: title,
+    //                MPMediaItemPropertyArtwork: artwork
+    //            ]
+    //
+    //            songs.append(song)
+    //            playerItems.append(playerItem)
+    //        }
+    //    }
+    
     mutating func add(song: Song) {
         if let url = fileManager.retrieveSong(song: song) {
-            let playerItem = AVPlayerItem(url: url)
+            let image = UIImage(named: "defaultcover")!
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
             
-            var artwork = MPMediaItemArtwork(image: UIImage(named: "defaultcover")!)
-            if let coverArtwork = song.album.coverArtwork, let uiImage = UIImage(data: coverArtwork) {
-                artwork = MPMediaItemArtwork(image: uiImage)
-            }
+            let staticMetadata = NowPlayableStaticMetadata(assetURL: url,
+                                                     mediaType: .audio,
+                                                     isLiveStream: false,
+                                                     title: song.title,
+                                                     artist: song.artist.title,
+                                                     artwork: artwork,
+                                                     albumArtist: song.artist.title,
+                                                     albumTitle: song.album.title)
             
-            let title = song.title
-            
-            playerItem.nowPlayingInfo = [
-                MPMediaItemPropertyTitle: title,
-                MPMediaItemPropertyArtwork: artwork
-            ]
+            let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [AssetPlayer.mediaSelectionKey])
             
             songs.append(song)
             playerItems.append(playerItem)
+            staticMetadatas.append(staticMetadata)
         }
     }
-
 }

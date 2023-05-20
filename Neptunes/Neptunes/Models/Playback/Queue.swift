@@ -14,6 +14,7 @@ struct Queue {
     
     private var songs: [Song] = []
     private var playerItems: [AVPlayerItem] = []
+    public var staticMetadatas: [NowPlayableStaticMetadata] = []
     let assetKeys = ["playable"]
     
     var isEmpty: Bool {
@@ -38,22 +39,23 @@ struct Queue {
     
     mutating func add(song: Song) {
         if let url = fileManager.retrieveSong(song: song) {
-            let playerItem = AVPlayerItem(url: url)
+            let image = UIImage(named: "defaultcover")!
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
             
-            var artwork = MPMediaItemArtwork(image: UIImage(named: "defaultcover")!)
-            if let coverArtwork = song.album.coverArtwork, let uiImage = UIImage(data: coverArtwork) {
-                artwork = MPMediaItemArtwork(image: uiImage)
-            }
+            let staticMetadata = NowPlayableStaticMetadata(assetURL: url,
+                                                     mediaType: .audio,
+                                                     isLiveStream: false,
+                                                     title: song.title,
+                                                     artist: song.artist.title,
+                                                     artwork: artwork,
+                                                     albumArtist: song.artist.title,
+                                                     albumTitle: song.album.title)
             
-            let title = song.title
-            
-            playerItem.nowPlayingInfo = [
-                MPMediaItemPropertyTitle: title,
-                MPMediaItemPropertyArtwork: artwork
-            ]
+            let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [AssetPlayer.mediaSelectionKey])
             
             songs.append(song)
             playerItems.append(playerItem)
+            staticMetadatas.append(staticMetadata)
         }
     }
 }

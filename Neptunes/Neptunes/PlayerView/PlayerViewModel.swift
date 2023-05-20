@@ -10,11 +10,11 @@ import AVFoundation
 import SwiftUI
 
 final class PlayerViewModel: ObservableObject {
-    @Published var player: Player
+    @Published var player: AssetPlayer
     
     var isPlaying: Bool {
         if isBeingScrubbed { return true }
-        return player.isPlaying
+        return player.playerState == .playing
     }
     
     var song: Song? {
@@ -25,12 +25,16 @@ final class PlayerViewModel: ObservableObject {
         return player.duration
     }
     
+    var currentTime: TimeInterval {
+        return player.currentTime
+    }
+    
     var percentage: Double {
         get {
-            return player.currentTime / player.duration
+            return currentTime / duration
         }
         set {
-            playValue = player.duration * newValue
+            playValue = duration * newValue
         }
     }
     
@@ -45,8 +49,8 @@ final class PlayerViewModel: ObservableObject {
     @Published var isOnShuffle: Bool = false
     @Published var isBeingScrubbed: Bool = false
     
-    init(audioPlayer: Player) {
-        self.player = audioPlayer
+    init(player: AssetPlayer) {
+        self.player = player
         self.player.pause()
     }
     
@@ -55,7 +59,7 @@ final class PlayerViewModel: ObservableObject {
             isBeingScrubbed = true
         }
         player.pause()
-        player.currentTime = playValue
+        player.seek(to: playValue)
     }
     
     func onScrubberEnded() {
@@ -78,7 +82,7 @@ final class PlayerViewModel: ObservableObject {
                     if isOnRepeat {
                         next()
                     } else {
-                        player.next()
+                        player.nextTrack()
                         player.pause()
                     }
                 } else {
@@ -96,11 +100,7 @@ final class PlayerViewModel: ObservableObject {
     }
     
     func playPause() {
-        if isPlaying {
-            pause()
-        } else {
-            play()
-        }
+        player.togglePlayPause()
     }
     
     func play() {
@@ -113,26 +113,26 @@ final class PlayerViewModel: ObservableObject {
     }
     
     func next() {
-        player.next()
+        player.nextTrack()
         if isOnRepeatOne {
             isOnRepeatOne = false
             isOnRepeat = true
         }
-        playValue = player.currentTime
+        playValue = currentTime
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func previous() {
         if playValue < 5.0 {
-            player.previous()
+            player.previousTrack()
             if isOnRepeatOne {
                 isOnRepeatOne = false
                 isOnRepeat = true
             }
         } else {
-            player.currentTime = 0.0
+            player.seek(to: 0.0)
         }
-        playValue = player.currentTime
+        playValue = currentTime
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
