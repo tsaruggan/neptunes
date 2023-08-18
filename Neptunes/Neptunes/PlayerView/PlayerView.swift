@@ -10,8 +10,7 @@ import AVFoundation
 
 struct PlayerView: View {
     @Environment(\.colorScheme) var colorScheme
-    
-    @EnvironmentObject var audioPlayer: Player
+
     @ObservedObject var viewModel: PlayerViewModel
     @Binding var expanded: Bool
     var animation: Namespace.ID
@@ -141,7 +140,7 @@ struct PlayerView: View {
                     Image(systemName: "backward.fill")
                 }
                 Spacer()
-                Button(action: viewModel.playPause) {
+                Button(action: viewModel.togglePlayPause) {
                     Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                 }
                 Spacer()
@@ -160,10 +159,10 @@ struct PlayerView: View {
                 Spacer()
                 VStack(spacing: 4){
                     Button(action: viewModel.toggleRepeat) {
-                        if viewModel.isOnRepeat {
+                        if viewModel.repeatState == .repeating {
                             Image(systemName: "repeat")
                                 .foregroundColor(viewModel.palette?.accent(colorScheme) ?? .teal)
-                        } else if viewModel.isOnRepeatOne {
+                        } else if viewModel.repeatState == .repeatingone {
                             Image(systemName: "repeat.1")
                                 .foregroundColor(viewModel.palette?.accent(colorScheme) ?? .teal)
                         } else {
@@ -171,13 +170,13 @@ struct PlayerView: View {
                         }
                     }
                     Image(systemName: "circle.fill")
-                        .foregroundColor(viewModel.isOnRepeat || viewModel.isOnRepeatOne ? (viewModel.palette?.accent(colorScheme) ?? .teal) : .clear)
+                        .foregroundColor(viewModel.repeatState != .unrepeating ? (viewModel.palette?.accent(colorScheme) ?? .teal) : .clear)
                         .font(.system(size: 4))
                 }
                 Spacer()
                 VStack(spacing: 4){
                     Button(action: viewModel.toggleShuffle) {
-                        if viewModel.isOnShuffle {
+                        if viewModel.shuffleState == .shuffled {
                             Image(systemName: "shuffle")
                                 .foregroundColor(viewModel.palette?.accent(colorScheme) ?? .teal)
                         } else {
@@ -185,7 +184,7 @@ struct PlayerView: View {
                         }
                     }
                     Image(systemName: "circle.fill")
-                        .foregroundColor(viewModel.isOnShuffle ? (viewModel.palette?.accent(colorScheme) ?? .teal) : .clear)
+                        .foregroundColor(viewModel.shuffleState == .shuffled ? (viewModel.palette?.accent(colorScheme) ?? .teal) : .clear)
                         .font(.system(size: 4))
                 }
                 Spacer()
@@ -209,7 +208,7 @@ struct PlayerView: View {
     }
     
     var collapsedControlButtons: some View {
-        Button(action: viewModel.playPause) {
+        Button(action: viewModel.togglePlayPause) {
             Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
         }
         .font(.title2)

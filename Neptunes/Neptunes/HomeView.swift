@@ -23,7 +23,6 @@ struct HomeView: View {
     @State private var presentingImporter = false
     @State private var currentMetadata = Metadata()
     
-    @EnvironmentObject var audioPlayer: Player
     
     var body: some View {
         

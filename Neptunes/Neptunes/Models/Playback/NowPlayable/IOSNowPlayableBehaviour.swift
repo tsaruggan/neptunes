@@ -30,7 +30,7 @@ class IOSNowPlayableBehavior: NowPlayable {
                 .changePlaybackPosition,
                 .changePlaybackRate,
                 .enableLanguageOption,
-                .disableLanguageOption
+                .disableLanguageOption,
         ]
     }
     
@@ -38,7 +38,10 @@ class IOSNowPlayableBehavior: NowPlayable {
         
         // By default, no commands are disabled.
         
-        return []
+        return [
+                .skipBackward,
+                .skipForward,
+        ]
     }
     
     // The observer of audio session interruption notifications.
