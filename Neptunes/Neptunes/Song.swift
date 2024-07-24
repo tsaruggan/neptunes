@@ -28,3 +28,7 @@ struct Song {
         LocalFileManager().saveSong(filename: self.filename, song: self)
     }
 }
+
+extension Song : Identifiable {
+
+}

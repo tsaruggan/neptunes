@@ -1,6 +1,6 @@
 //
 //  AssetPlayer.swift
-//  player-demo
+//  Neptunes
 //
 //  Created by Saruggan Thiruchelvan on 2023-05-20.
 //
@@ -8,7 +8,7 @@
 import AVFoundation
 import MediaPlayer
 
-class AssetPlayer: ObservableObject {
+class Player: ObservableObject {
     
     // Possible values of the `playerState` property.
     
@@ -42,11 +42,11 @@ class AssetPlayer: ObservableObject {
     // player, or may play content in any way that is wishes, provided that it uses
     // the NowPlayable behavior correctly.
     
-    let player: AVPlayer
+    @Published var player: AVPlayer
     
     // Current song
     
-    var currentSong: Song?
+    @Published var currentSong: Song?
     
     // Duration
     
@@ -68,24 +68,45 @@ class AssetPlayer: ObservableObject {
     
     // A playlist of items to play.
     
-    public var playerItems: [AVPlayerItem?] = []
+    @Published public var playerItems: [AVPlayerItem?] = []
     
     // Metadata for each item.
     
-    public var staticMetadatas: [NowPlayableStaticMetadata?] = []
+    @Published public var staticMetadatas: [NowPlayableStaticMetadata?] = []
     
     // Now playing
     
-    var nowPlaying: NowPlaying = NowPlaying()
-    var nowPlayingIsReplaced: Bool = false
+    @Published var nowPlaying: NowPlaying = NowPlaying()
+    @Published var nowPlayingIsReplaced: Bool = false
     var hasReachedEnd: Bool { return nowPlaying.hasReachedEnd }
+    var songsInNowPlaying: [Song]? {
+        guard let songs = nowPlaying.songsInNowPlaying else {
+            return nil
+        }
+        
+        if isPlayingFromQueue {
+            if songs.isEmpty {
+                return songs
+            }
+            
+            // Shift the first element to the end
+            var shiftedSongs = songs
+            let firstSong = shiftedSongs.removeFirst()
+            shiftedSongs.append(firstSong)
+            return shiftedSongs
+        } else {
+            return songs
+        }
+    }
+    
     
     // Queue
     
-    var queue: Queue = Queue()
-    var isPlayingFromQueue: Bool = false
+    @Published var queue: Queue = Queue()
+    @Published var isPlayingFromQueue: Bool = false
+    var songInQueue: [Song]? { return queue.songsInQueue }
     
-    // The internal state of this AssetPlayer separate from the state
+    // The internal state of this Player separate from the state
     // of its AVPlayer.
     
     public var playerState: PlayerState = .stopped {
@@ -97,7 +118,7 @@ class AssetPlayer: ObservableObject {
         return playerState == .playing
     }
     
-    // The shuffle state of this AssetPlayer.
+    // The shuffle state of this Player.
     
     public var shuffleState: ShuffleState = .unshuffled {
         
@@ -113,7 +134,7 @@ class AssetPlayer: ObservableObject {
         
     }
     
-    // The repeat state of this AssetPlayer.
+    // The repeat state of this Player.
     
     public var repeatState: RepeatState = .unrepeating {
         didSet {
@@ -140,7 +161,7 @@ class AssetPlayer: ObservableObject {
     let assetKeys = ["playable"]
     
     
-    // Initialize a new `AssetPlayer` object.
+    // Initialize a new `Player` object.
     
     init() throws {
         self.nowPlayableBehavior = ConfigModel.shared.nowPlayableBehavior
@@ -257,7 +278,7 @@ class AssetPlayer: ObservableObject {
         var languageOptionGroups: [MPNowPlayingInfoLanguageOptionGroup] = []
         var currentLanguageOptions: [MPNowPlayingInfoLanguageOption] = []
         
-        if asset.statusOfValue(forKey: AssetPlayer.mediaSelectionKey, error: nil) == .loaded {
+        if asset.statusOfValue(forKey: Player.mediaSelectionKey, error: nil) == .loaded {
             
             // Examine each media selection group.
             
@@ -639,6 +660,10 @@ class AssetPlayer: ObservableObject {
     
     func addToQueue(song: Song) {
         queue.add(song: song)
+    }
+    
+    func addToNowPlaying(song: Song) {
+        nowPlaying.add(song: song)
     }
     
     @objc func playerDidFinishPlaying(note: NSNotification) {

@@ -1,6 +1,6 @@
 //
 //  NowPlaying.swift
-//  player-demo
+//  Neptunes
 //
 //  Created by Saruggan Thiruchelvan on 2023-04-24.
 //
@@ -10,17 +10,18 @@ import Foundation
 import AVFoundation
 import MediaPlayer
 
-struct NowPlaying {
+class NowPlaying: ObservableObject {
     
-    private var songs: [Song] = []
-    private var playerItems: [AVPlayerItem] = []
-    private var staticMetadatas: [NowPlayableStaticMetadata] = []
+    @Published private var songs: [Song] = []
+    @Published private var playerItems: [AVPlayerItem] = []
+    @Published private var staticMetadatas: [NowPlayableStaticMetadata] = []
+    
     let assetKeys = ["playable"]
-    private var currentIndex: Int = 0
+    @Published private var currentIndex: Int = 0
     
-    private var _isShuffled: Bool = false
-    private var currentShuffledIndex: Int = 0
-    private var shuffledIndices: [Int] = []
+    @Published private var _isShuffled: Bool = false
+    @Published private var currentShuffledIndex: Int = 0
+    @Published private var shuffledIndices: [Int] = []
     var isShuffled: Bool {
         get {
             return _isShuffled
@@ -101,6 +102,23 @@ struct NowPlaying {
         }
     }
     
+    var songsInNowPlaying: [Song]? {
+        if songs.isEmpty { return nil }
+        if isShuffled {
+            if currentShuffledIndex >= 0 && currentShuffledIndex < songs.count {
+                return Array(songs[currentShuffledIndex...]) + Array(songs[..<currentShuffledIndex])
+            } else {
+                return nil
+            }
+        } else {
+            if currentIndex >= 0 && currentIndex < songs.count {
+                return Array(songs[currentIndex...]) + Array(songs[..<currentIndex])
+            } else {
+                return nil
+            }
+        }
+    }
+    
     init() {}
     
     init(songs: [Song], from currentIndex: Int) {
@@ -111,7 +129,7 @@ struct NowPlaying {
         self.shuffledIndices = Array(0..<songs.count)
     }
     
-    mutating func goToNext() {
+    func goToNext() {
         if isEmpty { return }
         if isShuffled {
             currentShuffledIndex += 1
@@ -126,7 +144,7 @@ struct NowPlaying {
         }
     }
     
-    mutating func goToPrevious() {
+    func goToPrevious() {
         if isEmpty { return }
         if isShuffled {
             currentShuffledIndex -= 1
@@ -141,8 +159,7 @@ struct NowPlaying {
         }
     }
     
-    mutating func add(song: Song) {
-//        let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.filename, ofType: "mp3")!)
+    func add(song: Song) {
         if let url = LocalFileManager().retrieveSong(song: song) {
             let image = UIImage(named: "defaultcover")!
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
@@ -156,7 +173,7 @@ struct NowPlaying {
                                                      albumArtist: song.artist,
                                                      albumTitle: song.album)
             
-            let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [AssetPlayer.mediaSelectionKey])
+            let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             
             songs.append(song)
             playerItems.append(playerItem)
@@ -164,22 +181,4 @@ struct NowPlaying {
         }
     }
     
-    /*
-     mutating func add(song: Song) {
-         let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.filename, ofType: "mp3")!)
-         let playerItem = AVPlayerItem(url: url)
-         
-         let artwork = MPMediaItemArtwork(image: UIImage(named: "defaultcover")!)
-         let title = song.title
-         
-         playerItem.nowPlayingInfo = [
-             MPMediaItemPropertyTitle: title,
-             MPMediaItemPropertyArtwork: artwork
-         ]
-         
-         songs.append(song)
-         playerItems.append(playerItem)
-     }
-     */
-
 }

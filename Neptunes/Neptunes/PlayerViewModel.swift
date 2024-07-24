@@ -10,8 +10,8 @@ import AVFoundation
 import MediaPlayer
 import SwiftUI
 
-final class ViewModel: ObservableObject {
-    @Published var player: AssetPlayer
+final class PlayerViewModel: ObservableObject {
+    @Published var player: Player
     
     var song: Song? {
         return player.currentSong
@@ -34,7 +34,7 @@ final class ViewModel: ObservableObject {
         return player.duration
     }
     
-    var shuffleState: AssetPlayer.ShuffleState {
+    var shuffleState: Player.ShuffleState {
         get {
             return player.shuffleState
         }
@@ -43,7 +43,7 @@ final class ViewModel: ObservableObject {
         }
     }
     
-    var repeatState: AssetPlayer.RepeatState {
+    var repeatState: Player.RepeatState {
         get {
             return player.repeatState
         }
@@ -56,16 +56,8 @@ final class ViewModel: ObservableObject {
     @Published var isBeingScrubbed: Bool = false
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    init() {
-        self.player = try! AssetPlayer()
-        
-        let song1 = Song(title: "Not Around", filename: "song1", artist: "Drake", album: "Certified Lover Boy")
-        let song2 = Song(title: "Hell of a Night", filename: "song2", artist: "Travis Scott", album: "Owl Pharoah")
-        let song3 = Song(title: "Wither", filename: "song3", artist: "Frank Ocean", album: "Endless")
-        let song4 = Song(title: "Rushes", filename: "song4", artist: "Frank Ocean", album: "Endless")
-        let song5 = Song(title: "Cancun", filename: "song5", artist: "Playboi Carti", album: "Cancun")
-        player.replaceNowPlaying(songs: [song1, song2, song3, song4], from: 0)
-        player.addToQueue(song: song5)
+    init(player: Player) {
+        self.player = player
     }
     
     func togglePlayPause() {
@@ -88,7 +80,6 @@ final class ViewModel: ObservableObject {
         if isPlaying {
             isBeingScrubbed = true
         }
-//        player.pause()
         player.seek(to: currentTime)
     }
     

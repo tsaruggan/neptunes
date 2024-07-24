@@ -21,9 +21,9 @@
 		187D4C072C50179200FD8B25 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C042C50179200FD8B25 /* Queue.swift */; };
 		187D4C0E2C5017A900FD8B25 /* MarqueeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C082C5017A900FD8B25 /* MarqueeView.swift */; };
 		187D4C102C5017A900FD8B25 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C0A2C5017A900FD8B25 /* NowPlaying.swift */; };
-		187D4C112C5017A900FD8B25 /* AssetPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C0B2C5017A900FD8B25 /* AssetPlayer.swift */; };
+		187D4C112C5017A900FD8B25 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C0B2C5017A900FD8B25 /* Player.swift */; };
 		187D4C132C5017A900FD8B25 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C0D2C5017A900FD8B25 /* LocalFileManager.swift */; };
-		187D4C152C50180600FD8B25 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C142C50180600FD8B25 /* ViewModel.swift */; };
+		187D4C152C50180600FD8B25 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C142C50180600FD8B25 /* PlayerViewModel.swift */; };
 		18D8B6BC2C501A5900AC94CF /* NowPlayableMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6B72C501A5900AC94CF /* NowPlayableMetadata.swift */; };
 		18D8B6BD2C501A5900AC94CF /* NowPlayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6B82C501A5900AC94CF /* NowPlayable.swift */; };
 		18D8B6BE2C501A5900AC94CF /* NowPlayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6B92C501A5900AC94CF /* NowPlayableError.swift */; };
@@ -39,6 +39,9 @@
 		18D8B6D32C501ABE00AC94CF /* song3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6CE2C501ABE00AC94CF /* song3.mp3 */; };
 		18D8B6D42C501ABE00AC94CF /* song4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6CF2C501ABE00AC94CF /* song4.mp3 */; };
 		18D8B6D52C501ABE00AC94CF /* song1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6D02C501ABE00AC94CF /* song1.mp3 */; };
+		18D8B6D72C50289A00AC94CF /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6D62C50289A00AC94CF /* PlayerView.swift */; };
+		18D8B6D92C502A7300AC94CF /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6D82C502A7300AC94CF /* LibraryView.swift */; };
+		18D8B6DB2C50356E00AC94CF /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6DA2C50356E00AC94CF /* LibraryViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,9 +79,9 @@
 		187D4C042C50179200FD8B25 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		187D4C082C5017A900FD8B25 /* MarqueeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeView.swift; sourceTree = "<group>"; };
 		187D4C0A2C5017A900FD8B25 /* NowPlaying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlaying.swift; sourceTree = "<group>"; };
-		187D4C0B2C5017A900FD8B25 /* AssetPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetPlayer.swift; sourceTree = "<group>"; };
+		187D4C0B2C5017A900FD8B25 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		187D4C0D2C5017A900FD8B25 /* LocalFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
-		187D4C142C50180600FD8B25 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		187D4C142C50180600FD8B25 /* PlayerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		18D8B6B72C501A5900AC94CF /* NowPlayableMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayableMetadata.swift; sourceTree = "<group>"; };
 		18D8B6B82C501A5900AC94CF /* NowPlayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayable.swift; sourceTree = "<group>"; };
 		18D8B6B92C501A5900AC94CF /* NowPlayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayableError.swift; sourceTree = "<group>"; };
@@ -94,6 +97,9 @@
 		18D8B6CE2C501ABE00AC94CF /* song3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song3.mp3; sourceTree = "<group>"; };
 		18D8B6CF2C501ABE00AC94CF /* song4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song4.mp3; sourceTree = "<group>"; };
 		18D8B6D02C501ABE00AC94CF /* song1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song1.mp3; sourceTree = "<group>"; };
+		18D8B6D62C50289A00AC94CF /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		18D8B6D82C502A7300AC94CF /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		18D8B6DA2C50356E00AC94CF /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,8 +157,8 @@
 				18D8B6CD2C501ABE00AC94CF /* song5.mp3 */,
 				18D8B6C12C501A8100AC94CF /* Configuration */,
 				18D8B6B62C501A5900AC94CF /* NowPlayable */,
-				187D4C142C50180600FD8B25 /* ViewModel.swift */,
-				187D4C0B2C5017A900FD8B25 /* AssetPlayer.swift */,
+				187D4C142C50180600FD8B25 /* PlayerViewModel.swift */,
+				187D4C0B2C5017A900FD8B25 /* Player.swift */,
 				187D4C0D2C5017A900FD8B25 /* LocalFileManager.swift */,
 				187D4C082C5017A900FD8B25 /* MarqueeView.swift */,
 				187D4C0A2C5017A900FD8B25 /* NowPlaying.swift */,
@@ -165,6 +171,9 @@
 				187D4BDA2C50141900FD8B25 /* Persistence.swift */,
 				187D4BDC2C50141900FD8B25 /* Neptunes.xcdatamodeld */,
 				187D4BD72C50141900FD8B25 /* Preview Content */,
+				18D8B6D62C50289A00AC94CF /* PlayerView.swift */,
+				18D8B6D82C502A7300AC94CF /* LibraryView.swift */,
+				18D8B6DA2C50356E00AC94CF /* LibraryViewModel.swift */,
 			);
 			path = Neptunes;
 			sourceTree = "<group>";
@@ -357,21 +366,24 @@
 				18D8B6CB2C501A8100AC94CF /* ConfigModel.swift in Sources */,
 				187D4C062C50179200FD8B25 /* ScrubberView.swift in Sources */,
 				187D4C132C5017A900FD8B25 /* LocalFileManager.swift in Sources */,
+				18D8B6D92C502A7300AC94CF /* LibraryView.swift in Sources */,
 				187D4C072C50179200FD8B25 /* Queue.swift in Sources */,
 				187D4BDB2C50141900FD8B25 /* Persistence.swift in Sources */,
 				18D8B6BD2C501A5900AC94CF /* NowPlayable.swift in Sources */,
+				18D8B6DB2C50356E00AC94CF /* LibraryViewModel.swift in Sources */,
 				187D4BD42C50141700FD8B25 /* ContentView.swift in Sources */,
 				18D8B6BF2C501A5900AC94CF /* IOSNowPlayableBehaviour.swift in Sources */,
 				187D4BD22C50141700FD8B25 /* NeptunesApp.swift in Sources */,
 				18D8B6BE2C501A5900AC94CF /* NowPlayableError.swift in Sources */,
-				187D4C112C5017A900FD8B25 /* AssetPlayer.swift in Sources */,
+				187D4C112C5017A900FD8B25 /* Player.swift in Sources */,
 				18D8B6C82C501A8100AC94CF /* ConfigCommand.swift in Sources */,
 				187D4C102C5017A900FD8B25 /* NowPlaying.swift in Sources */,
 				187D4BDE2C50141900FD8B25 /* Neptunes.xcdatamodeld in Sources */,
 				18D8B6BC2C501A5900AC94CF /* NowPlayableMetadata.swift in Sources */,
 				187D4C052C50179200FD8B25 /* Song.swift in Sources */,
-				187D4C152C50180600FD8B25 /* ViewModel.swift in Sources */,
+				187D4C152C50180600FD8B25 /* PlayerViewModel.swift in Sources */,
 				18D8B6C92C501A8100AC94CF /* ConfigCommandCollection.swift in Sources */,
+				18D8B6D72C50289A00AC94CF /* PlayerView.swift in Sources */,
 				18D8B6CA2C501A8100AC94CF /* ConfigPath.swift in Sources */,
 				187D4C0E2C5017A900FD8B25 /* MarqueeView.swift in Sources */,
 				18D8B6C02C501A5900AC94CF /* NowPlayableCommand.swift in Sources */,

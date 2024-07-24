@@ -1,6 +1,6 @@
 //
 //  Queue.swift
-//  player-demo
+//  Neptunes
 //
 //  Created by Saruggan Thiruchelvan on 2023-06-12.
 //
@@ -10,10 +10,11 @@ import AVFoundation
 import SwiftUI
 import MediaPlayer
 
-struct Queue {
-    private var songs: [Song] = []
-    private var playerItems: [AVPlayerItem] = []
-    private var staticMetadatas: [NowPlayableStaticMetadata] = []
+class Queue: ObservableObject {
+    @Published private var songs: [Song] = []
+    @Published private var playerItems: [AVPlayerItem] = []
+    @Published private var staticMetadatas: [NowPlayableStaticMetadata] = []
+    
     let assetKeys = ["playable"]
     
     var isEmpty: Bool {
@@ -35,14 +36,18 @@ struct Queue {
         return staticMetadatas[0]
     }
     
-    mutating func goToNext() {
+    var songsInQueue: [Song]? {
+        if songs.isEmpty { return nil }
+        return songs
+    }
+    
+    func goToNext() {
         if isEmpty { return }
         songs.removeFirst()
         playerItems.removeFirst()
     }
     
-    mutating func add(song: Song) {
-//        let url = URL(fileURLWithPath: Bundle.main.path(forResource: song.filename, ofType: "mp3")!)
+    func add(song: Song) {
         if let url = LocalFileManager().retrieveSong(song: song) {
             let image = UIImage(named: "defaultcover")!
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
@@ -56,7 +61,7 @@ struct Queue {
                                                      albumArtist: song.artist,
                                                      albumTitle: song.album)
             
-            let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [AssetPlayer.mediaSelectionKey])
+            let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             
             songs.append(song)
             playerItems.append(playerItem)
