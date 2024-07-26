@@ -93,8 +93,86 @@ final class PlayerTests: XCTestCase {
         // Check current song alignment
         checkCurrentSongAlignment(expectedSong: songs[songs.count-1])
     }
-
     
+    func testNextTrackQueue1() throws {
+        // Add song to queue
+        player.addToQueue(song: songs.last!)
+        
+        // Go to next track
+        player.nextTrack()
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs.last!)
+    }
     
+    func testNextTrackQueue2() throws {
+        // Replace now playing songs starting from the second song
+        player.replaceNowPlaying(songs: songs, from: 1)
+        
+        // Add song to queue
+        player.addToQueue(song: songs.last!)
+        
+        // Go to next track
+        player.nextTrack()
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs.last!)
+    }
+    
+    func testPreviousTrackQueue1() throws {
+        // Add song to queue
+        player.addToQueue(song: songs.last!)
+        
+        // Go to previous track
+        player.previousTrack()
+        
+        // Check current song is null
+        XCTAssertNil(player.currentSong)
+    }
+    
+    func testPreviousTrackQueue2() throws {
+        // Replace now playing songs starting from the second song
+        player.replaceNowPlaying(songs: songs, from: 1)
+        
+        // Add song to queue
+        player.addToQueue(song: songs.last!)
+        
+        // Go to next track
+        player.nextTrack()
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs.last!)
+        
+        // Go to previous track
+        player.previousTrack()
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs[1])
+    }
+    
+    func testAddToNowPlaying1() throws {
+        // Add the first song to now playing
+        player.addToNowPlaying(song: songs[0])
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs[0])
+    }
+    
+    func testAddToNowPlaying2() throws {
+        // Replace now playing songs starting from the second song
+        player.replaceNowPlaying(songs: songs, from: 0)
+        
+        // Add the first song to now playing
+        player.addToNowPlaying(song: songs.last!)
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs[0])
+        
+        // Go to previous track
+        player.previousTrack()
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs.last!)
+    }
 }
 

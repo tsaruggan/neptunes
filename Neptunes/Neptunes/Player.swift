@@ -668,6 +668,17 @@ class Player: ObservableObject {
     
     func addToNowPlaying(song: Song) {
         nowPlaying.add(song: song)
+
+        if !isPlayingFromQueue && currentSong != nowPlaying.currentSong {
+            replaceCurrent(song: nowPlaying.currentSong,
+                           playerItem: nowPlaying.currentPlayerItem,
+                           staticMetadata: nowPlaying.currentStaticMetadata)
+            nowPlayingIsReplaced = true
+            
+            play()
+            seek(to: 0.0)
+            handlePlayerItemChange()
+        }
     }
     
     @objc func playerDidFinishPlaying(note: NSNotification) {

@@ -124,7 +124,7 @@ class NowPlaying: ObservableObject {
     init(songs: [Song], from currentIndex: Int) {
         self.currentIndex = currentIndex
         for song in songs {
-            add(song: song)
+            push(song: song)
         }
         self.shuffledIndices = Array(0..<songs.count)
     }
@@ -159,7 +159,7 @@ class NowPlaying: ObservableObject {
         }
     }
     
-    func add(song: Song) {
+    func push(song: Song) {
         if let url = LocalFileManager().retrieveSong(song: song) {
             let image = UIImage(named: "defaultcover")!
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
@@ -178,6 +178,37 @@ class NowPlaying: ObservableObject {
             songs.append(song)
             playerItems.append(playerItem)
             staticMetadatas.append(staticMetadata)
+        }
+    }
+    
+    func add(song: Song) {
+        if let url = LocalFileManager().retrieveSong(song: song) {
+            let image = UIImage(named: "defaultcover")!
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+            
+            let staticMetadata = NowPlayableStaticMetadata(assetURL: url,
+                                                           mediaType: .audio,
+                                                           isLiveStream: false,
+                                                           title: song.title,
+                                                           artist: song.artist,
+                                                           artwork: artwork,
+                                                           albumArtist: song.artist,
+                                                           albumTitle: song.album)
+            
+            let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
+            
+            let insertionIndex = currentIndex == 0 ? songs.count : currentIndex - 1
+            songs.insert(song, at: insertionIndex)
+            playerItems.insert(playerItem, at: insertionIndex)
+            staticMetadatas.insert(staticMetadata, at: insertionIndex)
+            
+            // Update shuffled indices if shuffle mode is enabled
+            if isShuffled {
+                shuffledIndices = Array(0..<songs.count)
+                shuffledIndices.remove(at: currentIndex)
+                shuffledIndices.shuffle()
+                shuffledIndices.insert(currentIndex, at: 0)
+            }
         }
     }
     
