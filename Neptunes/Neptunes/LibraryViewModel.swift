@@ -31,11 +31,18 @@ final class LibraryViewModel: ObservableObject {
     }
     
     var songsInNowPlaying: [Song]? {
+        if !player.isPlayingFromQueue {
+            if var songs = player.songsInNowPlaying, !songs.isEmpty {
+                // Hide the first song if now playing
+                let firstSong = songs.removeFirst()
+                return songs
+            }
+        }
         return player.songsInNowPlaying
     }
     
     var songsInQueue: [Song]? {
-        return player.songInQueue
+        return player.songsInQueue
     }
     
     func addToQueue(song: Song) {
@@ -51,6 +58,18 @@ final class LibraryViewModel: ObservableObject {
     }
     
     func rearrangeNowPlaying(from source: IndexSet, to destination: Int) {
-        player.rearrangeNowPlaying(from: source, to: destination)
+        var adjustedSource: IndexSet
+        var adjustedDestination: Int
+        
+        // If isPlayingFromQueue is false, the first song is hidden
+        if !player.isPlayingFromQueue {
+            // Adjust the source and destination indices to account for the hidden first song
+            adjustedSource = IndexSet(source.map { $0 + 1 })
+            adjustedDestination = destination + 1
+        } else {
+            adjustedSource = source
+            adjustedDestination = destination
+        }
+        player.rearrangeNowPlaying(from: adjustedSource, to: adjustedDestination)
     }
 }

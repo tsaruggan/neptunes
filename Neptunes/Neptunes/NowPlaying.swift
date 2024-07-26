@@ -197,22 +197,47 @@ class NowPlaying: ObservableObject {
             
             let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             
-            let insertionIndex = currentIndex == 0 ? songs.count : currentIndex - 1
-            songs.insert(song, at: insertionIndex)
-            playerItems.insert(playerItem, at: insertionIndex)
-            staticMetadatas.insert(staticMetadata, at: insertionIndex)
+            // Shift arrays to start from currentIndex
+            var shiftedSongs = songs.shifted(by: currentIndex)
+            var shiftedPlayerItems = playerItems.shifted(by: currentIndex)
+            var shiftedStaticMetadatas = staticMetadatas.shifted(by: currentIndex)
             
-            // Update shuffled indices if shuffle mode is enabled
-            if isShuffled {
-                shuffledIndices = Array(0..<songs.count)
-                shuffledIndices.remove(at: currentIndex)
-                shuffledIndices.shuffle()
-                shuffledIndices.insert(currentIndex, at: 0)
-            }
+            // Append to shifted arrays
+            shiftedSongs.append(song)
+            shiftedPlayerItems.append(playerItem)
+            shiftedStaticMetadatas.append(staticMetadata)
+            
+            // Set the arrays to the shifted versions and reset currentIndex
+            songs = shiftedSongs
+            playerItems = shiftedPlayerItems
+            staticMetadatas = shiftedStaticMetadatas
+            currentIndex = 0
         }
     }
     
     func rearrange(from source: IndexSet, to destination: Int) {
+        // Shift arrays to start from currentIndex
+        var shiftedSongs = songs.shifted(by: currentIndex)
+        var shiftedPlayerItems = playerItems.shifted(by: currentIndex)
+        var shiftedStaticMetadatas = staticMetadatas.shifted(by: currentIndex)
         
+        // Perform rearrangement on the shifted arrays
+        shiftedSongs.move(fromOffsets: source, toOffset: destination)
+        shiftedPlayerItems.move(fromOffsets: source, toOffset: destination)
+        shiftedStaticMetadatas.move(fromOffsets: source, toOffset: destination)
+        
+        // Set the arrays to the shifted versions and reset currentIndex
+        songs = shiftedSongs
+        playerItems = shiftedPlayerItems
+        staticMetadatas = shiftedStaticMetadatas
+        currentIndex = 0
+    }
+}
+
+extension Array {
+    func shifted(by shiftAmount: Int) -> [Element] {
+        guard self.count > 0, (shiftAmount % self.count) != 0 else { return self }
+        let moduloShiftAmount = (shiftAmount % self.count + self.count) % self.count
+        return Array(self[moduloShiftAmount..<self.count] + self[0..<moduloShiftAmount])
     }
 }

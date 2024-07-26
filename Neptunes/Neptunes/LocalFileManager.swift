@@ -72,4 +72,23 @@ final class LocalFileManager {
         }
         return nil
     }
+    
+    func clearAll() {
+        do {
+            // Remove all files in songsDirectory
+            let songsFiles = try fileManager.contentsOfDirectory(at: songsDirectory, includingPropertiesForKeys: nil, options: [])
+            for file in songsFiles {
+                try fileManager.removeItem(at: file)
+            }
+
+            // Remove all files in tempDirectory
+            let tempFiles = try fileManager.contentsOfDirectory(at: tempDirectory, includingPropertiesForKeys: nil, options: [])
+            for file in tempFiles {
+                try fileManager.removeItem(at: file)
+            }
+        } catch {
+            print("Error clearing directories. \(error)")
+        }
+    }
+
 }

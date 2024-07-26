@@ -92,15 +92,6 @@ class Player: ObservableObject {
     @Published var nowPlayingIsReplaced: Bool = false
     var hasReachedEnd: Bool { return nowPlaying.hasReachedEnd }
     var songsInNowPlaying: [Song]? {
-        if isPlayingFromQueue {
-            // Check if there are any songs in the now playing array
-            if var songs = nowPlaying.songsInNowPlaying, !songs.isEmpty {
-                // Move the first song to the end of the array
-                let firstSong = songs.removeFirst()
-                songs.append(firstSong)
-                return songs
-            }
-        }
         return nowPlaying.songsInNowPlaying
     }
     
@@ -109,7 +100,7 @@ class Player: ObservableObject {
     
     @Published var queue: Queue = Queue()
     @Published var isPlayingFromQueue: Bool = false
-    var songInQueue: [Song]? { return queue.songsInQueue }
+    var songsInQueue: [Song]? { return queue.songsInQueue }
     
     // The internal state of this Player separate from the state
     // of its AVPlayer.
@@ -390,19 +381,26 @@ class Player: ObservableObject {
             isPlayingFromQueue = false
             optOut()
         } else if queue.isEmpty {
-            nowPlaying.goToNext()
+            if isPlayingFromQueue {
+                isPlayingFromQueue = false
+            } else {
+                nowPlaying.goToNext()
+            }
             replaceCurrent(song: nowPlaying.currentSong,
                            playerItem: nowPlaying.currentPlayerItem,
                            staticMetadata: nowPlaying.currentStaticMetadata)
             play()
-            isPlayingFromQueue = false
+            
         } else {
+            if !isPlayingFromQueue {
+                nowPlaying.goToNext()
+                isPlayingFromQueue = true
+            }
             replaceCurrent(song: queue.currentSong,
                            playerItem: queue.currentPlayerItem,
                            staticMetadata: queue.currentStaticMetadata)
             play()
             queue.goToNext()
-            isPlayingFromQueue = true
         }
         handlePlayerItemChange()
         seek(to: 0)
@@ -429,9 +427,8 @@ class Player: ObservableObject {
         } else {
             if isPlayingFromQueue {
                 isPlayingFromQueue = false
-            } else {
-                nowPlaying.goToPrevious()
             }
+            nowPlaying.goToPrevious()
             replaceCurrent(song: nowPlaying.currentSong,
                            playerItem: nowPlaying.currentPlayerItem,
                            staticMetadata: nowPlaying.currentStaticMetadata)
@@ -706,6 +703,7 @@ class Player: ObservableObject {
     func rearrangeNowPlaying(from source: IndexSet, to destination: Int) {
         nowPlaying.rearrange(from: source, to: destination)
     }
+
     
 }
 

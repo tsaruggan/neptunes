@@ -11,7 +11,7 @@ import MediaPlayer
 @testable import Neptunes
 
 final class PlayerTests: XCTestCase {
-    
+    let fileManager = LocalFileManager()
     var songs: [Song]!
     var player: Player!
     
@@ -38,6 +38,7 @@ final class PlayerTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         ConfigModel.resetSharedInstance()
+        fileManager.clearAll()
     }
     
     func checkCurrentSongAlignment(expectedSong: Song) {
@@ -160,10 +161,27 @@ final class PlayerTests: XCTestCase {
     
     func testAddToNowPlaying2() throws {
         // Replace now playing songs starting from the second song
-        player.replaceNowPlaying(songs: songs, from: 0)
+        player.replaceNowPlaying(songs: songs, from: 1)
         
         // Add the first song to now playing
         player.addToNowPlaying(song: songs.last!)
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs[1])
+        
+        // Go to previous track
+        player.previousTrack()
+        
+        // Check current song alignment
+        checkCurrentSongAlignment(expectedSong: songs.last!)
+    }
+    
+    func testAddToNowPlaying3() throws {
+        // Replace now playing songs starting from the first song
+        player.replaceNowPlaying(songs: songs, from: 0)
+        
+        // Add the first song to now playing
+        player.addToNowPlaying(song: songs[3])
         
         // Check current song alignment
         checkCurrentSongAlignment(expectedSong: songs[0])
@@ -172,7 +190,59 @@ final class PlayerTests: XCTestCase {
         player.previousTrack()
         
         // Check current song alignment
-        checkCurrentSongAlignment(expectedSong: songs.last!)
+        checkCurrentSongAlignment(expectedSong: songs[3])
     }
+    
+    func testRearrangeQueue1() throws {
+        // Add songs to queue
+        player.addToQueue(song: songs[0])
+        player.addToQueue(song: songs[1])
+        player.addToQueue(song: songs[2])
+        
+        // Rearrange queue
+        // Move last song (index 2) to the middle (index 1)
+        player.rearrangeQueue(from: IndexSet(integer: 2), to: 1)
+        
+        // Verify the final state of the queue
+        let songsInQueue = player.songsInQueue!
+        XCTAssertEqual(songsInQueue, [songs[0], songs[2], songs[1]])
+    }
+    
+    func testRearrangeNowPlaying1() throws {
+        // Add songs to now playing
+        player.addToNowPlaying(song: songs[0])
+        player.addToNowPlaying(song: songs[1])
+        player.addToNowPlaying(song: songs[2])
+        
+        // Rearrange now playing 0, 1, 2 ---> 0, 2, 1
+        player.rearrangeNowPlaying(from: IndexSet(integer: 2), to: 1)
+        
+        // Verify the final state of the now playing
+        let songsInQueue = player.songsInNowPlaying!
+        XCTAssertEqual(songsInQueue, [songs[0], songs[2], songs[1]])
+    }
+    
+    func testRearrangeNowPlaying2() throws {
+        // Add songs to now playing
+        player.addToNowPlaying(song: songs[0])
+        player.addToNowPlaying(song: songs[1])
+        player.addToNowPlaying(song: songs[2])
+        
+        // Go to next song 0, 1, 2 ---> 1, 2, 0
+        player.nextTrack()
+        
+        // Rearrange now playing 1, 2, 0 ---> 1, 0, 2
+        player.rearrangeNowPlaying(from: IndexSet(integer: 2), to: 1)
+        
+        // Verify the final state of the now playing
+        let songsInQueue = player.songsInNowPlaying!
+        XCTAssertEqual(songsInQueue, [songs[1], songs[0], songs[2]])
+    }
+
+
+
+
+    
+    
 }
 
