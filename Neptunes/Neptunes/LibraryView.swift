@@ -9,7 +9,8 @@ import SwiftUI
 
 struct LibraryView: View {
     @ObservedObject var viewModel: LibraryViewModel
-    var listOfSongs: [Song]
+    @State var listOfSongs: [Song]
+    @State private var users = ["Glenn", "Malcolm", "Nicola", "Terri"]
     
     init(viewModel: LibraryViewModel, listOfSongs: [Song]) {
         self.viewModel = viewModel
@@ -17,67 +18,87 @@ struct LibraryView: View {
     }
     
     var nowPlaying: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("Now Playing")
-                .font(.title3)
-                .fontWeight(.bold)
-            ForEach(viewModel.songsInNowPlaying ?? []) { song in
-                HStack{
-                    VStack(alignment: .leading) {
-                        Text(song.title)
-                            .font(.headline)
-                        Text(song.artist)
-                            .font(.subheadline)
+        if (viewModel.songsInNowPlaying != nil), !viewModel.songsInNowPlaying!.isEmpty {
+            return AnyView(
+                List {
+                    Section(header: Text("Now Playing")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    ) {
+                        ForEach(viewModel.songsInNowPlaying!, id: \.id) { song in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(song.title)
+                                        .font(.headline)
+                                    Text(song.artist)
+                                        .font(.subheadline)
+                                }
+                                Spacer()
+                                menuButton(song: song)
+                            }
+                        }
+                        .onMove(perform: viewModel.rearrangeNowPlaying)
                     }
-                    Spacer()
-                    menuButton(song: song)
                 }
-            }
+            )
+        } else {
+            return AnyView(EmptyView())
         }
-        .padding()
     }
     
     var queue: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("Queue")
-                .font(.title3)
-                .fontWeight(.bold)
-            ForEach(viewModel.songsInQueue ?? []) { song in
-                HStack{
-                    VStack(alignment: .leading) {
-                        Text(song.title)
-                            .font(.headline)
-                        Text(song.artist)
-                            .font(.subheadline)
+        if (viewModel.songsInQueue != nil), !viewModel.songsInQueue!.isEmpty {
+            return AnyView(
+                List {
+                    Section(header: Text("Queue")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    ) {
+                        ForEach(viewModel.songsInQueue!, id: \.id) { song in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(song.title)
+                                        .font(.headline)
+                                    Text(song.artist)
+                                        .font(.subheadline)
+                                }
+                                Spacer()
+                                menuButton(song: song)
+                            }
+                        }
+                        .onMove(perform: viewModel.rearrangeQueue)
                     }
-                    Spacer()
-                    menuButton(song: song)
                 }
-            }
+            )
+        } else {
+            return AnyView(EmptyView())
         }
-        .padding()
     }
     
+    
     var songs: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("Songs")
+        List {
+            Section(header: Text("Songs")
                 .font(.title3)
                 .fontWeight(.bold)
-            ForEach(listOfSongs) { song in
-                HStack{
-                    VStack(alignment: .leading) {
-                        Text(song.title)
-                            .font(.headline)
-                        Text(song.artist)
-                            .font(.subheadline)
+            ) {
+                ForEach(listOfSongs, id: \.id) { song in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(song.title)
+                                .font(.headline)
+                            Text(song.artist)
+                                .font(.subheadline)
+                        }
+                        Spacer()
+                        menuButton(song: song)
                     }
-                    Spacer()
-                    menuButton(song: song)
                 }
+                .onMove(perform: rearrangeSongs)
             }
         }
-        .padding()
     }
+    
     
     func menuButton(song: Song) -> some View {
         Menu() {
@@ -97,12 +118,22 @@ struct LibraryView: View {
     }
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            nowPlaying
-            queue
-            songs
+        NavigationView {
+            Form {
+                nowPlaying
+                queue
+                songs
+            }
+            .toolbar {
+                EditButton()
+            }
         }
-        
     }
+    
+    
+    func rearrangeSongs(from source: IndexSet, to destination: Int) {
+        listOfSongs.move(fromOffsets: source, toOffset: destination)
+    }
+    
 }
 

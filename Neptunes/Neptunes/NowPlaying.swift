@@ -165,13 +165,13 @@ class NowPlaying: ObservableObject {
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
             
             let staticMetadata = NowPlayableStaticMetadata(assetURL: url,
-                                                     mediaType: .audio,
-                                                     isLiveStream: false,
-                                                     title: song.title,
-                                                     artist: song.artist,
-                                                     artwork: artwork,
-                                                     albumArtist: song.artist,
-                                                     albumTitle: song.album)
+                                                           mediaType: .audio,
+                                                           isLiveStream: false,
+                                                           title: song.title,
+                                                           artist: song.artist,
+                                                           artwork: artwork,
+                                                           albumArtist: song.artist,
+                                                           albumTitle: song.album)
             
             let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             
@@ -181,4 +181,7 @@ class NowPlaying: ObservableObject {
         }
     }
     
+    func rearrange(from source: IndexSet, to destination: Int) {
+        
+    }
 }

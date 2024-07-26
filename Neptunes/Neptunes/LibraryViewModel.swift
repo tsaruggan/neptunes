@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 final class LibraryViewModel: ObservableObject {
     @Published var player: Player
@@ -43,5 +44,13 @@ final class LibraryViewModel: ObservableObject {
     
     func addToNowPlaying(song: Song) {
         player.addToNowPlaying(song: song)
+    }
+    
+    func rearrangeQueue(from source: IndexSet, to destination: Int) {
+        player.rearrangeQueue(from: source, to: destination)
+    }
+    
+    func rearrangeNowPlaying(from source: IndexSet, to destination: Int) {
+        player.rearrangeNowPlaying(from: source, to: destination)
     }
 }

@@ -65,7 +65,7 @@ final class LocalFileManager {
         do {
             let path = directory.appendingPathComponent(filename)
             try data.write(to: path)
-            print("Success saving to \(path).")
+//            print("Success saving to \(path).")
             return path
         } catch {
             print("Error saving to path. \(error)")

@@ -32,3 +32,7 @@ struct Song {
 extension Song : Identifiable {
 
 }
+
+extension Song : Equatable {
+    
+}

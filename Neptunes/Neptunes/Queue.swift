@@ -68,4 +68,10 @@ class Queue: ObservableObject {
             staticMetadatas.append(staticMetadata)
         }
     }
+    
+    func rearrange(from source: IndexSet, to destination: Int) {
+        songs.move(fromOffsets: source, toOffset: destination)
+        playerItems.move(fromOffsets: source, toOffset: destination)
+        staticMetadatas.move(fromOffsets: source, toOffset: destination)
+    }
 }

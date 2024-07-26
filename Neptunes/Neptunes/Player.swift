@@ -69,10 +69,22 @@ class Player: ObservableObject {
     // A playlist of items to play.
     
     @Published public var playerItems: [AVPlayerItem?] = []
+    var currentPlayerItem: AVPlayerItem? {
+        guard let currentItem = player.currentItem else {
+            return nil
+        }
+        return currentItem
+    }
     
     // Metadata for each item.
     
     @Published public var staticMetadatas: [NowPlayableStaticMetadata?] = []
+    var currentMetadata: NowPlayableStaticMetadata? {
+        guard let currentIndex = playerItems.firstIndex(where: { $0 == currentPlayerItem }) else {
+            return nil
+        }
+        return staticMetadatas[currentIndex]
+    }
     
     // Now playing
     
@@ -80,23 +92,16 @@ class Player: ObservableObject {
     @Published var nowPlayingIsReplaced: Bool = false
     var hasReachedEnd: Bool { return nowPlaying.hasReachedEnd }
     var songsInNowPlaying: [Song]? {
-        guard let songs = nowPlaying.songsInNowPlaying else {
-            return nil
-        }
-        
         if isPlayingFromQueue {
-            if songs.isEmpty {
+            // Check if there are any songs in the now playing array
+            if var songs = nowPlaying.songsInNowPlaying, !songs.isEmpty {
+                // Move the first song to the end of the array
+                let firstSong = songs.removeFirst()
+                songs.append(firstSong)
                 return songs
             }
-            
-            // Shift the first element to the end
-            var shiftedSongs = songs
-            let firstSong = shiftedSongs.removeFirst()
-            shiftedSongs.append(firstSong)
-            return shiftedSongs
-        } else {
-            return songs
         }
+        return nowPlaying.songsInNowPlaying
     }
     
     
@@ -111,7 +116,7 @@ class Player: ObservableObject {
     
     public var playerState: PlayerState = .stopped {
         didSet {
-            NSLog("%@", "**** Set player state \(playerState)")
+//            NSLog("%@", "**** Set player state \(playerState)")
         }
     }
     var isPlaying: Bool {
@@ -123,7 +128,7 @@ class Player: ObservableObject {
     public var shuffleState: ShuffleState = .unshuffled {
         
         didSet {
-            NSLog("%@", "**** Set shuffle state \(shuffleState)")
+//            NSLog("%@", "**** Set shuffle state \(shuffleState)")
             switch shuffleState {
             case .shuffled:
                 nowPlaying.isShuffled = true
@@ -138,7 +143,7 @@ class Player: ObservableObject {
     
     public var repeatState: RepeatState = .unrepeating {
         didSet {
-            NSLog("%@", "**** Set repeat state \(repeatState)")
+//            NSLog("%@", "**** Set repeat state \(repeatState)")
         }
     }
     
@@ -399,7 +404,6 @@ class Player: ObservableObject {
             queue.goToNext()
             isPlayingFromQueue = true
         }
-        
         handlePlayerItemChange()
         seek(to: 0)
     }
@@ -682,6 +686,14 @@ class Player: ObservableObject {
         } else {
             next()
         }
+    }
+    
+    func rearrangeQueue(from source: IndexSet, to destination: Int) {
+        queue.rearrange(from: source, to: destination)
+    }
+    
+    func rearrangeNowPlaying(from source: IndexSet, to destination: Int) {
+        nowPlaying.rearrange(from: source, to: destination)
     }
     
 }

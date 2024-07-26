@@ -20,6 +20,10 @@ struct ConfigModel {
     
     static var shared: ConfigModel!
     
+    static func resetSharedInstance() {
+        shared = nil
+    }
+    
     // The platform-specific customization of the NowPlayable protocol.
     
     let nowPlayableBehavior: NowPlayable
