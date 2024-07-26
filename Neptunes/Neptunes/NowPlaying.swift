@@ -106,7 +106,8 @@ class NowPlaying: ObservableObject {
         if songs.isEmpty { return nil }
         if isShuffled {
             if currentShuffledIndex >= 0 && currentShuffledIndex < songs.count {
-                return Array(songs[currentShuffledIndex...]) + Array(songs[..<currentShuffledIndex])
+                let indices = shuffledIndices[currentShuffledIndex...] + shuffledIndices[..<currentShuffledIndex]
+                return indices.map { songs[$0] }
             } else {
                 return nil
             }
@@ -197,29 +198,64 @@ class NowPlaying: ObservableObject {
             
             let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             
+            var shiftedSongs: [Song]
+            var shiftedPlayerItems: [AVPlayerItem]
+            var shiftedStaticMetadatas: [NowPlayableStaticMetadata]
+            
             // Shift arrays to start from currentIndex
-            var shiftedSongs = songs.shifted(by: currentIndex)
-            var shiftedPlayerItems = playerItems.shifted(by: currentIndex)
-            var shiftedStaticMetadatas = staticMetadatas.shifted(by: currentIndex)
+            if isShuffled {
+                // If shuffled then use the shuffled order as basis
+                // Create the new shuffled arrays based on shuffledIndices
+                let indices = shuffledIndices[currentShuffledIndex...] + shuffledIndices[..<currentShuffledIndex]
+                let shuffledSongs = indices.map { songs[$0] }
+                let shuffledPlayerItems = indices.map { playerItems[$0] }
+                let shuffledStaticMetadatas = indices.map { staticMetadatas[$0] }
+                
+                shiftedSongs = shuffledSongs.shifted(by: currentShuffledIndex)
+                shiftedPlayerItems = shuffledPlayerItems.shifted(by: currentShuffledIndex)
+                shiftedStaticMetadatas = shuffledStaticMetadatas.shifted(by: currentShuffledIndex)
+            } else {
+                shiftedSongs = songs.shifted(by: currentIndex)
+                shiftedPlayerItems = playerItems.shifted(by: currentIndex)
+                shiftedStaticMetadatas = staticMetadatas.shifted(by: currentIndex)
+            }
             
             // Append to shifted arrays
             shiftedSongs.append(song)
             shiftedPlayerItems.append(playerItem)
             shiftedStaticMetadatas.append(staticMetadata)
             
-            // Set the arrays to the shifted versions and reset currentIndex
+            // Set the arrays to the shifted versions and reset currentIndex & shuffle state
             songs = shiftedSongs
             playerItems = shiftedPlayerItems
             staticMetadatas = shiftedStaticMetadatas
             currentIndex = 0
+            isShuffled = false
         }
     }
     
     func rearrange(from source: IndexSet, to destination: Int) {
-        // Shift arrays to start from currentIndex
-        var shiftedSongs = songs.shifted(by: currentIndex)
-        var shiftedPlayerItems = playerItems.shifted(by: currentIndex)
-        var shiftedStaticMetadatas = staticMetadatas.shifted(by: currentIndex)
+        var shiftedSongs: [Song]
+        var shiftedPlayerItems: [AVPlayerItem]
+        var shiftedStaticMetadatas: [NowPlayableStaticMetadata]
+        
+        if isShuffled {
+            // Create the new shuffled arrays based on shuffledIndices
+            let indices = shuffledIndices[currentShuffledIndex...] + shuffledIndices[..<currentShuffledIndex]
+            
+            let shuffledSongs = indices.map { songs[$0] }
+            let shuffledPlayerItems = indices.map { playerItems[$0] }
+            let shuffledStaticMetadatas = indices.map { staticMetadatas[$0] }
+            
+            shiftedSongs = shuffledSongs.shifted(by: currentShuffledIndex)
+            shiftedPlayerItems = shuffledPlayerItems.shifted(by: currentShuffledIndex)
+            shiftedStaticMetadatas = shuffledStaticMetadatas.shifted(by: currentShuffledIndex)
+        } else {
+            // Shift arrays to start from currentIndex
+            shiftedSongs = songs.shifted(by: currentIndex)
+            shiftedPlayerItems = playerItems.shifted(by: currentIndex)
+            shiftedStaticMetadatas = staticMetadatas.shifted(by: currentIndex)
+        }
         
         // Perform rearrangement on the shifted arrays
         shiftedSongs.move(fromOffsets: source, toOffset: destination)
@@ -231,6 +267,7 @@ class NowPlaying: ObservableObject {
         playerItems = shiftedPlayerItems
         staticMetadatas = shiftedStaticMetadatas
         currentIndex = 0
+        isShuffled = false
     }
 }
 

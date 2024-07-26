@@ -218,8 +218,8 @@ final class PlayerTests: XCTestCase {
         player.rearrangeNowPlaying(from: IndexSet(integer: 2), to: 1)
         
         // Verify the final state of the now playing
-        let songsInQueue = player.songsInNowPlaying!
-        XCTAssertEqual(songsInQueue, [songs[0], songs[2], songs[1]])
+        let songsInNowPlaying = player.songsInNowPlaying!
+        XCTAssertEqual(songsInNowPlaying, [songs[0], songs[2], songs[1]])
     }
     
     func testRearrangeNowPlaying2() throws {
@@ -235,8 +235,8 @@ final class PlayerTests: XCTestCase {
         player.rearrangeNowPlaying(from: IndexSet(integer: 2), to: 1)
         
         // Verify the final state of the now playing
-        let songsInQueue = player.songsInNowPlaying!
-        XCTAssertEqual(songsInQueue, [songs[1], songs[0], songs[2]])
+        let songsInNowPlaying = player.songsInNowPlaying!
+        XCTAssertEqual(songsInNowPlaying, [songs[1], songs[0], songs[2]])
     }
 
 

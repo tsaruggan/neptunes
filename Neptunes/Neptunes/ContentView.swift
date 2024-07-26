@@ -27,7 +27,7 @@ struct ContentView: View {
     }
     
     private func initializePlayer() {
-        self.player.replaceNowPlaying(songs: Array(listOfSongs[0...4]), from: 0)
+        self.player.replaceNowPlaying(songs: Array(listOfSongs[0...3]), from: 0)
 //        self.player.addToQueue(song: listOfSongs[4])
 //        self.player.addToQueue(song: listOfSongs[0])
 //        self.player.addToQueue(song: listOfSongs[1])

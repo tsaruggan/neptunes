@@ -676,6 +676,7 @@ class Player: ObservableObject {
             seek(to: 0.0)
             handlePlayerItemChange()
         }
+        shuffleState = .unshuffled
     }
     
     @objc func playerDidFinishPlaying(note: NSNotification) {
@@ -702,9 +703,9 @@ class Player: ObservableObject {
     
     func rearrangeNowPlaying(from source: IndexSet, to destination: Int) {
         nowPlaying.rearrange(from: source, to: destination)
+        shuffleState = .unshuffled
     }
 
-    
 }
 
 
