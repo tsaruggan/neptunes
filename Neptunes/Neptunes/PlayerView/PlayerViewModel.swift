@@ -1,6 +1,6 @@
 //
-//  ViewModel.swift
-//  player-demo
+//  PlayerViewModel.swift
+//  Neptunes
 //
 //  Created by Saruggan Thiruchelvan on 2023-04-24.
 //
@@ -52,6 +52,10 @@ final class PlayerViewModel: ObservableObject {
         }
     }
     
+    var palette: Palette? {
+        return song?.album.palette
+    }
+    
     @Published var currentTime: Double = 0.0
     @Published var isBeingScrubbed: Bool = false
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -66,8 +70,11 @@ final class PlayerViewModel: ObservableObject {
     }
     
     func onUpdate() {
-        currentTime = player.currentTime
-
+        if !isBeingScrubbed {
+            currentTime = player.currentTime
+        }
+        
+        
         if player.nowPlayingIsReplaced {
             player.play()
             player.nowPlayingIsReplaced = false
@@ -80,6 +87,7 @@ final class PlayerViewModel: ObservableObject {
         if isPlaying {
             isBeingScrubbed = true
         }
+        player.pause()
         player.seek(to: currentTime)
     }
     

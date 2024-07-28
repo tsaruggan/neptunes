@@ -11,12 +11,10 @@ import AVFoundation
 import MediaPlayer
 
 class NowPlaying: ObservableObject {
-    
     @Published private var songs: [Song] = []
     @Published private var playerItems: [AVPlayerItem] = []
     @Published private var staticMetadatas: [NowPlayableStaticMetadata] = []
     
-    let assetKeys = ["playable"]
     @Published private var currentIndex: Int = 0
     
     @Published private var _isShuffled: Bool = false
@@ -169,10 +167,10 @@ class NowPlaying: ObservableObject {
                                                            mediaType: .audio,
                                                            isLiveStream: false,
                                                            title: song.title,
-                                                           artist: song.artist,
+                                                           artist: song.artist.title,
                                                            artwork: artwork,
-                                                           albumArtist: song.artist,
-                                                           albumTitle: song.album)
+                                                           albumArtist: song.artist.title,
+                                                           albumTitle: song.album.title)
             
             let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             
@@ -191,10 +189,10 @@ class NowPlaying: ObservableObject {
                                                            mediaType: .audio,
                                                            isLiveStream: false,
                                                            title: song.title,
-                                                           artist: song.artist,
+                                                           artist: song.artist.title,
                                                            artwork: artwork,
-                                                           albumArtist: song.artist,
-                                                           albumTitle: song.album)
+                                                           albumArtist: song.artist.title,
+                                                           albumTitle: song.album.title)
             
             let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             
@@ -202,7 +200,6 @@ class NowPlaying: ObservableObject {
             var shiftedPlayerItems: [AVPlayerItem]
             var shiftedStaticMetadatas: [NowPlayableStaticMetadata]
             
-            // Shift arrays to start from currentIndex
             if isShuffled {
                 // If shuffled then use the shuffled order as basis
                 // Create the new shuffled arrays based on shuffledIndices
@@ -211,10 +208,12 @@ class NowPlaying: ObservableObject {
                 let shuffledPlayerItems = indices.map { playerItems[$0] }
                 let shuffledStaticMetadatas = indices.map { staticMetadatas[$0] }
                 
+                // Shift arrays to start from currentShuffledIndex
                 shiftedSongs = shuffledSongs.shifted(by: currentShuffledIndex)
                 shiftedPlayerItems = shuffledPlayerItems.shifted(by: currentShuffledIndex)
                 shiftedStaticMetadatas = shuffledStaticMetadatas.shifted(by: currentShuffledIndex)
             } else {
+                // Shift arrays to start from currentIndex
                 shiftedSongs = songs.shifted(by: currentIndex)
                 shiftedPlayerItems = playerItems.shifted(by: currentIndex)
                 shiftedStaticMetadatas = staticMetadatas.shifted(by: currentIndex)
@@ -240,13 +239,14 @@ class NowPlaying: ObservableObject {
         var shiftedStaticMetadatas: [NowPlayableStaticMetadata]
         
         if isShuffled {
+            // If shuffled then use the shuffled order as basis
             // Create the new shuffled arrays based on shuffledIndices
             let indices = shuffledIndices[currentShuffledIndex...] + shuffledIndices[..<currentShuffledIndex]
-            
             let shuffledSongs = indices.map { songs[$0] }
             let shuffledPlayerItems = indices.map { playerItems[$0] }
             let shuffledStaticMetadatas = indices.map { staticMetadatas[$0] }
             
+            // Shift arrays to start from currentShuffledIndex
             shiftedSongs = shuffledSongs.shifted(by: currentShuffledIndex)
             shiftedPlayerItems = shuffledPlayerItems.shifted(by: currentShuffledIndex)
             shiftedStaticMetadatas = shuffledStaticMetadatas.shifted(by: currentShuffledIndex)
@@ -262,7 +262,7 @@ class NowPlaying: ObservableObject {
         shiftedPlayerItems.move(fromOffsets: source, toOffset: destination)
         shiftedStaticMetadatas.move(fromOffsets: source, toOffset: destination)
         
-        // Set the arrays to the shifted versions and reset currentIndex
+        // Set the arrays to the shifted versions and reset currentIndex & shuffle state
         songs = shiftedSongs
         playerItems = shiftedPlayerItems
         staticMetadatas = shiftedStaticMetadatas

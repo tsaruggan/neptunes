@@ -105,11 +105,8 @@ class Player: ObservableObject {
     // The internal state of this Player separate from the state
     // of its AVPlayer.
     
-    public var playerState: PlayerState = .stopped {
-        didSet {
-//            NSLog("%@", "**** Set player state \(playerState)")
-        }
-    }
+    public var playerState: PlayerState = .stopped
+    
     var isPlaying: Bool {
         return playerState == .playing
     }
@@ -117,9 +114,7 @@ class Player: ObservableObject {
     // The shuffle state of this Player.
     
     public var shuffleState: ShuffleState = .unshuffled {
-        
         didSet {
-//            NSLog("%@", "**** Set shuffle state \(shuffleState)")
             switch shuffleState {
             case .shuffled:
                 nowPlaying.isShuffled = true
@@ -127,16 +122,11 @@ class Player: ObservableObject {
                 nowPlaying.isShuffled = false
             }
         }
-        
     }
     
     // The repeat state of this Player.
     
-    public var repeatState: RepeatState = .unrepeating {
-        didSet {
-//            NSLog("%@", "**** Set repeat state \(repeatState)")
-        }
-    }
+    public var repeatState: RepeatState = .unrepeating
     
     // `true` if the current session has been interrupted by another app.
     
@@ -151,11 +141,6 @@ class Player: ObservableObject {
     // A shorter name for a very long property name.
     
     public static let mediaSelectionKey = "availableMediaCharacteristicsWithMediaSelectionOptions"
-    
-    
-    // This does something
-    let assetKeys = ["playable"]
-    
     
     // Initialize a new `Player` object.
     
@@ -218,7 +203,6 @@ class Player: ObservableObject {
     // Stop the playback session.
     
     func optOut() {
-        
         itemObserver = nil
         rateObserver = nil
         statusObserver = nil
@@ -235,16 +219,13 @@ class Player: ObservableObject {
     // Helper method: update Now Playing Info when the current item changes.
     
     public func handlePlayerItemChange() {
-        
         guard playerState != .stopped else { return }
         
         // Find the current item.
-        
         guard let currentItem = player.currentItem else { optOut(); return }
         guard let currentIndex = playerItems.firstIndex(where: { $0 == currentItem }) else { return }
         
         // Set the Now Playing Info from static item metadata.
-        
         if let metadata = staticMetadatas[currentIndex] {
             nowPlayableBehavior.handleNowPlayableItemChange(metadata: metadata)
         }
@@ -253,11 +234,9 @@ class Player: ObservableObject {
     // Helper method: update Now Playing Info when playback rate or position changes.
     
     public func handlePlaybackChange() {
-        
         guard playerState != .stopped else { return }
         
         // Find the current item.
-        
         guard let currentItem = player.currentItem else { optOut(); return }
         guard currentItem.status == .readyToPlay else { return }
         
@@ -281,6 +260,7 @@ class Player: ObservableObject {
             for mediaCharacteristic in asset.availableMediaCharacteristicsWithMediaSelectionOptions {
                 guard mediaCharacteristic == .audible || mediaCharacteristic == .legible,
                       let mediaSelectionGroup = asset.mediaSelectionGroup(forMediaCharacteristic: mediaCharacteristic) else { continue }
+                    
                 
                 // Make a corresponding language option group.
                 
@@ -450,7 +430,6 @@ class Player: ObservableObject {
     }
     
     public func seek(to time: CMTime) {
-        
         if case .stopped = playerState { return }
         
         player.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero) {
@@ -474,32 +453,26 @@ class Player: ObservableObject {
     }
     
     public func setPlaybackRate(_ rate: Float) {
-        
         if case .stopped = playerState { return }
-        
         player.rate = rate
     }
     
     public func didEnableLanguageOption(_ languageOption: MPNowPlayingInfoLanguageOption) -> Bool {
-        
         guard let currentItem = player.currentItem else { return false }
         guard let (mediaSelectionOption, mediaSelectionGroup) = enabledMediaSelection(for: languageOption) else { return false }
         
         currentItem.select(mediaSelectionOption, in: mediaSelectionGroup)
         handlePlaybackChange()
-        
         return true
     }
     
     public func didDisableLanguageOption(_ languageOption: MPNowPlayingInfoLanguageOption) -> Bool {
-        
         guard let currentItem = player.currentItem else { return false }
         guard let mediaSelectionGroup = disabledMediaSelection(for: languageOption) else { return false }
         
         guard mediaSelectionGroup.allowsEmptySelection else { return false }
         currentItem.select(nil, in: mediaSelectionGroup)
         handlePlaybackChange()
-        
         return true
     }
     
@@ -707,6 +680,3 @@ class Player: ObservableObject {
     }
 
 }
-
-
-

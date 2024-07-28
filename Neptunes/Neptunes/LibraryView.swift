@@ -10,7 +10,6 @@ import SwiftUI
 struct LibraryView: View {
     @ObservedObject var viewModel: LibraryViewModel
     @State var listOfSongs: [Song]
-    @State private var users = ["Glenn", "Malcolm", "Nicola", "Terri"]
     
     init(viewModel: LibraryViewModel, listOfSongs: [Song]) {
         self.viewModel = viewModel
@@ -30,7 +29,7 @@ struct LibraryView: View {
                                 VStack(alignment: .leading) {
                                     Text(song.title)
                                         .font(.headline)
-                                    Text(song.artist)
+                                    Text(song.artist.title)
                                         .font(.subheadline)
                                 }
                                 Spacer()
@@ -59,7 +58,7 @@ struct LibraryView: View {
                                 VStack(alignment: .leading) {
                                     Text(song.title)
                                         .font(.headline)
-                                    Text(song.artist)
+                                    Text(song.artist.title)
                                         .font(.subheadline)
                                 }
                                 Spacer()
@@ -87,7 +86,7 @@ struct LibraryView: View {
                         VStack(alignment: .leading) {
                             Text(song.title)
                                 .font(.headline)
-                            Text(song.artist)
+                            Text(song.artist.title)
                                 .font(.subheadline)
                         }
                         Spacer()

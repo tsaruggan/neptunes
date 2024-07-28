@@ -1,10 +1,15 @@
 import Combine
 import Foundation
+import MediaPlayer
+import CoreData
 
 final class LibraryViewModel: ObservableObject {
     @Published var player: Player
     private var subscriptions = Set<AnyCancellable>()
-
+    
+    let dataManager: CoreDataManager = CoreDataManager(viewContext: PersistenceController.shared.container.viewContext)
+    let fileManager = LocalFileManager()
+    
     init(player: Player) {
         self.player = player
         
@@ -30,11 +35,38 @@ final class LibraryViewModel: ObservableObject {
             .store(in: &subscriptions) // Updated name here
     }
     
+    func initializeData() {
+        // Add songs using CoreDataManager
+        addSong(title: "Not Around", artistTitle: "Drake", albumTitle: "Certified Lover Boy", filename: "song1")
+        addSong(title: "Hell of a Night", artistTitle: "Travis Scott", albumTitle: "Owl Pharoah", filename: "song2")
+        addSong(title: "Wither", artistTitle: "Frank Ocean", albumTitle: "Endless", filename: "song3")
+        addSong(title: "Rushes", artistTitle: "Frank Ocean", albumTitle: "Endless", filename: "song4")
+        addSong(title: "Cancun", artistTitle: "Playboi Carti", albumTitle: "Cancun", filename: "song5")
+    }
+    
+    private func addSong(title: String, artistTitle: String, albumTitle: String, filename: String) {
+        var song = dataManager.initializeSong(title: title, id: UUID())
+        var artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: nil, headerArtwork: nil)
+        var album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: nil, headerArtwork: nil)
+        
+        album.artist = artist
+        song.album = album
+        song.artist = artist
+        
+        artist.addToSongs(song)
+        album.addToSongs(song)
+        artist.addToAlbums(album)
+        
+        // Save the song file
+        fileManager.saveSongFromURL(url: URL(fileURLWithPath: "path/to/\(filename).mp3"), song: song)
+        dataManager.saveData()
+    }
+    
     var songsInNowPlaying: [Song]? {
         if !player.isPlayingFromQueue {
             if var songs = player.songsInNowPlaying, !songs.isEmpty {
                 // Hide the first song if now playing
-                let firstSong = songs.removeFirst()
+                songs.removeFirst()
                 return songs
             }
         }

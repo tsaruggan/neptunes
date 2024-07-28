@@ -15,8 +15,6 @@ class Queue: ObservableObject {
     @Published private var playerItems: [AVPlayerItem] = []
     @Published private var staticMetadatas: [NowPlayableStaticMetadata] = []
     
-    let assetKeys = ["playable"]
-    
     var isEmpty: Bool {
         return songs.isEmpty
     }
@@ -53,13 +51,13 @@ class Queue: ObservableObject {
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
             
             let staticMetadata = NowPlayableStaticMetadata(assetURL: url,
-                                                     mediaType: .audio,
-                                                     isLiveStream: false,
-                                                     title: song.title,
-                                                     artist: song.artist,
-                                                     artwork: artwork,
-                                                     albumArtist: song.artist,
-                                                     albumTitle: song.album)
+                                                           mediaType: .audio,
+                                                           isLiveStream: false,
+                                                           title: song.title,
+                                                           artist: song.artist.title,
+                                                           artwork: artwork,
+                                                           albumArtist: song.artist.title,
+                                                           albumTitle: song.album.title)
             
             let playerItem = AVPlayerItem(asset: AVURLAsset(url: url), automaticallyLoadedAssetKeys: [Player.mediaSelectionKey])
             

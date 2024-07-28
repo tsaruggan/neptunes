@@ -8,23 +8,31 @@
 import XCTest
 import AVFoundation
 import MediaPlayer
+import CoreData
 @testable import Neptunes
 
 final class PlayerTests: XCTestCase {
     let fileManager = LocalFileManager()
     var songs: [Song]!
     var player: Player!
+    var dataManager: CoreDataManager!
     
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        // Initialize CoreDataManager with the shared context
+        let persistenceController = PersistenceController.shared
+        let context = persistenceController.container.viewContext
+        dataManager = CoreDataManager(viewContext: context)
         
-        // Initialize songs
-        let song1 = Song(title: "Not Around", filename: "song1", artist: "Drake", album: "Certified Lover Boy")
-        let song2 = Song(title: "Hell of a Night", filename: "song2", artist: "Travis Scott", album: "Owl Pharoah")
-        let song3 = Song(title: "Wither", filename: "song3", artist: "Frank Ocean", album: "Endless")
-        let song4 = Song(title: "Rushes", filename: "song4", artist: "Frank Ocean", album: "Endless")
-        let song5 = Song(title: "Cancun", filename: "song5", artist: "Playboi Carti", album: "Cancun")
-        songs = [song1, song2, song3, song4, song5]
+        // Add songs using CoreDataManager
+        addSong(title: "Not Around", artistTitle: "Drake", albumTitle: "Certified Lover Boy", filename: "song1")
+        addSong(title: "Hell of a Night", artistTitle: "Travis Scott", albumTitle: "Owl Pharoah", filename: "song2")
+        addSong(title: "Wither", artistTitle: "Frank Ocean", albumTitle: "Endless", filename: "song3")
+        addSong(title: "Rushes", artistTitle: "Frank Ocean", albumTitle: "Endless", filename: "song4")
+        addSong(title: "Cancun", artistTitle: "Playboi Carti", albumTitle: "Cancun", filename: "song5")
+        
+        // Fetch the songs from Core Data
+        let fetchRequest: NSFetchRequest<Song> = Song.fetchRequest()
+        songs = try context.fetch(fetchRequest)
         
         // Ensure ConfigModel is not already initialized
         ConfigModel.resetSharedInstance()
@@ -33,6 +41,24 @@ final class PlayerTests: XCTestCase {
         
         // Initialize player
         try player = Player()
+    }
+    
+    private func addSong(title: String, artistTitle: String, albumTitle: String, filename: String) {
+        var song = dataManager.initializeSong(title: title, id: UUID())
+        var artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: nil, headerArtwork: nil)
+        var album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: nil, headerArtwork: nil)
+        
+        album.artist = artist
+        song.album = album
+        song.artist = artist
+        
+        artist.addToSongs(song)
+        album.addToSongs(song)
+        artist.addToAlbums(album)
+        
+        // Save the song file
+        fileManager.saveSongFromURL(url: URL(fileURLWithPath: "path/to/\(filename).mp3"), song: song)
+        dataManager.saveData()
     }
     
     override func tearDownWithError() throws {
@@ -61,10 +87,10 @@ final class PlayerTests: XCTestCase {
         
         // Additional checks to ensure metadata correctness
         XCTAssertEqual(currentStaticMetadata?.title, expectedSong.title)
-        XCTAssertEqual(currentStaticMetadata?.artist, expectedSong.artist)
-        XCTAssertEqual(currentStaticMetadata?.albumTitle, expectedSong.album)
+        XCTAssertEqual(currentStaticMetadata?.artist, expectedSong.artist.title)
+        XCTAssertEqual(currentStaticMetadata?.albumTitle, expectedSong.album.title)
     }
-
+    
     func testReplaceNowPlaying() throws {
         // Replace now playing songs starting from the first song
         player.replaceNowPlaying(songs: songs, from: 0)
@@ -72,7 +98,7 @@ final class PlayerTests: XCTestCase {
         // Check current song alignment
         checkCurrentSongAlignment(expectedSong: songs[0])
     }
-
+    
     func testNextTrack() throws {
         // Replace now playing songs starting from the first song
         player.replaceNowPlaying(songs: songs, from: 0)
@@ -83,7 +109,7 @@ final class PlayerTests: XCTestCase {
         // Check current song alignment
         checkCurrentSongAlignment(expectedSong: songs[1])
     }
-
+    
     func testPreviousTrack() throws {
         // Replace now playing songs starting from the first song
         player.replaceNowPlaying(songs: songs, from: 0)
@@ -238,11 +264,6 @@ final class PlayerTests: XCTestCase {
         let songsInNowPlaying = player.songsInNowPlaying!
         XCTAssertEqual(songsInNowPlaying, [songs[1], songs[0], songs[2]])
     }
-
-
-
-
-    
     
 }
 

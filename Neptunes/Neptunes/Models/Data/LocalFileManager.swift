@@ -1,8 +1,8 @@
 //
 //  LocalFileManager.swift
-//  player-demo
+//  Neptunes
 //
-//  Created by Saruggan Thiruchelvan on 2023-06-15.
+//  Created by Saruggan Thiruchelvan on 2023-04-02.
 //
 
 import Foundation
@@ -65,7 +65,7 @@ final class LocalFileManager {
         do {
             let path = directory.appendingPathComponent(filename)
             try data.write(to: path)
-//            print("Success saving to \(path).")
+            print("Success saving to \(path).")
             return path
         } catch {
             print("Error saving to path. \(error)")
@@ -90,5 +90,4 @@ final class LocalFileManager {
             print("Error clearing directories. \(error)")
         }
     }
-
 }

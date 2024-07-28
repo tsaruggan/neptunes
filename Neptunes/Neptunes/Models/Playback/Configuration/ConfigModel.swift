@@ -59,10 +59,6 @@ extension ConfigModel {
         // Find the audio files in the app bundle.
         
         let song1URL = Bundle.main.url(forResource: "song1", withExtension: ".mp3")!
-        let song2URL = Bundle.main.url(forResource: "song2", withExtension: ".mp3")!
-        let song3URL = Bundle.main.url(forResource: "song3", withExtension: ".mp3")!
-        let song4URL = Bundle.main.url(forResource: "song4", withExtension: ".mp3")!
-        let song5URL = Bundle.main.url(forResource: "song5", withExtension: ".mp3")!
         
         // Create metadata.
         
@@ -75,43 +71,7 @@ extension ConfigModel {
                                 artist: "Drake",
                                 artwork: artworkNamed("defaultcover"),
                                 albumArtist: "Drake",
-                                albumTitle: "Certified Lover Boy"),
-            
-            NowPlayableStaticMetadata(assetURL: song2URL,
-                                mediaType: .audio,
-                                isLiveStream: false,
-                                title: "Hell of a Night",
-                                artist: "Travis Scott",
-                                artwork: artworkNamed("defaultcover"),
-                                albumArtist: "Travis Scott",
-                                albumTitle: "Owl Pharaoh"),
-            
-            NowPlayableStaticMetadata(assetURL: song3URL,
-                                mediaType: .audio,
-                                isLiveStream: false,
-                                title: "Wither",
-                                artist: "Frank Ocean",
-                                artwork: artworkNamed("defaultcover"),
-                                albumArtist: "Frank Ocean",
-                                albumTitle: "Endless"),
-            
-            NowPlayableStaticMetadata(assetURL: song4URL,
-                                mediaType: .audio,
-                                isLiveStream: false,
-                                title: "Rushes",
-                                artist: "Frank Ocean",
-                                artwork: artworkNamed("defaultcover"),
-                                albumArtist: "Frank Ocean",
-                                albumTitle: "Endless"),
-            
-            NowPlayableStaticMetadata(assetURL: song5URL,
-                                mediaType: .audio,
-                                isLiveStream: false,
-                                title: "Cancun",
-                                artist: "Playboi Carti",
-                                artwork: artworkNamed("defaultcover"),
-                                albumArtist: "Playboi Carti",
-                                albumTitle: "Cancun")
+                                albumTitle: "Songs to Sing")
             
         ]
         

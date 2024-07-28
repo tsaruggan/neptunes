@@ -86,13 +86,13 @@ enum NowPlayableCommand: CaseIterable {
     func addHandler(_ handler: @escaping (NowPlayableCommand, MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus) {
         
         switch self {
-
+            
         case .skipBackward:
             MPRemoteCommandCenter.shared().skipBackwardCommand.preferredIntervals = [15.0]
-
+            
         case .skipForward:
             MPRemoteCommandCenter.shared().skipForwardCommand.preferredIntervals = [15.0]
-
+            
         default:
             break
         }
