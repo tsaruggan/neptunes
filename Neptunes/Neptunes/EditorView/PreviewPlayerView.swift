@@ -18,8 +18,15 @@ struct PreviewPlayerView: View {
                 Image(systemName: viewModel.isPlaying ? "stop.circle.fill" : "play.circle.fill")
             }
             ProgressView(value: viewModel.playbackProgress, total: 1.0)
-                .progressViewStyle(.linear)
-                .tint(.gray)
+                .progressViewStyle(PreviewPlayerProgressViewStyle())
         }
+    }
+}
+
+struct PreviewPlayerProgressViewStyle: ProgressViewStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        ProgressView(configuration)
+            .progressViewStyle(.linear)
+            .tint(.gray)
     }
 }

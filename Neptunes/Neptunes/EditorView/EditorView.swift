@@ -34,6 +34,7 @@ struct EditorView: View {
     init(viewModel: EditorViewModel, presentingEditor: Binding<Bool>) {
         self.viewModel = viewModel
         self._presentingEditor = presentingEditor
+        
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = .systemBackground
     }
@@ -54,7 +55,7 @@ struct EditorView: View {
                         presentingEditor = false
                     }
                     .foregroundColor(.red)
-
+                    
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add") {
@@ -70,13 +71,32 @@ struct EditorView: View {
     
     var previewPlayer: some View {
         Section(header: Text("Preview")) {
-            PreviewPlayerView(viewModel: .init(url: viewModel.url))
+            VStack(alignment: .center, spacing: 10) {
+                PreviewPlayerView(viewModel: .init(url: viewModel.url))
+                if let url = viewModel.url {
+                    Text(url.lastPathComponent)
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+            }
         }
     }
     
     var songInformation: some View {
         Section(header: Text("Song Information")) {
             TextField("Title", text: $viewModel.songTitle)
+            Toggle(isOn: $viewModel.isExplicit) {
+                HStack {
+                    Text("Explicit Content")
+                    if (viewModel.isExplicit) {
+                        Spacer()
+                        Image(systemName: "e.square.fill")
+                    }
+                }
+                .foregroundColor(.gray)
+            }
         }
     }
     

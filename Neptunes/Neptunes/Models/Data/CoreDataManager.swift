@@ -12,10 +12,11 @@ import SwiftUI
 struct CoreDataManager {
     var viewContext: NSManagedObjectContext
     
-    func initializeSong(title: String, id: UUID) -> Song {
+    func initializeSong(title: String, id: UUID, isExplicit: Bool=true) -> Song {
         let song = Song(context: viewContext)
         song.title = title
         song.id = id
+        song.isExplicit = isExplicit
         return song
     }
     

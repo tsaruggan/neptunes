@@ -45,9 +45,9 @@ final class LibraryViewModel: ObservableObject {
     }
     
     private func addSong(title: String, artistTitle: String, albumTitle: String, filename: String) {
-        var song = dataManager.initializeSong(title: title, id: UUID())
-        var artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: nil, headerArtwork: nil)
-        var album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: nil, headerArtwork: nil)
+        let song = dataManager.initializeSong(title: title, id: UUID())
+        let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: nil, headerArtwork: nil)
+        let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: nil, headerArtwork: nil)
         
         album.artist = artist
         song.album = album

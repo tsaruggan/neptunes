@@ -13,6 +13,7 @@ import PhotosUI
 
 final class EditorViewModel: ObservableObject {
     @Published var songTitle: String
+    @Published var isExplicit: Bool
     @Published var url: URL?
     
     var viewContext: NSManagedObjectContext
@@ -71,6 +72,7 @@ final class EditorViewModel: ObservableObject {
     
     init(metadata: Metadata, viewContext: NSManagedObjectContext) {
         self.songTitle = metadata.songTitle ?? ""
+        
         self.albumTitle = metadata.albumTitle ?? ""
         
         self.albumCoverArtwork = nil
@@ -81,7 +83,10 @@ final class EditorViewModel: ObservableObject {
         }
         
         self.artistTitle = metadata.artistTitle ?? ""
+        
         self.url = metadata.url
+        
+        self.isExplicit = false
         
         self.viewContext = viewContext
         self.dataManager = CoreDataManager(viewContext: viewContext)
@@ -89,6 +94,7 @@ final class EditorViewModel: ObservableObject {
     
     func addSong() {
         let song = dataManager.initializeSong(title: songTitle, id: UUID())
+        song.isExplicit = isExplicit
         
         if let artist = _currentArtist {
             artist.addToSongs(song)
