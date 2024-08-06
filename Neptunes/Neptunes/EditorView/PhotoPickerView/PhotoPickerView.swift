@@ -8,6 +8,7 @@
 import SwiftUI
 import PhotosUI
 import Mantis
+import Shiny
 
 enum PhotoPickerType {
     case album
@@ -17,7 +18,7 @@ enum PhotoPickerType {
 
 struct PhotoPickerView: View {
     @Binding var image: UIImage?
-    var placeholder: String
+    var placeholder: UIImage?
     var type: PhotoPickerType
     var onChange: () -> Void
     
@@ -27,14 +28,24 @@ struct PhotoPickerView: View {
     
     var body: some View {
         PhotosPicker(selection: $selectedPhotosPickerItem, matching: .images) {
-            HStack{
-                picture
-                Spacer()
-                
-                if image != nil {
-                    removeButton
+            VStack {
+                HStack{
+                    Spacer()
+                    picture
+                    Spacer()
+                }
+                HStack(spacing: 36) {
+                    Spacer()
+                    
+                    editButton
+                    if image != nil {
+                        removeButton
+                    }
+                    
+                    Spacer()
                 }
             }
+            .animation(.easeInOut(duration: 0.5), value: image)
         }
         .onChange(of: selectedPhotosPickerItem) { newItem in
             onPhotosPickerItemChange(item: newItem)
@@ -51,20 +62,61 @@ struct PhotoPickerView: View {
     }
     
     var picture: some View {
-        Image(uiImage: image ?? UIImage(named: placeholder)!)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 100, height: type == .header ? 100 / 3 : 100)
-            .clipShape(getClipShape())
+        getFormattedPicture()
     }
     
+    func getFormattedPicture() -> some View {
+        let cornerRadius = 8.0
+        return AnyView(
+            Group {
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                    
+                } else if let placeholder = placeholder {
+                    Image(uiImage: placeholder)
+                        .resizable()
+                } else {
+                    ZStack {
+                        Rectangle().fill(.ultraThickMaterial)
+                        Image(systemName: "photo").foregroundColor(.gray)
+                    }
+                }
+            }
+            .transition(.push(from: .bottom))
+            .cornerRadius(cornerRadius)
+            .aspectRatio(getPrefixedRatio(), contentMode: .fit)
+            .frame(width: type == .header ? nil : 100, height: type == .header ? nil : 100)
+            .frame(maxWidth: type == .header ? .infinity : 100, maxHeight: 100)
+            .clipShape(getClipShape())
+        )
+    }
+    
+    var editButton: some View {
+        Image(systemName: "pencil")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 12, height: 12) // Adjust size of the badge
+            .foregroundColor(.blue)
+            .padding(8)
+            .background(Color.blue.opacity(0.1)) // Light background for contrast
+            .clipShape(Capsule())
+    }
+    
+    
     var removeButton: some View {
-        Button("remove", role: .destructive, action: {
+        Button(action: {
             clear()
-        })
-        .padding()
-        .buttonStyle(.bordered)
-        .buttonBorderShape(.capsule)
+        }) {
+            Image(systemName: "trash")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 12, height: 12) // Adjust size of the badge
+                .foregroundColor(.red)
+                .padding(8)
+                .background(Color.red.opacity(0.1)) // Light background for contrast
+                .clipShape(Circle())
+        }
     }
     
     func onPhotosPickerItemChange(item: PhotosPickerItem?) {
@@ -93,7 +145,7 @@ struct PhotoPickerView: View {
         selectedPhotosPickerItem = nil
         selectedImage = nil
         image = nil
-        
+ 
         onChange()
     }
     
@@ -130,4 +182,3 @@ struct PhotoPickerView: View {
         }
     }
 }
-

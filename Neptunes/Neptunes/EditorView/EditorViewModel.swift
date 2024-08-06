@@ -62,6 +62,13 @@ final class EditorViewModel: ObservableObject {
     @Published var audioPlayer: AVPlayer?
     @Published var isPlaying: Bool = false
     
+    var canAddSong: Bool {
+        let songExists = url != nil && songTitle != ""
+        let artistExists = currentArtist != nil || artistTitle != ""
+        let albumExists = currentAlbum != nil || albumTitle != ""
+        return songExists && artistExists && albumExists
+    }
+    
     init(metadata: Metadata, viewContext: NSManagedObjectContext) {
         self.songTitle = metadata.songTitle ?? ""
         self.albumTitle = metadata.albumTitle ?? ""
@@ -78,24 +85,6 @@ final class EditorViewModel: ObservableObject {
         
         self.viewContext = viewContext
         self.dataManager = CoreDataManager(viewContext: viewContext)
-    }
-    
-    func togglePlay() {
-        if audioPlayer == nil {
-            let temp = fileManager.saveSongTemp(url: url!)
-            audioPlayer = AVPlayer(url: temp!)
-        }
-        
-        if audioPlayer != nil {
-            if audioPlayer!.rate != 0 {
-                audioPlayer!.pause()
-                isPlaying = false
-            } else {
-                audioPlayer!.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
-                audioPlayer!.play()
-                isPlaying = true
-            }
-        }
     }
     
     func addSong() {

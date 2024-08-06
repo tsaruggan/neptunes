@@ -56,6 +56,8 @@
 		181CFB9A2C56BA6900740943 /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CFB872C56BA6800740943 /* ArtworkView.swift */; };
 		181CFB9D2C56BB9500740943 /* Mantis in Frameworks */ = {isa = PBXBuildFile; productRef = 181CFB9C2C56BB9500740943 /* Mantis */; };
 		181CFB9F2C56EBBB00740943 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CFB9E2C56EBBB00740943 /* HomeView.swift */; };
+		182F6A722C580D93000D83D6 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182F6A702C580D93000D83D6 /* Queue.swift */; };
+		182F6A732C580D93000D83D6 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182F6A712C580D93000D83D6 /* NowPlaying.swift */; };
 		18769BF52C53070E0080C8A9 /* song3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18769BF02C53070E0080C8A9 /* song3.mp3 */; };
 		18769BF62C53070E0080C8A9 /* song5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18769BF12C53070E0080C8A9 /* song5.mp3 */; };
 		18769BF72C53070E0080C8A9 /* song2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18769BF22C53070E0080C8A9 /* song2.mp3 */; };
@@ -66,10 +68,11 @@
 		187D4BD62C50141900FD8B25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 187D4BD52C50141900FD8B25 /* Assets.xcassets */; };
 		187D4BD92C50141900FD8B25 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 187D4BD82C50141900FD8B25 /* Preview Assets.xcassets */; };
 		187D4BE82C50141900FD8B25 /* NeptunesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4BE72C50141900FD8B25 /* NeptunesTests.swift */; };
-		187D4C072C50179200FD8B25 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C042C50179200FD8B25 /* Queue.swift */; };
-		187D4C102C5017A900FD8B25 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C0A2C5017A900FD8B25 /* NowPlaying.swift */; };
 		187D4C112C5017A900FD8B25 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D4C0B2C5017A900FD8B25 /* Player.swift */; };
+		1880B6F82C5F361B00B40E64 /* Shiny in Frameworks */ = {isa = PBXBuildFile; productRef = 1880B6F72C5F361B00B40E64 /* Shiny */; };
 		1890C1892C52C93E005CBCA3 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1890C1882C52C93E005CBCA3 /* PlayerTests.swift */; };
+		18D39E442C5D69ED005ABE21 /* PreviewPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D39E432C5D69ED005ABE21 /* PreviewPlayerView.swift */; };
+		18D39E462C5D6A18005ABE21 /* PreviewPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D39E452C5D6A18005ABE21 /* PreviewPlayerViewModel.swift */; };
 		18D8B6D12C501ABE00AC94CF /* song2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6CC2C501ABE00AC94CF /* song2.mp3 */; };
 		18D8B6D22C501ABE00AC94CF /* song5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6CD2C501ABE00AC94CF /* song5.mp3 */; };
 		18D8B6D32C501ABE00AC94CF /* song3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6CE2C501ABE00AC94CF /* song3.mp3 */; };
@@ -137,6 +140,8 @@
 		181CFB862C56BA6800740943 /* SongListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		181CFB872C56BA6800740943 /* ArtworkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
 		181CFB9E2C56EBBB00740943 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		182F6A702C580D93000D83D6 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		182F6A712C580D93000D83D6 /* NowPlaying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlaying.swift; sourceTree = "<group>"; };
 		18769BF02C53070E0080C8A9 /* song3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song3.mp3; sourceTree = "<group>"; };
 		18769BF12C53070E0080C8A9 /* song5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song5.mp3; sourceTree = "<group>"; };
 		18769BF22C53070E0080C8A9 /* song2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song2.mp3; sourceTree = "<group>"; };
@@ -149,10 +154,11 @@
 		187D4BD82C50141900FD8B25 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		187D4BE32C50141900FD8B25 /* NeptunesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeptunesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		187D4BE72C50141900FD8B25 /* NeptunesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeptunesTests.swift; sourceTree = "<group>"; };
-		187D4C042C50179200FD8B25 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queue.swift; path = ../../Queue.swift; sourceTree = "<group>"; };
-		187D4C0A2C5017A900FD8B25 /* NowPlaying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlaying.swift; path = Configuration/NowPlaying.swift; sourceTree = "<group>"; };
 		187D4C0B2C5017A900FD8B25 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		1890C1882C52C93E005CBCA3 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
+		18D39E422C5D5442005ABE21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		18D39E432C5D69ED005ABE21 /* PreviewPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPlayerView.swift; sourceTree = "<group>"; };
+		18D39E452C5D6A18005ABE21 /* PreviewPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPlayerViewModel.swift; sourceTree = "<group>"; };
 		18D8B6CC2C501ABE00AC94CF /* song2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song2.mp3; sourceTree = "<group>"; };
 		18D8B6CD2C501ABE00AC94CF /* song5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song5.mp3; sourceTree = "<group>"; };
 		18D8B6CE2C501ABE00AC94CF /* song3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song3.mp3; sourceTree = "<group>"; };
@@ -167,6 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1880B6F82C5F361B00B40E64 /* Shiny in Frameworks */,
 				181CFB9D2C56BB9500740943 /* Mantis in Frameworks */,
 				181CFB6C2C56B70300740943 /* SwiftImage in Frameworks */,
 			);
@@ -223,11 +230,11 @@
 		180A1A2E2C56B2D00070C8EE /* Playback */ = {
 			isa = PBXGroup;
 			children = (
+				182F6A712C580D93000D83D6 /* NowPlaying.swift */,
+				182F6A702C580D93000D83D6 /* Queue.swift */,
+				187D4C0B2C5017A900FD8B25 /* Player.swift */,
 				180A1A352C56B2D00070C8EE /* NowPlayable */,
 				180A1A2F2C56B2D00070C8EE /* Configuration */,
-				187D4C0B2C5017A900FD8B25 /* Player.swift */,
-				187D4C0A2C5017A900FD8B25 /* NowPlaying.swift */,
-				187D4C042C50179200FD8B25 /* Queue.swift */,
 			);
 			path = Playback;
 			sourceTree = "<group>";
@@ -272,6 +279,8 @@
 				181CFB6E2C56BA6800740943 /* PhotoPickerView */,
 				181CFB732C56BA6800740943 /* EditorViewModel.swift */,
 				181CFB742C56BA6800740943 /* EditorView.swift */,
+				18D39E432C5D69ED005ABE21 /* PreviewPlayerView.swift */,
+				18D39E452C5D6A18005ABE21 /* PreviewPlayerViewModel.swift */,
 			);
 			path = EditorView;
 			sourceTree = "<group>";
@@ -391,19 +400,20 @@
 		187D4BD02C50141700FD8B25 /* Neptunes */ = {
 			isa = PBXGroup;
 			children = (
-				181CFB6D2C56BA6800740943 /* EditorView */,
-				181CFB7A2C56BA6800740943 /* NeptunesView */,
-				181CFB752C56BA6800740943 /* PlayerView */,
+				18D39E422C5D5442005ABE21 /* Info.plist */,
 				180A1A622C56B51B0070C8EE /* Neptunes.xcdatamodeld */,
 				187D4BD52C50141900FD8B25 /* Assets.xcassets */,
 				187D4BD72C50141900FD8B25 /* Preview Content */,
+				181CFB6D2C56BA6800740943 /* EditorView */,
+				181CFB7A2C56BA6800740943 /* NeptunesView */,
+				181CFB752C56BA6800740943 /* PlayerView */,
 				180A1A1E2C56B2D00070C8EE /* Models */,
 				187D4BD12C50141700FD8B25 /* NeptunesApp.swift */,
 				187D4BD32C50141700FD8B25 /* ContentView.swift */,
 				18D8B6D82C502A7300AC94CF /* LibraryView.swift */,
 				18D8B6DA2C50356E00AC94CF /* LibraryViewModel.swift */,
-				18769BFA2C530C4B0080C8A9 /* songs */,
 				181CFB9E2C56EBBB00740943 /* HomeView.swift */,
+				18769BFA2C530C4B0080C8A9 /* songs */,
 			);
 			path = Neptunes;
 			sourceTree = "<group>";
@@ -445,6 +455,7 @@
 			packageProductDependencies = (
 				181CFB6B2C56B70300740943 /* SwiftImage */,
 				181CFB9C2C56BB9500740943 /* Mantis */,
+				1880B6F72C5F361B00B40E64 /* Shiny */,
 			);
 			productName = Neptunes;
 			productReference = 187D4BCE2C50141700FD8B25 /* Neptunes.app */;
@@ -499,6 +510,7 @@
 			packageReferences = (
 				181CFB6A2C56B70300740943 /* XCRemoteSwiftPackageReference "swift-image" */,
 				181CFB9B2C56BB9500740943 /* XCRemoteSwiftPackageReference "Mantis" */,
+				1880B6F62C5F361B00B40E64 /* XCRemoteSwiftPackageReference "shiny" */,
 			);
 			productRefGroup = 187D4BCF2C50141700FD8B25 /* Products */;
 			projectDirPath = "";
@@ -554,7 +566,6 @@
 				180A1A642C56B51B0070C8EE /* Neptunes.xcdatamodeld in Sources */,
 				181CFB902C56BA6800740943 /* ScrubberView.swift in Sources */,
 				180A1A4F2C56B2D00070C8EE /* Palette+CoreDataProperties.swift in Sources */,
-				187D4C072C50179200FD8B25 /* Queue.swift in Sources */,
 				181CFB912C56BA6800740943 /* AlbumViewModel.swift in Sources */,
 				180A1A4D2C56B2D00070C8EE /* UIColor+hex.swift in Sources */,
 				180A1A572C56B2D00070C8EE /* NowPlayable.swift in Sources */,
@@ -569,6 +580,8 @@
 				180A1A4A2C56B2D00070C8EE /* Artist+CoreDataProperties.swift in Sources */,
 				180A1A452C56B2D00070C8EE /* Album+CoreDataClass.swift in Sources */,
 				181CFB8F2C56BA6800740943 /* PlayerView.swift in Sources */,
+				18D39E442C5D69ED005ABE21 /* PreviewPlayerView.swift in Sources */,
+				182F6A722C580D93000D83D6 /* Queue.swift in Sources */,
 				180A1A542C56B2D00070C8EE /* ConfigPath.swift in Sources */,
 				180A1A502C56B2D00070C8EE /* Palette+CoreDataClass.swift in Sources */,
 				181CFB9F2C56EBBB00740943 /* HomeView.swift in Sources */,
@@ -577,9 +590,9 @@
 				181CFB8B2C56BA6800740943 /* EditorViewModel.swift in Sources */,
 				180A1A532C56B2D00070C8EE /* ConfigCommandCollection.swift in Sources */,
 				180A1A462C56B2D00070C8EE /* Song+CoreDataClass.swift in Sources */,
+				18D39E462C5D6A18005ABE21 /* PreviewPlayerViewModel.swift in Sources */,
 				181CFB8A2C56BA6800740943 /* ImageCropperViewController.swift in Sources */,
 				187D4C112C5017A900FD8B25 /* Player.swift in Sources */,
-				187D4C102C5017A900FD8B25 /* NowPlaying.swift in Sources */,
 				181CFB9A2C56BA6900740943 /* ArtworkView.swift in Sources */,
 				180A1A582C56B2D00070C8EE /* NowPlayableError.swift in Sources */,
 				180A1A5F2C56B2D00070C8EE /* LocalFileManager.swift in Sources */,
@@ -594,6 +607,7 @@
 				180A1A442C56B2D00070C8EE /* Metadata.swift in Sources */,
 				181CFB982C56BA6900740943 /* SongView.swift in Sources */,
 				180A1A5E2C56B2D00070C8EE /* CoreDataManager.swift in Sources */,
+				182F6A732C580D93000D83D6 /* NowPlaying.swift in Sources */,
 				181CFB892C56BA6800740943 /* ImageCropper.swift in Sources */,
 				180A1A4E2C56B2D00070C8EE /* Vector.swift in Sources */,
 				181CFB882C56BA6800740943 /* PhotoPickerView.swift in Sources */,
@@ -746,6 +760,7 @@
 				DEVELOPMENT_TEAM = 75AGNXCF5M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Neptunes/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -775,6 +790,7 @@
 				DEVELOPMENT_TEAM = 75AGNXCF5M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Neptunes/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -882,6 +898,14 @@
 				version = 2.9.1;
 			};
 		};
+		1880B6F62C5F361B00B40E64 /* XCRemoteSwiftPackageReference "shiny" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maustinstar/shiny";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -894,6 +918,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 181CFB9B2C56BB9500740943 /* XCRemoteSwiftPackageReference "Mantis" */;
 			productName = Mantis;
+		};
+		1880B6F72C5F361B00B40E64 /* Shiny */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1880B6F62C5F361B00B40E64 /* XCRemoteSwiftPackageReference "shiny" */;
+			productName = Shiny;
 		};
 /* End XCSwiftPackageProductDependency section */
 

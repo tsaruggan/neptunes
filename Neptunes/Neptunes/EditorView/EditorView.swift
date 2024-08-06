@@ -31,19 +31,46 @@ struct EditorView: View {
         animation: .default)
     public var existingAlbums: FetchedResults<Album>
     
+    init(viewModel: EditorViewModel, presentingEditor: Binding<Bool>) {
+        self.viewModel = viewModel
+        self._presentingEditor = presentingEditor
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().barTintColor = .systemBackground
+    }
+    
     var body: some View {
-        
         NavigationView {
             Form {
+                previewPlayer
                 songInformation
                 artistInformation
                 albumInformation
-                
-                Section {
-                    previewPlayButton
-                    addSongButton
+            }
+            .navigationTitle("New Song")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", role: .cancel) {
+                        presentingEditor = false
+                    }
+                    .foregroundColor(.red)
+
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Add") {
+                        viewModel.addSong()
+                        presentingEditor = false
+                    }
+                    .disabled(!viewModel.canAddSong)
                 }
             }
+            .interactiveDismissDisabled()
+        }
+    }
+    
+    var previewPlayer: some View {
+        Section(header: Text("Preview")) {
+            PreviewPlayerView(viewModel: .init(url: viewModel.url))
         }
     }
     
@@ -57,106 +84,107 @@ struct EditorView: View {
         Section(header: Text("Album Information")) {
             existingAlbumInformation
             if viewModel.currentAlbum == nil {
-                TextField("Album", text: $viewModel.albumTitle)
+                TextField("Title", text: $viewModel.albumTitle)
                 albumCoverArtworkPicker
                 albumHeaderArtworkPicker
             }
         }
     }
-    
-    var albumCoverArtworkPicker: some View {
-        PhotoPickerView(image: $viewModel.albumCoverArtwork,
-                        placeholder: "defaultcover",
-                        type: .album,
-                        onChange: viewModel.onAlbumArtworkChange)
-    }
-    
-    var albumHeaderArtworkPicker: some View {
-        PhotoPickerView(image: $viewModel.albumHeaderArtwork,
-                        placeholder: "defaultheader",
-                        type: .header,
-                        onChange: viewModel.onAlbumArtworkChange)
-    }
-    
-    
+
     var existingAlbumInformation: some View {
-        Picker("Existing Album", selection: $viewModel.currentAlbum) {
-            List {
-                Text("None selected").tag(nil as Album?)
-                ForEach(existingAlbums.filter({ viewModel.currentArtist == nil || $0.artist == viewModel.currentArtist })) { album in
-                    HStack {
-                        Image(data: album.coverArtwork, fallback: "defaultcover")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                        VStack(alignment: .leading) {
-                            Text(album.title).bold()
-                            Text(album.artist.title)
+        VStack {
+            HStack {
+                Picker(selection: $viewModel.currentAlbum) {
+                    Text("None").tag(nil as Album?)
+                    ForEach(existingAlbums.filter({ viewModel.currentArtist == nil || $0.artist == viewModel.currentArtist })) { album in
+                        HStack {
+                            Image(data: album.coverArtwork, fallback: "defaultcover")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 36, height: 36)
+                            VStack(alignment: .leading) {
+                                Text(album.title).bold()
+                                Text(album.artist.title)
+                            }
                         }
+                        .tag(Optional(album))
                     }
-                    .tag(Optional(album))
+                } label: {
+                    Text("Existing Album").foregroundColor(.gray)
                 }
+                .pickerStyle(.navigationLink)
             }
         }
-        .pickerStyle(.navigationLink)
     }
     
     var artistInformation: some View {
         Section("Artist Information") {
             existingArtistInformation
             if viewModel.currentArtist == nil {
-                TextField("Artist", text: $viewModel.artistTitle)
+                TextField("Title", text: $viewModel.artistTitle)
                 artistCoverArtworkPicker
                 artistHeaderArtworkPicker
             }
         }
     }
     
-    var artistCoverArtworkPicker: some View {
-        PhotoPickerView(image: $viewModel.artistCoverArtwork,
-                        placeholder: "defaultartist",
-                        type: .artist,
-                        onChange: viewModel.onArtistArtworkChange)
-    }
-    
-    var artistHeaderArtworkPicker: some View {
-        PhotoPickerView(image: $viewModel.artistHeaderArtwork,
-                        placeholder: "defaultheader",
-                        type: .header,
-                        onChange: viewModel.onArtistArtworkChange)
-    }
-    
     var existingArtistInformation: some View {
-        Picker("Existing Artist", selection: $viewModel.currentArtist) {
-            List {
-                Text("None selected").tag(nil as Artist?)
-                ForEach(existingArtists) { artist in
-                    HStack {
-                        Image(data: artist.coverArtwork, fallback: "defaultartist")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                            .clipShape(Circle())
-                        Text(artist.title)
-                    }.tag(Optional(artist))
+        Picker(selection: $viewModel.currentArtist) {
+            Text("None").tag(nil as Artist?)
+            ForEach(existingArtists) { artist in
+                HStack {
+                    Image(data: artist.coverArtwork, fallback: "defaultartist")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
+                        .clipShape(Circle())
+                    Text(artist.title)
                 }
+                .tag(Optional(artist))
             }
+        } label: {
+            Text("Existing Artist").foregroundColor(.gray)
         }
         .pickerStyle(.navigationLink)
     }
     
-    var previewPlayButton: some View {
-        Button {
-            viewModel.togglePlay()
+    var artistCoverArtworkPicker: some View {
+        InitializedDisclosureGroup(isExpanded: true) {
+            PhotoPickerView(image: $viewModel.artistCoverArtwork,
+                            type: .artist,
+                            onChange: viewModel.onArtistArtworkChange)
         } label: {
-            Image(systemName: viewModel.isPlaying ? "stop.circle.fill" : "play.circle.fill")
+            Text("Artwork").foregroundColor(.gray)
         }
     }
     
-    var addSongButton: some View {
-        Button("Add song") {
-            viewModel.addSong()
-            presentingEditor = false
+    var artistHeaderArtworkPicker: some View {
+        InitializedDisclosureGroup(isExpanded: true) {
+            PhotoPickerView(image: $viewModel.artistHeaderArtwork,
+                            type: .header,
+                            onChange: viewModel.onArtistArtworkChange)
+        } label: {
+            Text("Header").foregroundColor(.gray)
+        }
+    }
+    
+    var albumCoverArtworkPicker: some View {
+        InitializedDisclosureGroup(isExpanded: true) {
+            PhotoPickerView(image: $viewModel.albumCoverArtwork,
+                            type: .album,
+                            onChange: viewModel.onAlbumArtworkChange)
+        } label: {
+            Text("Artwork").foregroundColor(.gray)
+        }
+    }
+    
+    var albumHeaderArtworkPicker: some View {
+        InitializedDisclosureGroup(isExpanded: true) {
+            PhotoPickerView(image: $viewModel.albumHeaderArtwork,
+                            type: .header,
+                            onChange: viewModel.onAlbumArtworkChange)
+        } label: {
+            Text("Header").foregroundColor(.gray)
         }
     }
 }
@@ -178,6 +206,27 @@ extension UIImage {
             self.init(data: artwork)
         } else {
             self.init(named: fallback)
+        }
+    }
+}
+
+struct InitializedDisclosureGroup<Content: View, Label: View>: View {
+    @State private var isExpanded: Bool
+
+    let content: () -> Content
+    let label: () -> Label
+
+    init(isExpanded: Bool = false, @ViewBuilder content: @escaping () -> Content, @ViewBuilder label: @escaping () -> Label) {
+        self._isExpanded = State(initialValue: isExpanded)
+        self.content = content
+        self.label = label
+    }
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $isExpanded) {
+            content()
+        } label: {
+            label()
         }
     }
 }
