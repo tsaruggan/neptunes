@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shiny
 
 struct ArtworkView: View {
     var coverArtwork: Data?

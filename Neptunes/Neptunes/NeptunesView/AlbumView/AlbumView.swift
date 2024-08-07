@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shiny
 
 struct AlbumView: View {
     @ObservedObject private var viewModel: AlbumViewModel
@@ -19,7 +20,7 @@ struct AlbumView: View {
     
     var body: some View {
         NeptunesView(headerArtwork: viewModel.album.headerArtwork, backgroundColor: viewModel.album.palette?.background(colorScheme) ?? .clear) {
-            ArtworkView(coverArtwork: viewModel.album.coverArtwork)
+            ArtworkView(coverArtwork: viewModel.album.coverArtwork, paddingBottom: 12)
             albumInformation
             if let songs = viewModel.album.songs {
                 SongListView(
@@ -53,31 +54,35 @@ struct AlbumView: View {
     
     
     var albumInformation: some View {
-        VStack(alignment: .leading, spacing: 0) {
-//            Text(viewModel.album.isSingle ? "Single" : "Album")
-//                .font(.subheadline)
-//                .foregroundColor(viewModel.palette.secondary(colorScheme))
-            Text(viewModel.album.title)
-                .foregroundColor(viewModel.album.palette?.primary(colorScheme) ?? .primary)
-                .fontWeight(.bold)
-                .font(.title2)
-                .padding(.bottom, 4)
-            NavigationLink {
-                ArtistView(viewModel: .init(artist: viewModel.album.artist))
-            } label: {
-                HStack {
-                    Image(data: viewModel.album.artist.coverArtwork, fallback: "defaultartist")
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .frame(height: 24)
-                    Text(viewModel.album.artist.title)
-                        .foregroundColor(viewModel.album.palette?.secondary(colorScheme) ?? .secondary)
+        HStack {
+            Spacer()
+            VStack(alignment: .center, spacing: 0) {
+                Text(viewModel.album.title)
+                    .foregroundColor(viewModel.album.palette?.primary(colorScheme) ?? .primary)
+                    .font(.title.width(.expanded))
+                    .fontWeight(.bold)
+                    .padding(.bottom, 4)
+                NavigationLink {
+                    ArtistView(viewModel: .init(artist: viewModel.album.artist))
+                } label: {
+                    HStack {
+                        Spacer()
+                        Image(data: viewModel.album.artist.coverArtwork, fallback: "defaultartist")
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Circle())
+                            .frame(height: 24)
+                        Text(viewModel.album.artist.title)
+                            .foregroundColor(viewModel.album.palette?.secondary(colorScheme) ?? .secondary)
+                            .font(.body.width(.expanded))
+                        Spacer()
+                    }
                 }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
+            Spacer()
         }
-        .frame(width: 320, alignment: .leading)
+        .padding(.horizontal, 20)
     }
 }
 

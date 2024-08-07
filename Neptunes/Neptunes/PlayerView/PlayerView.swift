@@ -103,16 +103,16 @@ struct PlayerView: View {
                 idleAlignment: .leading
             ) {
                 Text(viewModel.song?.title ?? "")
-                    .font(.title3)
-                    .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
+                    .font(.title3.width(.expanded))
                     .fontWeight(.bold)
+                    .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                     .lineLimit(1)
             }
             .id(viewModel.song?.title ?? "")
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song?.artist.title ?? "")
-                .font(.body)
+                .font(.body.width(.expanded))
                 .foregroundColor(viewModel.palette?.secondary(colorScheme) ?? .secondary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
@@ -226,7 +226,7 @@ struct PlayerView: View {
             ) {
                 Text(viewModel.song?.title ?? "")
                     .foregroundColor(.primary)
-                    .font(.callout)
+                    .font(.callout.width(.expanded))
                     .fontWeight(.bold)
                     .lineLimit(1)
             }
@@ -234,7 +234,7 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song?.artist.title ?? "")
-                .font(.subheadline)
+                .font(.footnote.width(.expanded))
                 .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)

@@ -18,12 +18,14 @@ struct SongView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             HStack(alignment: .center, spacing: 14) {
-                Text(index < 10 ? String(format: "%2d", index) : String(index))
+//                Text(index < 10 ? String(format: "%2d", index) : String(index))
+                Text(String(index))
                     .font(.system(.callout, design: .monospaced))
                     .monospacedDigit()
                     .foregroundColor(indexLabelColor)
                 Text(song.title)
                     .fontWeight(.medium)
+                    .fontDesign(.rounded)
                     .foregroundColor(foregroundColor)
                     .lineLimit(1)
                 if song.isExplicit {
@@ -38,7 +40,7 @@ struct SongView: View {
             
             Menu() {
                 Button {
-//                    audioPlayer.addToQueue(song: song)
+
                 } label: {
                     Label("Add To Queue", systemImage: "text.badge.plus")
                 }
@@ -51,9 +53,11 @@ struct SongView: View {
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(menuColor)
+                    .padding(.vertical, 8)
+                    .clipShape(Circle())
+                    .contentShape(Circle())
                 
             }
         }
-        .padding(12)
     }
 }

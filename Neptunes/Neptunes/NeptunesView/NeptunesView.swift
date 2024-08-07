@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var player: Player
     
     var headerArtwork: Data?
     var backgroundColor: Color
@@ -27,6 +28,10 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
         UINavigationBar.appearance().shadowImage = UIImage()
     }
     
+    func isPlayerCurrentlyVisible() -> Bool {
+        return player.currentSong != nil
+    }
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             ZStack {
@@ -39,7 +44,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
                     content
                 }
                 .padding(.top, 100)
-                .padding(.bottom, 80)
+                .padding(.bottom, isPlayerCurrentlyVisible() ? 80 : 0)
                 .frame(minHeight: UIScreen.main.bounds.height)
             }
         }

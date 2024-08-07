@@ -17,24 +17,20 @@ struct ArtistView: View {
     
     var body: some View {
         NeptunesView(headerArtwork: viewModel.artist.headerArtwork, backgroundColor: viewModel.artist.palette?.background(colorScheme) ?? .clear) {
-            ArtworkView(coverArtwork: viewModel.artist.coverArtwork, paddingHorizontal: 124, isCircle: true)
+            ArtworkView(coverArtwork: viewModel.artist.coverArtwork, paddingHorizontal: 124, paddingBottom: 0, isCircle: true)
             
             HStack {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Artist")
-                        .font(.subheadline)
-                        .foregroundColor(viewModel.artist.palette?.secondary(colorScheme) ?? .secondary)
-                    Text(viewModel.artist.title)
-                        .foregroundColor(viewModel.artist.palette?.primary(colorScheme) ?? .primary)
-                        .fontWeight(.bold)
-                        .font(.title2)
-                }
+                Spacer()
+                Text(viewModel.artist.title)
+                    .foregroundColor(viewModel.artist.palette?.primary(colorScheme) ?? .primary)
+                    .font(.title.width(.expanded))
+                    .fontWeight(.bold)
                 Spacer()
             }
             .padding(.horizontal, 20)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 20) {
+                HStack(spacing: 12) {
                     if let albums = viewModel.artist.albums {
                         ForEach(Array(albums as! Set<Album>)) { album in
                             NavigationLink {
@@ -46,7 +42,8 @@ struct ArtistView: View {
                                         .scaledToFit()
                                         .cornerRadius(8)
                                     Text(album.title)
-                                        .font(.headline)
+                                        .font(.body)
+                                        .fontDesign(.rounded)
                                         .foregroundColor(viewModel.artist.palette?.primary(colorScheme) ?? .primary)
                                         .fontWeight(.bold)
                                         .lineLimit(1)
@@ -57,8 +54,9 @@ struct ArtistView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 20)
             }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 12)
             if let songs = viewModel.artist.songs {
                 SongListView(
                     songs: Array(songs as! Set<Song>),

@@ -17,10 +17,10 @@ struct SongListView: View {
     var menuColor: Color
     var isDetailed: Bool
     var paddingTop: CGFloat = 8
-    var paddingBottom: CGFloat = 20
-    var paddingHorizontal: CGFloat = 8
+    var paddingBottom: CGFloat = 0
+    var paddingHorizontal: CGFloat = 20
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 24) {
             if isDetailed {
                 ForEach(songs.indices, id: \.self) { i in
                     DetailedSongView(

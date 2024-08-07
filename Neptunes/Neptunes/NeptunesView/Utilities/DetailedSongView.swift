@@ -27,7 +27,8 @@ struct DetailedSongView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .center, spacing: 14) {
                         Text(song.title)
-                            .fontWeight(.medium)
+                            .fontWeight(.semibold)
+                            .fontDesign(.rounded)
                             .foregroundColor(foregroundColor)
                             .lineLimit(1)
                         if song.isExplicit {
@@ -35,10 +36,10 @@ struct DetailedSongView: View {
                                 .foregroundColor(explicitSignColor)
                         }
                     }
-                    
                     Text(song.artist.title)
                         .foregroundColor(artistLabelColor)
                         .font(.callout)
+                        .fontDesign(.rounded)
                         .lineLimit(1)
                 }
                 Spacer(minLength: 0)
@@ -56,8 +57,10 @@ struct DetailedSongView: View {
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(menuColor)
+                    .padding(.vertical, 8)
+                    .clipShape(Circle())
+                    .contentShape(Circle())
             }
         }
-        .padding(12)
     }
 }
