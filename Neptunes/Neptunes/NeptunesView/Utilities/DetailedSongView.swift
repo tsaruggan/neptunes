@@ -30,10 +30,10 @@ struct DetailedSongView: View {
                             .fontWeight(.medium)
                             .foregroundColor(foregroundColor)
                             .lineLimit(1)
-//                        if song.isExplicit {
-//                            Image(systemName: "e.square.fill")
-//                                .foregroundColor(explicitSignColor)
-//                        }
+                        if song.isExplicit {
+                            Image(systemName: "e.square.fill")
+                                .foregroundColor(explicitSignColor)
+                        }
                     }
                     
                     Text(song.artist.title)
