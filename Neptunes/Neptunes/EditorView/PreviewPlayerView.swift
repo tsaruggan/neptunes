@@ -16,6 +16,7 @@ struct PreviewPlayerView: View {
                 viewModel.togglePlay()
             } label: {
                 Image(systemName: viewModel.isPlaying ? "stop.circle.fill" : "play.circle.fill")
+                    .font(.largeTitle)
             }
             ProgressView(value: viewModel.playbackProgress, total: 1.0)
                 .progressViewStyle(PreviewPlayerProgressViewStyle())

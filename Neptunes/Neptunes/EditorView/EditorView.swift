@@ -70,18 +70,18 @@ struct EditorView: View {
     }
     
     var previewPlayer: some View {
-        Section(header: Text("Preview")) {
-            VStack(alignment: .center, spacing: 10) {
-                PreviewPlayerView(viewModel: .init(url: viewModel.url))
-                if let url = viewModel.url {
-                    Text(url.lastPathComponent)
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                }
+        Section {
+            PreviewPlayerView(viewModel: .init(url: viewModel.url))
+        } header: {
+            Text("Preview")
+        } footer: {
+            if let url = viewModel.url {
+                Text(url.lastPathComponent)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
             }
         }
+
     }
     
     var songInformation: some View {
@@ -93,9 +93,9 @@ struct EditorView: View {
                     if (viewModel.isExplicit) {
                         Spacer()
                         Image(systemName: "e.square.fill")
+                            .foregroundColor(.red)
                     }
                 }
-                .foregroundColor(.gray)
             }
         }
     }
@@ -130,7 +130,7 @@ struct EditorView: View {
                         .tag(Optional(album))
                     }
                 } label: {
-                    Text("Existing Album").foregroundColor(.gray)
+                    Text("Existing Album")
                 }
                 .pickerStyle(.navigationLink)
             }
@@ -163,7 +163,7 @@ struct EditorView: View {
                 .tag(Optional(artist))
             }
         } label: {
-            Text("Existing Artist").foregroundColor(.gray)
+            Text("Existing Artist")
         }
         .pickerStyle(.navigationLink)
     }
@@ -174,7 +174,7 @@ struct EditorView: View {
                             type: .artist,
                             onChange: viewModel.onArtistArtworkChange)
         } label: {
-            Text("Artwork").foregroundColor(.gray)
+            Text("Artwork")
         }
     }
     
@@ -184,7 +184,7 @@ struct EditorView: View {
                             type: .header,
                             onChange: viewModel.onArtistArtworkChange)
         } label: {
-            Text("Header").foregroundColor(.gray)
+            Text("Header")
         }
     }
     
@@ -194,7 +194,7 @@ struct EditorView: View {
                             type: .album,
                             onChange: viewModel.onAlbumArtworkChange)
         } label: {
-            Text("Artwork").foregroundColor(.gray)
+            Text("Artwork")
         }
     }
     
@@ -204,7 +204,7 @@ struct EditorView: View {
                             type: .header,
                             onChange: viewModel.onAlbumArtworkChange)
         } label: {
-            Text("Header").foregroundColor(.gray)
+            Text("Header")
         }
     }
 }
