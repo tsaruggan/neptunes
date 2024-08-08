@@ -20,6 +20,8 @@ struct PlayerView: View {
     let expandedContentHeight = UIScreen.main.bounds.height * 2.5 / 3
     let expandedContentVerticalOffset = min(UIScreen.main.bounds.height / 8, 200)
     
+    @State private var presentingUpcomingSongs = false
+    
     init(viewModel: PlayerViewModel, expanded: Binding<Bool>, animation: Namespace.ID) {
         self.viewModel = viewModel
         self._expanded = expanded
@@ -72,6 +74,9 @@ struct PlayerView: View {
         )
         .onReceive(viewModel.timer) { _ in viewModel.onUpdate() }
         .ignoresSafeArea()
+        .sheet(isPresented: $presentingUpcomingSongs) {
+            UpcomingSongsView(viewModel: .init(player: viewModel.player))
+        }
     }
     
     var songArtwork: some View {
@@ -103,7 +108,8 @@ struct PlayerView: View {
                 idleAlignment: .leading
             ) {
                 Text(viewModel.song?.title ?? "")
-                    .font(.title3.width(.expanded))
+                    .font(.title2)
+                    .fontDesign(.rounded)
                     .fontWeight(.bold)
                     .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                     .lineLimit(1)
@@ -112,7 +118,9 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song?.artist.title ?? "")
-                .font(.body.width(.expanded))
+                .font(.headline)
+                .fontDesign(.rounded)
+                .fontWeight(.medium)
                 .foregroundColor(viewModel.palette?.secondary(colorScheme) ?? .secondary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
@@ -188,9 +196,12 @@ struct PlayerView: View {
                         .font(.system(size: 4))
                 }
                 Spacer()
-                Button(action: {}) {
+                Button {
+                    presentingUpcomingSongs = true
+                } label: {
                     Image(systemName: "list.triangle")
                 }
+
             }
             .buttonStyle(SmallMediaButtonStyle(foregroundColor: viewModel.palette?.secondary(colorScheme) ?? .secondary))
             .padding(.vertical, nil)
@@ -226,7 +237,8 @@ struct PlayerView: View {
             ) {
                 Text(viewModel.song?.title ?? "")
                     .foregroundColor(.primary)
-                    .font(.callout.width(.expanded))
+                    .font(.callout)
+                    .fontDesign(.rounded)
                     .fontWeight(.bold)
                     .lineLimit(1)
             }
@@ -234,7 +246,9 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song?.artist.title ?? "")
-                .font(.footnote.width(.expanded))
+                .font(.callout)
+                .fontDesign(.rounded)
+                .fontWeight(.medium)
                 .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)

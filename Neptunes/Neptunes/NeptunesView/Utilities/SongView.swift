@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SongView: View {
+    @EnvironmentObject var player: Player
     var song: Song
     var index: Int
     var indexLabelColor: Color
@@ -40,7 +41,12 @@ struct SongView: View {
             
             Menu() {
                 Button {
-
+                    player.addToNowPlaying(song: song)
+                } label: {
+                    Label("Add To Now Playing", systemImage: "text.line.last.and.arrowtriangle.forward")
+                }
+                Button {
+                    player.addToQueue(song: song)
                 } label: {
                     Label("Add To Queue", systemImage: "text.badge.plus")
                 }

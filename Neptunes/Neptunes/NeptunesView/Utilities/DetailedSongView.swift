@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import MediaPlayer
 
 struct DetailedSongView: View {
+    @EnvironmentObject var player: Player
     var song: Song
     var artistLabelColor: Color
     var foregroundColor: Color
@@ -50,9 +50,19 @@ struct DetailedSongView: View {
             
             Menu() {
                 Button {
-                    
+                    player.addToNowPlaying(song: song)
+                } label: {
+                    Label("Add To Now Playing", systemImage: "text.line.last.and.arrowtriangle.forward")
+                }
+                Button {
+                    player.addToQueue(song: song)
                 } label: {
                     Label("Add To Queue", systemImage: "text.badge.plus")
+                }
+                Button {
+                    
+                } label: {
+                    Label("Edit \(song.title)...", systemImage: "wand.and.stars")
                 }
             } label: {
                 Image(systemName: "ellipsis")

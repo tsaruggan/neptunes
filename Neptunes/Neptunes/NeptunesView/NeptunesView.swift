@@ -21,11 +21,6 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
         self.backgroundColor = backgroundColor
         self.content = content()
         self.menu = menu()
-        
-        UINavigationBar.appearance().isTranslucent = true
-        UINavigationBar.appearance().barTintColor = .clear
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().shadowImage = UIImage()
     }
     
     func isPlayerCurrentlyVisible() -> Bool {
@@ -56,6 +51,7 @@ struct NeptunesView<Content: View, MenuButtonGroup: View>: View {
             ToolbarItemGroup(placement: .navigationBarLeading){ backButton }
             ToolbarItemGroup(placement: .navigationBarTrailing){ menuButton }
         }
+        .toolbarBackground(.hidden, for: .navigationBar)
     }
     
     var backButton: some View {
@@ -90,3 +86,14 @@ struct ToolbarButtonStyle: ButtonStyle {
     }
 }
 
+// Assorted witchcraft that lets you swipe back even when navigationBarBackButton is hidden
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
+    }
+}

@@ -78,8 +78,8 @@
 		18D8B6D32C501ABE00AC94CF /* song3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6CE2C501ABE00AC94CF /* song3.mp3 */; };
 		18D8B6D42C501ABE00AC94CF /* song4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6CF2C501ABE00AC94CF /* song4.mp3 */; };
 		18D8B6D52C501ABE00AC94CF /* song1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18D8B6D02C501ABE00AC94CF /* song1.mp3 */; };
-		18D8B6D92C502A7300AC94CF /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6D82C502A7300AC94CF /* LibraryView.swift */; };
-		18D8B6DB2C50356E00AC94CF /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6DA2C50356E00AC94CF /* LibraryViewModel.swift */; };
+		18D8B6D92C502A7300AC94CF /* UpcomingSongsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6D82C502A7300AC94CF /* UpcomingSongsView.swift */; };
+		18D8B6DB2C50356E00AC94CF /* UpcomingSongsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6DA2C50356E00AC94CF /* UpcomingSongsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,8 +164,8 @@
 		18D8B6CE2C501ABE00AC94CF /* song3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song3.mp3; sourceTree = "<group>"; };
 		18D8B6CF2C501ABE00AC94CF /* song4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song4.mp3; sourceTree = "<group>"; };
 		18D8B6D02C501ABE00AC94CF /* song1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song1.mp3; sourceTree = "<group>"; };
-		18D8B6D82C502A7300AC94CF /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
-		18D8B6DA2C50356E00AC94CF /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		18D8B6D82C502A7300AC94CF /* UpcomingSongsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingSongsView.swift; sourceTree = "<group>"; };
+		18D8B6DA2C50356E00AC94CF /* UpcomingSongsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingSongsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,8 +410,8 @@
 				180A1A1E2C56B2D00070C8EE /* Models */,
 				187D4BD12C50141700FD8B25 /* NeptunesApp.swift */,
 				187D4BD32C50141700FD8B25 /* ContentView.swift */,
-				18D8B6D82C502A7300AC94CF /* LibraryView.swift */,
-				18D8B6DA2C50356E00AC94CF /* LibraryViewModel.swift */,
+				18D8B6D82C502A7300AC94CF /* UpcomingSongsView.swift */,
+				18D8B6DA2C50356E00AC94CF /* UpcomingSongsViewModel.swift */,
 				181CFB9E2C56EBBB00740943 /* HomeView.swift */,
 				18769BFA2C530C4B0080C8A9 /* songs */,
 			);
@@ -559,7 +559,7 @@
 				180A1A5A2C56B2D00070C8EE /* NowPlayableCommand.swift in Sources */,
 				180A1A592C56B2D00070C8EE /* IOSNowPlayableBehaviour.swift in Sources */,
 				180A1A552C56B2D00070C8EE /* ConfigModel.swift in Sources */,
-				18D8B6D92C502A7300AC94CF /* LibraryView.swift in Sources */,
+				18D8B6D92C502A7300AC94CF /* UpcomingSongsView.swift in Sources */,
 				180A1A4C2C56B2D00070C8EE /* ColorAnalyzer.swift in Sources */,
 				180A1A602C56B2D00070C8EE /* Persistence.swift in Sources */,
 				181CFB8D2C56BA6800740943 /* MarqueeView.swift in Sources */,
@@ -572,7 +572,7 @@
 				181CFB942C56BA6900740943 /* ArtistViewModel.swift in Sources */,
 				181CFB962C56BA6900740943 /* DetailedSongView.swift in Sources */,
 				180A1A522C56B2D00070C8EE /* ConfigCommand.swift in Sources */,
-				18D8B6DB2C50356E00AC94CF /* LibraryViewModel.swift in Sources */,
+				18D8B6DB2C50356E00AC94CF /* UpcomingSongsViewModel.swift in Sources */,
 				181CFB992C56BA6900740943 /* SongListView.swift in Sources */,
 				181CFB972C56BA6900740943 /* HeaderView.swift in Sources */,
 				180A1A492C56B2D00070C8EE /* Album+CoreDataProperties.swift in Sources */,
@@ -764,8 +764,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -794,8 +795,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

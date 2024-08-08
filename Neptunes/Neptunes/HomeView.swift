@@ -23,7 +23,6 @@ struct HomeView: View {
     @State private var presentingImporter = false
     @State private var currentMetadata = Metadata()
     
-    
     var body: some View {
         
         List {
