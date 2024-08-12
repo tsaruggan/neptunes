@@ -21,14 +21,13 @@ struct DetailedSongView: View {
                 Image(data: song.album.coverArtwork, fallback: "defaultcover")
                     .resizable()
                     .scaledToFit()
-                    .cornerRadius(2)
+                    .cornerRadius(4)
                     .frame(height: 40)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .center, spacing: 14) {
                         Text(song.title)
                             .fontWeight(.semibold)
-                            .fontDesign(.rounded)
                             .foregroundColor(foregroundColor)
                             .lineLimit(1)
                         if song.isExplicit {
@@ -39,7 +38,6 @@ struct DetailedSongView: View {
                     Text(song.artist.title)
                         .foregroundColor(artistLabelColor)
                         .font(.callout)
-                        .fontDesign(.rounded)
                         .lineLimit(1)
                 }
                 Spacer(minLength: 0)

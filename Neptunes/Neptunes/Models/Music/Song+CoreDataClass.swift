@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 @objc(Song)
-public class Song: NSManagedObject {
+public class Song: NSManagedObject, Findable {
 
 }

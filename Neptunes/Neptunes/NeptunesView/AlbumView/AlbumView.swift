@@ -27,7 +27,7 @@ struct AlbumView: View {
                     songs: Array(_immutableCocoaArray: songs),
                     labelColor: viewModel.album.palette?.secondary(colorScheme) ?? .secondary,
                     foregroundColor: viewModel.album.palette?.primary(colorScheme) ?? .primary,
-                    explicitSignColor: viewModel.album.palette?.accent(colorScheme) ?? .teal,
+                    explicitSignColor: viewModel.album.palette?.accent(colorScheme) ?? .red,
                     menuColor: viewModel.album.palette?.secondary(colorScheme) ?? .secondary,
                     isDetailed: false
                 )

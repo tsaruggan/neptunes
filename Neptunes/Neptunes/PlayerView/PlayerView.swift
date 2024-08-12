@@ -7,10 +7,11 @@
 
 import SwiftUI
 import AVFoundation
+import Combine
 
 struct PlayerView: View {
     @Environment(\.colorScheme) var colorScheme
-
+    
     @ObservedObject var viewModel: PlayerViewModel
     @Binding var expanded: Bool
     var animation: Namespace.ID
@@ -22,10 +23,24 @@ struct PlayerView: View {
     
     @State private var presentingUpcomingSongs = false
     
+    // Font configuation constants
+    let songTitleFont: Font
+    let artistTitleFont: Font
+    let collapsedSongTitleFont: Font
+    let collapsedArtistTitleFont: Font
+    
+    @State private var isKeyboardVisible = false
+    
+    // Constructor
     init(viewModel: PlayerViewModel, expanded: Binding<Bool>, animation: Namespace.ID) {
         self.viewModel = viewModel
         self._expanded = expanded
         self.animation = animation
+        
+        self.songTitleFont = Font.system(.title2, design: .default, weight: .semibold)
+        self.artistTitleFont = Font.system(.headline, design: .default, weight: .regular)
+        self.collapsedSongTitleFont = Font.system(.body, design: .default, weight: .semibold)
+        self.collapsedArtistTitleFont = Font.system(.callout, design: .default, weight: .regular)
     }
     
     var body: some View {
@@ -58,9 +73,21 @@ struct PlayerView: View {
         }
         .frame(width: UIScreen.main.bounds.width)
         .frame(maxHeight: expanded ? .infinity : 72)
-        .background(viewModel.palette?.background(colorScheme)?.opacity(0.75) ?? .clear)
+        .background(viewModel.palette?.background(colorScheme)?.opacity(0.50) ?? .clear)
         .background(.ultraThinMaterial)
-        .opacity(viewModel.song != nil ? 1 : 0)
+        .opacity(viewModel.song != nil && !isKeyboardVisible ? 1 : 0)
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
+                isKeyboardVisible = true
+            }
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                isKeyboardVisible = false
+            }
+        }
+        .onDisappear {
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
         .onTapGesture {
             withAnimation(.spring()){ expanded = true }
         }
@@ -80,22 +107,20 @@ struct PlayerView: View {
     }
     
     var songArtwork: some View {
+        let artworkImage: Image
         if let artwork = viewModel.song?.album.coverArtwork,
            let image = UIImage(data: artwork) {
-            return Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .cornerRadius(8)
-                .matchedGeometryEffect(id: "artwork", in: animation, properties: .frame)
-                .frame(width: expanded ? nil : 55, height: expanded ? nil : 55)
+            artworkImage = Image(uiImage: image)
         } else {
-            return Image("defaultcover")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .cornerRadius(8)
-                .matchedGeometryEffect(id: "artwork", in: animation, properties: .frame)
-                .frame(width: expanded ? nil : 55, height: expanded ? nil : 55)
+            artworkImage = Image("defaultcover")
         }
+        
+        return artworkImage
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .cornerRadius(expanded ? 8 : 4)
+            .matchedGeometryEffect(id: "artwork", in: animation, properties: .frame)
+            .frame(width: expanded ? nil : 55, height: expanded ? nil : 55)
     }
     
     var expandedSongInformation: some View {
@@ -108,9 +133,7 @@ struct PlayerView: View {
                 idleAlignment: .leading
             ) {
                 Text(viewModel.song?.title ?? "")
-                    .font(.title2)
-                    .fontDesign(.rounded)
-                    .fontWeight(.bold)
+                    .font(songTitleFont)
                     .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                     .lineLimit(1)
             }
@@ -118,9 +141,7 @@ struct PlayerView: View {
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song?.artist.title ?? "")
-                .font(.headline)
-                .fontDesign(.rounded)
-                .fontWeight(.medium)
+                .font(artistTitleFont)
                 .foregroundColor(viewModel.palette?.secondary(colorScheme) ?? .secondary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
@@ -201,7 +222,7 @@ struct PlayerView: View {
                 } label: {
                     Image(systemName: "list.triangle")
                 }
-
+                
             }
             .buttonStyle(SmallMediaButtonStyle(foregroundColor: viewModel.palette?.secondary(colorScheme) ?? .secondary))
             .padding(.vertical, nil)
@@ -236,22 +257,19 @@ struct PlayerView: View {
                 idleAlignment: .leading
             ) {
                 Text(viewModel.song?.title ?? "")
-                    .foregroundColor(.primary)
-                    .font(.callout)
-                    .fontDesign(.rounded)
-                    .fontWeight(.bold)
+                    .font(collapsedSongTitleFont)
+                    .foregroundColor(Color.primary)
                     .lineLimit(1)
             }
             .id(viewModel.song?.title ?? "")
             .matchedGeometryEffect(id: "title", in: animation, properties: .position)
             
             Text(viewModel.song?.artist.title ?? "")
-                .font(.callout)
-                .fontDesign(.rounded)
-                .fontWeight(.medium)
+                .font(collapsedArtistTitleFont)
                 .foregroundColor(viewModel.palette?.primary(colorScheme) ?? .primary)
                 .lineLimit(1)
                 .matchedGeometryEffect(id: "artist", in: animation, properties: .position)
+            
             Spacer()
         }
         .frame(height: 50)

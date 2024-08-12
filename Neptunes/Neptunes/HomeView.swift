@@ -25,12 +25,16 @@ struct HomeView: View {
     
     var body: some View {
         
-        List {
-            ForEach(albums.indices, id: \.self) { i in
-                NavigationLink {
-                    AlbumView(viewModel: .init(album: albums[i]))
-                } label: {
-                    Text(albums[i].title)
+        VStack {
+            Group {
+                NavigationLink("Songs") {
+                    SongFinderView(viewContext: viewContext)
+                }
+                NavigationLink("Albums") {
+                    AlbumFinderView(viewContext: viewContext)
+                }
+                NavigationLink("Artists") {
+                    ArtistFinderView(viewContext: viewContext)
                 }
             }
         }

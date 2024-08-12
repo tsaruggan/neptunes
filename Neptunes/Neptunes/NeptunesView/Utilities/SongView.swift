@@ -26,7 +26,6 @@ struct SongView: View {
                     .foregroundColor(indexLabelColor)
                 Text(song.title)
                     .fontWeight(.medium)
-                    .fontDesign(.rounded)
                     .foregroundColor(foregroundColor)
                     .lineLimit(1)
                 if song.isExplicit {

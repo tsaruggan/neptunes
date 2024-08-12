@@ -43,9 +43,8 @@ struct ArtistView: View {
                                         .cornerRadius(8)
                                     Text(album.title)
                                         .font(.body)
-                                        .fontDesign(.rounded)
                                         .foregroundColor(viewModel.artist.palette?.primary(colorScheme) ?? .primary)
-                                        .fontWeight(.bold)
+                                        .fontWeight(.semibold)
                                         .lineLimit(1)
                                 }
                                 .frame(width: 164)
@@ -62,7 +61,7 @@ struct ArtistView: View {
                     songs: Array(songs as! Set<Song>),
                     labelColor: viewModel.artist.palette?.secondary(colorScheme) ?? .secondary,
                     foregroundColor: viewModel.artist.palette?.primary(colorScheme) ?? .primary,
-                    explicitSignColor: viewModel.artist.palette?.accent(colorScheme) ?? .primary,
+                    explicitSignColor: viewModel.artist.palette?.accent(colorScheme) ?? .red,
                     menuColor: viewModel.artist.palette?.secondary(colorScheme) ?? .secondary,
                     isDetailed: true
                 )

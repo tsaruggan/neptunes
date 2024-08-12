@@ -15,13 +15,20 @@ struct UpcomingSongsView: View {
         self.viewModel = viewModel
     }
     
+    func renderSong(song: Song) -> some View {
+        return (
+            VStack(alignment: .leading) {
+                Text(song.title)
+                    .fontWeight(.semibold)
+                Text(song.artist.title)
+                    .font(.callout)
+            }
+        )
+    }
+    
     var currentSong: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(viewModel.currentSong!.title)
-                    .fontWeight(.semibold)
-                Text(viewModel.currentSong!.artist.title)
-            }
+            renderSong(song: viewModel.currentSong!)
             Spacer()
             if (viewModel.isPlaying) {
                 Image(systemName: "waveform")
@@ -45,11 +52,7 @@ struct UpcomingSongsView: View {
             if (viewModel.songsInNowPlaying != nil), !viewModel.songsInNowPlaying!.isEmpty {
                 ForEach(viewModel.songsInNowPlaying!, id: \.id) { song in
                     HStack {
-                        VStack(alignment: .leading) {
-                            Text(song.title)
-                                .fontWeight(.semibold)
-                            Text(song.artist.title)
-                        }
+                        renderSong(song: song)
                         Spacer()
                     }
                 }
@@ -66,11 +69,7 @@ struct UpcomingSongsView: View {
             if (viewModel.songsInQueue != nil), !viewModel.songsInQueue!.isEmpty {
                 ForEach(viewModel.songsInQueue!, id: \.id) { song in
                     HStack {
-                        VStack(alignment: .leading) {
-                            Text(song.title)
-                                .fontWeight(.semibold)
-                            Text(song.artist.title)
-                        }
+                        renderSong(song: song)
                         Spacer()
                     }
                 }
