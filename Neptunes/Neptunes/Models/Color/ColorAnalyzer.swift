@@ -10,18 +10,6 @@ import UIKit
 import SwiftImage
 import SwiftUI
 
-typealias ColorTheme = (
-    lightColor: UIColor,
-    darkColor: UIColor
-)
-
-typealias ColorPalette = (
-    primaryTheme: ColorTheme,
-    secondaryTheme: ColorTheme,
-    accentTheme: ColorTheme,
-    backgroundTheme: ColorTheme
-)
-
 class ColorAnalyzer {
     
     public static func generatePalette(coverArtwork: UIImage?, headerArtwork: UIImage?) -> ColorPalette? {

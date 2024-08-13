@@ -19,8 +19,8 @@ struct HomeView: View {
         animation: .default)
     private var albums: FetchedResults<Album>
     
-    @State private var presentingEditor = false
-    @State private var presentingImporter = false
+    @State private var presentingSongEditor = false
+    @State private var presentingSongImporter = false
     @State private var currentMetadata = Metadata()
     
     var body: some View {
@@ -41,13 +41,13 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem {
                 Button {
-                    presentingImporter = true
+                    presentingSongImporter = true
                 } label: {
                     Label("Add Song", systemImage: "plus")
                 }
             }
         }
-        .fileImporter(isPresented: $presentingImporter, allowedContentTypes: [.mp3], onCompletion: { result in
+        .fileImporter(isPresented: $presentingSongImporter, allowedContentTypes: [.mp3], onCompletion: { result in
             switch result {
             case .success(let url):
                 guard url.startAccessingSecurityScopedResource() else {
@@ -57,13 +57,16 @@ struct HomeView: View {
                 Task {
                     currentMetadata = await Metadata.getMetadata(for: url)
                 }
-                presentingEditor = true
+                presentingSongEditor = true
             case .failure(let error):
                 print(error)
             }
         })
-        .sheet(isPresented: $presentingEditor) {
-            EditorView(viewModel: EditorViewModel(metadata: currentMetadata, viewContext: viewContext), presentingEditor: $presentingEditor)
+        .sheet(isPresented: $presentingSongEditor) {
+            SongEditorView(
+                viewModel: SongEditorViewModel(metadata: currentMetadata, viewContext: viewContext),
+                presentingEditor: $presentingSongEditor
+            )
         }
         
     }

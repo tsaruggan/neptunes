@@ -73,7 +73,7 @@ struct PlayerView: View {
         }
         .frame(width: UIScreen.main.bounds.width)
         .frame(maxHeight: expanded ? .infinity : 72)
-        .background(viewModel.palette?.background(colorScheme)?.opacity(0.50) ?? .clear)
+        .background(viewModel.palette?.background(colorScheme)?.opacity(0.60) ?? .clear)
         .background(.ultraThinMaterial)
         .opacity(viewModel.song != nil && !isKeyboardVisible ? 1 : 0)
         .onAppear {

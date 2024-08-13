@@ -10,9 +10,9 @@ import PhotosUI
 import AVFoundation
 import Mantis
 
-struct EditorView: View {
+struct SongEditorView: View {
     
-    @ObservedObject public var viewModel: EditorViewModel
+    @ObservedObject public var viewModel: SongEditorViewModel
     
     @Binding var presentingEditor: Bool
     
@@ -31,12 +31,22 @@ struct EditorView: View {
         animation: .default)
     public var existingAlbums: FetchedResults<Album>
     
-    init(viewModel: EditorViewModel, presentingEditor: Binding<Bool>) {
+    init(viewModel: SongEditorViewModel, presentingEditor: Binding<Bool>) {
         self.viewModel = viewModel
         self._presentingEditor = presentingEditor
         
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = .systemBackground
+    }
+    
+    func getTitle(_ editorAction: EditorActionType) -> String {
+        var title = ""
+        if (editorAction == .new) {
+            title = "New Song"
+        } else if (editorAction == .edit) {
+            title = "Edit Song"
+        }
+        return title
     }
     
     var body: some View {
@@ -47,7 +57,7 @@ struct EditorView: View {
                 artistInformation
                 albumInformation
             }
-            .navigationTitle("New Song")
+            .navigationTitle(getTitle(viewModel.editorAction))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -57,13 +67,24 @@ struct EditorView: View {
                     .foregroundColor(.red)
                     
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Add") {
-                        viewModel.addSong()
-                        presentingEditor = false
+                if (viewModel.editorAction == .new) {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Add") {
+                            viewModel.addSong()
+                            presentingEditor = false
+                        }
+                        .disabled(!viewModel.validate())
                     }
-                    .disabled(!viewModel.canAddSong)
+                } else if (viewModel.editorAction == .edit) {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Update") {
+                            viewModel.updateSong()
+                            presentingEditor = false
+                        }
+                        .disabled(!viewModel.validate())
+                    }
                 }
+                
             }
             .interactiveDismissDisabled()
         }

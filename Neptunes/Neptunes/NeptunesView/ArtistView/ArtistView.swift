@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ArtistView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var viewModel: ArtistViewModel
     @Environment(\.colorScheme) var colorScheme
     

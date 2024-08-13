@@ -6,11 +6,12 @@
 //
 
 import Foundation
-import UIKit
+import CoreData
 import SwiftUI
 
 final class AlbumViewModel: ObservableObject {
     @Published var album: Album
+    
     
     init(album: Album) {
         self.album = album
