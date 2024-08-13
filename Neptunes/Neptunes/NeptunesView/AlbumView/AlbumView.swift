@@ -22,9 +22,9 @@ struct AlbumView: View {
         NeptunesView(headerArtwork: viewModel.album.headerArtwork, backgroundColor: viewModel.album.palette?.background(colorScheme) ?? .clear) {
             ArtworkView(coverArtwork: viewModel.album.coverArtwork, paddingBottom: 12)
             albumInformation
-            if let songs = viewModel.album.songs {
+            if viewModel.album.songs != nil{
                 SongListView(
-                    songs: Array(_immutableCocoaArray: songs),
+                    source: viewModel.album,
                     labelColor: viewModel.album.palette?.secondary(colorScheme) ?? .secondary,
                     foregroundColor: viewModel.album.palette?.primary(colorScheme) ?? .primary,
                     explicitSignColor: viewModel.album.palette?.accent(colorScheme) ?? .red,

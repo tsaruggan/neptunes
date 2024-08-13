@@ -190,6 +190,7 @@ final class SongEditorViewModel: ObservableObject {
         }
         
         dataManager.saveData()
+        objectWillChange.send()
     }
     
     func onAlbumArtworkChange() {

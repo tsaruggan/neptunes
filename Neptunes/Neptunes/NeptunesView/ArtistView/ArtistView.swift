@@ -35,7 +35,7 @@ struct ArtistView: View {
                     if let albums = viewModel.artist.albums {
                         ForEach(Array(albums as! Set<Album>)) { album in
                             NavigationLink {
-                                AlbumView(viewModel: .init(album: album))
+                                AlbumView(viewModel: .init(album: album, viewContext: viewContext))
                             } label: {
                                 VStack(alignment: .leading) {
                                     Image(data: album.coverArtwork, fallback: "defaultcover")
@@ -57,9 +57,9 @@ struct ArtistView: View {
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 12)
-            if let songs = viewModel.artist.songs {
+            if viewModel.artist.songs != nil {
                 SongListView(
-                    songs: Array(songs as! Set<Song>),
+                    source: viewModel.artist,
                     labelColor: viewModel.artist.palette?.secondary(colorScheme) ?? .secondary,
                     foregroundColor: viewModel.artist.palette?.primary(colorScheme) ?? .primary,
                     explicitSignColor: viewModel.artist.palette?.accent(colorScheme) ?? .red,

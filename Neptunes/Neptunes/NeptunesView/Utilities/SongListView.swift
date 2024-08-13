@@ -8,9 +8,9 @@
 import SwiftUI
 import MediaPlayer
 
-struct SongListView: View {
+struct SongListView<Source: SongsListable>: View {
     @EnvironmentObject var player: Player
-    var songs: [Song]
+    @ObservedObject var source: Source
     var labelColor: Color
     var foregroundColor: Color
     var explicitSignColor: Color
@@ -19,6 +19,11 @@ struct SongListView: View {
     var paddingTop: CGFloat = 8
     var paddingBottom: CGFloat = 0
     var paddingHorizontal: CGFloat = 20
+    
+    private var songs: [Song] {
+        return source.songsArray ?? []
+    }
+    
     var body: some View {
         VStack(spacing: 24) {
             if isDetailed {
@@ -49,5 +54,21 @@ struct SongListView: View {
         .padding(.top, paddingTop)
         .padding(.bottom, paddingBottom)
         .padding(.horizontal, paddingHorizontal)
+    }
+}
+
+protocol SongsListable: ObservableObject {
+    var songsArray: [Song]? { get }
+}
+
+extension Album: SongsListable {
+    var songsArray: [Song]? {
+        return self.songs?.array as? [Song]
+    }
+}
+
+extension Artist: SongsListable {
+    var songsArray: [Song]? {
+        return self.songs?.allObjects as? [Song]
     }
 }

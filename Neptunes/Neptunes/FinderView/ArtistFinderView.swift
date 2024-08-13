@@ -25,7 +25,7 @@ struct ArtistFinderView: View {
 }
 
 struct ArtistFinderItemView: View {
-    var artist: Artist
+    @ObservedObject var artist: Artist
     var body: some View {
         NavigationLink {
             ArtistView(viewModel: .init(artist: artist))

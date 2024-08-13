@@ -10,5 +10,3 @@ import Foundation
 protocol Findable {
     var title: String { get set }
 }
-
- 

@@ -25,10 +25,11 @@ struct AlbumFinderView: View {
 }
 
 struct AlbumFinderItemView: View {
-    var album: Album
+    @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject var album: Album
     var body: some View {
         NavigationLink {
-            AlbumView(viewModel: .init(album: album))
+            AlbumView(viewModel: .init(album: album, viewContext: viewContext))
         } label: {
             HStack(alignment: .center, spacing: 14) {
                 HStack(alignment: .center, spacing: 14) {

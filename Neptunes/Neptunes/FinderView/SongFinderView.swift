@@ -26,7 +26,7 @@ struct SongFinderView: View {
 
 struct SongFinderItemView: View {
     @EnvironmentObject var audioPlayer: Player
-    var song: Song
+    @ObservedObject var song: Song
     var body: some View {
         DetailedSongView(
             song: song,

@@ -11,9 +11,9 @@ import SwiftUI
 
 final class AlbumViewModel: ObservableObject {
     @Published var album: Album
-    
-    
-    init(album: Album) {
+    private var viewContext: NSManagedObjectContext? = nil
+
+    init(album: Album, viewContext: NSManagedObjectContext) {
         self.album = album
     }
 }

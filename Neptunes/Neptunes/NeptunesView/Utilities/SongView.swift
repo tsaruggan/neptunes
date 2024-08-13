@@ -12,7 +12,7 @@ struct SongView: View {
     @State private var presentingSongEditor = false
     
     @EnvironmentObject var player: Player
-    var song: Song
+    @ObservedObject var song: Song
     var index: Int
     var indexLabelColor: Color
     var foregroundColor: Color
@@ -24,7 +24,9 @@ struct SongView: View {
             songInfo
             menuButton
         }
-        .sheet(isPresented: $presentingSongEditor) {
+        .sheet(isPresented: $presentingSongEditor, onDismiss: {
+            song.objectWillChange.send()  // Manually trigger a refresh
+        }) {
             SongEditorView(
                 viewModel: SongEditorViewModel(song: song, viewContext: viewContext),
                 presentingEditor: $presentingSongEditor
