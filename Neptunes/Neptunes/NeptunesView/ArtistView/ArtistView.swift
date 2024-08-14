@@ -11,6 +11,7 @@ struct ArtistView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var viewModel: ArtistViewModel
     @Environment(\.colorScheme) var colorScheme
+    @State private var presentingArtistEditor = false
     
     init(viewModel: ArtistViewModel) {
         self.viewModel = viewModel
@@ -70,11 +71,16 @@ struct ArtistView: View {
             Spacer()
             
         } menu: {
-            Button(action: {}) {
+            Button {
+                presentingArtistEditor = true
+            } label: {
                 Label("Edit Artist...", systemImage: "wand.and.stars")
             }
+
         }
-        
+        .sheet(isPresented: $presentingArtistEditor) {
+            ArtistEditorView(viewModel: .init(artist: viewModel.artist, viewContext: viewContext), presentingEditor: $presentingArtistEditor)
+        }
     }
 }
 

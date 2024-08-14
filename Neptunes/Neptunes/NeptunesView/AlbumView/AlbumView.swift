@@ -12,7 +12,8 @@ struct AlbumView: View {
     @ObservedObject private var viewModel: AlbumViewModel
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var showingEditor = false
+    @Environment(\.managedObjectContext) private var viewContext
+    @State private var presentingAlbumEditor = false
     
     init(viewModel: AlbumViewModel) {
         self.viewModel = viewModel
@@ -38,7 +39,7 @@ struct AlbumView: View {
                 Label("Import Music...", systemImage: "plus")
             }
             Button {
-                showingEditor.toggle()
+                presentingAlbumEditor = true
             } label: {
                 Label("Edit Album...", systemImage: "wand.and.stars")
             }
@@ -46,12 +47,10 @@ struct AlbumView: View {
                 Label("Share Album...", systemImage: "square.and.arrow.up")
             }
         }
-        .sheet(isPresented: $showingEditor) {
-//            AlbumEditorView(viewModel: .init(album: viewModel.album))
+        .sheet(isPresented: $presentingAlbumEditor) {
+            AlbumEditorView(viewModel: .init(album: viewModel.album, viewContext: viewContext), presentingEditor: $presentingAlbumEditor)
         }
-        
     }
-    
     
     var albumInformation: some View {
         HStack {
