@@ -50,32 +50,22 @@ final class AlbumEditorViewModel: ObservableObject {
 
     
     func updateAlbum() {
-        let album = currentAlbum!
-        album.title = albumTitle
-        album.coverArtwork = albumCoverArtwork?.pngData()
-        album.headerArtwork = albumHeaderArtwork?.pngData()
-        if let oldPalette = album.palette {
-            viewContext.delete(oldPalette)
-        }
-        album.palette = dataManager.initializePalette(colorPalette: albumColorPalette)
-        
-        if currentArtist == nil {
-            let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork)
-            let artistPalette = dataManager.initializePalette(colorPalette: artistColorPalette)
-            artist.palette = artistPalette
-            
-            if let songs = album.songs {
-                for song in songs {
-                    artist.addToSongs(song as! Song)
-                }
-            }
-            artist.addToAlbums(album)
-        } else if currentArtist != album.artist {
-            currentArtist!.addToAlbums(album)
+        var artist: Artist
+        if let existingArtist = currentArtist {
+            artist = existingArtist
+        } else {
+            artist = dataManager.addArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork, palette: artistColorPalette)
         }
         
-        dataManager.saveData()
+        dataManager.updateAlbum(album: currentAlbum!, title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork, palette: albumColorPalette, artist: artist)
+        
+        dataManager.save()
         objectWillChange.send()
+    }
+    
+    func deleteAlbum() {
+        dataManager.deleteAlbum(album: currentAlbum!)
+        dataManager.save()
     }
     
     func onAlbumArtworkChange() {

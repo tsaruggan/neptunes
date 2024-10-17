@@ -117,80 +117,48 @@ final class SongEditorViewModel: ObservableObject {
     }
     
     func addSong() {
-        let song = dataManager.initializeSong(title: songTitle, id: UUID())
-        song.isExplicit = isExplicit
-        
-        if let artist = _currentArtist {
-            artist.addToSongs(song)
-            
-            if let album = _currentAlbum {
-                album.addToSongs(song)
-            } else {
-                let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
-                let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
-                album.palette = albumPalette
-                
-                album.addToSongs(song)
-                artist.addToAlbums(album)
-            }
-            
+        var artist: Artist
+        if let existingArtist = _currentArtist {
+            artist = existingArtist
         } else {
-            let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork)
-            let artistPalette = dataManager.initializePalette(colorPalette: artistColorPalette)
-            artist.palette = artistPalette
-            
-            let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
-            let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
-            album.palette = albumPalette
-            
-            artist.addToSongs(song)
-            album.addToSongs(song)
-            artist.addToAlbums(album)
+            artist = dataManager.addArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork, palette: artistColorPalette)
         }
         
+        var album: Album
+        if let existingAlbum = _currentAlbum {
+            album = existingAlbum
+        } else {
+            album = dataManager.addAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork, palette: albumColorPalette, artist: artist)
+        }
+        
+        let song = dataManager.addSong(title: songTitle, isExplicit: isExplicit, album: album)
         fileManager.saveSongFromURL(url: url!, song: song)
-        dataManager.saveData()
+        dataManager.save()
     }
     
     func updateSong() {
-        let song = _currentSong!
-        song.title = songTitle
-        song.isExplicit = isExplicit
-        
-        if let artist = _currentArtist {
-            if (song.artist != artist) {
-                artist.addToSongs(song)
-            }
-            
-            if let album = _currentAlbum {
-                if (song.album != album) {
-                    album.addToSongs(song)
-                }
-            } else {
-                let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
-                let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
-                album.palette = albumPalette
-                
-                album.addToSongs(song)
-                artist.addToAlbums(album)
-            }
-            
+        var artist: Artist
+        if let existingArtist = _currentArtist {
+            artist = existingArtist
         } else {
-            let artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork)
-            let artistPalette = dataManager.initializePalette(colorPalette: artistColorPalette)
-            artist.palette = artistPalette
-            
-            let album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork)
-            let albumPalette = dataManager.initializePalette(colorPalette: albumColorPalette)
-            album.palette = albumPalette
-            
-            artist.addToSongs(song)
-            album.addToSongs(song)
-            artist.addToAlbums(album)
+            artist = dataManager.addArtist(title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork, palette: artistColorPalette)
         }
         
-        dataManager.saveData()
+        var album: Album
+        if let existingAlbum = _currentAlbum {
+            album = existingAlbum
+        } else {
+            album = dataManager.addAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork, palette: albumColorPalette, artist: artist)
+        }
+        
+        let song: () = dataManager.updateSong(song: _currentSong!, title: songTitle, isExplicit: isExplicit, album: album)
+        dataManager.save()
         objectWillChange.send()
+    }
+    
+    func deleteSong() {
+        dataManager.deleteSong(song: _currentSong!)
+        dataManager.save()
     }
     
     func onAlbumArtworkChange() {

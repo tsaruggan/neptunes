@@ -46,6 +46,7 @@ struct AlbumEditorView: View {
                 albumInformation
                 artistInformation
                 songs
+                deleteButton
             }
             .environment(\.editMode, $editMode)
             .navigationTitle(getTitle(viewModel.editorAction))
@@ -165,6 +166,20 @@ struct AlbumEditorView: View {
                 }
             }
             .onMove(perform: viewModel.rearrangeSongs)
+        }
+    }
+    
+    var deleteButton: some View {
+        Button {
+            viewModel.deleteAlbum()
+            presentingEditor = false
+        } label: {
+            HStack {
+                Spacer()
+                Text("Delete Album")
+                    .foregroundColor(.red)
+                Spacer()
+            }
         }
     }
 }

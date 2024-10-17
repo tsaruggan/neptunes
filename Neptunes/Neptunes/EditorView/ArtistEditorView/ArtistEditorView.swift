@@ -35,6 +35,7 @@ struct ArtistEditorView: View {
         NavigationView {
             Form {
                 artistInformation
+                deleteButton
             }
             .navigationTitle(getTitle(viewModel.editorAction))
             .navigationBarTitleDisplayMode(.inline)
@@ -83,6 +84,20 @@ struct ArtistEditorView: View {
                             onChange: viewModel.onArtistArtworkChange)
         } label: {
             Text("Header")
+        }
+    }
+    
+    var deleteButton: some View {
+        Button {
+            viewModel.deleteArtist()
+            presentingEditor = false
+        } label: {
+            HStack {
+                Spacer()
+                Text("Delete Artist")
+                    .foregroundColor(.red)
+                Spacer()
+            }
         }
     }
 }

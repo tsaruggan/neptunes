@@ -56,6 +56,10 @@ struct SongEditorView: View {
                 songInformation
                 artistInformation
                 albumInformation
+                
+                if (viewModel.editorAction == .edit) {
+                    deleteButton
+                }
             }
             .navigationTitle(getTitle(viewModel.editorAction))
             .navigationBarTitleDisplayMode(.inline)
@@ -226,6 +230,20 @@ struct SongEditorView: View {
                             onChange: viewModel.onAlbumArtworkChange)
         } label: {
             Text("Header")
+        }
+    }
+    
+    var deleteButton: some View {
+        Button {
+            viewModel.deleteSong()
+            presentingEditor = false
+        } label: {
+            HStack {
+                Spacer()
+                Text("Delete Song")
+                    .foregroundColor(.red)
+                Spacer()
+            }
         }
     }
 }

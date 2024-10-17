@@ -41,17 +41,14 @@ final class ArtistEditorViewModel: ObservableObject {
     }
 
     func updateArtist() {
-        let artist = currentArtist!
-        artist.title = artistTitle
-        artist.coverArtwork = artistCoverArtwork?.pngData()
-        artist.headerArtwork = artistHeaderArtwork?.pngData()
-        if let oldPalette = artist.palette {
-            viewContext.delete(oldPalette)
-        }
-        artist.palette = dataManager.initializePalette(colorPalette: artistColorPalette)
-        
-        dataManager.saveData()
+        dataManager.updateArtist(artist: currentArtist!, title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork, palette: artistColorPalette)
+        dataManager.save()
         objectWillChange.send()
+    }
+    
+    func deleteArtist() {
+        dataManager.deleteArtist(artist: currentArtist!)
+        dataManager.save()
     }
     
     func onArtistArtworkChange() {
