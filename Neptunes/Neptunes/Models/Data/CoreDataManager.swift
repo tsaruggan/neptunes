@@ -145,14 +145,14 @@ struct CoreDataManager {
     }
     
     func deleteAlbum(album: Album) {
-//        // Delete all songs in album
-//        if let albumSongs = album.songs {
-//            for song in albumSongs {
-//                if let song = song as? Song {
-//                    viewContext.delete(song)
-//                }
-//            }
-//        }
+        // Delete all songs in album
+        if let albumSongs = album.songs {
+            for song in albumSongs {
+                if let song = song as? Song {
+                    viewContext.delete(song)
+                }
+            }
+        }
         
         // Delete artist if they have no albums left
         if let artistAlbums = album.artist.albums, artistAlbums.count == 1 {
@@ -196,19 +196,36 @@ struct CoreDataManager {
     func undo() {
         viewContext.rollback()
     }
-
+    
     func fetchArtist(by title: String) -> Artist? {
         let request: NSFetchRequest<Artist> = Artist.fetchRequest()
         request.predicate = NSPredicate(format: "title == %@", title)
         return try? viewContext.fetch(request).first
     }
-
+    
     func fetchAlbum(by title: String) -> Album? {
         let request: NSFetchRequest<Album> = Album.fetchRequest()
         request.predicate = NSPredicate(format: "title == %@", title)
         return try? viewContext.fetch(request).first
     }
-
     
+    func fetchSong(by title: String) -> Song? {
+        let request: NSFetchRequest<Song> = Song.fetchRequest()
+        request.predicate = NSPredicate(format: "title == %@", title)
+        return try? viewContext.fetch(request).first
+    }
     
+    func clearAll() {
+        do {
+            let entities = ["Song", "Album", "Artist", "Palette"]
+            try entities.forEach { entity in
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entity)
+                let objects = try viewContext.fetch(fetchRequest)
+                objects.forEach { viewContext.delete($0) }
+            }
+            save()
+        } catch {
+            print("Error clearing entities. \(error)")
+        }
+    }
 }

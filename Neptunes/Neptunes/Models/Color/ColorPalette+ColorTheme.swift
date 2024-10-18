@@ -27,7 +27,6 @@ extension Palette {
         let secondaryTheme = (lightColor: UIColor(hex: self.secondaryLight), darkColor: UIColor(hex: self.secondaryDark))
         let accentTheme = (lightColor: UIColor(hex: self.accentLight), darkColor: UIColor(hex: self.accentDark))
         let backgroundTheme = (lightColor: UIColor(hex: self.backgroundLight), darkColor: UIColor(hex: self.backgroundDark))
-        
         return ColorPalette(
             primaryTheme: primaryTheme,
             secondaryTheme: secondaryTheme,

@@ -12,7 +12,7 @@ import CoreData
 @testable import Neptunes
 
 final class PlayerTests: XCTestCase {
-    let fileManager = LocalFileManager()
+    let fileManager = LocalFileManager.shared
     var songs: [Song]!
     var player: Player!
     var dataManager: CoreDataManager!
@@ -44,26 +44,19 @@ final class PlayerTests: XCTestCase {
     }
     
     private func addSong(title: String, artistTitle: String, albumTitle: String, filename: String) {
-        var song = dataManager.initializeSong(title: title, id: UUID())
-        var artist = dataManager.initializeArtist(title: artistTitle, coverArtwork: nil, headerArtwork: nil)
-        var album = dataManager.initializeAlbum(title: albumTitle, coverArtwork: nil, headerArtwork: nil)
-        
-        album.artist = artist
-        song.album = album
-        song.artist = artist
-        
-        artist.addToSongs(song)
-        album.addToSongs(song)
-        artist.addToAlbums(album)
+        let artist = dataManager.addArtist(title: artistTitle, coverArtwork: nil, headerArtwork: nil, palette: nil)
+        let album = dataManager.addAlbum(title: albumTitle, coverArtwork: nil, headerArtwork: nil, palette: nil, artist: artist)
+        let song = dataManager.addSong(title: title, isExplicit: false, album: album)
         
         // Save the song file
-        fileManager.saveSongFromURL(url: URL(fileURLWithPath: "path/to/\(filename).mp3"), song: song)
-        dataManager.saveData()
+        fileManager.saveSong(filename: filename, song: song)
+        dataManager.save()
     }
     
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         ConfigModel.resetSharedInstance()
+        dataManager.clearAll()
         fileManager.clearAll()
     }
     
@@ -73,7 +66,7 @@ final class PlayerTests: XCTestCase {
         let currentStaticMetadata = player.currentMetadata
         
         // Retrieve the URL and asset for the expected song
-        let url = LocalFileManager().retrieveSong(song: expectedSong)!
+        let url = fileManager.retrieveSong(song: expectedSong)!
         let assetURL = AVURLAsset(url: url)
         
         // Check if the current song matches the expected song

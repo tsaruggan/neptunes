@@ -16,7 +16,7 @@ final class ArtistEditorViewModel: ObservableObject {
     
     var viewContext: NSManagedObjectContext
     var dataManager: CoreDataManager
-    var fileManager: LocalFileManager = LocalFileManager()
+    var fileManager: LocalFileManager = LocalFileManager.shared
     
     
     @Published var artistTitle: String = ""

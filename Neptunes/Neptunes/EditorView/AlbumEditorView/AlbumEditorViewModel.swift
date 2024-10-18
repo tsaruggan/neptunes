@@ -16,7 +16,7 @@ final class AlbumEditorViewModel: ObservableObject {
     
     var viewContext: NSManagedObjectContext
     var dataManager: CoreDataManager
-    var fileManager: LocalFileManager = LocalFileManager()
+    var fileManager: LocalFileManager = LocalFileManager.shared
     
     @Published var albumTitle: String = ""
     @Published var albumCoverArtwork: UIImage? = nil

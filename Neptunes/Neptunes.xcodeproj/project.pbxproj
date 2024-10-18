@@ -91,6 +91,9 @@
 		18D8B6DB2C50356E00AC94CF /* UpcomingSongsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D8B6DA2C50356E00AC94CF /* UpcomingSongsViewModel.swift */; };
 		18DFE8CE2C6C554100A82CBB /* ArtistEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DFE8CD2C6C554100A82CBB /* ArtistEditorView.swift */; };
 		18DFE8D02C6C555500A82CBB /* ArtistEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DFE8CF2C6C555500A82CBB /* ArtistEditorViewModel.swift */; };
+		18EA1D1F2CC2BBE8007C254B /* DataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EA1D1E2CC2BBE8007C254B /* DataTests.swift */; };
+		18EA1D232CC2E197007C254B /* header.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18EA1D212CC2E197007C254B /* header.jpg */; };
+		18EA1D242CC2E197007C254B /* artwork.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18EA1D202CC2E197007C254B /* artwork.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +191,9 @@
 		18D8B6DA2C50356E00AC94CF /* UpcomingSongsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingSongsViewModel.swift; sourceTree = "<group>"; };
 		18DFE8CD2C6C554100A82CBB /* ArtistEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditorView.swift; sourceTree = "<group>"; };
 		18DFE8CF2C6C555500A82CBB /* ArtistEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEditorViewModel.swift; sourceTree = "<group>"; };
+		18EA1D1E2CC2BBE8007C254B /* DataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTests.swift; sourceTree = "<group>"; };
+		18EA1D202CC2E197007C254B /* artwork.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = artwork.jpg; sourceTree = "<group>"; };
+		18EA1D212CC2E197007C254B /* header.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = header.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -509,9 +515,11 @@
 		187D4BE62C50141900FD8B25 /* NeptunesTests */ = {
 			isa = PBXGroup;
 			children = (
+				18EA1D222CC2E197007C254B /* images */,
 				18769BEF2C5306CA0080C8A9 /* songs */,
 				187D4BE72C50141900FD8B25 /* NeptunesTests.swift */,
 				1890C1882C52C93E005CBCA3 /* PlayerTests.swift */,
+				18EA1D1E2CC2BBE8007C254B /* DataTests.swift */,
 			);
 			path = NeptunesTests;
 			sourceTree = "<group>";
@@ -523,6 +531,15 @@
 				18DFE8CF2C6C555500A82CBB /* ArtistEditorViewModel.swift */,
 			);
 			path = ArtistEditorView;
+			sourceTree = "<group>";
+		};
+		18EA1D222CC2E197007C254B /* images */ = {
+			isa = PBXGroup;
+			children = (
+				18EA1D202CC2E197007C254B /* artwork.jpg */,
+				18EA1D212CC2E197007C254B /* header.jpg */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -632,6 +649,8 @@
 			files = (
 				18769BF52C53070E0080C8A9 /* song3.mp3 in Resources */,
 				18769BF92C53070E0080C8A9 /* song1.mp3 in Resources */,
+				18EA1D232CC2E197007C254B /* header.jpg in Resources */,
+				18EA1D242CC2E197007C254B /* artwork.jpg in Resources */,
 				18769BF72C53070E0080C8A9 /* song2.mp3 in Resources */,
 				18769BF82C53070E0080C8A9 /* song4.mp3 in Resources */,
 				18769BF62C53070E0080C8A9 /* song5.mp3 in Resources */,
@@ -720,6 +739,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1890C1892C52C93E005CBCA3 /* PlayerTests.swift in Sources */,
+				18EA1D1F2CC2BBE8007C254B /* DataTests.swift in Sources */,
 				187D4BE82C50141900FD8B25 /* NeptunesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -920,7 +940,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75AGNXCF5M;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsaruggan.NeptunesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -940,7 +960,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75AGNXCF5M;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsaruggan.NeptunesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

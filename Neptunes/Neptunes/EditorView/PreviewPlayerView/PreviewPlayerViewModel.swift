@@ -2,7 +2,7 @@ import Foundation
 import AVFoundation
 
 final class PreviewPlayerViewModel: ObservableObject {
-    var fileManager: LocalFileManager = LocalFileManager()
+    var fileManager: LocalFileManager = LocalFileManager.shared
     
     var audioPlayer: AVPlayer?
     @Published var isPlaying: Bool = false

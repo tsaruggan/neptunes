@@ -11,12 +11,18 @@ import Foundation
 extension UIColor {
     
     var hex: String {
-        let components = cgColor.components
-        let r: CGFloat = components?[0] ?? 0.0
-        let g: CGFloat = components?[1] ?? 0.0
-        let b: CGFloat = components?[2] ?? 0.0
+        guard let components = cgColor.components else {
+            return "#000000" // Fallback for colors that don't have components
+        }
         
-        let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
+        let r = components.indices.contains(0) ? components[0] : 0.0
+        let g = components.indices.contains(1) ? components[1] : 0.0
+        let b = components.indices.contains(2) ? components[2] : 0.0
+        
+        let hexString = String(format: "#%02lX%02lX%02lX",
+                               lroundf(Float(r * 255)),
+                               lroundf(Float(g * 255)),
+                               lroundf(Float(b * 255)))
         return hexString
     }
     

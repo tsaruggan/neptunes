@@ -159,7 +159,7 @@ class NowPlaying: ObservableObject {
     }
     
     func push(song: Song) {
-        if let url = LocalFileManager().retrieveSong(song: song) {
+        if let url = LocalFileManager.shared.retrieveSong(song: song) {
             let image = UIImage(named: "defaultcover")!
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
             
@@ -181,7 +181,7 @@ class NowPlaying: ObservableObject {
     }
     
     func add(song: Song) {
-        if let url = LocalFileManager().retrieveSong(song: song) {
+        if let url = LocalFileManager.shared.retrieveSong(song: song) {
             let image = UIImage(named: "defaultcover")!
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
             

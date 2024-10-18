@@ -8,11 +8,13 @@
 import Foundation
 
 final class LocalFileManager {
+    static let shared = LocalFileManager()
+    
     let fileManager = FileManager.default
     let songsDirectory: URL
     let tempDirectory: URL
     
-    init() {
+    private init() {
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         songsDirectory = documentsDirectory.appendingPathComponent("songs", isDirectory: true)
         tempDirectory = fileManager.temporaryDirectory
@@ -65,7 +67,7 @@ final class LocalFileManager {
         do {
             let path = directory.appendingPathComponent(filename)
             try data.write(to: path)
-            print("Success saving to \(path).")
+//            print("Success saving to \(path).")
             return path
         } catch {
             print("Error saving to path. \(error)")
