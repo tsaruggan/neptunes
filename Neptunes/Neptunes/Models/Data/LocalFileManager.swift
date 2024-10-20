@@ -67,7 +67,6 @@ final class LocalFileManager {
         do {
             let path = directory.appendingPathComponent(filename)
             try data.write(to: path)
-//            print("Success saving to \(path).")
             return path
         } catch {
             print("Error saving to path. \(error)")
@@ -90,6 +89,31 @@ final class LocalFileManager {
             }
         } catch {
             print("Error clearing directories. \(error)")
+        }
+    }
+    
+    func deleteSong(song: Song) {
+        do {
+            let url = songsDirectory.appendingPathComponent("\(song.id.uuidString).mp3")
+            try fileManager.removeItem(at: url)
+        } catch {
+            print("Error deleting song. \(error)")
+        }
+    }
+    
+    func deleteAlbum(album: Album) {
+        if let songs = album.songsArray {
+            for song in songs {
+                deleteSong(song: song)
+            }
+        }
+    }
+    
+    func deleteArtist(artist: Artist) {
+        if let songs = artist.songsArray {
+            for song in songs {
+                deleteSong(song: song)
+            }
         }
     }
 }

@@ -42,13 +42,12 @@ final class ArtistEditorViewModel: ObservableObject {
 
     func updateArtist() {
         dataManager.updateArtist(artist: currentArtist!, title: artistTitle, coverArtwork: artistCoverArtwork, headerArtwork: artistHeaderArtwork, palette: artistColorPalette)
-        dataManager.save()
         objectWillChange.send()
     }
     
     func deleteArtist() {
+        fileManager.deleteArtist(artist: currentArtist!)
         dataManager.deleteArtist(artist: currentArtist!)
-        dataManager.save()
     }
     
     func onArtistArtworkChange() {

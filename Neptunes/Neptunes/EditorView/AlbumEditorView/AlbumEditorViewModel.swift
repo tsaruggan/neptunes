@@ -59,13 +59,12 @@ final class AlbumEditorViewModel: ObservableObject {
         
         dataManager.updateAlbum(album: currentAlbum!, title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork, palette: albumColorPalette, artist: artist)
         
-        dataManager.save()
         objectWillChange.send()
     }
     
     func deleteAlbum() {
+        fileManager.deleteAlbum(album: currentAlbum!)
         dataManager.deleteAlbum(album: currentAlbum!)
-        dataManager.save()
     }
     
     func onAlbumArtworkChange() {

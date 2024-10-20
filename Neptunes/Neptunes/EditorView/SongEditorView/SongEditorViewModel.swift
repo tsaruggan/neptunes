@@ -133,7 +133,6 @@ final class SongEditorViewModel: ObservableObject {
         
         let song = dataManager.addSong(title: songTitle, isExplicit: isExplicit, album: album)
         fileManager.saveSongFromURL(url: url!, song: song)
-        dataManager.save()
     }
     
     func updateSong() {
@@ -151,14 +150,13 @@ final class SongEditorViewModel: ObservableObject {
             album = dataManager.addAlbum(title: albumTitle, coverArtwork: albumCoverArtwork, headerArtwork: albumHeaderArtwork, palette: albumColorPalette, artist: artist)
         }
         
-        let song: () = dataManager.updateSong(song: _currentSong!, title: songTitle, isExplicit: isExplicit, album: album)
-        dataManager.save()
+        dataManager.updateSong(song: _currentSong!, title: songTitle, isExplicit: isExplicit, album: album)
         objectWillChange.send()
     }
     
     func deleteSong() {
+        fileManager.deleteSong(song: _currentSong!)
         dataManager.deleteSong(song: _currentSong!)
-        dataManager.save()
     }
     
     func onAlbumArtworkChange() {
