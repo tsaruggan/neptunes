@@ -151,12 +151,14 @@ final class SongEditorViewModel: ObservableObject {
         }
         
         dataManager.updateSong(song: _currentSong!, title: songTitle, isExplicit: isExplicit, album: album)
+        dataManager.save()
         objectWillChange.send()
     }
     
     func deleteSong() {
         fileManager.deleteSong(song: _currentSong!)
         dataManager.deleteSong(song: _currentSong!)
+        dataManager.save()
     }
     
     func onAlbumArtworkChange() {

@@ -26,9 +26,6 @@ struct CoreDataManager {
         palette.accentDark = accentTheme.darkColor.hex
         palette.backgroundLight = backgroundTheme.lightColor.hex
         palette.backgroundDark = backgroundTheme.darkColor.hex
-
-        save()
-        
         return palette
     }
     
@@ -38,9 +35,6 @@ struct CoreDataManager {
         artist.coverArtwork = coverArtwork?.pngData()
         artist.headerArtwork = headerArtwork?.pngData()
         artist.palette = addPalette(colorPalette: palette)
-        
-        save()
-        
         return artist
     }
     
@@ -51,9 +45,6 @@ struct CoreDataManager {
         album.headerArtwork = headerArtwork?.pngData()
         album.palette = addPalette(colorPalette: palette)
         artist.addToAlbums(album)
-        
-        save()
-        
         return album
     }
     
@@ -64,9 +55,6 @@ struct CoreDataManager {
         song.id = UUID()
         album.addToSongs(song)
         album.artist.addToSongs(song)
-        
-        save()
-        
         return song
     }
     
@@ -79,8 +67,6 @@ struct CoreDataManager {
             deletePalette(palette: oldPalette)
         }
         artist.palette = addPalette(colorPalette: palette)
-        
-        save()
     }
     
     func updateAlbum(album: Album, title: String, coverArtwork: UIImage?, headerArtwork: UIImage?, palette: ColorPalette?, artist: Artist) {
@@ -101,8 +87,6 @@ struct CoreDataManager {
         if let oldArtistAlbums = oldArtist.albums, oldArtistAlbums.count == 0 {
             deleteArtist(artist: oldArtist)
         }
-        
-        save()
     }
     
     func updateSong(song: Song, title: String, isExplicit: Bool, album: Album) {
@@ -123,14 +107,10 @@ struct CoreDataManager {
                 deleteArtist(artist: oldArtist)
             }
         }
-        
-        save()
     }
     
     private func deletePalette(palette: Palette) {
         viewContext.delete(palette)
-        
-        save()
     }
     
     func deleteArtist(artist: Artist) {
@@ -162,8 +142,6 @@ struct CoreDataManager {
         }
         
         viewContext.delete(artist)
-        
-        save()
     }
     
     func deleteAlbum(album: Album) {
@@ -191,8 +169,6 @@ struct CoreDataManager {
         }
         
         viewContext.delete(album)
-        
-        save()
     }
     
     func deleteSong(song: Song) {
@@ -207,8 +183,6 @@ struct CoreDataManager {
         }
         
         viewContext.delete(song)
-        
-        save()
     }
     
     func save() {
@@ -217,6 +191,10 @@ struct CoreDataManager {
         } catch let error {
             print("An error occurred while saving view context. \(error)")
         }
+    }
+    
+    func undo() {
+        viewContext.rollback()
     }
     
     func fetchArtist(by title: String) -> Artist? {
@@ -245,7 +223,6 @@ struct CoreDataManager {
                 let objects = try viewContext.fetch(fetchRequest)
                 objects.forEach { viewContext.delete($0) }
             }
-            
             save()
         } catch {
             print("Error clearing entities. \(error)")

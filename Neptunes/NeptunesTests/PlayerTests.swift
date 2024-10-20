@@ -50,7 +50,6 @@ final class PlayerTests: XCTestCase {
         
         // Save the song file
         fileManager.saveSong(filename: filename, song: song)
-        dataManager.save()
     }
     
     override func tearDownWithError() throws {

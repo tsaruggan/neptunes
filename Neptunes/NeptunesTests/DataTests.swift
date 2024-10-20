@@ -56,7 +56,6 @@ final class DataTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         dataManager.clearAll()
-        fileManager.clearAll()
     }
     
     func colorsAreEqual(_ color1: UIColor, _ color2: UIColor) -> Bool {
@@ -65,8 +64,6 @@ final class DataTests: XCTestCase {
 
         color1.getRed(&red1, green: &green1, blue: &blue1, alpha: &alpha1)
         color2.getRed(&red2, green: &green2, blue: &blue2, alpha: &alpha2)
-
-        print(red1, red2, green1, green2, blue1, blue2)
 
         let epsilon: CGFloat = 0.01
         return abs(red1 - red2) < epsilon &&
